@@ -1,18 +1,16 @@
-import { SSRProvider, OverlayProvider } from 'react-aria';
-import '@styles/global.css';
-import '@styles/nprogress.css';
-import type { AppProps } from 'next/app';
-import NProgress from '@components/nprogress';
-import ResizeHandler from '@components/resize-handler';
+// page
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function Dashboard() {
+  const meta = {
+    title: "Sign In",
+    description: META_DESCRIPTION,
+  };
   return (
-    <SSRProvider>
-      <OverlayProvider>
-        <Component {...pageProps} />
-        <ResizeHandler />
-        <NProgress />
-      </OverlayProvider>
-    </SSRProvider>
+    <Page meta={meta}>
+      <h1>Sign In</h1>
+    </Page>
   );
 }

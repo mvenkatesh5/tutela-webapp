@@ -1,22 +1,23 @@
 {
-    "name": "tutela",
-    "description": "Tutela",
-    "private": true,
-    "repository": "caravel/tutela",
-    "author": "Caravel",
-    "license": "Apache-2.0",
-    "engines": {
-    "node": "12.x"
-    },
-    "scripts": {
+  "name": "tutela",
+  "description": "Tutela",
+  "private": true,
+  "repository": "caravel/tutela",
+  "author": "Caravel",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": "14.x"
+  },
+  "scripts": {
     "dev": "next",
     "start": "next start",
     "build": "next build"
-    },
-    "dependencies": {
+  },
+  "dependencies": {
     "@agility/content-fetch": "1.0.0",
     "@agility/content-sync": "0.1.23",
     "@reach/skip-nav": "0.12.1",
+    "bootstrap": "^5.0.0-beta1",
     "chrome-aws-lambda": "5.5.0",
     "classnames": "2.2.6",
     "cookie": "0.4.1",
@@ -30,13 +31,15 @@
     "puppeteer-core": "5.5.0",
     "react": "17.0.1",
     "react-aria": "3.2.0",
+    "react-bootstrap": "^1.4.0",
     "react-dom": "17.0.1",
+    "sass": "^1.30.0",
     "smoothscroll-polyfill": "0.4.4",
     "swr": "0.3.9",
     "validator": "13.5.2",
     "vanilla-tilt": "1.7.0"
-    },
-    "devDependencies": {
+  },
+  "devDependencies": {
     "@types/classnames": "2.2.11",
     "@types/cookie": "0.4.0",
     "@types/htmlescape": "1.1.1",
@@ -60,5 +63,5 @@
     "postcss-preset-env": "6.7.0",
     "prettier": "2.2.1",
     "typescript": "4.1.3"
-    }
+  }
 }

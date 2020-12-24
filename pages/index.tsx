@@ -1,20 +1,29 @@
-import { useRouter } from 'next/router';
 // import { SkipNavContent } from '@reach/skip-nav';
 
-import Page from '@components/page';
-import { META_DESCRIPTION } from '@constants/page';
+import Page from "@components/page";
+import { META_DESCRIPTION } from "@constants/page";
+
+// bootstrap
+import { Navbar, Nav } from "react-bootstrap";
 
 export default function Conf() {
-  const { query } = useRouter();
   const meta = {
-    title: 'Tutela',
-    description: META_DESCRIPTION
+    title: "Tutela",
+    description: META_DESCRIPTION,
   };
-
 
   return (
     <Page meta={meta}>
-        <h1>Hello</h1>
+      <Navbar bg="light" expand="lg">
+        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="#link">Link</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
     </Page>
   );
 }
