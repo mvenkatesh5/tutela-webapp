@@ -21,7 +21,7 @@ function AuthWrapper(props: any) {
                             dolore magna aliqua. Ut enim ad minim veniam, quis
                             nostrud exercitation ullamco laboris.
                           </p>
-                          <h4 className="text-white fw-bold">Harshad Mehta</h4>
+                          <h4 className="text-white fw-bold">Kumar</h4>
                         </Col>
                       </Row>
                     </Col>

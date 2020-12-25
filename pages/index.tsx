@@ -1,29 +1,32 @@
-// import { SkipNavContent } from '@reach/skip-nav';
-
 import Page from "@components/page";
 import { META_DESCRIPTION } from "@constants/page";
+import Link from "next/link"
+// layouts
+import AuthWrapper from "layouts/authpagelayout";
 
-// bootstrap
-import { Navbar, Nav } from "react-bootstrap";
+// react bootstrap
+import { Button, Form } from "react-bootstrap";
 
-export default function Conf() {
+export default function SignIn() {
   const meta = {
-    title: "Tutela",
+    title: "Sign In",
     description: META_DESCRIPTION,
   };
-
   return (
     <Page meta={meta}>
-      <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+      <AuthWrapper>
+        <h3 className="text-dark fw-bold mb-4">Welcome to Tutela</h3>
+          <Link href='/signin'>          
+          <Button className="w-100 rounded-2 shadow-sm mt-3">
+            Sign In
+          </Button></Link>
+          <Link href='/signup'>          
+          <Button className="w-100 rounded-2 shadow-sm mt-3">
+            Sign Up
+          </Button>
+          </Link>
+
+      </AuthWrapper>
     </Page>
   );
 }

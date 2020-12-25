@@ -1,6 +1,6 @@
 import Page from "@components/page";
 import { META_DESCRIPTION } from "@constants/page";
-
+import Link from "next/link"
 // layouts
 import AuthWrapper from "layouts/authpagelayout";
 
@@ -15,7 +15,7 @@ export default function SignIn() {
   return (
     <Page meta={meta}>
       <AuthWrapper>
-        <h3 className="text-dark fw-bold mb-4">Log In!</h3>
+        <h3 className="text-dark fw-bold mb-4">Sign Up!</h3>
 
         <Form>
           <Form.Group className="mb-2">
@@ -37,6 +37,7 @@ export default function SignIn() {
               We'll never share your email with anyone else.
             </Form.Text>
           </Form.Group>
+          <Link href="/dashboard">
           <Button
             className="w-100 rounded-2 shadow-sm mb-3"
             variant="primary"
@@ -44,7 +45,7 @@ export default function SignIn() {
           >
             Register Account
           </Button>
-
+          </Link>
           <div
             className="text-center w-100"
             style={{
