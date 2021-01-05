@@ -16,7 +16,7 @@ import UpcomingTestsCard from "@components/uptestscard";
 // swr
 import useSWR from "swr";
 // api routes
-import { NEWS_ENDPOINT, ADVERTS_ENDPOINT } from "@constants/routes";
+import { NEWS_ENDPOINT, ADVERTS_ENDPOINT, SESSION_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 
@@ -28,6 +28,7 @@ export default function Dashboard() {
 
   const { data: newsList, error: newsListError } = useSWR(NEWS_ENDPOINT, APIFetcher);
   const { data: advertsList, error: advertsListError } = useSWR(ADVERTS_ENDPOINT, APIFetcher);
+  const { data: sessionList, error: sessionListError } = useSWR(SESSION_ENDPOINT, APIFetcher);
 
   return (
     <Page meta={meta}>
@@ -36,10 +37,13 @@ export default function Dashboard() {
         <Row>
           <h4 className="fw-bold text-dark mb-3">Upcoming Sessions</h4>
           <Col md="8">
-            <SessionPreviewCard />
-            <SessionPreviewCard />
-            <SessionPreviewCard />
-            <SessionPreviewCard />
+            {sessionList &&
+              sessionList.length > 0 &&
+              sessionList.map((data: any, index: Number) => (
+                <div key={data.id}>
+                  <SessionPreviewCard data={data} />
+                </div>
+              ))}
 
             <h4 className="fw-bold text-dark mt-5 mb-3">Resources</h4>
             {/* <ResourceTable /> */}

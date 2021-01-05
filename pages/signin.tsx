@@ -57,9 +57,6 @@ export default function SignInView() {
             />
           </Form.Group>
 
-          <Form.Group className="mb-2">
-            <Form.Check type="checkbox" label="Remember me" />
-          </Form.Group>
           <Button className="w-100 rounded-2 shadow-sm mb-3" variant="primary" type="submit">
             Login
           </Button>

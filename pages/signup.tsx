@@ -20,11 +20,11 @@ export default function SignUpView() {
     email: "",
     password: "",
   });
-  const handleAuthData = (key: String, value: String) => {
+  const handleAuthData = (key: any, value: String) => {
     setAuthData({ ...authData, [key]: value });
   };
 
-  const onFormSubmit = (e) => {
+  const onFormSubmit = (e: any) => {
     e.preventDefault();
     console.log(authData);
 

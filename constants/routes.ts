@@ -14,3 +14,8 @@ export const NEWS_WITH_ID_ENDPOINT = (news_id: Number) => `/api/news/${news_id}`
 // adverts
 export const ADVERTS_ENDPOINT = `/api/adverts/`;
 export const ADVERTS_WITH_ID_ENDPOINT = (advert_id: Number) => `/api/adverts/${advert_id}`;
+
+// news
+export const SESSION_ENDPOINT = `/api/tutela-sessions/`;
+export const SESSION_WITH_ID_ENDPOINT = (session_id: Number) =>
+  `/api/tutela-sessions/${session_id}`;
