@@ -1,9 +1,10 @@
 import Page from "@components/page";
 import { META_DESCRIPTION } from "@constants/page";
 import Link from "next/link"
+import React from "react"
 // layouts
 import AuthWrapper from "layouts/authpagelayout";
-
+import AuthService from "@lib/services/auth.service"
 // react bootstrap
 import { Button, Form } from "react-bootstrap";
 
@@ -12,20 +13,33 @@ export default function SignIn() {
     title: "Sign Up",
     description: META_DESCRIPTION,
   };
+
+  function SignInSubmit(e){
+    e.preventDefault()
+    const payload = {email, password}
+    console.log(payload)
+    AuthService.logIn(payload).then(
+      res => {console.log(res)}
+      ).catch( 
+        error => {console.log(error)}) 
+  }
+  const [email, setEmail] = React.useState()
+  const [password, setPassword] = React.useState()
+
   return (
     <Page meta={meta}>
       <AuthWrapper>
         <h3 className="text-dark fw-bold mb-4">Log In!</h3>
 
-        <Form>
+        <Form onSubmit={SignInSubmit}>
           <Form.Group className="mb-2">
             <Form.Label className="mb-1 text-muted">Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter Email" />
+            <Form.Control value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Enter Email" />
           </Form.Group>
 
           <Form.Group className="mb-3">
             <Form.Label className="mb-1 text-muted">Enter Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
+            <Form.Control value={password} onChange={(e) => setPassword(e.target.value)}  type="password" placeholder="Password" />
           </Form.Group>
 
           <Form.Group className="mb-2">
@@ -34,7 +48,6 @@ export default function SignIn() {
               label="Remember me"
             />
           </Form.Group>
-          <Link href="/dashboard">
           <Button
             className="w-100 rounded-2 shadow-sm mb-3"
             variant="primary"
@@ -42,7 +55,6 @@ export default function SignIn() {
           >
             Login
           </Button>
-          </Link>
           <div
             className="text-center w-100"
             style={{
