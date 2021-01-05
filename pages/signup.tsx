@@ -9,6 +9,8 @@ import AuthWrapper from "layouts/authpagelayout";
 import { SignUp } from "@lib/services/authenticationservice";
 // react bootstrap
 import { Button, Form, Alert } from "react-bootstrap";
+// cookie
+import { setAuthenticationToken } from "@lib/cookie";
 // hoc
 import withoutAuth from "@lib/hoc/withoutAuth";
 
@@ -51,7 +53,7 @@ const SignUpView = () => {
     SignUp(authData)
       .then((res: any) => {
         console.log(res);
-        router.push("/dashboard");
+        redirectToAdmin(res);
       })
       .catch((error: any) => {
         console.log(error);
@@ -62,6 +64,11 @@ const SignUpView = () => {
           message: error.detail ? error.detail : "Please check your credentials",
         });
       });
+  };
+
+  const redirectToAdmin = (tokenDetails: any) => {
+    setAuthenticationToken(tokenDetails);
+    router.push("/dashboard");
   };
 
   return (

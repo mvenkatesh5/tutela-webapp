@@ -48,7 +48,6 @@ const SignInView = () => {
     LogIn(payload)
       .then((res: any) => {
         console.log(res);
-
         redirectToAdmin(res);
       })
       .catch((error: any) => {
