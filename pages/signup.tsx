@@ -4,7 +4,7 @@ import { META_DESCRIPTION } from "@constants/page";
 import Link from "next/link";
 // layouts
 import AuthWrapper from "layouts/authpagelayout";
-import { SignUp } from "@lib/services/authService";
+import { SignUp } from "@lib/services/authenticationservice";
 // react bootstrap
 import { Button, Form } from "react-bootstrap";
 
