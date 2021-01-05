@@ -15,14 +15,14 @@ const Sidebar = () => {
       href: "/admin",
     },
     {
-      label: "Highlights",
+      label: "News",
       icon: <DynamicFeed />,
-      href: "/highlights",
+      href: "/news",
     },
     {
-      label: "Feedback",
+      label: "Adverts",
       icon: <Feedback />,
-      href: "/feedback",
+      href: "/adverts",
     },
   ];
   return (
@@ -34,10 +34,7 @@ const Sidebar = () => {
             <Link key={menuItems.href} href={menuItems.href}>
               <a>
                 <div
-                  className={
-                    "item " +
-                    (router.pathname.includes(menuItems.href) ? "active" : "")
-                  }
+                  className={"item " + (router.pathname.includes(menuItems.href) ? "active" : "")}
                 >
                   <div className="icon">{menuItems.icon}</div>
                   <div className="label">{menuItems.label}</div>
