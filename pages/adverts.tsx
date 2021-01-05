@@ -1,14 +1,14 @@
 // layouts
 import AdminLayout from "@layouts/adminLayout";
 
-const Highlights = () => {
+const AdvertsView = () => {
   return (
     <div>
       <AdminLayout>
-        <div>Highlights</div>
+        <div>AdvertsView</div>
       </AdminLayout>
     </div>
   );
 };
 
-export default Highlights;
+export default AdvertsView;
