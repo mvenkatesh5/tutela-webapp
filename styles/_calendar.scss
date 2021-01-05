@@ -1,0 +1,90 @@
+.calendar-root {
+  padding: 12px 16px;
+  border-radius: 6px;
+  overflow: hidden;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  // calendar navigation
+  .calendar-navigation {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-weight: 700;
+    margin-bottom: 10px;
+    .left,
+    .right {
+      flex-shrink: 0;
+      width: 30px;
+      height: 30px;
+      border-radius: 4px;
+      &:hover {
+        background-color: $light-gray-color;
+        cursor: pointer;
+      }
+    }
+    .middle {
+      width: 100%;
+      color: $dark-text;
+      cursor: pointer;
+    }
+  }
+  // calendar header
+  .calendar-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: $gray-color;
+    & .item {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  // calendar view
+  .calendar-wrapper {
+    .calendar-row {
+      display: flex;
+      flex-direction: row;
+      &:last-child {
+        // border-bottom: 1px solid #ccc;
+      }
+      .calendar-column {
+        min-width: 40px;
+        min-height: 40px;
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 500;
+        border-radius: 4px;
+        // border-top: 1px solid #ccc;
+        // border-right: 1px solid #ccc;
+        &:first-child {
+          // border-left: 1px solid #ccc;
+        }
+        &:last-child {
+          // border-right: 1px solid #ccc;
+        }
+        &.active {
+          border: 2px solid $primary-color;
+          color: $primary-color;
+        }
+        &:hover {
+          cursor: pointer;
+          background-color: $light-gray-color;
+        }
+        &.old-dates {
+          color: $light-text;
+        }
+      }
+    }
+  }
+}
