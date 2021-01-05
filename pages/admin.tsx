@@ -40,10 +40,16 @@ const Admin = () => {
                             <h6 className="mt-2 mb-2">{data.title}</h6>
                             <p>{data.description}</p>
                             <p>{data.datetime}</p>
-                            <a href={data.link} target="_blank">
-                              <Button size="sm">Join Session</Button>
-                            </a>
-                            <SessionEditView data={data} />
+                            <Row>
+                              <Col>
+                                <a href={data.link} target="_blank">
+                                  <Button size="sm">Join Session</Button>
+                                </a>
+                              </Col>
+                              <Col md={2}>
+                                <SessionEditView data={data} />
+                              </Col>
+                            </Row>
                           </Card.Body>
                         </Card>
                       </Col>

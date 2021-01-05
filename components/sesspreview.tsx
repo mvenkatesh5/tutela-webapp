@@ -11,7 +11,6 @@ function SessionPreviewCard(props: any) {
             <Col className="align-self-center text-start">
               <Image className="img-fluid rounded me-3" src="/bird.svg" />
               <p className="d-inline text-dark fw-bold m-0">{props.data.title}</p>
-              <span className="badge border bg-light text-dark ms-3">{props.data.description}</span>
               <span className="badge border bg-light text-dark ms-3">{props.data.datetime}</span>
             </Col>
             <Col className="align-self-center text-end">
