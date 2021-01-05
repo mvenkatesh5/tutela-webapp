@@ -8,12 +8,21 @@ import Link from "next/link";
 import AuthWrapper from "layouts/authpagelayout";
 import { SignUp } from "@lib/services/authenticationservice";
 // react bootstrap
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Alert } from "react-bootstrap";
 // hoc
 import withoutAuth from "@lib/hoc/withoutAuth";
 
 const SignUpView = () => {
   const router = useRouter();
+
+  const [alertData, setAlertData] = React.useState({
+    variant: "info",
+    show: false,
+    message: "",
+  });
+  function onAlertClose() {
+    setAlertData({ ...alertData, show: false });
+  }
 
   const meta = {
     title: "Sign Up",
@@ -34,6 +43,11 @@ const SignUpView = () => {
     e.preventDefault();
     console.log(authData);
 
+    setAlertData({
+      ...alertData,
+      show: false,
+    });
+
     SignUp(authData)
       .then((res: any) => {
         console.log(res);
@@ -41,6 +55,12 @@ const SignUpView = () => {
       })
       .catch((error: any) => {
         console.log(error);
+        setAlertData({
+          ...alertData,
+          variant: "danger",
+          show: true,
+          message: error.detail ? error.detail : "Please check your credentials",
+        });
       });
   };
 
@@ -48,6 +68,15 @@ const SignUpView = () => {
     <Page meta={meta}>
       <AuthWrapper>
         <h3 className="text-dark fw-bold mb-4">Sign Up!</h3>
+
+        <Alert
+          variant={alertData.variant}
+          show={alertData.show}
+          onClose={() => onAlertClose()}
+          dismissible
+        >
+          {alertData.message}
+        </Alert>
 
         <Form onSubmit={onFormSubmit}>
           <Form.Group className="mb-2">
@@ -107,9 +136,13 @@ const SignUpView = () => {
             <span className="bg-white px-3 text-muted fw-bold">or</span>
           </div>
 
-          <Button className="w-100 rounded-2 shadow-sm mt-3" variant="light">
-            Register with Google
-          </Button>
+          <Link href="/signin">
+            <a>
+              <Button className="w-100 rounded-2 shadow-sm mt-3" variant="light">
+                Already have an account? Sign In
+              </Button>
+            </a>
+          </Link>
         </Form>
       </AuthWrapper>
     </Page>

@@ -18,16 +18,6 @@ const AdvertsFormView = (props: any) => {
   return (
     <div>
       <Form.Group className="mb-2">
-        <Form.Label className="mb-1 text-muted">Image URL</Form.Label>
-        <Form.Control
-          type="text"
-          value={formPayload.image}
-          onChange={(e) => handleFormPayload("image", e.target.value)}
-          required
-        />
-      </Form.Group>
-
-      <Form.Group className="mb-2">
         <Form.Label className="mb-1 text-muted">Title</Form.Label>
         <Form.Control
           type="text"
@@ -37,16 +27,26 @@ const AdvertsFormView = (props: any) => {
         />
       </Form.Group>
 
-      {/* <Form.Group className="mb-3">
-        <Form.Label className="mb-1 text-muted">Description</Form.Label>
+      <Form.Group className="mb-2">
+        <Form.Label className="mb-1 text-muted">Image URL</Form.Label>
+        <Form.Control
+          type="text"
+          value={formPayload.image}
+          onChange={(e) => handleFormPayload("image", e.target.value)}
+          required
+        />
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label className="mb-1 text-muted">Redirect url</Form.Label>
         <Form.Control
           as="textarea"
           rows={3}
-          value={formPayload.description}
-          onChange={(e) => handleFormPayload("description", e.target.value)}
+          value={formPayload.link}
+          onChange={(e) => handleFormPayload("link", e.target.value)}
           required
         />
-      </Form.Group> */}
+      </Form.Group>
     </div>
   );
 };

@@ -17,6 +17,7 @@ const NewsCreateView = () => {
     setNewsData({
       title: "",
       description: "",
+      link: "",
       data: {},
     });
   };
@@ -25,6 +26,7 @@ const NewsCreateView = () => {
   const [newsData, setNewsData] = React.useState({
     title: "",
     description: "",
+    link: "",
     data: {},
   });
   const handleNewsData = (value: any) => {
