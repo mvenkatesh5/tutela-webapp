@@ -50,9 +50,7 @@ const Calendar = () => {
     setCurrentMonth(todayDateValue.getMonth());
     setCurrentYear(todayDateValue.getFullYear());
     setRenderDateTitle(
-      `${
-        calendarMonths[todayDateValue.getMonth()]
-      } ${todayDateValue.getFullYear()}`
+      `${calendarMonths[todayDateValue.getMonth()]} ${todayDateValue.getFullYear()}`
     );
   };
 
@@ -70,12 +68,7 @@ const Calendar = () => {
       for (let j = 0; j < 7; j++) {
         if (i === 0 && j < firstDay) {
           colCounter = colCounter + 1;
-          colData.push(
-            <div
-              className="calendar-column"
-              key={`col-${i}-${j}-${date}`}
-            ></div>
-          );
+          colData.push(<div className="calendar-column" key={`col-${i}-${j}-${date}-empty`}></div>);
         } else if (date > daysInMonth(currentMonth, currentYear)) {
           break;
         } else {
@@ -86,27 +79,14 @@ const Calendar = () => {
             currentMonth === new Date(todayDate).getMonth()
           ) {
             colData.push(
-              <div
-                key={`col-${i}-${j}-${date}`}
-                className="calendar-column active"
-              >
-                {renderCalendarColumn(
-                  currentYear,
-                  currentMonth,
-                  date,
-                  calendarDays[j]
-                )}
+              <div key={`col-${i}-${j}-${date}-active`} className="calendar-column active">
+                {renderCalendarColumn(currentYear, currentMonth, date, calendarDays[j])}
               </div>
             );
           } else {
             colData.push(
               <div className="calendar-column" key={`col-${i}-${j}-${date}`}>
-                {renderCalendarColumn(
-                  currentYear,
-                  currentMonth,
-                  date,
-                  calendarDays[j]
-                )}
+                {renderCalendarColumn(currentYear, currentMonth, date, calendarDays[j])}
               </div>
             );
           }
@@ -156,10 +136,7 @@ const Calendar = () => {
           <div className="left" onClick={updatePreviousDate}>
             <ChevronLeft />
           </div>
-          <div
-            className="middle text-center"
-            onClick={() => updateTodayDate(new Date())}
-          >
+          <div className="middle text-center" onClick={() => updateTodayDate(new Date())}>
             {renderDateTitle && renderDateTitle}
           </div>
           <div className="right" onClick={updateNextDate}>
@@ -170,7 +147,11 @@ const Calendar = () => {
         <div className="calendar-header">
           {calendarDays &&
             calendarDays.length > 0 &&
-            calendarDays.map((day, index) => <div className="item">{day}</div>)}
+            calendarDays.map((day, index) => (
+              <div className="item" key={index}>
+                {day}
+              </div>
+            ))}
         </div>
         {/* calendar */}
         <div className="calendar-wrapper">{todayDate && renderCalendar()}</div>

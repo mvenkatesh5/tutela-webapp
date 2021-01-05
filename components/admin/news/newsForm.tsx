@@ -37,6 +37,17 @@ const NewsFormView = (props: any) => {
           required
         />
       </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label className="mb-1 text-muted">Redirection Link</Form.Label>
+        <Form.Control
+          as="textarea"
+          rows={3}
+          value={formPayload.link}
+          onChange={(e) => handleFormPayload("link", e.target.value)}
+          required
+        />
+      </Form.Group>
     </div>
   );
 };

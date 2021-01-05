@@ -17,6 +17,7 @@ const AdvertsCreateView = () => {
     setAdvertsData({
       image: "",
       title: "",
+      link: "",
       data: {},
     });
   };
@@ -25,6 +26,7 @@ const AdvertsCreateView = () => {
   const [advertsData, setAdvertsData] = React.useState({
     image: "",
     title: "",
+    link: "",
     data: {},
   });
   const handleAdvertsData = (value: any) => {
@@ -54,7 +56,7 @@ const AdvertsCreateView = () => {
   return (
     <div>
       <Button variant="primary" className="btn-sm" onClick={openModal}>
-        Add Adverts
+        Add Advert
       </Button>
 
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
@@ -67,7 +69,7 @@ const AdvertsCreateView = () => {
               type="submit"
               style={{ marginRight: "10px" }}
             >
-              Create Adverts
+              Create Advert
             </Button>
             <Button variant="outline-secondary" className="btn-sm" onClick={closeModal}>
               Close

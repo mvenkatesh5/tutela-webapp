@@ -13,6 +13,8 @@ import { ADVERTS_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 import { AdvertsDelete } from "@lib/services/advertsservice";
+// hoc
+import withAdminAuth from "@lib/hoc/withAdminAuth";
 
 const AdvertsView = () => {
   const advertsDelete = (id: Number) => {
@@ -56,4 +58,4 @@ const AdvertsView = () => {
   );
 };
 
-export default AdvertsView;
+export default withAdminAuth(AdvertsView);

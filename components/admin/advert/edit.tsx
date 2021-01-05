@@ -51,7 +51,7 @@ const AdvertsEditView = (props: any) => {
   return (
     <div>
       <Button variant="primary" className="btn-sm" onClick={openModal}>
-        Edit Adverts
+        Edit Advert
       </Button>
 
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
@@ -66,7 +66,7 @@ const AdvertsEditView = (props: any) => {
                   type="submit"
                   style={{ marginRight: "10px" }}
                 >
-                  Update Adverts
+                  Update Advert
                 </Button>
                 <Button variant="outline-secondary" className="btn-sm" onClick={closeModal}>
                   Close

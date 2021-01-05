@@ -13,6 +13,8 @@ import { NEWS_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 import { NewsDelete } from "@lib/services/newsservice";
+// hoc
+import withAdminAuth from "@lib/hoc/withAdminAuth";
 
 const NewsView = () => {
   const newsDelete = (id: Number) => {
@@ -52,4 +54,4 @@ const NewsView = () => {
   );
 };
 
-export default NewsView;
+export default withAdminAuth(NewsView);

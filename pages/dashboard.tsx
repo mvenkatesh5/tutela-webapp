@@ -1,6 +1,5 @@
 // constants
 import { META_DESCRIPTION } from "@constants/page";
-
 // react-bootstrap
 import { Container, Row, Col, Image, Card } from "react-bootstrap";
 
@@ -19,8 +18,10 @@ import useSWR from "swr";
 import { NEWS_ENDPOINT, ADVERTS_ENDPOINT, SESSION_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
+// hoc
+import withAdminAuth from "@lib/hoc/withAdminAuth";
 
-export default function Dashboard() {
+const Dashboard = () => {
   const meta = {
     title: "Sign In",
     description: META_DESCRIPTION,
@@ -69,11 +70,13 @@ export default function Dashboard() {
 
             {advertsList && advertsList.length > 0 && (
               <Card className="p-3 mt-4 border-0 shadow">
-                <Image
-                  className="img-fluid mx-auto d-block"
-                  src={advertsList[0].image}
-                  width="300"
-                />
+                <a href={advertsList[0].link ? advertsList[0].link : "#"} target="_blank">
+                  <Image
+                    className="img-fluid mx-auto d-block"
+                    src={advertsList[0].image}
+                    width="300"
+                  />
+                </a>
               </Card>
             )}
           </Col>
@@ -81,4 +84,6 @@ export default function Dashboard() {
       </Container>
     </Page>
   );
-}
+};
+
+export default withAdminAuth(Dashboard);

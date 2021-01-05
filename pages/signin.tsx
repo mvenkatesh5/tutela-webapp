@@ -1,5 +1,6 @@
 import React from "react";
 // next imports
+import Link from "next/link";
 import { useRouter } from "next/router";
 // components
 import Page from "@components/page";
@@ -8,10 +9,23 @@ import { META_DESCRIPTION } from "@constants/page";
 import AuthWrapper from "layouts/authpagelayout";
 import { LogIn } from "@lib/services/authenticationservice";
 // react bootstrap
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Alert } from "react-bootstrap";
+// cookie
+import { setAuthenticationToken } from "@lib/cookie";
+// hoc
+import withoutAuth from "@lib/hoc/withoutAuth";
 
-export default function SignInView() {
+const SignInView = () => {
   const router = useRouter();
+
+  const [alertData, setAlertData] = React.useState({
+    variant: "info",
+    show: false,
+    message: "",
+  });
+  function onAlertClose() {
+    setAlertData({ ...alertData, show: false });
+  }
 
   const meta = {
     title: "Sign Up",
@@ -26,20 +40,46 @@ export default function SignInView() {
     const payload = { email, password };
     console.log(payload);
 
+    setAlertData({
+      ...alertData,
+      show: false,
+    });
+
     LogIn(payload)
       .then((res: any) => {
         console.log(res);
-        router.push("/dashboard");
+
+        redirectToAdmin(res);
       })
       .catch((error: any) => {
         console.log(error);
+        setAlertData({
+          ...alertData,
+          variant: "danger",
+          show: true,
+          message: error.detail ? error.detail : "Please check your credentials",
+        });
       });
+  };
+
+  const redirectToAdmin = (tokenDetails: any) => {
+    setAuthenticationToken(tokenDetails);
+    router.push("/dashboard");
   };
 
   return (
     <Page meta={meta}>
       <AuthWrapper>
         <h3 className="text-dark fw-bold mb-4">Log In!</h3>
+
+        <Alert
+          variant={alertData.variant}
+          show={alertData.show}
+          onClose={() => onAlertClose()}
+          dismissible
+        >
+          {alertData.message}
+        </Alert>
 
         <Form onSubmit={SignInSubmit}>
           <Form.Group className="mb-2">
@@ -75,11 +115,17 @@ export default function SignInView() {
             <span className="bg-white px-3 text-muted fw-bold">or</span>
           </div>
 
-          <Button className="w-100 rounded-2 shadow-sm mt-3" variant="light">
-            Sign In with Google
-          </Button>
+          <Link href="/signup">
+            <a>
+              <Button className="w-100 rounded-2 shadow-sm mt-3" variant="light">
+                Register
+              </Button>
+            </a>
+          </Link>
         </Form>
       </AuthWrapper>
     </Page>
   );
-}
+};
+
+export default withoutAuth(SignInView);
