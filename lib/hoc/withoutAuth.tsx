@@ -12,15 +12,16 @@ const withoutAuth = (WrappedComponent: any) => {
   Wrapper.getInitialProps = async (ctx: any) => {
     let tokenDetails: any = getServerAuthenticationCookie(ctx);
 
-    if (tokenDetails && tokenDetails.user && tokenDetails.user.is_active) {
+    if (tokenDetails && tokenDetails.user) {
       redirect(ctx, "/dashboard");
+      return {};
     } else {
       const componentProps =
         WrappedComponent.getInitialProps && (await WrappedComponent.getInitialProps(ctx));
       return { ...componentProps, tokenDetails };
     }
-    return;
   };
+
   return Wrapper;
 };
 

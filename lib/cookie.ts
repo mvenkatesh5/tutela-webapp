@@ -12,15 +12,8 @@ import redirect from "./redirect";
 // getting server side cookies
 export const getServerAuthenticationCookie = (context: any) => {
   const { token_details } = nextCookie(context);
-  if (!token_details) {
-    if (typeof window === "undefined") {
-      context.res.writeHead(302, { Location: "/signin" });
-      context.res.end();
-    } else {
-      redirect(context, "/signin");
-    }
-  }
-  return token_details;
+  if (token_details) return token_details;
+  else return;
 };
 
 // setting authentication tokens
@@ -38,4 +31,10 @@ export const getAuthenticationToken = () => {
 
 export const removeAuthenticationToken = () => {
   cookie.remove("token_details");
+};
+
+// removing all user tokens
+export const logout = () => {
+  removeAuthenticationToken();
+  Router.push("/signin");
 };

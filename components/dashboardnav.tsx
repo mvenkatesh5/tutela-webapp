@@ -1,13 +1,20 @@
 // react bootstrap
 import { Navbar, Nav, Container, Image, Form } from "react-bootstrap";
-
 import {
   NotificationsActive,
   QuestionAnswer,
   Settings,
   SupervisedUserCircle,
+  Login,
 } from "@styled-icons/material-rounded/";
+// cookie
+import { logout } from "@lib/cookie";
+
 function DashboardNav() {
+  const signOut = () => {
+    logout();
+  };
+
   return (
     <>
       <Navbar className="shadow-sm" collapseOnSelect expand="lg">
@@ -42,6 +49,9 @@ function DashboardNav() {
               </Nav.Link>
               <Nav.Link className="fw-bold text-primary mt-1 nav-icons">
                 <SupervisedUserCircle />
+              </Nav.Link>
+              <Nav.Link className="fw-bold text-muted mt-1 nav-icons" onClick={signOut}>
+                <Login />
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
