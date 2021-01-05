@@ -9,8 +9,12 @@ import AuthWrapper from "layouts/authpagelayout";
 import { LogIn } from "@lib/services/authenticationservice";
 // react bootstrap
 import { Button, Form } from "react-bootstrap";
+// cookie
+import { setAuthenticationToken } from "@lib/cookie";
+// hoc
+import withoutAuth from "@lib/hoc/withoutAuth";
 
-export default function SignInView() {
+const SignInView = () => {
   const router = useRouter();
 
   const meta = {
@@ -29,11 +33,17 @@ export default function SignInView() {
     LogIn(payload)
       .then((res: any) => {
         console.log(res);
-        router.push("/dashboard");
+
+        redirectToAdmin(res);
       })
       .catch((error: any) => {
         console.log(error);
       });
+  };
+
+  const redirectToAdmin = (tokenDetails: any) => {
+    setAuthenticationToken(tokenDetails);
+    router.push("/dashboard");
   };
 
   return (
@@ -82,4 +92,6 @@ export default function SignInView() {
       </AuthWrapper>
     </Page>
   );
-}
+};
+
+export default withoutAuth(SignInView);

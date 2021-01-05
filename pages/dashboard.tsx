@@ -19,8 +19,10 @@ import useSWR from "swr";
 import { NEWS_ENDPOINT, ADVERTS_ENDPOINT, SESSION_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
+// hoc
+import withAdminAuth from "@lib/hoc/withAdminAuth";
 
-export default function Dashboard() {
+const Dashboard = () => {
   const meta = {
     title: "Sign In",
     description: META_DESCRIPTION,
@@ -81,4 +83,6 @@ export default function Dashboard() {
       </Container>
     </Page>
   );
-}
+};
+
+export default withAdminAuth(Dashboard);

@@ -13,6 +13,8 @@ import SessionEditView from "@components/admin/sessions/edit";
 import { SESSION_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
+// hoc
+import withAdminAuth from "@lib/hoc/withAdminAuth";
 
 const Admin = () => {
   const { data: sessionList, error: sessionListError } = useSWR(SESSION_ENDPOINT, APIFetcher);
@@ -64,4 +66,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default withAdminAuth(Admin);

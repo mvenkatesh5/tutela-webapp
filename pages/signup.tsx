@@ -9,8 +9,10 @@ import AuthWrapper from "layouts/authpagelayout";
 import { SignUp } from "@lib/services/authenticationservice";
 // react bootstrap
 import { Button, Form } from "react-bootstrap";
+// hoc
+import withoutAuth from "@lib/hoc/withoutAuth";
 
-export default function SignUpView() {
+const SignUpView = () => {
   const router = useRouter();
 
   const meta = {
@@ -112,4 +114,6 @@ export default function SignUpView() {
       </AuthWrapper>
     </Page>
   );
-}
+};
+
+export default withoutAuth(SignUpView);
