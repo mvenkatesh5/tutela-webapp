@@ -4,36 +4,36 @@ import { Button, Form, Modal } from "react-bootstrap";
 // swr
 import { mutate } from "swr";
 // components
-import NewsForm from "./newsForm";
+import AdvertsForm from "./advertsForm";
 // api routes
-import { NEWS_ENDPOINT } from "@constants/routes";
+import { ADVERTS_ENDPOINT } from "@constants/routes";
 // api services
-import { NewsUpdate } from "@lib/services/newsservice";
+import { AdvertsUpdate } from "@lib/services/advertsservice";
 
-const NewsEditView = (props: any) => {
+const AdvertsEditView = (props: any) => {
   const [modal, setModal] = React.useState(false);
   const closeModal = () => setModal(false);
   const openModal = () => setModal(true);
 
-  const [newsData, setNewsData] = React.useState();
-  const handleNewsData = (value: any) => {
-    setNewsData(value);
+  const [advertsData, setAdvertsData] = React.useState();
+  const handleAdvertsData = (value: any) => {
+    setAdvertsData(value);
   };
 
   React.useEffect(() => {
     if (props.data) {
-      setNewsData(props.data);
+      setAdvertsData(props.data);
     }
   }, [props.data]);
 
-  const newsUpdate = (event: any) => {
+  const advertsUpdate = (event: any) => {
     event.preventDefault();
-    console.log(newsData);
-    NewsUpdate(newsData)
+    console.log(advertsData);
+    AdvertsUpdate(advertsData)
       .then((res) => {
         console.log(res);
         mutate(
-          NEWS_ENDPOINT,
+          ADVERTS_ENDPOINT,
           async (elements: any) => {
             let index = elements.findIndex((mutateData: any) => mutateData.id === res.id);
             return elements.map((oldElement: any, i: Number) => (i === index ? res : oldElement));
@@ -51,22 +51,22 @@ const NewsEditView = (props: any) => {
   return (
     <div>
       <Button variant="primary" className="btn-sm" onClick={openModal}>
-        Edit News
+        Edit Adverts
       </Button>
 
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>
-          <Form onSubmit={newsUpdate}>
-            {newsData && (
+          <Form onSubmit={advertsUpdate}>
+            {advertsData && (
               <div>
-                <NewsForm data={newsData} handleData={handleNewsData} />
+                <AdvertsForm data={advertsData} handleData={handleAdvertsData} />
                 <Button
                   variant="outline-primary"
                   className="btn-sm"
                   type="submit"
                   style={{ marginRight: "10px" }}
                 >
-                  Update News
+                  Update Adverts
                 </Button>
                 <Button variant="outline-secondary" className="btn-sm" onClick={closeModal}>
                   Close
@@ -81,4 +81,4 @@ const NewsEditView = (props: any) => {
   );
 };
 
-export default NewsEditView;
+export default AdvertsEditView;

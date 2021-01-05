@@ -4,7 +4,7 @@ import { META_DESCRIPTION } from "@constants/page";
 import Link from "next/link";
 // layouts
 import AuthWrapper from "layouts/authpagelayout";
-import { SignUp } from "@lib/services/authService";
+import { SignUp } from "@lib/services/authenticationservice";
 // react bootstrap
 import { Button, Form } from "react-bootstrap";
 
@@ -20,11 +20,11 @@ export default function SignUpView() {
     email: "",
     password: "",
   });
-  const handleAuthData = (key: String, value: String) => {
+  const handleAuthData = (key: any, value: String) => {
     setAuthData({ ...authData, [key]: value });
   };
 
-  const onFormSubmit = (e) => {
+  const onFormSubmit = (e: any) => {
     e.preventDefault();
     console.log(authData);
 

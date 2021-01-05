@@ -2,7 +2,7 @@ import React from "react";
 // react bootstrap
 import { Form } from "react-bootstrap";
 
-const NewsFormView = (props: any) => {
+const SessionFormView = (props: any) => {
   const [formPayload, setFormPayload] = React.useState(Object);
   const handleFormPayload = (key: any, value: any) => {
     setFormPayload({ ...formPayload, [key]: value });
@@ -37,8 +37,18 @@ const NewsFormView = (props: any) => {
           required
         />
       </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label className="mb-1 text-muted">Date Time</Form.Label>
+        <Form.Control
+          type="date"
+          value={formPayload.datetime}
+          onChange={(e) => handleFormPayload("datetime", e.target.value)}
+          required
+        />
+      </Form.Group>
     </div>
   );
 };
 
-export default NewsFormView;
+export default SessionFormView;

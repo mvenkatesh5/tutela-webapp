@@ -4,36 +4,36 @@ import { Button, Form, Modal } from "react-bootstrap";
 // swr
 import { mutate } from "swr";
 // components
-import NewsForm from "./newsForm";
+import SessionForm from "./sessionForm";
 // api routes
-import { NEWS_ENDPOINT } from "@constants/routes";
+import { SESSION_ENDPOINT } from "@constants/routes";
 // api services
-import { NewsUpdate } from "@lib/services/newsservice";
+import { SessionUpdate } from "@lib/services/sessionservice";
 
-const NewsEditView = (props: any) => {
+const SessionEditView = (props: any) => {
   const [modal, setModal] = React.useState(false);
   const closeModal = () => setModal(false);
   const openModal = () => setModal(true);
 
-  const [newsData, setNewsData] = React.useState();
-  const handleNewsData = (value: any) => {
-    setNewsData(value);
+  const [sessionData, setSessionData] = React.useState();
+  const handleSessionData = (value: any) => {
+    setSessionData(value);
   };
 
   React.useEffect(() => {
     if (props.data) {
-      setNewsData(props.data);
+      setSessionData(props.data);
     }
   }, [props.data]);
 
-  const newsUpdate = (event: any) => {
+  const sessionUpdate = (event: any) => {
     event.preventDefault();
-    console.log(newsData);
-    NewsUpdate(newsData)
+    console.log(sessionData);
+    SessionUpdate(sessionData)
       .then((res) => {
         console.log(res);
         mutate(
-          NEWS_ENDPOINT,
+          SESSION_ENDPOINT,
           async (elements: any) => {
             let index = elements.findIndex((mutateData: any) => mutateData.id === res.id);
             return elements.map((oldElement: any, i: Number) => (i === index ? res : oldElement));
@@ -51,22 +51,22 @@ const NewsEditView = (props: any) => {
   return (
     <div>
       <Button variant="primary" className="btn-sm" onClick={openModal}>
-        Edit News
+        Edit Session
       </Button>
 
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>
-          <Form onSubmit={newsUpdate}>
-            {newsData && (
+          <Form onSubmit={sessionUpdate}>
+            {sessionData && (
               <div>
-                <NewsForm data={newsData} handleData={handleNewsData} />
+                <SessionForm data={sessionData} handleData={handleSessionData} />
                 <Button
                   variant="outline-primary"
                   className="btn-sm"
                   type="submit"
                   style={{ marginRight: "10px" }}
                 >
-                  Update News
+                  Update Session
                 </Button>
                 <Button variant="outline-secondary" className="btn-sm" onClick={closeModal}>
                   Close
@@ -81,4 +81,4 @@ const NewsEditView = (props: any) => {
   );
 };
 
-export default NewsEditView;
+export default SessionEditView;
