@@ -1,4 +1,6 @@
 import React from "react";
+// next imports
+import { useRouter } from "next/router";
 import Page from "@components/page";
 import { META_DESCRIPTION } from "@constants/page";
 import Link from "next/link";
@@ -9,6 +11,8 @@ import { SignUp } from "@lib/services/authenticationservice";
 import { Button, Form } from "react-bootstrap";
 
 export default function SignUpView() {
+  const router = useRouter();
+
   const meta = {
     title: "Sign Up",
     description: META_DESCRIPTION,
@@ -31,6 +35,7 @@ export default function SignUpView() {
     SignUp(authData)
       .then((res: any) => {
         console.log(res);
+        router.push("/dashboard");
       })
       .catch((error: any) => {
         console.log(error);

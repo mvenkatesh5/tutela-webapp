@@ -18,19 +18,18 @@ function DashboardNav() {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse className="justify-content-start">
             <Nav>
-              <Nav.Link className="fw-bold text-muted">Dashboard</Nav.Link>
-              <Nav.Link className="fw-bold text-muted">My Calender</Nav.Link>
+              <Nav.Link className="fw-bold text-muted" href="/dashboard">
+                Dashboard
+              </Nav.Link>
+              <Nav.Link className="fw-bold text-muted" href="/admin">
+                My Calender
+              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">
             <Nav>
               <Nav.Link>
-                <Form.Control
-                  size="sm"
-                  className="border"
-                  type="text"
-                  placeholder="Search"
-                />
+                <Form.Control size="sm" className="border" type="text" placeholder="Search" />
               </Nav.Link>
               <Nav.Link className="fw-bold text-muted mt-1 nav-icons">
                 <NotificationsActive />
