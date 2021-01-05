@@ -2,7 +2,7 @@ import React from "react";
 // react bootstrap
 import { Form } from "react-bootstrap";
 
-const NewsFormView = (props: any) => {
+const AdvertsFormView = (props: any) => {
   const [formPayload, setFormPayload] = React.useState(Object);
   const handleFormPayload = (key: any, value: any) => {
     setFormPayload({ ...formPayload, [key]: value });
@@ -18,6 +18,16 @@ const NewsFormView = (props: any) => {
   return (
     <div>
       <Form.Group className="mb-2">
+        <Form.Label className="mb-1 text-muted">Image URL</Form.Label>
+        <Form.Control
+          type="text"
+          value={formPayload.image}
+          onChange={(e) => handleFormPayload("image", e.target.value)}
+          required
+        />
+      </Form.Group>
+
+      <Form.Group className="mb-2">
         <Form.Label className="mb-1 text-muted">Title</Form.Label>
         <Form.Control
           type="text"
@@ -27,7 +37,7 @@ const NewsFormView = (props: any) => {
         />
       </Form.Group>
 
-      <Form.Group className="mb-3">
+      {/* <Form.Group className="mb-3">
         <Form.Label className="mb-1 text-muted">Description</Form.Label>
         <Form.Control
           as="textarea"
@@ -36,9 +46,9 @@ const NewsFormView = (props: any) => {
           onChange={(e) => handleFormPayload("description", e.target.value)}
           required
         />
-      </Form.Group>
+      </Form.Group> */}
     </div>
   );
 };
 
-export default NewsFormView;
+export default AdvertsFormView;
