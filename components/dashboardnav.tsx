@@ -49,10 +49,10 @@ function DashboardNav() {
           </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">
             <Nav>
-              {tokenDetails && tokenDetails.user && tokenDetails.user.role > 0 && (
+              {tokenDetails && tokenDetails.user && tokenDetails.user.role < 2 && (
                 <Nav.Link className="mt-1">
                   Dear {tokenDetails.user.username}, Have a great
-                  {tokenDetails && tokenDetails.user && tokenDetails.user.role === 2
+                  {tokenDetails && tokenDetails.user && tokenDetails.user.role === 1
                     ? " teaching!"
                     : " learning!"}
                 </Nav.Link>
