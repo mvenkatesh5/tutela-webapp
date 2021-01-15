@@ -7,6 +7,10 @@ export const BASE_LOCAL = "http://127.0.0.1:8000/";
 export const AUTH_LOGIN = `/login/`;
 export const AUTH_SIGNUP = `/signup/`;
 
+// users
+export const USER_ENDPOINT = `/api/users/`;
+export const USER_WITH_ID_ENDPOINT = (user_id: Number) => `/api/users/${user_id}/`;
+
 // news
 export const NEWS_ENDPOINT = `/api/news/`;
 export const NEWS_WITH_ID_ENDPOINT = (news_id: Number) => `/api/news/${news_id}`;

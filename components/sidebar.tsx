@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 // material icons
 import { Feedback, DynamicFeed } from "@styled-icons/material-rounded/";
-import { Calendar } from "@styled-icons/boxicons-regular/";
+import { Calendar, User } from "@styled-icons/boxicons-regular/";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -23,6 +23,11 @@ const Sidebar = () => {
       label: "Adverts",
       icon: <Feedback />,
       href: "/adverts",
+    },
+    {
+      label: "Users",
+      icon: <User />,
+      href: "/users",
     },
   ];
   return (
