@@ -19,7 +19,7 @@ import { NEWS_ENDPOINT, ADVERTS_ENDPOINT, SESSION_ENDPOINT } from "@constants/ro
 // api services
 import { APIFetcher } from "@lib/services";
 // hoc
-import withAdminAuth from "@lib/hoc/withAdminAuth";
+import withStudentAuth from "@lib/hoc/withStudentAuth";
 
 const Dashboard = () => {
   const meta = {
@@ -86,4 +86,4 @@ const Dashboard = () => {
   );
 };
 
-export default withAdminAuth(Dashboard);
+export default withStudentAuth(Dashboard);
