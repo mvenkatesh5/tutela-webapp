@@ -10,7 +10,7 @@ import { USER_ENDPOINT, USER_WITH_ID_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher, APIUpdater } from "@lib/services";
 // hoc
-import withStudentAuth from "@lib/hoc/withStudentAuth";
+import withAdminAuth from "@lib/hoc/withAdminAuth";
 
 const UserDetails = () => {
   const { data: userList, error: userListError } = useSWR(USER_ENDPOINT, APIFetcher);
@@ -83,4 +83,4 @@ const UserDetails = () => {
   );
 };
 
-export default withStudentAuth(UserDetails);
+export default withAdminAuth(UserDetails);

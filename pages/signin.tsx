@@ -18,6 +18,8 @@ import withoutAuth from "@lib/hoc/withoutAuth";
 const SignInView = () => {
   const router = useRouter();
 
+  const [buttonLoader, setButtonLoader] = React.useState(false);
+
   const [alertData, setAlertData] = React.useState({
     variant: "info",
     show: false,
@@ -39,6 +41,7 @@ const SignInView = () => {
     e.preventDefault();
     const payload = { email, password };
     console.log(payload);
+    setButtonLoader(true);
 
     setAlertData({
       ...alertData,
@@ -49,9 +52,11 @@ const SignInView = () => {
       .then((res: any) => {
         console.log(res);
         redirectToAdmin(res);
+        setButtonLoader(false);
       })
       .catch((error: any) => {
         console.log(error);
+        setButtonLoader(false);
         setAlertData({
           ...alertData,
           variant: "danger",
@@ -63,7 +68,9 @@ const SignInView = () => {
 
   const redirectToAdmin = (tokenDetails: any) => {
     setAuthenticationToken(tokenDetails);
-    router.push("/dashboard");
+    if (tokenDetails.user.role === 0) router.push("/dashboard");
+    if (tokenDetails.user.role === 1) router.push("/dashboard");
+    if (tokenDetails.user.role === 2) router.push("/admin");
   };
 
   return (
@@ -101,8 +108,13 @@ const SignInView = () => {
             />
           </Form.Group>
 
-          <Button className="w-100 rounded-2 shadow-sm mb-3" variant="primary" type="submit">
-            Login
+          <Button
+            className="w-100 rounded-2 shadow-sm mb-3"
+            variant="primary"
+            type="submit"
+            disabled={buttonLoader}
+          >
+            {buttonLoader ? "Logging in..." : "Login"}
           </Button>
           <div
             className="text-center w-100"

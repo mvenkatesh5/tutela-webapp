@@ -28,8 +28,6 @@ const SessionCard = (props: any) => {
     setSessionDetailView(!sessionDetailView);
   };
 
-  console.log("props", props);
-
   return (
     <div>
       {!sessionDetailView ? (

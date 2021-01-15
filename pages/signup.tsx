@@ -17,6 +17,8 @@ import withoutAuth from "@lib/hoc/withoutAuth";
 const SignUpView = () => {
   const router = useRouter();
 
+  const [buttonLoader, setButtonLoader] = React.useState(false);
+
   const [alertData, setAlertData] = React.useState({
     variant: "info",
     show: false,
@@ -44,6 +46,7 @@ const SignUpView = () => {
   const onFormSubmit = (e: any) => {
     e.preventDefault();
     console.log(authData);
+    setButtonLoader(true);
 
     setAlertData({
       ...alertData,
@@ -54,9 +57,11 @@ const SignUpView = () => {
       .then((res: any) => {
         console.log(res);
         redirectToAdmin(res);
+        setButtonLoader(false);
       })
       .catch((error: any) => {
         console.log(error);
+        setButtonLoader(false);
         setAlertData({
           ...alertData,
           variant: "danger",
@@ -129,8 +134,13 @@ const SignUpView = () => {
             />
           </Form.Group>
 
-          <Button className="w-100 rounded-2 shadow-sm mb-3" variant="primary" type="submit">
-            Register Account
+          <Button
+            className="w-100 rounded-2 shadow-sm mb-3"
+            variant="primary"
+            type="submit"
+            disabled={buttonLoader}
+          >
+            {buttonLoader ? "Registering..." : "Register Account"}
           </Button>
 
           <div

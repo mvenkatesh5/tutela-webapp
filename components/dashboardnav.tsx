@@ -1,3 +1,4 @@
+import React from "react";
 // react bootstrap
 import { Navbar, Nav, Container, Image, Form } from "react-bootstrap";
 import {
@@ -8,9 +9,20 @@ import {
   Login,
 } from "@styled-icons/material-rounded/";
 // cookie
-import { logout } from "@lib/cookie";
+import { logout, getAuthenticationToken } from "@lib/cookie";
 
 function DashboardNav() {
+  const [tokenDetails, setTokenDetails] = React.useState<any>();
+  React.useEffect(() => {
+    if (getAuthenticationToken()) {
+      let details: any = getAuthenticationToken();
+      details = details ? JSON.parse(details) : null;
+      if (details) {
+        setTokenDetails(details);
+      }
+    }
+  }, []);
+
   const signOut = () => {
     logout();
   };
@@ -28,14 +40,24 @@ function DashboardNav() {
               <Nav.Link className="fw-bold text-muted" href="/dashboard">
                 Dashboard
               </Nav.Link>
-              <Nav.Link className="fw-bold text-muted" href="/admin">
-                My Calender
-              </Nav.Link>
+              {tokenDetails && tokenDetails.user && tokenDetails.user.role === 2 && (
+                <Nav.Link className="fw-bold text-muted" href="/admin">
+                  My Calender
+                </Nav.Link>
+              )}
             </Nav>
           </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">
             <Nav>
-              <Nav.Link>
+              {tokenDetails && tokenDetails.user && tokenDetails.user.role > 0 && (
+                <Nav.Link className="mt-1">
+                  Dear {tokenDetails.user.username}, Have a great
+                  {tokenDetails && tokenDetails.user && tokenDetails.user.role === 2
+                    ? " teaching!"
+                    : " learning!"}
+                </Nav.Link>
+              )}
+              {/* <Nav.Link>
                 <Form.Control size="sm" className="border" type="text" placeholder="Search" />
               </Nav.Link>
               <Nav.Link className="fw-bold text-muted mt-1 nav-icons">
@@ -46,10 +68,10 @@ function DashboardNav() {
               </Nav.Link>
               <Nav.Link className="fw-bold text-muted mt-1 nav-icons">
                 <Settings />
-              </Nav.Link>
-              <Nav.Link className="fw-bold text-primary mt-1 nav-icons">
+              </Nav.Link> */}
+              {/* <Nav.Link className="fw-bold text-primary mt-1 nav-icons">
                 <SupervisedUserCircle />
-              </Nav.Link>
+              </Nav.Link> */}
               <Nav.Link className="fw-bold text-muted mt-1 nav-icons" onClick={signOut}>
                 <Login />
               </Nav.Link>

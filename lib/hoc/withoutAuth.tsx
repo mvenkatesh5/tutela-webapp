@@ -13,8 +13,18 @@ const withoutAuth = (WrappedComponent: any) => {
     let tokenDetails: any = getServerAuthenticationCookie(ctx);
 
     if (tokenDetails && tokenDetails.user) {
-      redirect(ctx, "/dashboard");
-      return {};
+      if (tokenDetails.user.role === 0) {
+        redirect(ctx, "/student");
+        return {};
+      }
+      if (tokenDetails.user.role === 1) {
+        redirect(ctx, "/dashboard");
+        return {};
+      }
+      if (tokenDetails.user.role === 2) {
+        redirect(ctx, "/admin");
+        return {};
+      }
     } else {
       const componentProps =
         WrappedComponent.getInitialProps && (await WrappedComponent.getInitialProps(ctx));
