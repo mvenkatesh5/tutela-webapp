@@ -1,5 +1,4 @@
-// react bootstrap
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import React from "react";
 // swr
 import useSWR from "swr";
 // layouts
@@ -8,8 +7,11 @@ import AdminLayout from "@layouts/adminLayout";
 import CalenderView from "@components/calendar";
 // components
 import SessionCreateView from "@components/admin/sessions/create";
-import SessionEditView from "@components/admin/sessions/edit";
-import SessionPreviewCard from "@components/sesspreview";
+import CalenderDayView from "@components/admin/calenderviews/dayview";
+import CalenderWeekView from "@components/admin/calenderviews/weekview";
+import CalenderMonthView from "@components/admin/calenderviews/monthview";
+// global imports
+import { calendarMonths, calendarDays } from "@constants/global";
 // api routes
 import { SESSION_ENDPOINT } from "@constants/routes";
 // api services
@@ -18,40 +20,71 @@ import { APIFetcher } from "@lib/services";
 import withAdminAuth from "@lib/hoc/withAdminAuth";
 
 const Admin = () => {
+  const [currentDate, setCurrentDate] = React.useState(String);
+  const handleCurrentDate = (value: any) => {
+    setCurrentDate(value);
+  };
+
+  const renderViews = ["day", "week", "month"];
+  const [currentRenderView, setCurrentRenderView] = React.useState("day");
+
+  const renderDate = () => {
+    const date = new Date(currentDate);
+    return `${date.getDate()} ${calendarMonths[date.getMonth()].fullName} ${date.getFullYear()}`;
+  };
+  const renderDay = () => {
+    const date = new Date(currentDate);
+    return `${calendarDays[date.getDay()].fullName}`;
+  };
+
   const { data: sessionList, error: sessionListError } = useSWR(SESSION_ENDPOINT, APIFetcher);
 
   return (
     <div>
       <AdminLayout>
-        <Container>
-          <Row>
-            <Col md={4}>
-              <CalenderView />
-            </Col>
-            <Col>
-              <div>
-                <Row className="justify-content-center mt-3 mb-3">
-                  <Col className="align-items-center">
-                    <h3>All Sessions</h3>
-                  </Col>
-                  <Col className="align-items-center" md={2}>
-                    <SessionCreateView />
-                  </Col>
-                </Row>
-                <Row>
-                  {sessionList &&
-                    sessionList.length > 0 &&
-                    sessionList.map((data: any, index: Number) => (
-                      <Col md={12} key={data.id} style={{ marginTop: "10px" }}>
-                        <SessionPreviewCard data={data} />
-                        {/* <SessionEditView data={data} /> */}
-                      </Col>
+        <div className="right-layout-calender">
+          {/* <Container className="border h-100 p-0"> */}
+          <div className="calender-root-wrapper">
+            <div className="left-wrapper">
+              <CalenderView renderView={currentRenderView} handleData={handleCurrentDate} />
+            </div>
+            <div className="right-wrapper">
+              <div className="d-flex flex-row align-items-center border-bottom pb-2">
+                <div style={{ marginRight: "auto" }}>
+                  {currentDate && <div className="description">{renderDay()}</div>}
+                  {currentDate && <div className="giant-heading">{renderDate()}</div>}
+                </div>
+                <div style={{ marginRight: "20px" }}>
+                  <div className="d-flex flex-row align-items-center calender-render-view">
+                    {renderViews.map((data, index) => (
+                      <div
+                        key={data}
+                        className={data === currentRenderView ? "active " : ""}
+                        onClick={() => setCurrentRenderView(data)}
+                      >
+                        {data}
+                      </div>
                     ))}
-                </Row>
+                  </div>
+                </div>
+                <div>
+                  <SessionCreateView />
+                </div>
               </div>
-            </Col>
-          </Row>
-        </Container>
+
+              <div style={{ marginTop: "10px" }}>
+                {currentRenderView === "day" ? (
+                  <CalenderDayView sessionList={sessionList} />
+                ) : currentRenderView === "week" ? (
+                  <CalenderWeekView sessionList={sessionList} />
+                ) : (
+                  <CalenderMonthView sessionList={sessionList} />
+                )}
+              </div>
+            </div>
+          </div>
+          {/* </Container> */}
+        </div>
       </AdminLayout>
     </div>
   );

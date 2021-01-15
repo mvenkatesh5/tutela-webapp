@@ -73,7 +73,7 @@
         &:last-child {
           // border-right: 1px solid #ccc;
         }
-        &.active {
+        &.today-active {
           border: 2px solid $primary-color;
           color: $primary-color;
         }
@@ -85,6 +85,9 @@
           color: $light-text;
         }
       }
+    }
+    & .selected-active {
+      color: red !important;
     }
   }
 }

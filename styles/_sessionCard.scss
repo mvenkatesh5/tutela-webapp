@@ -1,0 +1,20 @@
+.session-card-root-container {
+  border-radius: 6px;
+  overflow: hidden;
+  padding: 1rem;
+  background-color: #f2f2f2;
+  .icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    text-align: left;
+  }
+  .small-icon {
+    flex-shrink: 0;
+    width: 25px;
+    height: 25px;
+    margin-right: 23px;
+    text-align: left;
+  }
+}

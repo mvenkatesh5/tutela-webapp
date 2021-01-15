@@ -13,9 +13,7 @@ const AdminLayout = (props: any) => {
           <div className="left-layout active">
             <SidebarView />
           </div>
-          <div className="right-layout">
-            <div>{props.children}</div>
-          </div>
+          {props.children}
         </div>
       </div>
     </div>

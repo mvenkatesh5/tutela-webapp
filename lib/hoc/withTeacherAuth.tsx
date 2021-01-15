@@ -6,7 +6,7 @@ import { getServerAuthenticationCookie } from "@lib/cookie";
 // redirect
 import redirect from "@lib/redirect";
 
-const withAdminAuth = (WrappedComponent: any) => {
+const withTeacherAuth = (WrappedComponent: any) => {
   const Wrapper = (props: any) => {
     React.useEffect(() => {
       if (props.tokenDetails) {
@@ -25,13 +25,13 @@ const withAdminAuth = (WrappedComponent: any) => {
         return {};
       }
       if (tokenDetails.user.role === 1) {
-        redirect(ctx, "/dashboard");
-        return {};
-      }
-      if (tokenDetails.user.role === 2) {
         const componentProps =
           WrappedComponent.getInitialProps && (await WrappedComponent.getInitialProps(ctx));
         return { ...componentProps, tokenDetails };
+      }
+      if (tokenDetails.user.role === 2) {
+        redirect(ctx, "/admin");
+        return {};
       }
     } else {
       redirect(ctx, "/signin");
@@ -41,4 +41,4 @@ const withAdminAuth = (WrappedComponent: any) => {
   return Wrapper;
 };
 
-export default withAdminAuth;
+export default withTeacherAuth;
