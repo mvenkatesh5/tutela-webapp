@@ -21,7 +21,7 @@ const withTeacherAuth = (WrappedComponent: any) => {
     let tokenDetails: any = getServerAuthenticationCookie(ctx);
     if (tokenDetails && tokenDetails.user && tokenDetails.user.is_active) {
       if (tokenDetails.user.role === 0) {
-        redirect(ctx, "/dashboard");
+        redirect(ctx, "/student");
         return {};
       }
       if (tokenDetails.user.role === 1) {

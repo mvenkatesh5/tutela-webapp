@@ -73,7 +73,9 @@ const SignUpView = () => {
 
   const redirectToAdmin = (tokenDetails: any) => {
     setAuthenticationToken(tokenDetails);
-    router.push("/dashboard");
+    if (tokenDetails.user.role === 0) router.push("/dashboard");
+    if (tokenDetails.user.role === 1) router.push("/dashboard");
+    if (tokenDetails.user.role === 2) router.push("/admin");
   };
 
   return (
