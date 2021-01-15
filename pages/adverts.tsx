@@ -32,27 +32,29 @@ const AdvertsView = () => {
   return (
     <div>
       <AdminLayout>
-        <AdvertCreateView />
-        <Row>
-          {advertsList &&
-            advertsList.length > 0 &&
-            advertsList.map((data: any, index: Number) => (
-              <Col md={3} key={data.id} style={{ marginTop: "10px" }}>
-                <Card>
-                  <Card.Body>
-                    <div style={{ height: "175px" }}>
-                      <img
-                        src={data.image}
-                        style={{ width: "100%", height: "100%", objectFit: "contain" }}
-                      />
-                    </div>
-                    <h6 className="mt-2 mb-2">{data.title}</h6>
-                    <AdvertEditView data={data} />
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-        </Row>
+        <div className="right-layout">
+          <AdvertCreateView />
+          <Row>
+            {advertsList &&
+              advertsList.length > 0 &&
+              advertsList.map((data: any, index: Number) => (
+                <Col md={3} key={data.id} style={{ marginTop: "10px" }}>
+                  <Card>
+                    <Card.Body>
+                      <div style={{ height: "175px" }}>
+                        <img
+                          src={data.image}
+                          style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                        />
+                      </div>
+                      <h6 className="mt-2 mb-2">{data.title}</h6>
+                      <AdvertEditView data={data} />
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))}
+          </Row>
+        </div>
       </AdminLayout>
     </div>
   );

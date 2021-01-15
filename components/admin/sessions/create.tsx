@@ -1,6 +1,8 @@
 import React from "react";
 // react bootstrap
 import { Button, Form, Modal } from "react-bootstrap";
+// material icons
+import { CalendarPlus } from "@styled-icons/boxicons-regular";
 // swr
 import { mutate } from "swr";
 // components
@@ -67,7 +69,12 @@ const SessionCreateView = () => {
   return (
     <div>
       <Button variant="primary" className="btn-sm" onClick={openModal}>
-        Add Sessions
+        <div className="d-flex justify-items-center">
+          <div style={{ width: "18px", marginRight: "8px" }}>
+            <CalendarPlus />
+          </div>
+          <div>Schedule Sessions</div>
+        </div>
       </Button>
 
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>

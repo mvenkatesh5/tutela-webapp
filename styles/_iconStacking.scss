@@ -1,0 +1,44 @@
+.stack-icons-root {
+  position: relative;
+  display: inline-block;
+  min-height: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  .stack-icons {
+    flex-shrink: 0;
+    background: #dfe1e6;
+    border: 2px solid #fff;
+    color: #42526e;
+    height: 30px;
+    width: 30px;
+    border-radius: 100px;
+    overflow: hidden;
+    cursor: pointer;
+    margin-left: -13px;
+    z-index: 99999999999999999;
+    transition: all 0.15s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 500;
+    &:first-child {
+      margin-left: 0px;
+    }
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  &:hover {
+    .stack-icons {
+      margin-left: 0px;
+      &:first-child {
+        margin-left: 0px;
+      }
+    }
+  }
+}

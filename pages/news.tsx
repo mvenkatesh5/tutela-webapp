@@ -32,23 +32,25 @@ const NewsView = () => {
   return (
     <div>
       <AdminLayout>
-        <NewsCreateView />
+        <div className="right-layout">
+          <NewsCreateView />
 
-        <Row>
-          {newsList &&
-            newsList.length > 0 &&
-            newsList.map((data: any, index: Number) => (
-              <Col md={6} key={data.id} style={{ marginTop: "10px" }}>
-                <Card>
-                  <Card.Body>
-                    <h6 className="mt-2 mb-2">{data.title}</h6>
-                    <p>{data.description}</p>
-                    <NewsEditView data={data} />
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-        </Row>
+          <Row>
+            {newsList &&
+              newsList.length > 0 &&
+              newsList.map((data: any, index: Number) => (
+                <Col md={6} key={data.id} style={{ marginTop: "10px" }}>
+                  <Card>
+                    <Card.Body>
+                      <h6 className="mt-2 mb-2">{data.title}</h6>
+                      <p>{data.description}</p>
+                      <NewsEditView data={data} />
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))}
+          </Row>
+        </div>
       </AdminLayout>
     </div>
   );

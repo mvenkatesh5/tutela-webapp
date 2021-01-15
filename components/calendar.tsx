@@ -1,28 +1,15 @@
 import React from "react";
 // material icons
 import { ChevronLeft, ChevronRight } from "@styled-icons/boxicons-regular/";
+// global imports
+import { calendarMonths, calendarDays } from "@constants/global";
 
-const Calendar = () => {
-  const calendarMonths = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-
-  const calendarDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
+const Calendar = (props: any) => {
   const [todayDate, setTodayDate] = React.useState(String);
   const [currentMonth, setCurrentMonth] = React.useState(Number);
   const [currentYear, setCurrentYear] = React.useState(Number);
+
+  const [currentSelectDate, setCurrentSelectDate] = React.useState(String);
   const [renderDateTitle, setRenderDateTitle] = React.useState(String);
 
   React.useEffect(() => {
@@ -34,7 +21,7 @@ const Calendar = () => {
     const month = (currentMonth + 1) % 12;
     setCurrentMonth(month);
     setCurrentYear(year);
-    setRenderDateTitle(calendarMonths[month] + " " + year);
+    setRenderDateTitle(calendarMonths[month].fullName + " " + year);
   };
 
   const updatePreviousDate = () => {
@@ -42,16 +29,18 @@ const Calendar = () => {
     const month = currentMonth === 0 ? 11 : currentMonth - 1;
     setCurrentMonth(month);
     setCurrentYear(year);
-    setRenderDateTitle(calendarMonths[month] + " " + year);
+    setRenderDateTitle(calendarMonths[month].fullName + " " + year);
   };
 
   const updateTodayDate = (todayDateValue: any) => {
     setTodayDate(todayDateValue);
+    setCurrentSelectDate(todayDateValue);
     setCurrentMonth(todayDateValue.getMonth());
     setCurrentYear(todayDateValue.getFullYear());
     setRenderDateTitle(
-      `${calendarMonths[todayDateValue.getMonth()]} ${todayDateValue.getFullYear()}`
+      `${calendarMonths[todayDateValue.getMonth()].fullName} ${todayDateValue.getFullYear()}`
     );
+    props.handleData(todayDateValue);
   };
 
   const daysInMonth = (iMonth: any, iYear: any) => {
@@ -79,15 +68,15 @@ const Calendar = () => {
             currentMonth === new Date(todayDate).getMonth()
           ) {
             colData.push(
-              <div key={`col-${i}-${j}-${date}-active`} className="calendar-column active">
-                {renderCalendarColumn(currentYear, currentMonth, date, calendarDays[j])}
-              </div>
+              <>
+                {renderCalendarColumn(currentYear, currentMonth, date, calendarDays[j].key, true)}
+              </>
             );
           } else {
             colData.push(
-              <div className="calendar-column" key={`col-${i}-${j}-${date}`}>
-                {renderCalendarColumn(currentYear, currentMonth, date, calendarDays[j])}
-              </div>
+              <>
+                {renderCalendarColumn(currentYear, currentMonth, date, calendarDays[j].key, false)}
+              </>
             );
           }
           date++;
@@ -114,15 +103,42 @@ const Calendar = () => {
     return rowData;
   };
 
-  const renderCalendarColumn = (year: any, month: any, date: any, day: any) => {
+  const renderCalendarColumn = (year: any, month: any, date: any, day: any, active: Boolean) => {
     const data = {
       year: year,
       month: month + 1,
       date: date,
       day: day,
     };
+
+    const selectActive = () => {
+      if (
+        data.month === new Date(currentSelectDate).getMonth() + 1 &&
+        data.year === new Date(currentSelectDate).getFullYear() &&
+        data.date === new Date(currentSelectDate).getDate()
+      )
+        return true;
+      return false;
+    };
+
+    const handleSelectedDate = () => {
+      if (props.renderView === "day") {
+        const newDate = new Date(data.year, data.month - 1, data.date);
+        setCurrentSelectDate(newDate.toString());
+        props.handleData(newDate);
+      }
+    };
+
     return (
-      <div>
+      <div
+        key={`${data.date}-${data.month}-${data.year}`}
+        className={
+          `calendar-column ` +
+          (active ? "today-active " : "") +
+          (selectActive() ? "selected-active " : "")
+        }
+        onClick={handleSelectedDate}
+      >
         <div>{data.date}</div>
       </div>
     );
@@ -149,7 +165,7 @@ const Calendar = () => {
             calendarDays.length > 0 &&
             calendarDays.map((day, index) => (
               <div className="item" key={index}>
-                {day}
+                {day.key}
               </div>
             ))}
         </div>
