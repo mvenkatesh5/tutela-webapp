@@ -37,14 +37,24 @@ function DashboardNav() {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse className="justify-content-start">
             <Nav>
-              <Nav.Link className="fw-bold text-muted" href="/dashboard">
+              {/* <Nav.Link className="fw-bold text-muted" href="/dashboard">
                 Dashboard
-              </Nav.Link>
-              {tokenDetails && tokenDetails.user && tokenDetails.user.role === 2 && (
+              </Nav.Link> */}
+              {tokenDetails && tokenDetails.user && tokenDetails.user.role === 0 && (
+                <Nav.Link className="fw-bold text-muted" href="/student">
+                  Dashboard
+                </Nav.Link>
+              )}
+              {tokenDetails && tokenDetails.user && tokenDetails.user.role === 0 && (
+                <Nav.Link className="fw-bold text-muted" href="/profile">
+                  Profile
+                </Nav.Link>
+              )}
+              {/* {tokenDetails && tokenDetails.user && tokenDetails.user.role === 2 && (
                 <Nav.Link className="fw-bold text-muted" href="/admin">
                   My Calender
                 </Nav.Link>
-              )}
+              )} */}
             </Nav>
           </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">

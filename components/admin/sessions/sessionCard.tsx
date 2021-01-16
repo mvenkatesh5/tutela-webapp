@@ -13,20 +13,35 @@ import { CheveronDown } from "@styled-icons/zondicons";
 import IconStacking from "@components/IconStacking";
 
 const SessionCard = (props: any) => {
-  const [studentImages, setStudentImages] = React.useState([
-    "/bird.svg",
-    "/logo.svg",
-    "/questions.svg",
-    "/quote.svg",
-    "/news.svg",
-    "/bird.svg",
-  ]);
+  const [studentImages, setStudentImages] = React.useState<any>();
+  const [teacherImages, setTeacherImages] = React.useState<any>();
 
-  const [teacherImage, setTeacherImage] = React.useState();
   const [sessionDetailView, setSessionDetailView] = React.useState(false);
   const handleSessionDetailView = () => {
     setSessionDetailView(!sessionDetailView);
   };
+
+  React.useEffect(() => {
+    if (props.data && props.data.session_users) {
+      let learners: any = [];
+      let teachers: any = [];
+      props.data.session_users.map((data: any) => {
+        if (data.as_role === 0) {
+          learners.push({
+            name: data.user.first_name,
+            icon: "/bird.svg",
+          });
+        } else {
+          teachers.push({
+            name: data.user.first_name,
+            icon: "/bird.svg",
+          });
+        }
+      });
+      setStudentImages(learners);
+      setTeacherImages(teachers);
+    }
+  }, [props.data]);
 
   return (
     <div>
@@ -41,7 +56,9 @@ const SessionCard = (props: any) => {
                 <div className="heading">{props.data.title}</div>
               </div>
               <div>
-                <div className="badge border bg-light text-dark ms-3">8 AM – 9 AM</div>
+                <div className="badge border bg-light text-dark ms-3">
+                  {props.data.datetime.toString()}
+                </div>
               </div>
               <div className="ms-auto text-end" onClick={handleSessionDetailView}>
                 <CheveronDown className="text-muted" width={20} />
@@ -58,8 +75,8 @@ const SessionCard = (props: any) => {
               </div>
               <div>
                 <div className="heading">{props.data.title}</div>
-                <div className="description">Sunday, November 21 ⋅ 8 AM – 9 AM</div>
-                <div className="description">Weekly on weekdays</div>
+                <div className="description">{props.data.datetime.toString()}</div>
+                {/* <div className="description">Weekly on weekdays</div> */}
               </div>
               <div className="ms-auto text-end" onClick={handleSessionDetailView}>
                 <CheveronDown className="text-muted" width={20} />
@@ -80,38 +97,42 @@ const SessionCard = (props: any) => {
                   <LinkAlt className="text-muted" />
                 </div>
                 <div>
-                  <div className="description">https://us02web.zoom.us/j/9870999452</div>
+                  <div className="description">{props.data.link}</div>
                 </div>
               </div>
             </div>
 
             <div className="d-flex">
-              <div className="d-flex mb-3 w-100" style={{ marginRight: "10px" }}>
-                <div className="small-icon">
-                  <Users className="text-muted" width={20} />
-                </div>
-                <div>
-                  <div className="d-flex">
-                    <div className="secondary-heading">20 students</div>
-                    <div className="description ms-2">- 18 yes, 2 awaiting</div>
+              {studentImages && studentImages.length > 0 && (
+                <div className="d-flex mb-3 w-100" style={{ marginRight: "10px" }}>
+                  <div className="small-icon">
+                    <Users className="text-muted" width={20} />
                   </div>
-                  <div className="mt-1">
-                    <IconStacking data={studentImages} multiple={true} />
+                  <div>
+                    <div className="d-flex">
+                      <div className="secondary-heading">{studentImages.length} students</div>
+                      {/* <div className="description ms-2">- 18 yes, 2 awaiting</div> */}
+                    </div>
+                    <div className="mt-1">
+                      <IconStacking data={studentImages} multiple={true} />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="d-flex mb-3 w-100" style={{ marginLeft: "10px" }}>
-                <div className="small-icon">
-                  <User className="text-muted" width={20} />
+              )}
+              {teacherImages && teacherImages.length > 0 && (
+                <div className="d-flex mb-3 w-100" style={{ marginLeft: "10px" }}>
+                  <div className="small-icon">
+                    <User className="text-muted" width={20} />
+                  </div>
+                  <div className="">
+                    <IconStacking data={teacherImages} multiple={true} />
+                  </div>
+                  <div className=" mt-2 ms-2">Hello</div>
                 </div>
-                <div className="">
-                  <IconStacking data={teacherImage} multiple={false} />
-                </div>
-                <div className=" mt-2 ms-2">Hello</div>
-              </div>
+              )}
             </div>
 
-            <div className="d-flex mb-3">
+            {/* <div className="d-flex mb-3">
               <div className="icon">
                 <Readthedocs className="text-muted" width={20} />
               </div>
@@ -119,12 +140,10 @@ const SessionCard = (props: any) => {
                 <div className="description">assessment.pdf</div>
                 <div className="description">assessment.pdf</div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       )}
-      {/* <IconStacking data={studentImages} multiple={true} />
-      <IconStacking data={teacherImage} multiple={false} /> */}
     </div>
   );
 };

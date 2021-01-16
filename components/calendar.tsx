@@ -131,7 +131,7 @@ const Calendar = (props: any) => {
 
     return (
       <div
-        key={`${data.date}-${data.month}-${data.year}`}
+        key={`${data.date}-${data.month}-${data.year}-${data.day}`}
         className={
           `calendar-column ` +
           (active ? "today-active " : "") +

@@ -10,8 +10,8 @@ const IconStacking = (props: any) => {
           {props.data.map((item: any, i: Number) => {
             if (i < 5) {
               return (
-                <div className="stack-icons">
-                  {item ? <img src={item} /> : <img src={defaultImageUrl} />}
+                <div className="stack-icons" title={item.name} key={i.toString()}>
+                  {item ? <img src={item.icon} /> : <img src={defaultImageUrl} />}
                 </div>
               );
             }

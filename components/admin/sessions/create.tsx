@@ -7,12 +7,13 @@ import { CalendarPlus } from "@styled-icons/boxicons-regular";
 import { mutate } from "swr";
 // components
 import SessionForm from "./sessionForm";
+import SessionUser from "./sessionUser";
 // api routes
 import { SESSION_ENDPOINT } from "@constants/routes";
 // api services
-import { SessionCreate } from "@lib/services/sessionservice";
+import { SessionCreate, SessionUserCreate } from "@lib/services/sessionservice";
 
-const SessionCreateView = () => {
+const SessionCreateView = (props: any) => {
   const [modal, setModal] = React.useState(false);
   const closeModal = () => {
     setModal(false);
@@ -22,6 +23,8 @@ const SessionCreateView = () => {
       datetime: "",
       link: "https://us02web.zoom.us/s/82567434735?pwd=NXBydUQ0RlE3NGdGcHZFZmNwdkFxUT09",
       data: {},
+      listeners: [],
+      teachers: [],
     });
   };
   const openModal = () => setModal(true);
@@ -32,14 +35,18 @@ const SessionCreateView = () => {
     datetime: "",
     link: "https://us02web.zoom.us/s/82567434735?pwd=NXBydUQ0RlE3NGdGcHZFZmNwdkFxUT09",
     data: {},
+    listeners: [],
+    teachers: [],
   });
   const handleSessionData = (value: any) => {
     setSessionData(value);
   };
+  const handleSessionListeners = (key: any, value: any) => {
+    setSessionData({ ...sessionData, [key]: value });
+  };
 
   const sessionCreate = (event: any) => {
     event.preventDefault();
-    console.log(sessionData);
 
     const payload = {
       title: sessionData.title,
@@ -59,11 +66,48 @@ const SessionCreateView = () => {
           },
           false
         );
+        createSessionUsers(res);
         closeModal();
       })
       .catch((errors) => {
         console.log(errors);
       });
+  };
+
+  const createSessionUsers = (session: any) => {
+    let currentUsers: any = [];
+
+    sessionData.listeners.map((listeners) => {
+      const data = {
+        as_role: 0,
+        session: session.id,
+        user: parseInt(listeners),
+      };
+      currentUsers.push(data);
+    });
+
+    sessionData.teachers.map((teachers) => {
+      const data = {
+        as_role: 1,
+        session: session.id,
+        user: parseInt(teachers),
+      };
+      currentUsers.push(data);
+    });
+
+    console.log(currentUsers);
+
+    if (currentUsers && currentUsers.length > 0) {
+      currentUsers.map((data: any) => {
+        SessionUserCreate(data)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((errors) => {
+            console.log(errors);
+          });
+      });
+    }
   };
 
   return (
@@ -77,10 +121,15 @@ const SessionCreateView = () => {
         </div>
       </Button>
 
-      <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
+      <Modal show={modal} onHide={closeModal} size="lg" centered backdrop={"static"}>
         <Modal.Body>
           <Form onSubmit={sessionCreate}>
             <SessionForm data={sessionData} handleData={handleSessionData} />
+            <SessionUser
+              data={sessionData}
+              users={props.users}
+              handleData={handleSessionListeners}
+            />
             <Button
               variant="outline-primary"
               className="btn-sm"

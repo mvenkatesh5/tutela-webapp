@@ -1,6 +1,10 @@
 import axios from "axios";
 // api routes
-import { SESSION_ENDPOINT, SESSION_WITH_ID_ENDPOINT } from "@constants/routes";
+import {
+  SESSION_ENDPOINT,
+  SESSION_WITH_ID_ENDPOINT,
+  SESSION_USER_ENDPOINT,
+} from "@constants/routes";
 
 export const SessionCreate = async (data: any) => {
   try {
@@ -23,6 +27,15 @@ export const SessionUpdate = async (data: any) => {
 export const SessionDelete = async (id: Number) => {
   try {
     const response = await axios.delete(SESSION_WITH_ID_ENDPOINT(id));
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const SessionUserCreate = async (data: any) => {
+  try {
+    const response = await axios.post(SESSION_USER_ENDPOINT, data);
     return response.data;
   } catch (error) {
     throw error.response.data;

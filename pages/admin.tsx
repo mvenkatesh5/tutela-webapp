@@ -13,7 +13,7 @@ import CalenderMonthView from "@components/admin/calenderviews/monthview";
 // global imports
 import { calendarMonths, calendarDays } from "@constants/global";
 // api routes
-import { SESSION_ENDPOINT } from "@constants/routes";
+import { SESSION_ENDPOINT, USER_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 // hoc
@@ -38,6 +38,7 @@ const Admin = () => {
   };
 
   const { data: sessionList, error: sessionListError } = useSWR(SESSION_ENDPOINT, APIFetcher);
+  const { data: userList, error: userListError } = useSWR(USER_ENDPOINT, APIFetcher);
 
   return (
     <div>
@@ -68,7 +69,7 @@ const Admin = () => {
                   </div>
                 </div>
                 <div>
-                  <SessionCreateView />
+                  <SessionCreateView users={userList} />
                 </div>
               </div>
 
