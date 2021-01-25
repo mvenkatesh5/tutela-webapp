@@ -9,28 +9,22 @@ import { META_DESCRIPTION } from "@constants/page";
 import AuthWrapper from "layouts/authpagelayout";
 import { LogIn } from "@lib/services/authenticationservice";
 // react bootstrap
-import { Button, Form, Alert } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 // cookie
 import { setAuthenticationToken } from "@lib/cookie";
+// global context provider
+import { globalContext } from "@contexts/global";
 // hoc
 import withoutAuth from "@lib/hoc/withoutAuth";
 
 const SignInView = () => {
+  const [globalState, globalDispatch] = React.useContext(globalContext);
   const router = useRouter();
 
   const [buttonLoader, setButtonLoader] = React.useState(false);
 
-  const [alertData, setAlertData] = React.useState({
-    variant: "info",
-    show: false,
-    message: "",
-  });
-  function onAlertClose() {
-    setAlertData({ ...alertData, show: false });
-  }
-
   const meta = {
-    title: "Sign Up",
+    title: "Sign In",
     description: META_DESCRIPTION,
   };
 
@@ -43,11 +37,6 @@ const SignInView = () => {
     console.log(payload);
     setButtonLoader(true);
 
-    setAlertData({
-      ...alertData,
-      show: false,
-    });
-
     LogIn(payload)
       .then((res: any) => {
         console.log(res);
@@ -57,11 +46,13 @@ const SignInView = () => {
       .catch((error: any) => {
         console.log(error);
         setButtonLoader(false);
-        setAlertData({
-          ...alertData,
-          variant: "danger",
-          show: true,
-          message: error.detail ? error.detail : "Please check your credentials",
+        globalDispatch({
+          type: "ADD_TOAST_ALERT",
+          payload: {
+            kind: "warning",
+            heading: "warning",
+            description: `Please check your credentials.`,
+          },
         });
       });
   };
@@ -77,15 +68,6 @@ const SignInView = () => {
     <Page meta={meta}>
       <AuthWrapper>
         <h3 className="text-dark fw-bold mb-4">Log In!</h3>
-
-        <Alert
-          variant={alertData.variant}
-          show={alertData.show}
-          onClose={() => onAlertClose()}
-          dismissible
-        >
-          {alertData.message}
-        </Alert>
 
         <Form onSubmit={SignInSubmit}>
           <Form.Group className="mb-2">

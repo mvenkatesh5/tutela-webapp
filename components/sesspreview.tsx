@@ -2,6 +2,9 @@ import { Card, Row, Col, Image, Button } from "react-bootstrap";
 
 import { ArrowDropDownCircle } from "styled-icons/material-rounded";
 
+// components
+import ZoomSessions from "@components/zoomsessions";
+
 function SessionPreviewCard(props: any) {
   return (
     <>
@@ -14,11 +17,7 @@ function SessionPreviewCard(props: any) {
               <span className="badge border bg-light text-dark ms-3">{props.data.datetime}</span>
             </Col>
             <Col className="align-self-center text-end">
-              <a href={props.data.link} target="_blank">
-                <Button size="sm">Join Session</Button>
-              </a>
-
-              <ArrowDropDownCircle className="text-muted ms-3" width="20" />
+              <ZoomSessions data={props.data} view={props.view} />
             </Col>
           </Row>
         </Card.Body>

@@ -20,7 +20,8 @@
       "@lib/*": ["lib/*"],
       "@config/*": ["config/*"],
       "@styles/*": ["styles/*"],
-      "@constants/*": ["constants/*"]
+      "@constants/*": ["constants/*"],
+      "@contexts/*": ["contexts/*"]
     }
   },
   "exclude": ["node_modules"],

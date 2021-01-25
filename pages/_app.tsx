@@ -7,6 +7,11 @@ import NProgress from "@components/nprogress";
 // axios config
 import "config/axios";
 
+// context provider
+import { GlobalContextProvider } from "@contexts/global";
+// components
+import ToastAlert from "@components/alert";
+
 // styles
 import "@styles/app.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -15,7 +20,10 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <SSRProvider>
       <OverlayProvider>
-        <Component {...pageProps} />
+        <GlobalContextProvider>
+          <ToastAlert />
+          <Component {...pageProps} />
+        </GlobalContextProvider>
         {/* <ResizeHandler /> */}
         <NProgress />
       </OverlayProvider>

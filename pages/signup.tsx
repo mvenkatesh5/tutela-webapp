@@ -8,25 +8,19 @@ import Link from "next/link";
 import AuthWrapper from "layouts/authpagelayout";
 import { SignUp } from "@lib/services/authenticationservice";
 // react bootstrap
-import { Button, Form, Alert } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 // cookie
 import { setAuthenticationToken } from "@lib/cookie";
+// global context provider
+import { globalContext } from "@contexts/global";
 // hoc
 import withoutAuth from "@lib/hoc/withoutAuth";
 
 const SignUpView = () => {
+  const [globalState, globalDispatch] = React.useContext(globalContext);
   const router = useRouter();
 
   const [buttonLoader, setButtonLoader] = React.useState(false);
-
-  const [alertData, setAlertData] = React.useState({
-    variant: "info",
-    show: false,
-    message: "",
-  });
-  function onAlertClose() {
-    setAlertData({ ...alertData, show: false });
-  }
 
   const meta = {
     title: "Sign Up",
@@ -48,11 +42,6 @@ const SignUpView = () => {
     console.log(authData);
     setButtonLoader(true);
 
-    setAlertData({
-      ...alertData,
-      show: false,
-    });
-
     SignUp(authData)
       .then((res: any) => {
         console.log(res);
@@ -62,11 +51,13 @@ const SignUpView = () => {
       .catch((error: any) => {
         console.log(error);
         setButtonLoader(false);
-        setAlertData({
-          ...alertData,
-          variant: "danger",
-          show: true,
-          message: error.detail ? error.detail : "Please check your credentials",
+        globalDispatch({
+          type: "ADD_TOAST_ALERT",
+          payload: {
+            kind: "warning",
+            heading: "warning",
+            description: `Please check your credentials.`,
+          },
         });
       });
   };
@@ -82,15 +73,6 @@ const SignUpView = () => {
     <Page meta={meta}>
       <AuthWrapper>
         <h3 className="text-dark fw-bold mb-4">Sign Up!</h3>
-
-        <Alert
-          variant={alertData.variant}
-          show={alertData.show}
-          onClose={() => onAlertClose()}
-          dismissible
-        >
-          {alertData.message}
-        </Alert>
 
         <Form onSubmit={onFormSubmit}>
           <Form.Group className="mb-2">
