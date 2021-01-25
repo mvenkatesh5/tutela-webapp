@@ -3,6 +3,7 @@ import React from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 // material icons
 import { CalendarPlus } from "@styled-icons/boxicons-regular";
+import { Times } from "@styled-icons/fa-solid";
 // swr
 import { mutate } from "swr";
 // components
@@ -14,6 +15,7 @@ import { SESSION_ENDPOINT } from "@constants/routes";
 import { SessionCreate, SessionUserCreate } from "@lib/services/sessionservice";
 
 const SessionCreateView = (props: any) => {
+  const [buttonLoader, setButtonLoader] = React.useState(false);
   const [modal, setModal] = React.useState(false);
   const closeModal = () => {
     setModal(false);
@@ -47,6 +49,7 @@ const SessionCreateView = (props: any) => {
 
   const sessionCreate = (event: any) => {
     event.preventDefault();
+    setButtonLoader(true);
 
     const payload = {
       title: sessionData.title,
@@ -68,9 +71,11 @@ const SessionCreateView = (props: any) => {
         );
         createSessionUsers(res);
         closeModal();
+        setButtonLoader(false);
       })
       .catch((errors) => {
         console.log(errors);
+        setButtonLoader(false);
       });
   };
 
@@ -121,7 +126,94 @@ const SessionCreateView = (props: any) => {
         </div>
       </Button>
 
-      <Modal show={modal} onHide={closeModal} size="lg" centered backdrop={"static"}>
+      {modal && (
+        <div
+          style={{
+            width: "420px",
+            position: "fixed",
+            top: "125px",
+            bottom: "10px",
+            right: "20px",
+            marginTop: "20px",
+            minHeight: "450px",
+            background: "#fff",
+            boxShadow: `#0f0f0f0d 0px 0px 0px 1px, #0f0f0f1a 0px 3px 6px, #0f0f0f33 0px 9px 24px`,
+            borderRadius: "4px",
+            overflow: "hidden",
+          }}
+        >
+          <Form onSubmit={sessionCreate}>
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                width: "100%",
+                display: "flex",
+                background: "#f5f5f5",
+                padding: "8px 12px",
+                zIndex: 99999,
+                height: "40px",
+              }}
+            >
+              <div style={{ fontWeight: 500 }}>Schedule a Meeting</div>
+              <div
+                style={{ marginLeft: "auto", width: "12px", cursor: "pointer" }}
+                onClick={closeModal}
+              >
+                <Times />
+              </div>
+            </div>
+            <div
+              style={{
+                position: "absolute",
+                top: "40px",
+                bottom: "45px",
+                width: "100%",
+                overflow: "hidden",
+                overflowY: "auto",
+                padding: "10px 12px",
+              }}
+            >
+              <SessionForm data={sessionData} handleData={handleSessionData} />
+              <SessionUser
+                data={sessionData}
+                users={props.users}
+                handleData={handleSessionListeners}
+              />
+            </div>
+            <div
+              style={{
+                position: "absolute",
+                bottom: 0,
+                width: "100%",
+                display: "flex",
+                background: "#f5f5f5",
+                padding: "8px 12px",
+                height: "45px",
+                zIndex: 99999,
+              }}
+            >
+              <div style={{ marginLeft: "auto" }}>
+                <Button
+                  variant="outline-secondary"
+                  className="btn-sm"
+                  onClick={closeModal}
+                  style={{ marginRight: "10px" }}
+                >
+                  Close
+                </Button>
+              </div>
+              <div>
+                <Button variant="primary" className="btn-sm" type="submit" disabled={buttonLoader}>
+                  {buttonLoader ? "Saving..." : "Save"}
+                </Button>
+              </div>
+            </div>
+          </Form>
+        </div>
+      )}
+
+      {/* <Modal show={modal} onHide={closeModal} size="lg" centered backdrop={"static"}>
         <Modal.Body>
           <Form onSubmit={sessionCreate}>
             <SessionForm data={sessionData} handleData={handleSessionData} />
@@ -143,8 +235,7 @@ const SessionCreateView = (props: any) => {
             </Button>
           </Form>
         </Modal.Body>
-      </Modal>
-      <Form></Form>
+      </Modal> */}
     </div>
   );
 };

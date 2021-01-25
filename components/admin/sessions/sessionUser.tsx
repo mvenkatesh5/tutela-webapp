@@ -1,6 +1,9 @@
 import React from "react";
 // react bootstrap
 import { Form } from "react-bootstrap";
+// material icons
+import { Users } from "@styled-icons/fa-solid";
+import { Users as StudentUsers } from "@styled-icons/heroicons-solid";
 
 const SessionUser = (props: any) => {
   console.log("props.users", props.users);
@@ -21,7 +24,10 @@ const SessionUser = (props: any) => {
     <div>
       <div>
         <Form.Group className="mb-2">
-          <Form.Label>Students</Form.Label>
+          <Form.Label>
+            <Users style={{ width: "16px", marginRight: "8px", marginTop: "-2px" }} />
+            Students
+          </Form.Label>
           <Form.Control
             as="select"
             multiple
@@ -45,7 +51,10 @@ const SessionUser = (props: any) => {
         </Form.Group>
 
         <Form.Group className="mb-2">
-          <Form.Label>Teachers</Form.Label>
+          <Form.Label>
+            <StudentUsers style={{ width: "16px", marginRight: "8px", marginTop: "-2px" }} />
+            Teachers
+          </Form.Label>
           <Form.Control
             as="select"
             multiple

@@ -1,6 +1,10 @@
 import React from "react";
 // react bootstrap
 import { Form } from "react-bootstrap";
+// material icons
+import { Text } from "@styled-icons/evaicons-solid";
+import { Text as TextDescription } from "@styled-icons/entypo";
+import { DateRange } from "@styled-icons/material";
 
 const SessionFormView = (props: any) => {
   const [formPayload, setFormPayload] = React.useState(Object);
@@ -18,7 +22,10 @@ const SessionFormView = (props: any) => {
   return (
     <div>
       <Form.Group className="mb-2">
-        <Form.Label className="mb-1 text-muted">Title</Form.Label>
+        <Form.Label className="mb-1 text-muted">
+          <Text style={{ width: "16px", marginRight: "8px", marginTop: "-2px" }} />
+          Title
+        </Form.Label>
         <Form.Control
           type="text"
           value={formPayload.title}
@@ -28,7 +35,10 @@ const SessionFormView = (props: any) => {
       </Form.Group>
 
       <Form.Group className="mb-3">
-        <Form.Label className="mb-1 text-muted">Description</Form.Label>
+        <Form.Label className="mb-1 text-muted">
+          <TextDescription style={{ width: "16px", marginRight: "8px", marginTop: "-2px" }} />
+          Description
+        </Form.Label>
         <Form.Control
           as="textarea"
           rows={3}
@@ -39,9 +49,12 @@ const SessionFormView = (props: any) => {
       </Form.Group>
 
       <Form.Group className="mb-3">
-        <Form.Label className="mb-1 text-muted">Date Time</Form.Label>
+        <Form.Label className="mb-1 text-muted">
+          <DateRange style={{ width: "16px", marginRight: "8px", marginTop: "-2px" }} />
+          Date Time
+        </Form.Label>
         <Form.Control
-          type="date"
+          type="datetime-local"
           value={formPayload.datetime}
           onChange={(e) => handleFormPayload("datetime", e.target.value)}
           required
