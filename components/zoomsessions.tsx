@@ -11,16 +11,7 @@ import { CreateZoomMeeting, SessionUpdate } from "@lib/services/sessionservice";
 import { SESSION_ENDPOINT } from "@constants/routes";
 
 const ZoomSession = (props: any) => {
-  const [zoomData, setZoomData] = React.useState<any>();
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
-
-  React.useEffect(() => {
-    if (props.data && props.data.data && props.data.data.zoom) {
-      setZoomData(props.data.data.zoom);
-    }
-  }, [props.data]);
-
-  console.log("Zoom data:", zoomData);
 
   const zoomSubmit = () => {
     setButtonLoader(true);
@@ -64,14 +55,14 @@ const ZoomSession = (props: any) => {
 
   return (
     <div>
-      {zoomData ? (
+      {props.data && props.data.data && props.data.data.zoom ? (
         <div>
           {props.view === "student" ? (
-            <a href={zoomData.join_url} target="_blank">
+            <a href={props.data.data.zoom.join_url} target="_blank">
               <Button className="btn-sm">Join Meeting</Button>
             </a>
           ) : (
-            <a href={zoomData.start_url} target="_blank">
+            <a href={props.data.data.zoom.start_url} target="_blank">
               <Button className="btn-sm">Join Meeting</Button>
             </a>
           )}
