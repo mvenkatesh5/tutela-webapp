@@ -6,8 +6,9 @@ import useSWR from "swr";
 // components
 import Page from "@components/page";
 import SessionPreviewCard from "@components/sesspreview";
+import UpcomingTestsCard from "@components/uptestscard";
 // api routes
-import { SESSION_ENDPOINT } from "@constants/routes";
+import { SESSION_ENDPOINT, ADVERTS_ENDPOINT } from "@constants/routes";
 // constants
 import { META_DESCRIPTION } from "@constants/page";
 // api services
@@ -24,6 +25,7 @@ const DashboardDetail = (props: any) => {
   };
 
   const { data: sessionList, error: sessionListError } = useSWR(SESSION_ENDPOINT, APIFetcher);
+  const { data: advertsList, error: advertsListError } = useSWR(ADVERTS_ENDPOINT, APIFetcher);
 
   return (
     <Page meta={meta}>
@@ -39,6 +41,20 @@ const DashboardDetail = (props: any) => {
                     <SessionPreviewCard data={data} view="teacher" />
                   </div>
                 ))}
+            </Col>
+            <Col>
+              <UpcomingTestsCard />
+              {advertsList && advertsList.length > 0 && (
+                <Card className="p-3 mt-4 border-0 shadow">
+                  <a href={advertsList[0].link ? advertsList[0].link : "#"} target="_blank">
+                    <Image
+                      className="img-fluid mx-auto d-block"
+                      src={advertsList[0].image}
+                      width="300"
+                    />
+                  </a>
+                </Card>
+              )}
             </Col>
           </Row>
         </Container>

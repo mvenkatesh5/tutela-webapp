@@ -8,6 +8,7 @@ import {
   SupervisedUserCircle,
   Login,
 } from "@styled-icons/material-rounded/";
+import { CircleFill } from "@styled-icons/bootstrap";
 // cookie
 import { logout, getAuthenticationToken } from "@lib/cookie";
 
@@ -59,6 +60,29 @@ function DashboardNav() {
           </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">
             <Nav>
+              {tokenDetails && tokenDetails.user && tokenDetails.user.role <= 2 && (
+                <Nav.Link className="mt-1">
+                  <div
+                    className="d-flex align-items-center pe-2 ps-2 border"
+                    style={{ borderRadius: "4px" }}
+                  >
+                    <div className="me-2">
+                      <CircleFill
+                        className="text-success"
+                        style={{ width: "10px", height: "10px", marginTop: "-3px" }}
+                      />
+                    </div>
+                    <div>
+                      {tokenDetails.user.role === 2
+                        ? "Admin"
+                        : tokenDetails.user.role === 1
+                        ? " Teaching"
+                        : " Learning"}
+                    </div>
+                  </div>
+                </Nav.Link>
+              )}
+
               {tokenDetails && tokenDetails.user && tokenDetails.user.role < 2 && (
                 <Nav.Link className="mt-1">
                   Dear {tokenDetails.user.username}, Have a great
