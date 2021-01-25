@@ -41,7 +41,7 @@ const StudentDetail = () => {
             {sessionList &&
               sessionList.length > 0 &&
               sessionList.map((data: any, index: Number) => (
-                <div key={data.id}>
+                <div key={data.id} className="mb-2">
                   {/* <SessionPreviewCard data={data} view="student" /> */}
                   <SessionCard data={data} view="student" />
                 </div>

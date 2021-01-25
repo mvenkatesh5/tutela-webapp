@@ -24,6 +24,7 @@ const SessionCard = (props: any) => {
   };
 
   React.useEffect(() => {
+    console.log(props.data.session_users);
     if (props.data && props.data.session_users) {
       let learners: any = [];
       let teachers: any = [];
@@ -102,7 +103,23 @@ const SessionCard = (props: any) => {
                   <LinkAlt className="text-muted" />
                 </div>
                 <div>
-                  <div className="description">{props.data.link}</div>
+                  <div className="description">
+                    {props.data && props.data.data && props.data.data.zoom ? (
+                      <div>
+                        {props.view === "student" ? (
+                          <a href={props.data.data.zoom.join_url} target="_blank">
+                            {props.data.data.zoom.join_url}
+                          </a>
+                        ) : (
+                          <a href={props.data.data.zoom.start_url} target="_blank">
+                            {props.data.data.zoom.start_url}
+                          </a>
+                        )}
+                      </div>
+                    ) : (
+                      <div>{props.view === "student" && <div>Session is yet to start!</div>}</div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -132,7 +149,7 @@ const SessionCard = (props: any) => {
                   <div className="">
                     <IconStacking data={teacherImages} multiple={true} />
                   </div>
-                  <div className=" mt-2 ms-2">Hello</div>
+                  {/* <div className=" mt-2 ms-2">Hello</div> */}
                 </div>
               )}
             </div>
