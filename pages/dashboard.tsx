@@ -6,6 +6,7 @@ import useSWR from "swr";
 // components
 import Page from "@components/page";
 import SessionPreviewCard from "@components/sesspreview";
+import SessionCard from "@components/admin/sessions/sessionCard";
 import UpcomingTestsCard from "@components/uptestscard";
 // api routes
 import { SESSION_ENDPOINT, ADVERTS_ENDPOINT } from "@constants/routes";
@@ -37,8 +38,9 @@ const DashboardDetail = (props: any) => {
               {sessionList &&
                 sessionList.length > 0 &&
                 sessionList.map((data: any, index: Number) => (
-                  <div key={data.id}>
-                    <SessionPreviewCard data={data} view="teacher" />
+                  <div key={data.id} className="mb-2">
+                    {/* <SessionPreviewCard data={data} view="teacher" /> */}
+                    <SessionCard data={data} view="teacher" />
                   </div>
                 ))}
             </Col>

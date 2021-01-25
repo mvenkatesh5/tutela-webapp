@@ -8,6 +8,8 @@ import { Users } from "@styled-icons/fa-solid";
 import { User } from "@styled-icons/boxicons-regular";
 import { Readthedocs } from "@styled-icons/simple-icons";
 import { CheveronDown } from "@styled-icons/zondicons";
+// components
+import ZoomSessions from "@components/zoomsessions";
 
 // components
 import IconStacking from "@components/IconStacking";
@@ -60,7 +62,10 @@ const SessionCard = (props: any) => {
                   {props.data.datetime.toString()}
                 </div>
               </div>
-              <div className="ms-auto text-end" onClick={handleSessionDetailView}>
+              <div className="ms-auto">
+                <ZoomSessions data={props.data} view={props.view ? props.view : null} />
+              </div>
+              <div className="text-end ms-2" onClick={handleSessionDetailView}>
                 <CheveronDown className="text-muted" width={20} />
               </div>
             </div>
@@ -130,6 +135,10 @@ const SessionCard = (props: any) => {
                   <div className=" mt-2 ms-2">Hello</div>
                 </div>
               )}
+            </div>
+
+            <div className="ms-auto">
+              <ZoomSessions data={props.data} view={props.view ? props.view : null} />
             </div>
 
             {/* <div className="d-flex mb-3">

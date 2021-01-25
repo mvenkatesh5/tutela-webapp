@@ -2,7 +2,6 @@
 import { META_DESCRIPTION } from "@constants/page";
 // react-bootstrap
 import { Container, Row, Col, Image, Card } from "react-bootstrap";
-
 // components
 import Page from "@components/page";
 import DashboardNav from "@components/dashboardnav";
@@ -12,6 +11,7 @@ import NewsCard from "@components/newscard";
 import Doubts from "@components/doubtscard";
 import TestScroreCard from "@components/testscorecard";
 import UpcomingTestsCard from "@components/uptestscard";
+import SessionCard from "@components/admin/sessions/sessionCard";
 // swr
 import useSWR from "swr";
 // api routes
@@ -42,7 +42,8 @@ const StudentDetail = () => {
               sessionList.length > 0 &&
               sessionList.map((data: any, index: Number) => (
                 <div key={data.id}>
-                  <SessionPreviewCard data={data} view="student" />
+                  {/* <SessionPreviewCard data={data} view="student" /> */}
+                  <SessionCard data={data} view="student" />
                 </div>
               ))}
 
