@@ -10,9 +10,9 @@ import { Readthedocs } from "@styled-icons/simple-icons";
 import { CheveronDown } from "@styled-icons/zondicons";
 // components
 import ZoomSessions from "@components/zoomsessions";
-
-// components
 import IconStacking from "@components/IconStacking";
+// global imports
+import { datePreview } from "@constants/global";
 
 const SessionCard = (props: any) => {
   const [studentImages, setStudentImages] = React.useState<any>();
@@ -24,7 +24,6 @@ const SessionCard = (props: any) => {
   };
 
   React.useEffect(() => {
-    console.log(props.data.session_users);
     if (props.data && props.data.session_users) {
       let learners: any = [];
       let teachers: any = [];
@@ -60,7 +59,7 @@ const SessionCard = (props: any) => {
               </div>
               <div>
                 <div className="badge border bg-light text-dark ms-3">
-                  {props.data.datetime.toString()}
+                  {datePreview(props.data.datetime)}
                 </div>
               </div>
               <div className="ms-auto">
@@ -81,7 +80,7 @@ const SessionCard = (props: any) => {
               </div>
               <div>
                 <div className="heading">{props.data.title}</div>
-                <div className="description">{props.data.datetime.toString()}</div>
+                <div className="description">{datePreview(props.data.datetime)}</div>
                 {/* <div className="description">Weekly on weekdays</div> */}
               </div>
               <div className="ms-auto text-end" onClick={handleSessionDetailView}>
@@ -108,11 +107,11 @@ const SessionCard = (props: any) => {
                       <div>
                         {props.view === "student" ? (
                           <a href={props.data.data.zoom.join_url} target="_blank">
-                            {props.data.data.zoom.join_url}
+                            Join Session
                           </a>
                         ) : (
                           <a href={props.data.data.zoom.start_url} target="_blank">
-                            {props.data.data.zoom.start_url}
+                            Start Session
                           </a>
                         )}
                       </div>

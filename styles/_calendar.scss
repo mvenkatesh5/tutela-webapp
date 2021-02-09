@@ -51,8 +51,15 @@
     .calendar-row {
       display: flex;
       flex-direction: row;
+
       &:last-child {
         // border-bottom: 1px solid #ccc;
+      }
+      &.month-view-calender-row {
+        height: 100%;
+        &:last-child {
+          border-bottom: 1px solid #ccc;
+        }
       }
       .calendar-column {
         min-width: 40px;
@@ -84,10 +91,134 @@
         &.old-dates {
           color: $light-text;
         }
+        &.selected-active {
+          color: red !important;
+        }
+
+        // calendar month view
+        &.month-view-calender-column {
+          text-align: left;
+          border-top: 1px solid #ccc;
+          border-right: 1px solid #ccc;
+          border-radius: 0px;
+          padding: 5px 10px;
+          min-width: 100px;
+          width: 100%;
+          display: block;
+          justify-content: center;
+          align-items: center;
+          min-height: 100px;
+          height: 100%;
+          &:first-child {
+            border-left: 1px solid #ccc;
+          }
+          &:last-child {
+            border-right: 1px solid #ccc;
+          }
+          &:hover {
+            cursor: default;
+            background-color: #fff;
+          }
+          &.today-active {
+            border: 1px solid $primary-color;
+          }
+          &.selected-active {
+            color: #000;
+            .month-header {
+              color: red !important;
+            }
+          }
+          .month-header {
+            font-size: 12px;
+            display: flex;
+            flex-direction: row;
+            font-weight: 600;
+            div:last-child {
+              margin-left: auto;
+            }
+          }
+          .month-content {
+            color: #000;
+            height: 100%;
+            overflow: hidden;
+            overflow-y: auto;
+          }
+        }
       }
     }
-    & .selected-active {
-      color: red !important;
+  }
+}
+
+// calendar week
+.calendar-week-wrapper {
+  .week-wrapper-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .item {
+      width: 100%;
+      background: #6b778c;
+      color: #fff;
+      text-align: center;
+      border-radius: 4px;
+      padding: 4px;
+      margin-left: 5px;
+      margin-right: 5px;
+      font-weight: 600;
+      font-size: 14px;
+      border: 2px solid transparent;
+      &:first-child {
+        margin-left: 0px;
+      }
+      &:last-child {
+        margin-right: 0px;
+      }
+      &.active {
+        border-color: $primary-color;
+        background-color: #fff;
+        color: red;
+      }
     }
+  }
+  .week-wrapper-content {
+    padding: 10px 0px;
+    display: flex;
+    flex-direction: row;
+    .item {
+      width: 100%;
+      margin-left: 5px;
+      margin-right: 5px;
+      &:first-child {
+        margin-left: 0px;
+      }
+      &:last-child {
+        margin-right: 0px;
+      }
+    }
+  }
+}
+
+.calendar-card {
+  background-color: #f7f7f7;
+  border-radius: 4px;
+  overflow: hidden;
+  font-size: 14px;
+  padding: 6px 8px;
+  margin-bottom: 10px;
+  .header {
+    margin-bottom: 2px;
+  }
+  .time {
+    background: #dfe1e6;
+    padding: 2px 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    display: inline;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .instructor {
+    margin-top: 4px;
+    font-size: 12px;
   }
 }

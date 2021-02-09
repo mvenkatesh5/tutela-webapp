@@ -122,11 +122,11 @@ const Calendar = (props: any) => {
     };
 
     const handleSelectedDate = () => {
-      if (props.renderView === "day") {
-        const newDate = new Date(data.year, data.month - 1, data.date);
-        setCurrentSelectDate(newDate.toString());
-        props.handleData(newDate);
-      }
+      // if (props.renderView === "day") {
+      const newDate = new Date(data.year, data.month - 1, data.date);
+      setCurrentSelectDate(newDate.toString());
+      props.handleData(newDate);
+      // }
     };
 
     return (
@@ -164,7 +164,7 @@ const Calendar = (props: any) => {
           {calendarDays &&
             calendarDays.length > 0 &&
             calendarDays.map((day, index) => (
-              <div className="item" key={index}>
+              <div className="item" key={`calender-days-${index}`}>
                 {day.key}
               </div>
             ))}

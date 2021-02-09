@@ -24,3 +24,35 @@ export const calendarDays = [
   { key: "Fri", fullName: "Friday" },
   { key: "Sat", fullName: "Saturday" },
 ];
+
+export const bindZero = (value: any) => {
+  if (value > 9) return value;
+  else return `0${value}`;
+};
+
+export const datePreview = (currentDate: any) => {
+  let newDate = new Date(currentDate);
+  let date = bindZero(newDate.getDate());
+  let month = bindZero(newDate.getMonth() + 1);
+  let year = bindZero(newDate.getFullYear());
+  let hours = bindZero(newDate.getHours());
+  let minutes = bindZero(newDate.getMinutes());
+  let seconds = bindZero(newDate.getSeconds());
+  return `${date}-${month}-${year}, ${hours}:${minutes}:${seconds} ${hours > 11 ? "PM" : "AM"}`;
+};
+
+export const returnDate = (currentDate: any) => {
+  let newDate = new Date(currentDate);
+  let date = bindZero(newDate.getDate());
+  let month = bindZero(newDate.getMonth() + 1);
+  let year = bindZero(newDate.getFullYear());
+  return `${date}-${month}-${year}`;
+};
+
+export const returnTime = (currentDate: any) => {
+  let newDate = new Date(currentDate);
+  let hours = bindZero(newDate.getHours());
+  let minutes = bindZero(newDate.getMinutes());
+  let seconds = bindZero(newDate.getSeconds());
+  return `${hours}:${minutes}:${seconds} ${hours > 11 ? "PM" : "AM"}`;
+};
