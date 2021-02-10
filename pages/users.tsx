@@ -15,14 +15,9 @@ import withAdminAuth from "@lib/hoc/withAdminAuth";
 const UserDetails = () => {
   const { data: userList, error: userListError } = useSWR(USER_ENDPOINT, APIFetcher);
 
-  console.log(userList);
-
   const handleUserRole = (user: any, role: any) => {
-    console.log(user);
-    console.log(role);
     APIUpdater(USER_WITH_ID_ENDPOINT(user.id), { role: role })
       .then((res: any) => {
-        console.log(res);
         mutate(
           USER_ENDPOINT,
           async (elements: any) => {

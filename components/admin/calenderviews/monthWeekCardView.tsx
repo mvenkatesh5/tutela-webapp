@@ -16,7 +16,7 @@ const CalendarWeekMonthCardDetailView = (props: any) => {
               <div className="header">{dayElement.title}</div>
               <div className="time">{returnTime(dayElement.datetime)}</div>
               <div className="instructor w-100 text-center">
-                <ZoomSessions data={dayElement} view={props.view ? props.view : null} />
+                <ZoomSessions data={dayElement} role={props.role ? props.role : null} />
               </div>
             </div>
           </div>

@@ -28,10 +28,8 @@ const SessionEditView = (props: any) => {
 
   const sessionUpdate = (event: any) => {
     event.preventDefault();
-    console.log(sessionData);
     SessionUpdate(sessionData)
       .then((res) => {
-        console.log(res);
         mutate(
           SESSION_ENDPOINT,
           async (elements: any) => {

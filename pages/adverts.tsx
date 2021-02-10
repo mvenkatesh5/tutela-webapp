@@ -19,9 +19,7 @@ import withAdminAuth from "@lib/hoc/withAdminAuth";
 const AdvertsView = () => {
   const advertsDelete = (id: Number) => {
     AdvertsDelete(id)
-      .then((res) => {
-        console.log(res);
-      })
+      .then((res) => {})
       .catch((errors) => {
         console.log(errors);
       });

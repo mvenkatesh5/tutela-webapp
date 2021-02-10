@@ -1,7 +1,4 @@
 import { Card, Row, Col, Image, Button } from "react-bootstrap";
-
-import { ArrowDropDownCircle } from "styled-icons/material-rounded";
-
 // components
 import ZoomSessions from "@components/zoomsessions";
 
@@ -17,7 +14,7 @@ function SessionPreviewCard(props: any) {
               <span className="badge border bg-light text-dark ms-3">{props.data.datetime}</span>
             </Col>
             <Col className="align-self-center text-end">
-              <ZoomSessions data={props.data} view={props.view} />
+              <ZoomSessions data={props.data} role={props.role} />
             </Col>
           </Row>
         </Card.Body>

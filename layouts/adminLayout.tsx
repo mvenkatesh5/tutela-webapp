@@ -1,8 +1,22 @@
+import React from "react";
 // components
 import DashboardNav from "@components/dashboardnav";
 import SidebarView from "@components/sidebar";
+// cookie
+import { getAuthenticationToken } from "@lib/cookie";
 
 const AdminLayout = (props: any) => {
+  const [tokenDetails, setTokenDetails] = React.useState<any>();
+  React.useEffect(() => {
+    if (getAuthenticationToken()) {
+      let details: any = getAuthenticationToken();
+      details = details ? JSON.parse(details) : null;
+      if (details) {
+        setTokenDetails(details);
+      }
+    }
+  }, []);
+
   return (
     <div>
       <div className="admin-wrapper">
@@ -10,9 +24,11 @@ const AdminLayout = (props: any) => {
           <DashboardNav />
         </div>
         <div className="bottom-layout">
-          <div className="left-layout active">
-            <SidebarView />
-          </div>
+          {tokenDetails && tokenDetails.info && tokenDetails.info.role === 2 && (
+            <div className="left-layout active">
+              <SidebarView />
+            </div>
+          )}
           {props.children}
         </div>
       </div>

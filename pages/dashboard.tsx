@@ -5,11 +5,10 @@ import { Container, Row, Col, Image, Card } from "react-bootstrap";
 import useSWR from "swr";
 // components
 import Page from "@components/page";
-import SessionPreviewCard from "@components/sesspreview";
 import SessionCard from "@components/admin/sessions/sessionCard";
 import UpcomingTestsCard from "@components/uptestscard";
 // api routes
-import { SESSION_ENDPOINT, ADVERTS_ENDPOINT } from "@constants/routes";
+import { SESSION_ENDPOINT_TODAY, ADVERTS_ENDPOINT } from "@constants/routes";
 // constants
 import { META_DESCRIPTION } from "@constants/page";
 // api services
@@ -25,7 +24,7 @@ const DashboardDetail = (props: any) => {
     description: META_DESCRIPTION,
   };
 
-  const { data: sessionList, error: sessionListError } = useSWR(SESSION_ENDPOINT, APIFetcher);
+  const { data: sessionList, error: sessionListError } = useSWR(SESSION_ENDPOINT_TODAY, APIFetcher);
   const { data: advertsList, error: advertsListError } = useSWR(ADVERTS_ENDPOINT, APIFetcher);
 
   return (
@@ -39,8 +38,7 @@ const DashboardDetail = (props: any) => {
                 sessionList.length > 0 &&
                 sessionList.map((data: any, index: Number) => (
                   <div key={data.id} className="mb-2">
-                    {/* <SessionPreviewCard data={data} view="teacher" /> */}
-                    <SessionCard data={data} view="teacher" />
+                    <SessionCard data={data} role="teacher" />
                   </div>
                 ))}
             </Col>

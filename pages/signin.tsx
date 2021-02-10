@@ -34,12 +34,10 @@ const SignInView = () => {
   const SignInSubmit = (e: any) => {
     e.preventDefault();
     const payload = { email, password };
-    console.log(payload);
     setButtonLoader(true);
 
     LogIn(payload)
       .then((res: any) => {
-        console.log(res);
         redirectToAdmin(res);
         setButtonLoader(false);
       })

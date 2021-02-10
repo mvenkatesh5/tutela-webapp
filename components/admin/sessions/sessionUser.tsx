@@ -6,8 +6,6 @@ import { Users } from "@styled-icons/fa-solid";
 import { Users as StudentUsers } from "@styled-icons/heroicons-solid";
 
 const SessionUser = (props: any) => {
-  console.log("props.users", props.users);
-
   const [sessionUsers, setSessionUsers] = React.useState<any>();
   const handleSessionUsers = (value: any) => {
     setSessionUsers(value);

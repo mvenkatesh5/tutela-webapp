@@ -5,7 +5,6 @@ import { Container, Row, Col, Image, Card } from "react-bootstrap";
 // components
 import Page from "@components/page";
 import DashboardNav from "@components/dashboardnav";
-import SessionPreviewCard from "@components/sesspreview";
 import ResourceTable from "@components/resourcetable";
 import NewsCard from "@components/newscard";
 import Doubts from "@components/doubtscard";
@@ -15,7 +14,7 @@ import SessionCard from "@components/admin/sessions/sessionCard";
 // swr
 import useSWR from "swr";
 // api routes
-import { NEWS_ENDPOINT, ADVERTS_ENDPOINT, SESSION_ENDPOINT } from "@constants/routes";
+import { NEWS_ENDPOINT, ADVERTS_ENDPOINT, SESSION_ENDPOINT_TODAY } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 // hoc
@@ -29,7 +28,7 @@ const StudentDetail = () => {
 
   const { data: newsList, error: newsListError } = useSWR(NEWS_ENDPOINT, APIFetcher);
   const { data: advertsList, error: advertsListError } = useSWR(ADVERTS_ENDPOINT, APIFetcher);
-  const { data: sessionList, error: sessionListError } = useSWR(SESSION_ENDPOINT, APIFetcher);
+  const { data: sessionList, error: sessionListError } = useSWR(SESSION_ENDPOINT_TODAY, APIFetcher);
 
   return (
     <Page meta={meta}>
@@ -42,8 +41,7 @@ const StudentDetail = () => {
               sessionList.length > 0 &&
               sessionList.map((data: any, index: Number) => (
                 <div key={data.id} className="mb-2">
-                  {/* <SessionPreviewCard data={data} view="student" /> */}
-                  <SessionCard data={data} view="student" />
+                  <SessionCard data={data} role="student" />
                 </div>
               ))}
 

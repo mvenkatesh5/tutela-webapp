@@ -13,8 +13,7 @@ const CalenderDayView = (props: any) => {
           props.sessionList.length > 0 &&
           props.sessionList.map((data: any, index: Number) => (
             <Col md={12} key={data.id} style={{ marginTop: "10px" }}>
-              <SessionCard data={data} />
-              {/* <SessionEditView data={data} /> */}
+              <SessionCard data={data} role={props.role} />
             </Col>
           ))}
       </Row>

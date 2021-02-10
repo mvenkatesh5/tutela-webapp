@@ -28,10 +28,8 @@ const AdvertsEditView = (props: any) => {
 
   const advertsUpdate = (event: any) => {
     event.preventDefault();
-    console.log(advertsData);
     AdvertsUpdate(advertsData)
       .then((res) => {
-        console.log(res);
         mutate(
           ADVERTS_ENDPOINT,
           async (elements: any) => {

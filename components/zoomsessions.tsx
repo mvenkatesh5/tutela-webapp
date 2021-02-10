@@ -22,7 +22,6 @@ const ZoomSession = (props: any) => {
 
     CreateZoomMeeting(payload)
       .then((response) => {
-        console.log(response);
         updateZoomInSession(response);
         setButtonLoader(false);
       })
@@ -43,7 +42,6 @@ const ZoomSession = (props: any) => {
 
     SessionUpdate(payload)
       .then((response) => {
-        console.log(response);
         mutate(SESSION_ENDPOINT);
         setButtonLoader(false);
       })
@@ -57,7 +55,7 @@ const ZoomSession = (props: any) => {
     <div>
       {props.data && props.data.data && props.data.data.zoom ? (
         <div>
-          {props.view === "student" ? (
+          {props.role === "student" ? (
             <a href={props.data.data.zoom.join_url} target="_blank">
               <Button className="btn-sm">Join Meeting</Button>
             </a>
@@ -69,7 +67,7 @@ const ZoomSession = (props: any) => {
         </div>
       ) : (
         <div>
-          {props.view === "student" ? (
+          {props.role === "student" ? (
             <div>Session is yet to start!</div>
           ) : (
             <Button className="btn-sm" onClick={zoomSubmit} disabled={buttonLoader}>

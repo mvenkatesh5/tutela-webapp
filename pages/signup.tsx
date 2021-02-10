@@ -39,12 +39,11 @@ const SignUpView = () => {
 
   const onFormSubmit = (e: any) => {
     e.preventDefault();
-    console.log(authData);
+
     setButtonLoader(true);
 
     SignUp(authData)
       .then((res: any) => {
-        console.log(res);
         redirectToAdmin(res);
         setButtonLoader(false);
       })

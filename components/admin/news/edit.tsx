@@ -28,10 +28,8 @@ const NewsEditView = (props: any) => {
 
   const newsUpdate = (event: any) => {
     event.preventDefault();
-    console.log(newsData);
     NewsUpdate(newsData)
       .then((res) => {
-        console.log(res);
         mutate(
           NEWS_ENDPOINT,
           async (elements: any) => {

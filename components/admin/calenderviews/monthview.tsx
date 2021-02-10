@@ -140,6 +140,7 @@ const CalendarMonthView = (props: any) => {
               data={returnSessionWithDate(
                 `${bindZero(data.date)}-${bindZero(data.month)}-${bindZero(data.year)}`
               )}
+              role={props.role}
             />
           )}
         </div>

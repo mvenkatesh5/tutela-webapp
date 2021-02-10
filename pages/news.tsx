@@ -19,9 +19,7 @@ import withAdminAuth from "@lib/hoc/withAdminAuth";
 const NewsView = () => {
   const newsDelete = (id: Number) => {
     NewsDelete(id)
-      .then((res) => {
-        console.log(res);
-      })
+      .then((res) => {})
       .catch((errors) => {
         console.log(errors);
       });

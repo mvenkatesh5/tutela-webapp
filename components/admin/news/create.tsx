@@ -35,10 +35,8 @@ const NewsCreateView = () => {
 
   const newsCreate = (event: any) => {
     event.preventDefault();
-    console.log(newsData);
     NewsCreate(newsData)
       .then((res) => {
-        console.log(res);
         mutate(
           NEWS_ENDPOINT,
           async (elements: any) => {

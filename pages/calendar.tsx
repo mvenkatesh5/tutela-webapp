@@ -19,9 +19,10 @@ import { USER_ENDPOINT, USER_CALENDAR_SESSION_ENDPOINT } from "@constants/routes
 // api services
 import { APIFetcher } from "@lib/services";
 // hoc
-import withAdminAuth from "@lib/hoc/withAdminAuth";
+import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 
-const Admin = () => {
+const CalendarView = () => {
+  const [userRole, setUserRole] = React.useState<any>();
   const [tokenDetails, setTokenDetails] = React.useState<any>();
   React.useEffect(() => {
     if (getAuthenticationToken()) {
@@ -29,6 +30,9 @@ const Admin = () => {
       details = details ? JSON.parse(details) : null;
       if (details) {
         setTokenDetails(details);
+        if (details.info.role === 2) setUserRole("admin");
+        else if (details.info.role === 1) setUserRole("teacher");
+        else setUserRole("student");
       }
     }
   }, []);
@@ -78,11 +82,23 @@ const Admin = () => {
   };
 
   const handleCurrentDateQuery = (start_date: any, end_date: any, renderView: any) => {
+    let currentRoute: any = `date=${returnDate(start_date)}`;
     if (renderView === "day") {
-      setCurrentDateQuery(`date=${returnDate(start_date)}`);
+      if (userRole != "admin") {
+        if (tokenDetails && tokenDetails.user && tokenDetails.user.id) {
+          currentRoute = currentRoute + `&user_id=${tokenDetails.user.id}`;
+        }
+      }
     } else {
-      setCurrentDateQuery(`start_date=${returnDate(start_date)}&end_date=${returnDate(end_date)}`);
+      currentRoute = `start_date=${returnDate(start_date)}&end_date=${returnDate(end_date)}`;
+      if (userRole != "admin") {
+        if (tokenDetails && tokenDetails.user && tokenDetails.user.id) {
+          currentRoute = currentRoute + `&user_id=${tokenDetails.user.id}`;
+        }
+      }
     }
+    console.log(currentRoute);
+    setCurrentDateQuery(currentRoute);
   };
 
   const renderDate = () => {
@@ -104,13 +120,13 @@ const Admin = () => {
     (url) => APIFetcher(url),
     { refreshInterval: 0 }
   );
+
   const { data: userList, error: userListError } = useSWR(USER_ENDPOINT, APIFetcher);
 
   return (
     <div>
       <AdminLayout>
         <div className="right-layout-calender">
-          {/* <Container className="border h-100 p-0"> */}
           <div className="calender-root-wrapper">
             <div className="left-wrapper">
               <CalenderView renderView={currentRenderView} handleData={handleCurrentDate} />
@@ -121,7 +137,7 @@ const Admin = () => {
                   {currentDate && <div className="description">{renderDay()}</div>}
                   {currentDate && <div className="giant-heading">{renderDate()}</div>}
                 </div>
-                <div style={{ marginRight: "20px" }}>
+                <div>
                   <div className="d-flex flex-row align-items-center calender-render-view">
                     {renderViews.map((data, index) => (
                       <div
@@ -134,20 +150,23 @@ const Admin = () => {
                     ))}
                   </div>
                 </div>
-                <div>
-                  <SessionCreateView users={userList} />
-                </div>
+                {userRole != "student" && (
+                  <div style={{ marginLeft: "20px" }}>
+                    <SessionCreateView users={userList} currentDateQuery={currentDateQuery} />
+                  </div>
+                )}
               </div>
 
               <div style={{ marginTop: "10px" }}>
                 {currentRenderView === "day" ? (
-                  <CalenderDayView sessionList={sessionList} />
+                  <CalenderDayView sessionList={sessionList} role={userRole} />
                 ) : currentRenderView === "week" ? (
                   <CalenderWeekView
                     currentDate={currentDate}
                     sessionList={sessionList}
                     startDate={startDate}
                     endDate={endDate}
+                    role={userRole}
                   />
                 ) : (
                   <CalenderMonthView
@@ -155,16 +174,16 @@ const Admin = () => {
                     sessionList={sessionList}
                     startDate={startDate}
                     endDate={endDate}
+                    role={userRole}
                   />
                 )}
               </div>
             </div>
           </div>
-          {/* </Container> */}
         </div>
       </AdminLayout>
     </div>
   );
 };
 
-export default withAdminAuth(Admin);
+export default withGlobalAuth(CalendarView);

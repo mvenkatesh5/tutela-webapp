@@ -63,7 +63,7 @@ const SessionCard = (props: any) => {
                 </div>
               </div>
               <div className="ms-auto">
-                <ZoomSessions data={props.data} view={props.view ? props.view : null} />
+                <ZoomSessions data={props.data} role={props.role ? props.role : null} />
               </div>
               <div className="text-end ms-2" onClick={handleSessionDetailView}>
                 <CheveronDown className="text-muted" width={20} />
@@ -105,7 +105,7 @@ const SessionCard = (props: any) => {
                   <div className="description">
                     {props.data && props.data.data && props.data.data.zoom ? (
                       <div>
-                        {props.view === "student" ? (
+                        {props.role === "student" ? (
                           <a href={props.data.data.zoom.join_url} target="_blank">
                             Join Session
                           </a>
@@ -116,7 +116,7 @@ const SessionCard = (props: any) => {
                         )}
                       </div>
                     ) : (
-                      <div>{props.view === "student" && <div>Session is yet to start!</div>}</div>
+                      <div>{props.role === "student" && <div>Session is yet to start!</div>}</div>
                     )}
                   </div>
                 </div>
@@ -154,7 +154,7 @@ const SessionCard = (props: any) => {
             </div>
 
             <div className="ms-auto">
-              <ZoomSessions data={props.data} view={props.view ? props.view : null} />
+              <ZoomSessions data={props.data} role={props.role ? props.role : null} />
             </div>
 
             {/* <div className="d-flex mb-3">

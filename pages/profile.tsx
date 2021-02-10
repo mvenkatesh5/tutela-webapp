@@ -2,7 +2,7 @@ import React from "react";
 // react bootstrap
 import { Form, Container, Card, Button } from "react-bootstrap";
 // layouts
-import AdminLayout from "@layouts/adminLayout";
+import StudentLayout from "@layouts/studentLayout";
 // hoc
 import withStudentAuth from "@lib/hoc/withStudentAuth";
 
@@ -88,9 +88,9 @@ const Profile = () => {
 
   return (
     <div>
-      <AdminLayout>
+      <StudentLayout>
         <div className="right-layout">
-          <Container>
+          <Container className="pt3 pb-3">
             {profileData &&
               profileData.length > 0 &&
               profileData.map((data: any, i: any) => (
@@ -168,7 +168,7 @@ const Profile = () => {
             </div>
           </Container>
         </div>
-      </AdminLayout>
+      </StudentLayout>
     </div>
   );
 };

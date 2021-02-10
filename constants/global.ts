@@ -54,5 +54,5 @@ export const returnTime = (currentDate: any) => {
   let hours = bindZero(newDate.getHours());
   let minutes = bindZero(newDate.getMinutes());
   let seconds = bindZero(newDate.getSeconds());
-  return `${hours}:${minutes}:${seconds} ${hours > 11 ? "PM" : "AM"}`;
+  return `${hours}:${minutes} ${hours > 11 ? "PM" : "AM"}`;
 };

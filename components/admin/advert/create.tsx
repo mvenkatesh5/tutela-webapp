@@ -35,10 +35,8 @@ const AdvertsCreateView = () => {
 
   const advertsCreate = (event: any) => {
     event.preventDefault();
-    console.log(advertsData);
     AdvertsCreate(advertsData)
       .then((res) => {
-        console.log(res);
         mutate(
           ADVERTS_ENDPOINT,
           async (elements: any) => {

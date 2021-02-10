@@ -10,7 +10,7 @@ import { mutate } from "swr";
 import SessionForm from "./sessionForm";
 import SessionUser from "./sessionUser";
 // api routes
-import { SESSION_ENDPOINT } from "@constants/routes";
+import { USER_CALENDAR_SESSION_ENDPOINT } from "@constants/routes";
 // api services
 import { SessionCreate, SessionUserCreate } from "@lib/services/sessionservice";
 
@@ -61,9 +61,8 @@ const SessionCreateView = (props: any) => {
 
     SessionCreate(payload)
       .then((res) => {
-        console.log(res);
         mutate(
-          SESSION_ENDPOINT,
+          [USER_CALENDAR_SESSION_ENDPOINT(props.currentDateQuery), props.currentDateQuery],
           async (elements: any) => {
             return [...elements, res];
           },
@@ -100,14 +99,10 @@ const SessionCreateView = (props: any) => {
       currentUsers.push(data);
     });
 
-    console.log(currentUsers);
-
     if (currentUsers && currentUsers.length > 0) {
       currentUsers.map((data: any) => {
         SessionUserCreate(data)
-          .then((res) => {
-            console.log(res);
-          })
+          .then((res) => {})
           .catch((errors) => {
             console.log(errors);
           });
