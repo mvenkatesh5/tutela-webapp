@@ -1,4 +1,6 @@
 import React from "react";
+// next imports
+import Link from "next/link";
 // react bootstrap
 import { Container, Table, Form } from "react-bootstrap";
 // swr
@@ -52,7 +54,11 @@ const UserDetails = () => {
                   userList.map((users: any, i: any) => (
                     <tr key={i}>
                       <td className="text-center">{i + 1}</td>
-                      <td className="heading">{users.username}</td>
+                      <td className="heading">
+                        <Link href={`/users/${users.id}`}>
+                          <a target="_blank">{users.username}</a>
+                        </Link>
+                      </td>
                       <td className="description">{users.email}</td>
                       <td>
                         <Form.Group controlId="exampleForm.ControlSelect1">

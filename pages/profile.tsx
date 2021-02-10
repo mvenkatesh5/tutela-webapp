@@ -1,173 +1,129 @@
 import React from "react";
 // react bootstrap
-import { Form, Container, Card, Button } from "react-bootstrap";
+import { Form, Container, Card, Button, Tab, Nav, Row, Col } from "react-bootstrap";
+// swr
+import useSWR from "swr";
+// components
+import FromBuilder from "@components/forms";
 // layouts
 import StudentLayout from "@layouts/studentLayout";
+// global imports
+import { profileSchemaData } from "@constants/profileSchema";
+// api routes
+import { USER_WITH_ID_ENDPOINT } from "@constants/routes";
+// api services
+import { APIFetcher } from "@lib/services";
+import { UserUpdate } from "@lib/services/userService";
+// cookie
+import { getAuthenticationToken } from "@lib/cookie";
 // hoc
 import withStudentAuth from "@lib/hoc/withStudentAuth";
 
 const Profile = () => {
-  const profileData = [
-    {
-      key: "name",
-      label: "Name",
-      required: true,
-      data: [],
-      kind: "text",
-    },
-    {
-      key: "email",
-      label: "Email",
-      required: true,
-      data: [],
-      kind: "text",
-    },
-    {
-      key: "phone",
-      label: "Phone",
-      required: true,
-      data: [],
-      kind: "text",
-    },
-    {
-      key: "occupation",
-      label: "Occupation",
-      required: true,
-      data: [],
-      kind: "text",
-    },
-    {
-      key: "company",
-      label: "Company",
-      required: true,
-      data: [],
-      kind: "text",
-    },
-    {
-      key: "communication",
-      label: "Preferred mode of Communication",
-      required: true,
-      data: [],
-      kind: "text",
-    },
-    {
-      key: "grade",
-      label: "Current Grade",
-      required: true,
-      data: ["12", "above"],
-      kind: "select",
-    },
-    {
-      key: "curriculum",
-      label: "Curriculum",
-      required: true,
-      data: ["CBSC", "ISC/ICSE", "IB", "IGCSE/MYP", "APS", "others"],
-      kind: "select",
-    },
-  ];
+  const [tokenDetails, setTokenDetails] = React.useState<any>();
+  React.useEffect(() => {
+    if (getAuthenticationToken()) {
+      let details: any = getAuthenticationToken();
+      details = details ? JSON.parse(details) : null;
+      if (details) {
+        setTokenDetails(details);
+      }
+    }
+  }, []);
 
-  const [profile, setProfile] = React.useState<any>({ subjects: [] });
+  const [buttonLoader, setButtonLoader] = React.useState<any>(false);
+  const [profile, setProfile] = React.useState<any>({});
   const handleProfile = (key: any, value: any) => {
     setProfile({ ...profile, [key]: value });
   };
 
-  const [subjectInput, setSubjectInput] = React.useState<any>("");
+  const updateProfileData = () => {
+    setButtonLoader(true);
+    const payload = {
+      id: tokenDetails && tokenDetails.user && tokenDetails.user.id,
+      profile_data: profile,
+    };
 
-  const handleSubjects = (kind: any = "add", index: any = null) => {
-    if (kind === "add") {
-      setProfile({ ...profile, subjects: [...profile.subjects, subjectInput] });
-      setSubjectInput("");
-    }
-    if (kind === "remove") {
-      setProfile({
-        ...profile,
-        subjects: profile.subjects.filter((_: any, i: any) => i != index),
+    UserUpdate(payload)
+      .then((response) => {
+        setButtonLoader(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setButtonLoader(false);
       });
-    }
   };
+
+  const { data: userDetailList, error: userDetailListError } = useSWR(
+    tokenDetails && tokenDetails.user ? USER_WITH_ID_ENDPOINT(tokenDetails.user.id) : null,
+    (url) => APIFetcher(url),
+    { refreshInterval: 0 }
+  );
+
+  React.useEffect(() => {
+    if (userDetailList && userDetailList.profile_data) {
+      setProfile(userDetailList.profile_data);
+    }
+  }, [userDetailList]);
+
+  if (!userDetailList) return <div className="mt-5 mb-5 text-center">Loading...</div>;
 
   return (
     <div>
       <StudentLayout>
-        <div className="right-layout">
-          <Container className="pt3 pb-3">
-            {profileData &&
-              profileData.length > 0 &&
-              profileData.map((data: any, i: any) => (
-                <div key={i}>
-                  {data.kind === "text" && (
-                    <div>
-                      <Form.Group className="mb-2">
-                        <Form.Label className="mb-1 text-muted">{data.label}</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={profile && profile[data.key] ? profile[data.key] : ""}
-                          onChange={(e) => handleProfile(data.key, e.target.value)}
-                          required
-                        />
-                      </Form.Group>
-                    </div>
-                  )}
-                  {data.kind === "select" && (
-                    <div>
-                      <Form.Group className="mb-2">
-                        <Form.Label className="mb-1 text-muted">{data.label}</Form.Label>
-                        <Form.Control
-                          as="select"
-                          value={profile && profile[data.key] ? profile[data.key] : ""}
-                          onChange={(e) => handleProfile(data.key, e.target.value)}
-                        >
-                          {data.data &&
-                            data.data.map((value: any, index: any) => (
-                              <option key={index} value={value}>
-                                {value}
-                              </option>
-                            ))}
-                        </Form.Control>
-                      </Form.Group>
-                    </div>
-                  )}
-                </div>
+        <Container className="pt-3 pb-3">
+          <h3 className="mb-4">Account</h3>
+          <Tab.Container defaultActiveKey={profileSchemaData[0].tab_key}>
+            <Nav className="custom-nav-tabs-links profile-account-nav" variant="pills">
+              {profileSchemaData.map((item: any, index: any) => (
+                <Nav.Item className="profile-account-nav-item">
+                  <Nav.Link key={`nav-item-${item.tab_key}`} eventKey={item.tab_key}>
+                    {item.tab_name}
+                  </Nav.Link>
+                </Nav.Item>
               ))}
-            <div>
-              <Form.Group className="mb-2">
-                <Form.Label className="mb-1 text-muted">Subjects</Form.Label>
-                <Card>
-                  <Card.Body>
-                    <div>
-                      {profile &&
-                        profile.subjects &&
-                        profile.subjects.length > 0 &&
-                        profile.subjects.map((data: any, i: any) => (
-                          <div key={i} className="d-flex justify-items-center mb-2">
-                            <div className="w-100">{data}</div>
-                            <div className="ms-2" onClick={() => handleSubjects("remove", i)}>
-                              Delete
-                            </div>
-                          </div>
-                        ))}
-                    </div>
-                    <div className="d-flex justify-items-center">
-                      <div className="w-100">
-                        <Form.Control
-                          type="text"
-                          placeholder="Enter Subjects"
-                          value={subjectInput}
-                          onChange={(e: any) => setSubjectInput(e.target.value)}
-                        />
-                      </div>
-                      <div className="ms-2">
-                        <Button className="btn-sm" onClick={() => handleSubjects("add", null)}>
-                          Add
-                        </Button>
-                      </div>
-                    </div>
-                  </Card.Body>
-                </Card>
-              </Form.Group>
-            </div>
-          </Container>
-        </div>
+            </Nav>
+
+            <Tab.Content className="mt-4">
+              {profileSchemaData.map((item: any, index: any) => (
+                <Tab.Pane key={`tab-pane-${item.tab_key}`} eventKey={item.tab_key}>
+                  {item.tab_data &&
+                    item.tab_data.length > 0 &&
+                    item.tab_data.map((tab_data: any, tab_index: any) => (
+                      <Card
+                        key={`tab-pane-row-${tab_index}`}
+                        className="mb-5 p-5"
+                        style={{ backgroundColor: "#f5f5f5", border: "none" }}
+                      >
+                        <Card.Body>
+                          <Row className="pt-3 pb-4">
+                            <Col md={6}>
+                              <h5>{tab_data.kind_name}</h5>
+                              <p style={{ color: "#777" }}>{tab_data.kind_description}</p>
+                            </Col>
+                            <Col md={6}>
+                              <Row>
+                                <FromBuilder
+                                  data={tab_data.kind_data}
+                                  profile={profile}
+                                  handleProfile={handleProfile}
+                                  rowIndex={index}
+                                />
+                              </Row>
+                            </Col>
+                          </Row>
+                        </Card.Body>
+                      </Card>
+                    ))}
+                </Tab.Pane>
+              ))}
+            </Tab.Content>
+          </Tab.Container>
+
+          <Button onClick={updateProfileData} disabled={buttonLoader} className="btn-sm">
+            {buttonLoader ? "Updating Profile..." : "Update Profile"}
+          </Button>
+        </Container>
       </StudentLayout>
     </div>
   );
