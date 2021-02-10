@@ -11,7 +11,13 @@ import CalenderDayView from "@components/admin/calenderviews/dayview";
 import CalenderWeekView from "@components/admin/calenderviews/weekview";
 import CalenderMonthView from "@components/admin/calenderviews/monthview";
 // global imports
-import { calendarMonths, calendarDays, bindZero, returnDate } from "@constants/global";
+import {
+  calendarMonths,
+  calendarDays,
+  bindZero,
+  returnDate,
+  getCurrentUser,
+} from "@constants/global";
 // cookie
 import { getAuthenticationToken } from "@lib/cookie";
 // api routes
@@ -85,8 +91,8 @@ const CalendarView = () => {
     let currentRoute: any = `date=${returnDate(start_date)}`;
     if (renderView === "day") {
       if (userRole != "admin") {
-        if (tokenDetails && tokenDetails.user && tokenDetails.user.id) {
-          currentRoute = currentRoute + `&user_id=${tokenDetails.user.id}`;
+        if (getCurrentUser() && getCurrentUser().user) {
+          currentRoute = currentRoute + `&user_id=${getCurrentUser().user.id}`;
         }
       }
     } else {

@@ -1,3 +1,6 @@
+// cookie
+import { getAuthenticationToken } from "@lib/cookie";
+
 export const port = 5000;
 
 export const calendarMonths = [
@@ -55,4 +58,14 @@ export const returnTime = (currentDate: any) => {
   let minutes = bindZero(newDate.getMinutes());
   let seconds = bindZero(newDate.getSeconds());
   return `${hours}:${minutes} ${hours > 11 ? "PM" : "AM"}`;
+};
+
+export const getCurrentUser = () => {
+  if (getAuthenticationToken()) {
+    let details: any = getAuthenticationToken();
+    details = details ? JSON.parse(details) : null;
+    if (details) {
+      return details;
+    }
+  }
 };
