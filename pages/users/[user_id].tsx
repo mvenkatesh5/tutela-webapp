@@ -2,7 +2,7 @@ import React from "react";
 // next imports
 import { useRouter } from "next/router";
 // react bootstrap
-import { Form, Container, Card, Button, Tab, Nav, Row, Col } from "react-bootstrap";
+import { Container, Card, Tab, Nav, Row, Col } from "react-bootstrap";
 // swr
 import useSWR from "swr";
 // components
