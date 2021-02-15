@@ -398,7 +398,7 @@ export const profileSchemaData = [
         kind_data: [
           {
             key: "projects",
-            label: "Projects",
+            label: "Projects (Academic and/or Non-Academic)",
             required: true,
             data: [],
             kind: "textarea",
@@ -406,7 +406,7 @@ export const profileSchemaData = [
           },
           {
             key: "sports",
-            label: "Sports",
+            label: "Achievements (awards or noteworthy recognitions in any field)",
             required: true,
             data: [],
             kind: "textarea",
@@ -414,7 +414,7 @@ export const profileSchemaData = [
           },
           {
             key: "others",
-            label: "Others",
+            label: "Anything else you might want to tell us...",
             required: true,
             data: [],
             kind: "textarea",
