@@ -19,11 +19,9 @@ function AuthWrapper(props: any) {
                         <Col md="8">
                           <Image className="img-fluid mb-4" src="/quote.svg" />
                           <p className="text-white mb-4-5 lead">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                            veniam, quis nostrud exercitation ullamco laboris.
+                          Tell me and I forget, teach me and I may remember,  involve me and I learn
                           </p>
-                          <h4 className="text-white fw-bold">Kumar</h4>
+                          <h4 className="text-white fw-bold">Benjamin Franklin</h4>
                         </Col>
                       </Row>
                     </Col>

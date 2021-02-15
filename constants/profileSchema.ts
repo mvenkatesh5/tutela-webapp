@@ -6,7 +6,7 @@ export const profileSchemaData = [
       {
         kind_name: "Profile Details",
         kind_description:
-          "Lorem ipsum dolor sit amet consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..",
+          "Please fill in your basic details to ensure you don't miss out on any important information from Tutela's end",
         kind_data: [
           {
             key: "image",
@@ -53,7 +53,7 @@ export const profileSchemaData = [
       {
         kind_name: "Personal Information",
         kind_description:
-          "Lorem ipsum dolor sit amet consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..",
+          "Please help us guide you regarding the test guidelines (ACT/SAT/AP/IB etc) or exam changes your country is following",
         kind_data: [
           {
             key: "country",
@@ -84,7 +84,7 @@ export const profileSchemaData = [
       {
         kind_name: "Little more about yourself",
         kind_description:
-          "Lorem ipsum dolor sit amet consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..",
+          "Please help us understand your interests and aptitude. Try to answer these as honestly and instinctively as possible!",
         kind_data: [
           {
             key: "avid_reader",
@@ -180,9 +180,9 @@ export const profileSchemaData = [
     tab_key: "parent_details",
     tab_data: [
       {
-        kind_name: "Mother’s Information",
+        kind_name: "Mother's Information",
         kind_description:
-          "Lorem ipsum dolor sit amet consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..",
+          "Please help us in building a strong student-teacher-parent network and ensure no communication gap.",
         kind_data: [
           {
             key: "mother_name",
@@ -258,7 +258,7 @@ export const profileSchemaData = [
       {
         kind_name: "Father’s Information",
         kind_description:
-          "Lorem ipsum dolor sit amet consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..",
+          "Please help us in building a strong student-teacher-parent network and ensure no communication gap.",
         kind_data: [
           {
             key: "father_name",
@@ -338,9 +338,9 @@ export const profileSchemaData = [
     tab_key: "educational_details",
     tab_data: [
       {
-        kind_name: "Acadamics",
+        kind_name: "Academics",
         kind_description:
-          "Lorem ipsum dolor sit amet consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..",
+          "Please fill in your school details to help us understand your academic calendar and ensure effective test-prep planning",
         kind_data: [
           {
             key: "school",
@@ -371,7 +371,7 @@ export const profileSchemaData = [
       {
         kind_name: "Aspirations after 12th",
         kind_description:
-          "Lorem ipsum dolor sit amet consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..",
+          "Please help us understand your college goals.",
         kind_data: [
           {
             key: "dream_college",
@@ -392,9 +392,9 @@ export const profileSchemaData = [
         ],
       },
       {
-        kind_name: "Extra Curriculars",
+        kind_name: "Extra-curricular Activities",
         kind_description:
-          "Lorem ipsum dolor sit amet consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..",
+          "Please help us understand your involvement outside the classroom so that we can guide you with your college profile if required.",
         kind_data: [
           {
             key: "projects",
