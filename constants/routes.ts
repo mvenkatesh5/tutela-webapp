@@ -25,6 +25,8 @@ export const SESSION_ENDPOINT_TODAY = `/api/tutela-sessions/today/`;
 export const SESSION_WITH_ID_ENDPOINT = (session_id: Number) =>
   `/api/tutela-sessions/${session_id}`;
 export const SESSION_USER_ENDPOINT = `/api/tutela-sessions-users/`;
+export const SESSION_USER_WITH_ID_ENDPOINT = (session_id: Number) =>
+  `/api/tutela-sessions-users/${session_id}/`;
 export const ZOOM_MEETING_ENDPOINT = `/api/create-zoom-meeting/`;
 
 // calendar sessions

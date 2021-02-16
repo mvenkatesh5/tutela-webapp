@@ -5,6 +5,8 @@ import { Form } from "react-bootstrap";
 import { Text } from "@styled-icons/evaicons-solid";
 import { Text as TextDescription } from "@styled-icons/entypo";
 import { DateRange } from "@styled-icons/material";
+// global imports
+import { dateTimeFormat } from "@constants/global";
 
 const SessionFormView = (props: any) => {
   const [formPayload, setFormPayload] = React.useState(Object);
@@ -18,6 +20,13 @@ const SessionFormView = (props: any) => {
       setFormPayload(props.data);
     }
   }, [props.data]);
+
+  const handleFormDate = (date: any) => {
+    if (date && new Date(date)) {
+      date = dateTimeFormat(date);
+    }
+    return date;
+  };
 
   return (
     <div>
@@ -55,7 +64,7 @@ const SessionFormView = (props: any) => {
         </Form.Label>
         <Form.Control
           type="datetime-local"
-          value={formPayload.datetime}
+          value={handleFormDate(formPayload.datetime)}
           onChange={(e) => handleFormPayload("datetime", e.target.value)}
           required
         />

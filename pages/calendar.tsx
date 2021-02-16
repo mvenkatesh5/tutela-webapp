@@ -63,7 +63,7 @@ const CalendarView = () => {
     if (renderView === "day") {
       setStartDate("");
       setEndDate("");
-      handleCurrentDateQuery(value, null, renderView);
+      handleCurrentDateQuery(value, null, renderView, userRole);
     }
     if (renderView === "week") {
       const newDate = new Date(value);
@@ -75,7 +75,7 @@ const CalendarView = () => {
 
       setStartDate(firstDateInWeek);
       setEndDate(lastDayInWeek);
-      handleCurrentDateQuery(firstDateInWeek, lastDayInWeek, renderView);
+      handleCurrentDateQuery(firstDateInWeek, lastDayInWeek, renderView, userRole);
     }
     if (renderView === "month") {
       const newDate = new Date(value);
@@ -83,21 +83,21 @@ const CalendarView = () => {
       const lastDate: any = new Date(newDate.getFullYear(), newDate.getMonth() + 1, 0);
       setStartDate(firstDate);
       setEndDate(lastDate);
-      handleCurrentDateQuery(firstDate, lastDate, renderView);
+      handleCurrentDateQuery(firstDate, lastDate, renderView, userRole);
     }
   };
 
-  const handleCurrentDateQuery = (start_date: any, end_date: any, renderView: any) => {
+  const handleCurrentDateQuery = (start_date: any, end_date: any, renderView: any, role: any) => {
     let currentRoute: any = `date=${returnDate(start_date)}`;
     if (renderView === "day") {
-      if (userRole != "admin") {
+      if (role != "admin") {
         if (getCurrentUser() && getCurrentUser().user) {
           currentRoute = currentRoute + `&user_id=${getCurrentUser().user.id}`;
         }
       }
     } else {
       currentRoute = `start_date=${returnDate(start_date)}&end_date=${returnDate(end_date)}`;
-      if (userRole != "admin") {
+      if (role != "admin") {
         if (tokenDetails && tokenDetails.user && tokenDetails.user.id) {
           currentRoute = currentRoute + `&user_id=${tokenDetails.user.id}`;
         }
@@ -117,7 +117,7 @@ const CalendarView = () => {
   };
 
   const { data: sessionList, error: sessionListError } = useSWR(
-    currentDateQuery
+    currentDateQuery && currentDateQuery
       ? [
           USER_CALENDAR_SESSION_ENDPOINT(currentDateQuery && currentDateQuery),
           currentDateQuery && currentDateQuery,
@@ -135,7 +135,9 @@ const CalendarView = () => {
         <div className="right-layout-calender">
           <div className="calender-root-wrapper">
             <div className="left-wrapper">
-              <CalenderView renderView={currentRenderView} handleData={handleCurrentDate} />
+              {userRole && (
+                <CalenderView renderView={currentRenderView} handleData={handleCurrentDate} />
+              )}
             </div>
             <div className="right-wrapper">
               <div className="d-flex flex-row align-items-center border-bottom pb-2">
@@ -165,22 +167,31 @@ const CalendarView = () => {
 
               <div style={{ marginTop: "10px" }}>
                 {currentRenderView === "day" ? (
-                  <CalenderDayView sessionList={sessionList} role={userRole} />
+                  <CalenderDayView
+                    sessionList={sessionList}
+                    users={userList}
+                    role={userRole}
+                    currentDateQuery={currentDateQuery}
+                  />
                 ) : currentRenderView === "week" ? (
                   <CalenderWeekView
+                    users={userList}
                     currentDate={currentDate}
                     sessionList={sessionList}
                     startDate={startDate}
                     endDate={endDate}
                     role={userRole}
+                    currentDateQuery={currentDateQuery}
                   />
                 ) : (
                   <CalenderMonthView
+                    users={userList}
                     currentDate={currentDate}
                     sessionList={sessionList}
                     startDate={startDate}
                     endDate={endDate}
                     role={userRole}
+                    currentDateQuery={currentDateQuery}
                   />
                 )}
               </div>

@@ -51,11 +51,12 @@
     .calendar-row {
       display: flex;
       flex-direction: row;
-
       &:last-child {
         // border-bottom: 1px solid #ccc;
       }
       &.month-view-calender-row {
+        position: relative;
+        overflow: hidden;
         height: 100%;
         &:last-child {
           border-bottom: 1px solid #ccc;
@@ -105,10 +106,9 @@
           min-width: 100px;
           width: 100%;
           display: block;
-          justify-content: center;
-          align-items: center;
           min-height: 100px;
           height: 100%;
+
           &:first-child {
             border-left: 1px solid #ccc;
           }

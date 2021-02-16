@@ -23,7 +23,7 @@ const SessionCreateView = (props: any) => {
       title: "",
       description: "",
       datetime: "",
-      link: "https://us02web.zoom.us/s/82567434735?pwd=NXBydUQ0RlE3NGdGcHZFZmNwdkFxUT09",
+      link: "",
       data: {},
       listeners: [],
       teachers: [],
@@ -35,7 +35,7 @@ const SessionCreateView = (props: any) => {
     title: "",
     description: "",
     datetime: "",
-    link: "https://us02web.zoom.us/s/82567434735?pwd=NXBydUQ0RlE3NGdGcHZFZmNwdkFxUT09",
+    link: "",
     data: {},
     listeners: [],
     teachers: [],
@@ -81,7 +81,7 @@ const SessionCreateView = (props: any) => {
   const createSessionUsers = (session: any) => {
     let currentUsers: any = [];
 
-    sessionData.listeners.map((listeners) => {
+    sessionData.listeners.map((listeners: any) => {
       const data = {
         as_role: 0,
         session: session.id,
@@ -90,7 +90,7 @@ const SessionCreateView = (props: any) => {
       currentUsers.push(data);
     });
 
-    sessionData.teachers.map((teachers) => {
+    sessionData.teachers.map((teachers: any) => {
       const data = {
         as_role: 1,
         session: session.id,

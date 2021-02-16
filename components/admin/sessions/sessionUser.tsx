@@ -18,6 +18,24 @@ const SessionUser = (props: any) => {
     props.handleData("teachers", value);
   };
 
+  React.useEffect(() => {
+    if (props.data && props.data.session_users && props.data.session_users.length > 0) {
+      let users: any = [];
+      let teachers: any = [];
+      props.data.session_users.map((listeners: any) => {
+        if (listeners.as_role === 0) {
+          users.push(listeners.user.id.toString());
+        }
+        if (listeners.as_role === 1) {
+          teachers.push(listeners.user.id.toString());
+        }
+      });
+      setSessionUsers(users);
+      setSessionTeachers(teachers);
+      props.handleSessionData({ ...props.data, listeners: users, teachers: teachers });
+    }
+  }, []);
+
   return (
     <div>
       <div>
@@ -42,7 +60,7 @@ const SessionUser = (props: any) => {
               props.users.length > 0 &&
               props.users.map((user: any, i: Number) => (
                 <option key={user.id} value={user.id}>
-                  {user.username}-{user.id}
+                  {user.first_name} ({user.email})
                 </option>
               ))}
           </Form.Control>
@@ -69,7 +87,7 @@ const SessionUser = (props: any) => {
               props.users.length > 0 &&
               props.users.map((user: any, i: Number) => (
                 <option key={user.id} value={user.id}>
-                  {user.username}-{user.id}
+                  {user.first_name} ({user.email})
                 </option>
               ))}
           </Form.Control>

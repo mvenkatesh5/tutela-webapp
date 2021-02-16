@@ -5,6 +5,7 @@ import {
   SESSION_WITH_ID_ENDPOINT,
   SESSION_USER_ENDPOINT,
   ZOOM_MEETING_ENDPOINT,
+  SESSION_USER_WITH_ID_ENDPOINT,
 } from "@constants/routes";
 
 export const SessionCreate = async (data: any) => {
@@ -37,6 +38,15 @@ export const SessionDelete = async (id: Number) => {
 export const SessionUserCreate = async (data: any) => {
   try {
     const response = await axios.post(SESSION_USER_ENDPOINT, data);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const SessionUserDelete = async (data: any) => {
+  try {
+    const response = await axios.delete(SESSION_USER_WITH_ID_ENDPOINT(data));
     return response.data;
   } catch (error) {
     throw error.response.data;

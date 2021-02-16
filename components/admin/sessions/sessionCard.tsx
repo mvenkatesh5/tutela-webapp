@@ -11,6 +11,7 @@ import { CheveronDown } from "@styled-icons/zondicons";
 // components
 import ZoomSessions from "@components/zoomsessions";
 import IconStacking from "@components/IconStacking";
+import SessionEdit from "@components/admin/sessions/edit";
 // global imports
 import { datePreview } from "@constants/global";
 
@@ -62,7 +63,18 @@ const SessionCard = (props: any) => {
                   {datePreview(props.data.datetime)}
                 </div>
               </div>
+
               <div className="ms-auto">
+                {props.role === "admin" && (
+                  <SessionEdit
+                    data={props.data}
+                    users={props.users}
+                    role={props.role ? props.role : null}
+                    currentDateQuery={props.currentDateQuery}
+                  />
+                )}
+              </div>
+              <div className="ms-2">
                 <ZoomSessions data={props.data} role={props.role ? props.role : null} />
               </div>
               <div className="text-end ms-2" onClick={handleSessionDetailView}>

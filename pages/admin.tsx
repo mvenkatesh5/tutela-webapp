@@ -141,13 +141,14 @@ const Admin = () => {
 
               <div style={{ marginTop: "10px" }}>
                 {currentRenderView === "day" ? (
-                  <CalenderDayView sessionList={sessionList} />
+                  <CalenderDayView sessionList={sessionList} role="admin" />
                 ) : currentRenderView === "week" ? (
                   <CalenderWeekView
                     currentDate={currentDate}
                     sessionList={sessionList}
                     startDate={startDate}
                     endDate={endDate}
+                    role="admin"
                   />
                 ) : (
                   <CalenderMonthView
@@ -155,6 +156,7 @@ const Admin = () => {
                     sessionList={sessionList}
                     startDate={startDate}
                     endDate={endDate}
+                    role="admin"
                   />
                 )}
               </div>

@@ -69,3 +69,13 @@ export const getCurrentUser = () => {
     }
   }
 };
+
+export const dateTimeFormat = (currentDate: any) => {
+  let newDate = new Date(currentDate);
+  let date = bindZero(newDate.getDate());
+  let month = bindZero(newDate.getMonth() + 1);
+  let year = bindZero(newDate.getFullYear());
+  let hours = bindZero(newDate.getHours());
+  let minutes = bindZero(newDate.getMinutes());
+  return `${year}-${month}-${date}T${hours}:${minutes}`;
+};
