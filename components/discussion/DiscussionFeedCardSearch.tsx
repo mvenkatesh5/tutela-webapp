@@ -10,7 +10,7 @@ function DiscussionFeedCardSearch() {
             <div className="bg-light border rounded-circle w-100 p-4"></div>
           </div>
           <div>
-            <p className="m-0">Bhavesh Raja</p>
+            <p className="m-0">Ashish Kumar</p>
           </div>
           <div className="ms-auto me-3">
             <img src="/sat.png" className="rounded-circle" width="20" />

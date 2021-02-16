@@ -12,7 +12,7 @@ function DiscussionCard(props: any) {
               <div className="bg-light border rounded-circle w-100 p-4"></div>
             </div>
             <div>
-              <p className="m-0">Bhavesh Raja</p>
+              <p className="m-0">Ashish Kumar</p>
               <span className="text-muted">2 Hrs Ago</span>
             </div>
           </div>

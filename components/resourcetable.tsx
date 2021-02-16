@@ -22,7 +22,7 @@ function ResourceTable() {
             <td>Gemometry Session One PDF</td>
             <td>Maths</td>
             <td>SAT</td>
-            <td>Venkat kumar</td>
+            <td>Ashish kumar</td>
             <td className="text-center">
               <CloudDownload className="text-muted" width="20" />
             </td>
@@ -32,7 +32,7 @@ function ResourceTable() {
             <td>Ozone Depletion One PDF</td>
             <td>Chemistry</td>
             <td>SAT</td>
-            <td>Venkat kumar</td>
+            <td>Ashish kumar</td>
             <td className="text-center">
               <CloudDownload className="text-muted" width="20" />
             </td>
@@ -42,7 +42,7 @@ function ResourceTable() {
             <td>Gravity Session One PDF</td>
             <td>Physics</td>
             <td>SAT</td>
-            <td>Venkat kumar</td>
+            <td>Ashish kumar</td>
             <td className="text-center">
               <CloudDownload className="text-muted" width="20" />
             </td>
@@ -52,7 +52,7 @@ function ResourceTable() {
             <td>Gemometry Session One PDF</td>
             <td>Maths</td>
             <td>SAT</td>
-            <td>Venkat kumar</td>
+            <td>Ashish kumar</td>
             <td className="text-center">
               <CloudDownload className="text-muted" width="20" />
             </td>
