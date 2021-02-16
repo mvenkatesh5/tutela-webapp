@@ -5,6 +5,9 @@ import { Form } from "react-bootstrap";
 import { Text } from "@styled-icons/evaicons-solid";
 import { Text as TextDescription } from "@styled-icons/entypo";
 import { DateRange } from "@styled-icons/material";
+// date picker
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 // global imports
 import { dateTimeFormat } from "@constants/global";
 
@@ -62,12 +65,15 @@ const SessionFormView = (props: any) => {
           <DateRange style={{ width: "16px", marginRight: "8px", marginTop: "-2px" }} />
           Date Time
         </Form.Label>
-        <Form.Control
-          type="datetime-local"
-          value={handleFormDate(formPayload.datetime)}
-          onChange={(e) => handleFormPayload("datetime", e.target.value)}
-          required
-        />
+        <div>
+          <DatePicker
+            className="form-control w-100"
+            selected={formPayload.datetime ? new Date(formPayload.datetime) : new Date()}
+            onChange={(date: any) => handleFormPayload("datetime", date)}
+            showTimeSelect
+            dateFormat="Pp"
+          />
+        </div>
       </Form.Group>
     </div>
   );
