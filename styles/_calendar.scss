@@ -48,6 +48,7 @@
 
   // calendar view
   .calendar-wrapper {
+    position: relative;
     .calendar-row {
       display: flex;
       flex-direction: row;

@@ -43,7 +43,9 @@ const UserDetails = () => {
               <thead>
                 <tr>
                   <th className="text-center">#</th>
-                  <th>Name</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Username</th>
                   <th>Email</th>
                   <th>Role</th>
                 </tr>
@@ -56,9 +58,11 @@ const UserDetails = () => {
                       <td className="text-center">{i + 1}</td>
                       <td className="heading">
                         <Link href={`/users/${users.id}`}>
-                          <a target="_blank">{users.username}</a>
+                          <a target="_blank">{users.first_name}</a>
                         </Link>
                       </td>
+                      <td className="heading">{users.last_name}</td>
+                      <td className="heading">{users.username}</td>
                       <td className="description">{users.email}</td>
                       <td>
                         <Form.Group controlId="exampleForm.ControlSelect1">

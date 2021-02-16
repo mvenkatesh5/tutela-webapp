@@ -1,3 +1,4 @@
+import React from "react";
 // constants
 import { META_DESCRIPTION } from "@constants/page";
 // react-bootstrap
@@ -13,6 +14,8 @@ import UpcomingTestsCard from "@components/uptestscard";
 import SessionCard from "@components/admin/sessions/sessionCard";
 // swr
 import useSWR from "swr";
+// cookie
+import { getAuthenticationToken } from "@lib/cookie";
 // api routes
 import { NEWS_ENDPOINT, ADVERTS_ENDPOINT, SESSION_ENDPOINT_TODAY } from "@constants/routes";
 // api services
@@ -26,24 +29,64 @@ const StudentDetail = () => {
     description: META_DESCRIPTION,
   };
 
+  const [currentDateQuery, setCurrentDateQuery] = React.useState<any>();
+  const [userRole, setUserRole] = React.useState<any>();
+  const [tokenDetails, setTokenDetails] = React.useState<any>();
+  React.useEffect(() => {
+    if (getAuthenticationToken()) {
+      let details: any = getAuthenticationToken();
+      details = details ? JSON.parse(details) : null;
+      if (details) {
+        setTokenDetails(details);
+        if (details.info.role === 2) {
+          setUserRole("admin");
+          handleCurrentDateQuery(details.user.id, "admin");
+        } else if (details.info.role === 1) {
+          setUserRole("teacher");
+          handleCurrentDateQuery(details.user.id, "teacher");
+        } else {
+          setUserRole("student");
+          handleCurrentDateQuery(details.user.id, "student");
+        }
+      }
+    }
+  }, []);
+
+  const handleCurrentDateQuery = (user_id: any, role: any) => {
+    let currentRoute: any = SESSION_ENDPOINT_TODAY;
+    if (role != "admin") {
+      currentRoute = currentRoute + `&user_id=${user_id}`;
+    }
+    console.log(currentRoute);
+    setCurrentDateQuery(currentRoute);
+  };
+
   const { data: newsList, error: newsListError } = useSWR(NEWS_ENDPOINT, APIFetcher);
   const { data: advertsList, error: advertsListError } = useSWR(ADVERTS_ENDPOINT, APIFetcher);
-  const { data: sessionList, error: sessionListError } = useSWR(SESSION_ENDPOINT_TODAY, APIFetcher);
+  const { data: sessionList, error: sessionListError } = useSWR(
+    currentDateQuery ? currentDateQuery : null,
+    (url) => APIFetcher(url),
+    { refreshInterval: 0 }
+  );
 
   return (
     <Page meta={meta}>
       <DashboardNav />
       <Container className="mt-5 container-lg">
         <Row>
-          <h4 className="fw-bold text-dark mb-3">Upcoming Sessions</h4>
+          <h4 className="fw-bold text-dark mb-3">Today's Sessions</h4>
           <Col md="8">
-            {sessionList &&
-              sessionList.length > 0 &&
-              sessionList.map((data: any, index: Number) => (
-                <div key={data.id} className="mb-2">
-                  <SessionCard data={data} role="student" />
-                </div>
-              ))}
+            {sessionList && sessionList.length > 0 ? (
+              <div>
+                {sessionList.map((data: any, index: Number) => (
+                  <div key={data.id} className="mb-2">
+                    <SessionCard data={data} role="student" />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center mt-4 mb-4">No sessions for Today.</div>
+            )}
 
             <h4 className="fw-bold text-dark mt-5 mb-3">Resources</h4>
             {/* <ResourceTable /> */}

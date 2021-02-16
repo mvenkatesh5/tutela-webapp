@@ -1,6 +1,8 @@
 import React from "react";
 // react bootstrap
 import { Button, Form, Modal } from "react-bootstrap";
+// material icons
+import { Edit } from "@styled-icons/entypo/Edit";
 // swr
 import { mutate } from "swr";
 // components
@@ -156,12 +158,13 @@ const SessionEditView = (props: any) => {
 
   return (
     <div>
-      <Button variant="primary" className="btn-sm" onClick={openModal}>
-        Edit Session
+      <Button variant="outline-secondary" className="btn-sm" onClick={openModal}>
+        <Edit width="20" />
       </Button>
 
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>
+          <h5>Session Edit</h5>
           <Form onSubmit={sessionUpdate}>
             {sessionData && (
               <div>
@@ -179,8 +182,7 @@ const SessionEditView = (props: any) => {
                   style={{ marginRight: "10px" }}
                   disabled={buttonLoader}
                 >
-                  {buttonLoader ? "Updating..." : "Update"}
-                  Update Session
+                  {buttonLoader ? "Updating Session..." : "Update Session"}
                 </Button>
                 <Button variant="outline-secondary" className="btn-sm" onClick={closeModal}>
                   Close

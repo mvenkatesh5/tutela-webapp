@@ -41,7 +41,7 @@ export const datePreview = (currentDate: any) => {
   let hours = bindZero(newDate.getHours());
   let minutes = bindZero(newDate.getMinutes());
   let seconds = bindZero(newDate.getSeconds());
-  return `${date}-${month}-${year}, ${hours}:${minutes}:${seconds} ${hours > 11 ? "PM" : "AM"}`;
+  return `${date}-${month}-${year}, ${hours}:${minutes}`;
 };
 
 export const returnDate = (currentDate: any) => {
