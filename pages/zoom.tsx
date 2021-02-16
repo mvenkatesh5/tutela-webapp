@@ -1,14 +1,14 @@
-import TeacherLayout from "layouts/teacherLayout";
-
 // react bootstrap
 import { Button } from "react-bootstrap";
+// layouts
+import AdminLayout from "@layouts/adminLayout";
+// hoc
+import withAdminAuth from "@lib/hoc/withAdminAuth";
 
-function IntegrationPage() {
+const ZoomView = () => {
   return (
-    <TeacherLayout>
+    <AdminLayout>
       <div className="container mt-4">
-        <h3 className="fw-light">Tenant Zoom Settings</h3>
-
         <div className="card shadow">
           <div className="card-header bg-white fw-bold py-3">
             <h4 className="m-0">Zoom Integration</h4>
@@ -99,8 +99,8 @@ function IntegrationPage() {
           </div>
         </div>
       </div>
-    </TeacherLayout>
+    </AdminLayout>
   );
-}
+};
 
-export default IntegrationPage;
+export default withAdminAuth(ZoomView);

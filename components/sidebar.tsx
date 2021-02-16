@@ -4,6 +4,7 @@ import Link from "next/link";
 // material icons
 import { Feedback, DynamicFeed } from "@styled-icons/material-rounded/";
 import { Calendar, User } from "@styled-icons/boxicons-regular/";
+import { Video } from "@styled-icons/boxicons-regular/Video";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -28,6 +29,11 @@ const Sidebar = () => {
       label: "Users",
       icon: <User />,
       href: "/users",
+    },
+    {
+      label: "Zoom",
+      icon: <Video />,
+      href: "/zoom",
     },
   ];
   return (
