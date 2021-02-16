@@ -26,11 +26,11 @@ const withStudentAuth = (WrappedComponent: any) => {
         return { ...componentProps, tokenDetails };
       }
       if (tokenDetails.user.role === 1) {
-        redirect(ctx, "/admin");
+        redirect(ctx, "/calendar");
         return {};
       }
       if (tokenDetails.user.role === 2) {
-        redirect(ctx, "/admin");
+        redirect(ctx, "/calendar");
         return {};
       }
     } else {

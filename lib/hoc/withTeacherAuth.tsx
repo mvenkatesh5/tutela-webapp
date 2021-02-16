@@ -30,7 +30,7 @@ const withTeacherAuth = (WrappedComponent: any) => {
         return { ...componentProps, tokenDetails };
       }
       if (tokenDetails.user.role === 2) {
-        redirect(ctx, "/admin");
+        redirect(ctx, "/calendar");
         return {};
       }
     } else {

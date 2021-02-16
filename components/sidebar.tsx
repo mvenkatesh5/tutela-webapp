@@ -12,7 +12,7 @@ const Sidebar = () => {
     {
       label: "Calendar",
       icon: <Calendar />,
-      href: "/admin",
+      href: "/calendar",
     },
     {
       label: "News",
