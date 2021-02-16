@@ -10,7 +10,7 @@ function DiscussionFeedCard() {
             <div className="bg-light border rounded-circle w-100 p-4"></div>
           </div>
           <div>
-            <p className="m-0">Bhavesh Raja</p>
+            <p className="m-0">Aasish Kumar</p>
             <span className="text-muted">2 Hrs Ago</span>
           </div>
           <div className="ms-auto me-3">
@@ -22,7 +22,10 @@ function DiscussionFeedCard() {
         </div>
         {/* detail */}
 
-        <div className="bg-light border p-5 w-100 mt-3" style={{ height: "350px" }}></div>
+        <p className="fw-bold mt-4">
+          What are the most efficient and effective techniques to prepare for the SAT test?
+        </p>
+        <div className="bg-light border p-5 w-100 mt-2" style={{ height: "350px" }}></div>
 
         <div className="mt-3">
           <div className="d-flex align-items-center">
