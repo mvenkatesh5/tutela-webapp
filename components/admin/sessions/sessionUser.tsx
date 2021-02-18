@@ -1,6 +1,8 @@
 import React from "react";
 // react bootstrap
 import { Form } from "react-bootstrap";
+// components
+import SearchCheckboxView from "./SearchCheckbox";
 // material icons
 import { Users } from "@styled-icons/fa-solid";
 import { Users as StudentUsers } from "@styled-icons/heroicons-solid";
@@ -44,26 +46,12 @@ const SessionUser = (props: any) => {
             <Users style={{ width: "16px", marginRight: "8px", marginTop: "-2px" }} />
             Students
           </Form.Label>
-          <Form.Control
-            as="select"
-            multiple
-            value={sessionUsers}
-            onChange={(e: any) => {
-              let values = [];
-              for (let i = 0; i < e.target.selectedOptions.length; i++) {
-                values.push(e.target.selectedOptions[i].value);
-              }
-              handleSessionUsers(values);
-            }}
-          >
-            {props.users &&
-              props.users.length > 0 &&
-              props.users.map((user: any, i: Number) => (
-                <option key={user.id} value={user.id}>
-                  {user.first_name} ({user.email})
-                </option>
-              ))}
-          </Form.Control>
+          <SearchCheckboxView
+            users={props.users}
+            data={sessionUsers}
+            handleData={handleSessionUsers}
+            role={0}
+          />
         </Form.Group>
 
         <Form.Group className="mb-2">
@@ -71,26 +59,12 @@ const SessionUser = (props: any) => {
             <StudentUsers style={{ width: "16px", marginRight: "8px", marginTop: "-2px" }} />
             Teachers
           </Form.Label>
-          <Form.Control
-            as="select"
-            multiple
-            value={sessionTeachers}
-            onChange={(e: any) => {
-              let values = [];
-              for (let i = 0; i < e.target.selectedOptions.length; i++) {
-                values.push(e.target.selectedOptions[i].value);
-              }
-              handleSessionTeachers(values);
-            }}
-          >
-            {props.users &&
-              props.users.length > 0 &&
-              props.users.map((user: any, i: Number) => (
-                <option key={user.id} value={user.id}>
-                  {user.first_name} ({user.email})
-                </option>
-              ))}
-          </Form.Control>
+          <SearchCheckboxView
+            users={props.users}
+            data={sessionTeachers}
+            handleData={handleSessionTeachers}
+            role={1}
+          />
         </Form.Group>
       </div>
     </div>
