@@ -160,7 +160,11 @@ const CalendarView = () => {
                 </div>
                 {userRole != "student" && (
                   <div style={{ marginLeft: "20px" }}>
-                    <SessionCreateView users={userList} currentDateQuery={currentDateQuery} />
+                    <SessionCreateView
+                      users={userList}
+                      currentDateQuery={currentDateQuery}
+                      currentDate={currentDate}
+                    />
                   </div>
                 )}
               </div>

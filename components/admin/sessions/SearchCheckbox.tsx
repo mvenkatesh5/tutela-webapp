@@ -17,10 +17,10 @@ const SearchCheckbox = (props: any) => {
       if (data.role === props.role) {
         if (search) {
           if (data.first_name.includes(search) || data.last_name.includes(search)) {
-            currentUsers.push(data);
+            if (!userOptions.includes(data.id)) currentUsers.push(data);
           }
         } else {
-          currentUsers.push(data);
+          if (!userOptions.includes(data.id)) currentUsers.push(data);
         }
       }
     });
@@ -53,6 +53,8 @@ const SearchCheckbox = (props: any) => {
       let payload: any = [...userOptions, id];
       SetUserOptions(payload);
       props.handleData(payload);
+      setSearchInput("");
+      setFocusToggle(false);
     } else {
       let payload: any = userOptions.filter((_: any, i: any) => index != i);
       SetUserOptions(payload);
@@ -65,7 +67,8 @@ const SearchCheckbox = (props: any) => {
       const currentData: any = props.users.find(
         (element: any, i: any) => element.id === parseInt(user_id)
       );
-      if (currentData) return `${currentData.username} (${currentData.email})`;
+      if (currentData)
+        return `${currentData.first_name} ${currentData.last_name} (${currentData.email})`;
     }
   };
 

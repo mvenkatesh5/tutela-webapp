@@ -34,7 +34,7 @@ const SessionCreateView = (props: any) => {
   const [sessionData, setSessionData] = React.useState({
     title: "",
     description: "",
-    datetime: "",
+    datetime: props.currentDate ? new Date(props.currentDate) : new Date(),
     link: "",
     data: {},
     listeners: [],

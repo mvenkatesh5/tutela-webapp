@@ -68,16 +68,18 @@ const SessionEditView = (props: any) => {
 
     let usersData: any = [];
 
-    props.data.session_users.map((data: any) => {
-      // users
-      if (data.as_role === 0) {
-        existingListeners.push(data);
-      }
-      // teachers
-      if (data.as_role === 1) {
-        existingTeachers.push(data);
-      }
-    });
+    if (props.data.session_users && props.data.session_users.length > 0) {
+      props.data.session_users.map((data: any) => {
+        // users
+        if (data.as_role === 0) {
+          existingListeners.push(data);
+        }
+        // teachers
+        if (data.as_role === 1) {
+          existingTeachers.push(data);
+        }
+      });
+    }
 
     if (listeners && listeners.length > 0) {
       listeners.map((data: any) => {
@@ -138,9 +140,12 @@ const SessionEditView = (props: any) => {
     if (usersData && usersData.length > 0) {
       usersData.map((data: any) => {
         SessionUserCreate(data)
-          .then((res) => {})
+          .then((res) => {
+            setButtonLoader(false);
+          })
           .catch((errors) => {
             console.log(errors);
+            setButtonLoader(false);
           });
       });
     }
@@ -148,9 +153,12 @@ const SessionEditView = (props: any) => {
     if (deleteUsers && deleteUsers.length > 0) {
       deleteUsers.map((data: any) => {
         SessionUserDelete(data)
-          .then((res) => {})
+          .then((res) => {
+            setButtonLoader(false);
+          })
           .catch((errors) => {
             console.log(errors);
+            setButtonLoader(false);
           });
       });
     }
