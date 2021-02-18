@@ -11,7 +11,12 @@ import SessionUser from "./sessionUser";
 // api routes
 import { USER_CALENDAR_SESSION_ENDPOINT } from "@constants/routes";
 // api services
-import { SessionUpdate, SessionUserCreate, SessionUserDelete } from "@lib/services/sessionservice";
+import { APIFetcher } from "@lib/services";
+import {
+  SessionUpdate,
+  SessionBulkUserCreate,
+  SessionBulkUserDelete,
+} from "@lib/services/sessionservice";
 
 const SessionEditView = (props: any) => {
   const [modal, setModal] = React.useState(false);
@@ -39,18 +44,7 @@ const SessionEditView = (props: any) => {
     setButtonLoader(true);
     createSessionUsers();
     SessionUpdate(sessionData)
-      .then((res) => {
-        mutate(
-          [USER_CALENDAR_SESSION_ENDPOINT(props.currentDateQuery), props.currentDateQuery],
-          async (elements: any) => {
-            let index = elements.findIndex((mutateData: any) => mutateData.id === res.id);
-            return elements.map((oldElement: any, i: Number) => (i === index ? res : oldElement));
-          },
-          false
-        );
-        closeModal();
-        setButtonLoader(false);
-      })
+      .then((response) => {})
       .catch((errors) => {
         console.log(errors);
         setButtonLoader(false);
@@ -137,31 +131,45 @@ const SessionEditView = (props: any) => {
       usersData.push(payload);
     });
 
-    if (usersData && usersData.length > 0) {
-      usersData.map((data: any) => {
-        SessionUserCreate(data)
-          .then((res) => {
-            setButtonLoader(false);
-          })
-          .catch((errors) => {
-            console.log(errors);
-            setButtonLoader(false);
-          });
-      });
-    }
+    createRequiredUsers(usersData, deleteUsers);
+  };
 
-    if (deleteUsers && deleteUsers.length > 0) {
-      deleteUsers.map((data: any) => {
-        SessionUserDelete(data)
-          .then((res) => {
-            setButtonLoader(false);
-          })
-          .catch((errors) => {
-            console.log(errors);
-            setButtonLoader(false);
-          });
-      });
+  const createRequiredUsers = (createUsers: any, deleteUsers: any) => {
+    if (createUsers && createUsers.length > 0) {
+      SessionBulkUserCreate(createUsers)
+        .then((response) => {
+          deleteRequiredUsers(deleteUsers);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      deleteRequiredUsers(deleteUsers);
     }
+  };
+
+  const deleteRequiredUsers = (deleteUsers: any) => {
+    if (deleteUsers && deleteUsers.length > 0) {
+      SessionBulkUserDelete(deleteUsers)
+        .then((response) => {
+          mutateCurrentSession();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      mutateCurrentSession();
+    }
+  };
+
+  const mutateCurrentSession = () => {
+    mutate(
+      [USER_CALENDAR_SESSION_ENDPOINT(props.currentDateQuery), props.currentDateQuery],
+      APIFetcher(USER_CALENDAR_SESSION_ENDPOINT(props.currentDateQuery)),
+      false
+    );
+    closeModal();
+    setButtonLoader(false);
   };
 
   return (
