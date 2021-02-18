@@ -12,7 +12,12 @@ import SessionUser from "./sessionUser";
 // api routes
 import { USER_CALENDAR_SESSION_ENDPOINT } from "@constants/routes";
 // api services
-import { SessionCreate, SessionUserCreate } from "@lib/services/sessionservice";
+import {
+  SessionCreate,
+  SessionUserCreate,
+  SessionBulkUserCreate,
+} from "@lib/services/sessionservice";
+import { APIFetcher } from "@lib/services";
 
 const SessionCreateView = (props: any) => {
   const [buttonLoader, setButtonLoader] = React.useState(false);
@@ -61,16 +66,7 @@ const SessionCreateView = (props: any) => {
 
     SessionCreate(payload)
       .then((res) => {
-        mutate(
-          [USER_CALENDAR_SESSION_ENDPOINT(props.currentDateQuery), props.currentDateQuery],
-          async (elements: any) => {
-            return [...elements, res];
-          },
-          false
-        );
         createSessionUsers(res);
-        closeModal();
-        setButtonLoader(false);
       })
       .catch((errors) => {
         console.log(errors);
@@ -100,13 +96,30 @@ const SessionCreateView = (props: any) => {
     });
 
     if (currentUsers && currentUsers.length > 0) {
-      currentUsers.map((data: any) => {
-        SessionUserCreate(data)
-          .then((res) => {})
-          .catch((errors) => {
-            console.log(errors);
-          });
-      });
+      SessionBulkUserCreate(currentUsers)
+        .then((res) => {
+          mutate(
+            [USER_CALENDAR_SESSION_ENDPOINT(props.currentDateQuery), props.currentDateQuery],
+            APIFetcher(USER_CALENDAR_SESSION_ENDPOINT(props.currentDateQuery)),
+            false
+          );
+          closeModal();
+          setButtonLoader(false);
+        })
+        .catch((errors) => {
+          console.log(errors);
+          setButtonLoader(false);
+        });
+    } else {
+      mutate(
+        [USER_CALENDAR_SESSION_ENDPOINT(props.currentDateQuery), props.currentDateQuery],
+        async (elements: any) => {
+          return [...elements, session];
+        },
+        false
+      );
+      closeModal();
+      setButtonLoader(false);
     }
   };
 

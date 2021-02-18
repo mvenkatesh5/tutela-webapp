@@ -44,6 +44,20 @@ export const SessionUserCreate = async (data: any) => {
   }
 };
 
+export const SessionBulkUserCreate = async (data: any) => {
+  const promiseData = [];
+  for (let i = 0; i < data.length; i++) {
+    promiseData.push(axios.post(SESSION_USER_ENDPOINT, data[i]));
+  }
+  return await Promise.all(promiseData)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      throw error.response.data;
+    });
+};
+
 export const SessionUserDelete = async (data: any) => {
   try {
     const response = await axios.delete(SESSION_USER_WITH_ID_ENDPOINT(data));
