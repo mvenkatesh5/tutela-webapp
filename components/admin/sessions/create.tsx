@@ -22,7 +22,7 @@ const SessionCreateView = (props: any) => {
     setSessionData({
       title: "",
       description: "",
-      datetime: "",
+      datetime: new Date(),
       link: "",
       data: {},
       listeners: [],
