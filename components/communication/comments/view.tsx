@@ -3,6 +3,7 @@ import CommentCreateView from "@components/communication/comments/create";
 import CommentEditView from "@components/communication/comments/edit";
 
 const CommentView = (props: any) => {
+  console.log("props", props);
   return (
     <>
       <div className="comment-root-wrapper">
@@ -14,7 +15,7 @@ const CommentView = (props: any) => {
                   <CommentEditView
                     data={data}
                     channel_id={props.channel_id}
-                    thread_id={props.thread_id}
+                    thread_id={props.thread_id ? props.thread_id : null}
                   />
                 </div>
               ))}

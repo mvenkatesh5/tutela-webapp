@@ -7,9 +7,13 @@ import { mutate } from "swr";
 import CommentEditor from "./helpers/editor";
 import CommentDeleteView from "./delete";
 // api routes
-import { THREAD_WITH_COMMENT_ENDPOINT } from "@constants/routes";
+import {
+  THREAD_WITH_COMMENT_ENDPOINT,
+  CHANNEL_WITH_THREAD_COLLAPSE_ENDPOINT,
+} from "@constants/routes";
 // api services
 import { CommentUpdate } from "@lib/services/communicationService";
+import { APIFetcher } from "@lib/services";
 
 const CommentsEditView = (props: any) => {
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
@@ -50,14 +54,21 @@ const CommentsEditView = (props: any) => {
 
     CommentUpdate(commentPayload)
       .then((res) => {
-        mutate(
-          THREAD_WITH_COMMENT_ENDPOINT(props.thread_id),
-          async (elements: any) => {
-            let index = elements.findIndex((mutateData: any) => mutateData.id === res.id);
-            return elements.map((oldElement: any, i: Number) => (i === index ? res : oldElement));
-          },
-          false
-        );
+        if (props.thread_id)
+          mutate(
+            THREAD_WITH_COMMENT_ENDPOINT(props.thread_id),
+            async (elements: any) => {
+              let index = elements.findIndex((mutateData: any) => mutateData.id === res.id);
+              return elements.map((oldElement: any, i: Number) => (i === index ? res : oldElement));
+            },
+            false
+          );
+        else
+          mutate(
+            CHANNEL_WITH_THREAD_COLLAPSE_ENDPOINT(props.channel_id),
+            APIFetcher(CHANNEL_WITH_THREAD_COLLAPSE_ENDPOINT(props.channel_id)),
+            false
+          );
         setButtonLoader(false);
       })
       .catch((errors) => {
@@ -88,7 +99,7 @@ const CommentsEditView = (props: any) => {
           <CommentDeleteView
             data={props.data}
             channel_id={props.channel_id}
-            thread_id={props.thread_id}
+            thread_id={props.thread_id ? props.thread_id : null}
           />
         </div>
       </div>
