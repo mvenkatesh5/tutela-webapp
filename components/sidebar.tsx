@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Feedback, DynamicFeed } from "@styled-icons/material-rounded/";
 import { Calendar, User } from "@styled-icons/boxicons-regular/";
 import { Video } from "@styled-icons/boxicons-regular/Video";
+import { Chat } from "@styled-icons/boxicons-regular/Chat";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -35,7 +36,13 @@ const Sidebar = () => {
       icon: <Video />,
       href: "/zoom",
     },
+    {
+      label: "Channels",
+      icon: <Chat />,
+      href: "/channels",
+    },
   ];
+
   return (
     <div>
       <div>

@@ -1,0 +1,140 @@
+.slate-root-container {
+  position: relative;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  &.render {
+    border: none;
+  }
+  .slate-toolbar-container {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #ccc;
+    padding: 8px 12px;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    & .toolbar-item {
+      position: relative;
+      width: 35px;
+      height: 35px;
+      color: #6d6d6d;
+      font-size: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 4px;
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+      span {
+        font-size: 12px;
+        font-weight: 500;
+        padding-top: 10px;
+        padding-left: 3px;
+      }
+      &:hover {
+        color: #212121;
+        cursor: pointer;
+        background-color: #f5f5f5;
+      }
+      &.active {
+        // color: #0084f4;
+        color: #000;
+      }
+
+      &.dropdown-container {
+        & .dropdown-title-header {
+          background-color: #eee;
+          font-weight: 500;
+          padding: 2px 12px;
+        }
+        & .dropdown-content-list {
+          display: none;
+          position: absolute;
+          width: 200px;
+          top: 35px;
+          left: 0;
+          background-color: #fff;
+          border-radius: 4px;
+          box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 3px 6px,
+            rgba(15, 15, 15, 0.2) 0px 9px 24px;
+          & .dropdown-list-item {
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            & .icon {
+              border: 1px solid #ccc;
+              width: 30px;
+              height: 30px;
+              border-radius: 4px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              margin-right: 10px;
+            }
+            &:hover {
+              color: #212121;
+              cursor: pointer;
+              background-color: #f5f5f5;
+            }
+          }
+          &.list-active {
+            display: block;
+          }
+        }
+      }
+      &.toolbar-divider {
+        border-left: 1px solid #d2d2d2;
+        width: 0px;
+        border-radius: none;
+        margin-left: 4px;
+        margin-right: 4px;
+      }
+    }
+  }
+  .slate-content-container {
+    padding: 8px 12px;
+    a,
+    a span {
+      color: #1089ff !important;
+      text-decoration: underline;
+    }
+  }
+}
+
+// editor styling inline classes **important**
+.sl-s-bold {
+  font-weight: 700;
+}
+.sl-s-italic {
+  font-style: italic;
+}
+.sl-s-underline {
+  padding-bottom: 1px;
+  border-bottom: 1px solid #000000;
+}
+.sl-s-strikeThrough {
+  text-decoration: line-through;
+}
+.sl-s-inlineCode {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  background: rgba(135, 131, 120, 0.15);
+  color: #eb5757;
+  border-radius: 3px;
+  font-size: 85%;
+  padding: 0.2em 0.4em;
+}
+.sl-s-subScript {
+  vertical-align: sub;
+  font-size: 12px;
+}
+.sl-s-superScript {
+  vertical-align: super;
+  font-size: 12px;
+}

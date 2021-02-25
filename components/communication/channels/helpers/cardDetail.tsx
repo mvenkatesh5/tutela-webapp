@@ -3,15 +3,15 @@ import Link from "next/link";
 // react bootstrap
 import { Card } from "react-bootstrap";
 
-const DiscussionFeaturedCard = (props: any) => {
+const ChannelCardView = (props: any) => {
   return (
     <>
       <Card className="discussion-card">
         <Link
           href={`/channels/${
             props.data && props.data.settings && props.data.settings.collapse
-              ? `${1}?view=collapse`
-              : `${1}`
+              ? `${props.data.id}?view=collapse`
+              : `${props.data.id}`
           }`}
         >
           <a className="discussion-card-header">
@@ -25,4 +25,4 @@ const DiscussionFeaturedCard = (props: any) => {
   );
 };
 
-export default DiscussionFeaturedCard;
+export default ChannelCardView;

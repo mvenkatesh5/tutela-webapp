@@ -32,3 +32,18 @@ export const ZOOM_MEETING_ENDPOINT = `/api/create-zoom-meeting/`;
 // calendar sessions
 export const USER_CALENDAR_SESSION_ENDPOINT = (date_query: any) =>
   `/api/sessions${date_query ? `?${date_query}` : `/`}`;
+
+// communication (channel, threads, comments) service
+export const CHANNEL_ENDPOINT = `/api/channels/`;
+export const CHANNEL_WITH_ID_ENDPOINT = (channel_id: Number) => `/api/channels/${channel_id}/`;
+export const THREAD_WITH_ID_ENDPOINT = (thread_id: Number) => `/api/threads/${thread_id}/`;
+export const COMMENT_WITH_ID_ENDPOINT = (comment_id: Number) => `/api/comments/${comment_id}/`;
+
+export const CHANNEL_WITH_THREAD_ENDPOINT = (channel_id: Number) =>
+  `/api/channels/${channel_id}/threads/`;
+
+export const CHANNEL_WITH_THREAD_COLLAPSE_ENDPOINT = (channel_id: Number) =>
+  `/api/channels/${channel_id}/threads/collapse/`;
+
+export const THREAD_WITH_COMMENT_ENDPOINT = (thread_id: Number) =>
+  `/api/threads/${thread_id}/comments/`;

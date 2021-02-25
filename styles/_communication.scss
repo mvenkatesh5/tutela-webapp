@@ -1,0 +1,117 @@
+// global styles in communication
+.discussion-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  .discussion-card-header {
+    height: 100%;
+    padding: 10px 16px;
+    .heading {
+      font-size: 22px;
+      font-weight: 600;
+      color: #212121;
+    }
+    .description {
+      padding-top: 8px;
+      font-size: 16px;
+    }
+    &:hover {
+      .heading {
+        color: #1089ff;
+      }
+    }
+  }
+  .discussion-card-edit-options {
+    flex-shrink: 0;
+    border-top: 1px solid #ccc;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: #666;
+    .item {
+      &.left {
+        margin-left: auto;
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+.thread-card {
+  padding: 10px 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid #00000020;
+  border-radius: 4px;
+  overflow: hidden;
+  .thread-card-header {
+    .heading {
+      font-size: 16px;
+      font-weight: 600;
+      color: #212121;
+      &:hover {
+        color: #1089ff;
+      }
+    }
+  }
+  .thread-card-edit-options {
+    margin-left: auto;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    align-items: center;
+    .item {
+      &.left {
+        margin-left: auto;
+        margin-right: 10px;
+      }
+    }
+  }
+}
+.channel-thread-card {
+  border: 1px solid red;
+}
+
+// channels
+.channel-root-wrapper {
+  padding: 10px 0px;
+}
+
+// comment section
+.comment-root-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  .comment-detail-wrapper {
+    width: 100%;
+    height: 100%;
+    border-bottom: 1px solid #ccc;
+    overflow: hidden;
+    overflow-y: auto;
+  }
+  .comment-create-wrapper {
+    width: 100%;
+    min-height: 100px;
+    max-height: 200px;
+    flex-shrink: 0;
+  }
+  .slate-editor-wrapper {
+    padding: 6px 8px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .left {
+      width: 100%;
+    }
+    .right {
+      padding-left: 14px;
+      padding-right: 14px;
+      flex-shrink: 0;
+    }
+  }
+}
