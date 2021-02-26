@@ -34,7 +34,7 @@ const SlateEditor = (props) => {
           children: [{ text: "" }],
         },
       ]);
-  }, []);
+  }, [props.initialValue]);
 
   // custom render elements
   const renderElement = React.useCallback((props) => {
