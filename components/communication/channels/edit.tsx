@@ -76,7 +76,20 @@ const ChannelEditView = (props: any) => {
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>
           <Form onSubmit={channelUpdate}>
-            <h4>Edit</h4>
+            <div className="d-flex align-items-center mb-2">
+              <div>
+                <h4 className="p-0 m-0">Edit</h4>
+              </div>
+              <div className="ms-auto">
+                <Button
+                  variant="outline-secondary border-0"
+                  className="btn-sm"
+                  onClick={closeModal}
+                >
+                  Close
+                </Button>
+              </div>
+            </div>
             {channelData && (
               <div>
                 <ChannelForm data={channelData} handleData={handleChannelsData} />
@@ -88,9 +101,6 @@ const ChannelEditView = (props: any) => {
                   disabled={buttonLoader}
                 >
                   {buttonLoader ? "Updating Channel..." : "Update Channel"}
-                </Button>
-                <Button variant="outline-secondary" className="btn-sm" onClick={closeModal}>
-                  Close
                 </Button>
               </div>
             )}

@@ -1,6 +1,6 @@
 import React from "react";
 // react bootstrap
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 // swr
 import { mutate } from "swr";
 // components
@@ -18,27 +18,28 @@ import { APIFetcher } from "@lib/services";
 const ThreadCreateView = (props: any) => {
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
 
-  const [modal, setModal] = React.useState<any>(false);
-  const closeModal = () => {
-    setModal(false);
-    setThreadData({
-      title: "Thread",
-      content: [
-        {
-          type: "paragraph",
-          children: [{ text: "type your content here." }],
-        },
-      ],
-    });
-  };
-  const openModal = () => setModal(true);
-
   const [threadData, setThreadData] = React.useState<any>({
     title: "Thread",
     content: [
       {
         type: "paragraph",
-        children: [{ text: "type your content here." }],
+        children: [{ text: "" }],
+      },
+      {
+        type: "paragraph",
+        children: [{ text: "" }],
+      },
+      {
+        type: "paragraph",
+        children: [{ text: "" }],
+      },
+      {
+        type: "paragraph",
+        children: [{ text: "" }],
+      },
+      {
+        type: "paragraph",
+        children: [{ text: "" }],
       },
     ],
   });
@@ -74,7 +75,32 @@ const ThreadCreateView = (props: any) => {
             false
           );
         setButtonLoader(false);
-        closeModal();
+        setThreadData({
+          ...threadData,
+          title: "Thread",
+          content: [
+            {
+              type: "paragraph",
+              children: [{ text: "" }],
+            },
+            {
+              type: "paragraph",
+              children: [{ text: "" }],
+            },
+            {
+              type: "paragraph",
+              children: [{ text: "" }],
+            },
+            {
+              type: "paragraph",
+              children: [{ text: "" }],
+            },
+            {
+              type: "paragraph",
+              children: [{ text: "" }],
+            },
+          ],
+        });
       })
       .catch((errors) => {
         console.log(errors);
@@ -83,34 +109,22 @@ const ThreadCreateView = (props: any) => {
   };
 
   return (
-    <div>
-      <Button variant="primary" className="btn-sm" onClick={openModal}>
-        Create Thread
-      </Button>
-
-      <Modal show={modal} size="lg" onHide={closeModal} centered backdrop={"static"}>
-        <Modal.Body>
-          <Form onSubmit={channelCreate}>
-            <h4>Create</h4>
-            {/* <ThreadForm data={threadData} handleData={handleThreadData} /> */}
-            <div className="mb-2">
-              <ThreadEditor data={threadData} handleData={handleThreadData} edit={true} />
-            </div>
-            <Button
-              variant="outline-primary"
-              className="btn-sm"
-              type="submit"
-              style={{ marginRight: "10px" }}
-              disabled={buttonLoader}
-            >
-              {buttonLoader ? "Creating Thread..." : "Create Thread"}
-            </Button>
-            <Button variant="outline-secondary" className="btn-sm" onClick={closeModal}>
-              Close
-            </Button>
-          </Form>
-        </Modal.Body>
-      </Modal>
+    <div className="slate-editor-wrapper create">
+      <div className="left">
+        <ThreadEditor data={threadData} handleData={handleThreadData} edit={true} />
+      </div>
+      <div className="right">
+        <Button
+          variant="outline-primary"
+          className="btn-sm"
+          type="submit"
+          style={{ marginRight: "10px" }}
+          disabled={buttonLoader}
+          onClick={channelCreate}
+        >
+          {buttonLoader ? "Creating Thread..." : "Create Thread"}
+        </Button>
+      </div>
     </div>
   );
 };

@@ -56,7 +56,20 @@ const CommentDeleteView = (props: any) => {
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>
           <Form onSubmit={commentDelete}>
-            <h4>Delete</h4>
+            <div className="d-flex align-items-center mb-2">
+              <div>
+                <h4 className="p-0 m-0">Delete</h4>
+              </div>
+              <div className="ms-auto">
+                <Button
+                  variant="outline-secondary border-0"
+                  className="btn-sm"
+                  onClick={closeModal}
+                >
+                  Close
+                </Button>
+              </div>
+            </div>
             <h6>Are you sure to delete the Comment?</h6>
             <div>
               <Button
@@ -66,9 +79,6 @@ const CommentDeleteView = (props: any) => {
                 style={{ marginRight: "10px" }}
               >
                 {buttonLoader ? "Deleting Comment..." : "Delete Comment"}
-              </Button>
-              <Button variant="outline-secondary" className="btn-sm" onClick={closeModal}>
-                Close
               </Button>
             </div>
           </Form>

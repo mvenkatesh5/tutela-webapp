@@ -41,9 +41,9 @@ const ChannelDetail = () => {
   return (
     <div>
       <AdminLayout>
-        <div className="right-layout">
-          <Container>
-            <div className="channel-root-wrapper">
+        <div className="right-layout-comment">
+          <div className="channel-root-wrapper flex-container">
+            <div className="channel-top-bar">
               {!channelThreadList && !channelThreadListError ? (
                 <div className="text-center mt- 5 mb-5">Loading.....</div>
               ) : (
@@ -87,8 +87,10 @@ const ChannelDetail = () => {
                 </div>
               )}
             </div>
-            <ThreadCreateView channel_id={channel_id} threadView={threadView} />
-          </Container>
+            <div className={`channel-bottom-bar`}>
+              <ThreadCreateView channel_id={channel_id} threadView={threadView} />
+            </div>
+          </div>
         </div>
       </AdminLayout>
     </div>

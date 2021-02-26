@@ -38,7 +38,23 @@ const ThreadEditView = (props: any) => {
             : [
                 {
                   type: "paragraph",
-                  children: [{ text: "type your content here." }],
+                  children: [{ text: "" }],
+                },
+                {
+                  type: "paragraph",
+                  children: [{ text: "" }],
+                },
+                {
+                  type: "paragraph",
+                  children: [{ text: "" }],
+                },
+                {
+                  type: "paragraph",
+                  children: [{ text: "" }],
+                },
+                {
+                  type: "paragraph",
+                  children: [{ text: "" }],
                 },
               ],
       });
@@ -92,11 +108,25 @@ const ThreadEditView = (props: any) => {
       <Modal show={modal} size="lg" onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>
           <Form onSubmit={threadUpdate}>
-            <h4>Edit</h4>
+            <div className="d-flex align-items-center mb-2">
+              <div>
+                <h4 className="p-0 m-0">Edit</h4>
+              </div>
+              <div className="ms-auto">
+                <Button
+                  variant="outline-secondary border-0"
+                  className="btn-sm"
+                  onClick={closeModal}
+                >
+                  Close
+                </Button>
+              </div>
+            </div>
             {threadData && (
               <div>
                 {/* <ThreadForm data={threadData} handleData={handleThreadData} /> */}
                 <div className="mb-2">
+                  <Form.Label className="mb-1 text-muted">Title</Form.Label>
                   <ThreadEditor data={threadData} handleData={handleThreadData} edit={true} />
                 </div>
                 <Button
@@ -107,9 +137,6 @@ const ThreadEditView = (props: any) => {
                   disabled={buttonLoader}
                 >
                   {buttonLoader ? "Updating Thread..." : "Update Thread"}
-                </Button>
-                <Button variant="outline-secondary" className="btn-sm" onClick={closeModal}>
-                  Close
                 </Button>
               </div>
             )}

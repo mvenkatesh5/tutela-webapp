@@ -31,7 +31,7 @@ const SlateEditor = (props) => {
       setValue([
         {
           type: "paragraph",
-          children: [{ text: "Type your content here..." }],
+          children: [{ text: "" }],
         },
       ]);
   }, []);

@@ -16,7 +16,23 @@ const ThreadCardView = (props: any) => {
             : [
                 {
                   type: "paragraph",
-                  children: [{ text: "type your content here." }],
+                  children: [{ text: "" }],
+                },
+                {
+                  type: "paragraph",
+                  children: [{ text: "" }],
+                },
+                {
+                  type: "paragraph",
+                  children: [{ text: "" }],
+                },
+                {
+                  type: "paragraph",
+                  children: [{ text: "" }],
+                },
+                {
+                  type: "paragraph",
+                  children: [{ text: "" }],
                 },
               ],
       });

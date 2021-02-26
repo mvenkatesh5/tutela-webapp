@@ -71,7 +71,21 @@ const ChannelCreateView = () => {
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>
           <Form onSubmit={channelCreate}>
-            <h4>Create</h4>
+            <div className="d-flex align-items-center mb-2">
+              <div>
+                <h4 className="p-0 m-0">Create</h4>
+              </div>
+              <div className="ms-auto">
+                <Button
+                  variant="outline-secondary border-0"
+                  className="btn-sm"
+                  onClick={closeModal}
+                >
+                  Close
+                </Button>
+              </div>
+            </div>
+
             <ChannelForm data={channelData} handleData={handleChannelData} />
             <Button
               variant="outline-primary"
@@ -81,9 +95,6 @@ const ChannelCreateView = () => {
               disabled={buttonLoader}
             >
               {buttonLoader ? "Creating Channel..." : "Create Channel"}
-            </Button>
-            <Button variant="outline-secondary" className="btn-sm" onClick={closeModal}>
-              Close
             </Button>
           </Form>
         </Modal.Body>
