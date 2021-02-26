@@ -16,6 +16,7 @@ import { CommentUpdate } from "@lib/services/communicationService";
 import { APIFetcher } from "@lib/services";
 
 const CommentsEditView = (props: any) => {
+  const [slateEditorEditToggle, setSlateEditorEditToggle] = React.useState<any>(false);
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
   const [commentData, setCommentData] = React.useState<any>({
     content: null,
@@ -54,7 +55,7 @@ const CommentsEditView = (props: any) => {
 
     CommentUpdate(commentPayload)
       .then((res) => {
-        if (props.thread_id)
+        if (!props.collapse)
           mutate(
             THREAD_WITH_COMMENT_ENDPOINT(props.thread_id),
             async (elements: any) => {
@@ -70,6 +71,7 @@ const CommentsEditView = (props: any) => {
             false
           );
         setButtonLoader(false);
+        setSlateEditorEditToggle(false);
       })
       .catch((errors) => {
         console.log(errors);
@@ -82,18 +84,42 @@ const CommentsEditView = (props: any) => {
       <div className="slate-editor-wrapper">
         <div className="left">
           {commentData && commentData.content && (
-            <CommentEditor data={commentData} handleData={handleCommentData} edit={true} />
+            <div>
+              {slateEditorEditToggle ? (
+                <CommentEditor
+                  data={commentData}
+                  handleData={handleCommentData}
+                  edit={slateEditorEditToggle}
+                />
+              ) : (
+                <CommentEditor
+                  data={commentData}
+                  handleData={handleCommentData}
+                  edit={slateEditorEditToggle}
+                />
+              )}
+            </div>
           )}
         </div>
         <div className="right">
-          <Button
-            variant="outline-primary"
-            className="btn-sm"
-            onClick={threadUpdate}
-            disabled={buttonLoader}
-          >
-            {buttonLoader ? "Updating..." : "Update"}
-          </Button>
+          {slateEditorEditToggle ? (
+            <Button
+              variant="outline-primary"
+              className="btn-sm slate-buttons"
+              onClick={threadUpdate}
+              disabled={buttonLoader}
+            >
+              {buttonLoader ? "Updating..." : "Update"}
+            </Button>
+          ) : (
+            <Button
+              variant="outline-primary"
+              className="btn-sm slate-buttons"
+              onClick={() => setSlateEditorEditToggle(!slateEditorEditToggle)}
+            >
+              Edit
+            </Button>
+          )}
         </div>
         <div className="right">
           <CommentDeleteView

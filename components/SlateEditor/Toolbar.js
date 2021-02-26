@@ -452,7 +452,7 @@ const EditorToolbar = (props) => {
     <div>
       <div className="slate-toolbar-container">
         {/* heading */}
-        {toolbarBlockContentHeading.map((block, blockIndex) => (
+        {/* {toolbarBlockContentHeading.map((block, blockIndex) => (
           <div
             title={block.label}
             key={block.label}
@@ -468,7 +468,7 @@ const EditorToolbar = (props) => {
             <span className="item-sub-script">{blockIndex + 1}</span>
           </div>
         ))}
-        <div className="toolbar-item toolbar-divider"></div>
+        <div className="toolbar-item toolbar-divider"></div> */}
 
         {/* lists */}
         {toolbarBlockContentList.map((block, blockIndex) => (
@@ -489,7 +489,7 @@ const EditorToolbar = (props) => {
         <div className="toolbar-item toolbar-divider"></div>
 
         {/* alignment */}
-        {toolbarBlockContentAlignment.map((block, blockIndex) => (
+        {/* {toolbarBlockContentAlignment.map((block, blockIndex) => (
           <div
             className="toolbar-item"
             title={block.label}
@@ -505,7 +505,7 @@ const EditorToolbar = (props) => {
             {block.icon}
           </div>
         ))}
-        <div className="toolbar-item toolbar-divider"></div>
+        <div className="toolbar-item toolbar-divider"></div> */}
 
         {/* inline styling */}
         {toolbarInlineBlockContent.map((block) => (
@@ -540,7 +540,7 @@ const EditorToolbar = (props) => {
         <div className="toolbar-item toolbar-divider"></div>
 
         {/* table */}
-        <div
+        {/* <div
           className={`toolbar-item ` + (isBlockActive(props.editor, "table") ? "active" : "")}
           onMouseDown={(event) => {
             event.preventDefault();
@@ -600,7 +600,7 @@ const EditorToolbar = (props) => {
         >
           Dt
         </div>
-        <div className="toolbar-item toolbar-divider"></div>
+        <div className="toolbar-item toolbar-divider"></div> */}
 
         <div
           className={`toolbar-item ` + (isMarkActive(props.editor, "subScript") ? "active" : "")}

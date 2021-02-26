@@ -77,6 +77,13 @@
   border-top: none;
 }
 
+.slate-buttons {
+  box-shadow: none;
+  outline: none;
+  padding: 4px 8px !important;
+  font-size: 12px !important;
+}
+
 // channels
 .channel-root-wrapper {
   padding: 10px 0px;
@@ -95,6 +102,40 @@
     border-bottom: 1px solid #ccc;
     overflow: hidden;
     overflow-y: auto;
+    .comment-user-wrapper {
+      padding: 5px 10px 5px;
+      .user-header {
+        display: flex;
+        overflow: hidden;
+        flex-direction: row;
+        .icon {
+          flex-shrink: 0;
+          width: 30px;
+          height: 30px;
+          border-radius: 50px;
+          overflow: hidden;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+        .title {
+          font-size: 14px;
+          font-weight: 500;
+          padding-left: 10px;
+          text-transform: capitalize;
+          width: 100%;
+          .date {
+            font-size: 12px;
+            color: #ccc;
+          }
+          .user-content {
+            padding-top: 5px;
+          }
+        }
+      }
+    }
   }
   .comment-create-wrapper {
     width: 100%;
@@ -103,10 +144,13 @@
     flex-shrink: 0;
   }
   .slate-editor-wrapper {
-    padding: 6px 8px;
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
+    &.create {
+      padding: 4px 8px;
+    }
     .left {
       width: 100%;
     }

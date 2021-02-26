@@ -17,9 +17,7 @@ const ThreadEditor = (props: any) => {
   }, [props.data]);
 
   React.useEffect(() => {
-    if (props.edit) {
-      setRenderState(props.edit);
-    }
+    setRenderState(props.edit);
   }, [props.edit]);
 
   return (

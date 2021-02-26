@@ -31,15 +31,12 @@ const ChannelDetail = () => {
 
   const { data: channelThreadList, error: channelThreadListError } = useSWR(
     channel_id
-      ? threadView
+      ? threadView === "collapse"
         ? CHANNEL_WITH_THREAD_COLLAPSE_ENDPOINT(channel_id)
         : CHANNEL_WITH_THREAD_ENDPOINT(channel_id)
       : null,
     (url) => APIFetcher(url)
   );
-
-  console.log("channelThreadList", channelThreadList);
-  console.log("threadView", threadView);
 
   return (
     <div>
@@ -67,8 +64,10 @@ const ChannelDetail = () => {
                           {threadView === "collapse" && (
                             <div className="channel-thread-card">
                               <CommentView
-                                data={channelThreadList.thread_comments}
+                                data={data.thread_comments}
                                 channel_id={channel_id}
+                                thread_id={data.id}
+                                collapse={true}
                               />
                             </div>
                           )}

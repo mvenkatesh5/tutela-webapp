@@ -6,9 +6,13 @@ import { mutate } from "swr";
 // components
 import CommentEditor from "./helpers/editor";
 // api routes
-import { THREAD_WITH_COMMENT_ENDPOINT } from "@constants/routes";
+import {
+  THREAD_WITH_COMMENT_ENDPOINT,
+  CHANNEL_WITH_THREAD_COLLAPSE_ENDPOINT,
+} from "@constants/routes";
 // api services
 import { ThreadWithCommentCreate } from "@lib/services/communicationService";
+import { APIFetcher } from "@lib/services";
 
 const CommentsCreateView = (props: any) => {
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
@@ -38,13 +42,29 @@ const CommentsCreateView = (props: any) => {
 
     ThreadWithCommentCreate(commentPayload)
       .then((res) => {
-        mutate(
-          THREAD_WITH_COMMENT_ENDPOINT(props.thread_id),
-          async (elements: any) => {
-            return [...elements, res];
-          },
-          false
-        );
+        if (!props.collapse)
+          mutate(
+            THREAD_WITH_COMMENT_ENDPOINT(props.thread_id),
+            async (elements: any) => {
+              return [...elements, res];
+            },
+            false
+          );
+        else
+          mutate(
+            CHANNEL_WITH_THREAD_COLLAPSE_ENDPOINT(props.channel_id),
+            APIFetcher(CHANNEL_WITH_THREAD_COLLAPSE_ENDPOINT(props.channel_id)),
+            false
+          );
+        handleCommentData({
+          ...commentData,
+          content: [
+            {
+              type: "paragraph",
+              children: [{ text: "Type content here..." }],
+            },
+          ],
+        });
         setButtonLoader(false);
       })
       .catch((errors) => {
@@ -55,7 +75,7 @@ const CommentsCreateView = (props: any) => {
 
   return (
     <div>
-      <div className="slate-editor-wrapper">
+      <div className="slate-editor-wrapper create">
         <div className="left">
           <CommentEditor data={commentData} handleData={handleCommentData} edit={true} />
         </div>

@@ -24,7 +24,7 @@ const CommentDeleteView = (props: any) => {
     setButtonLoader(true);
     CommentDelete(props.data.id)
       .then((res) => {
-        if (props.thread_id)
+        if (!props.collapse)
           mutate(
             THREAD_WITH_COMMENT_ENDPOINT(props.thread_id),
             async (elements: any) => {
@@ -49,7 +49,7 @@ const CommentDeleteView = (props: any) => {
 
   return (
     <div>
-      <Button variant="outline-danger" className="btn-sm" onClick={openModal}>
+      <Button variant="outline-danger" className="btn-sm slate-buttons" onClick={openModal}>
         Delete
       </Button>
 

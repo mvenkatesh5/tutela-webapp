@@ -1,6 +1,8 @@
 // components
 import CommentCreateView from "@components/communication/comments/create";
 import CommentEditView from "@components/communication/comments/edit";
+// global imports
+import { datePreview } from "@constants/global";
 
 const CommentView = (props: any) => {
   console.log("props", props);
@@ -9,14 +11,28 @@ const CommentView = (props: any) => {
       <div className="comment-root-wrapper">
         <div className="comment-detail-wrapper">
           {props.data && props.data.length > 0 ? (
-            <div className="h-100 border">
+            <div className="h-100">
               {props.data.map((data: any, index: any) => (
-                <div key={`channels-view-${data.id}`} className="mb-2">
-                  <CommentEditView
-                    data={data}
-                    channel_id={props.channel_id}
-                    thread_id={props.thread_id ? props.thread_id : null}
-                  />
+                <div className="mb-2">
+                  <div key={`channels-comment-view-${data.id}`} className="comment-user-wrapper">
+                    <div className="user-header">
+                      <div className="icon">
+                        <img src={`/bird.svg`} />
+                      </div>
+                      <div className="title">
+                        {data.user_info}
+                        <div className="date">{datePreview(data.created)}</div>
+                        <div className="user-content">
+                          <CommentEditView
+                            data={data}
+                            channel_id={props.channel_id}
+                            thread_id={props.thread_id}
+                            collapse={props.collapse}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -25,7 +41,7 @@ const CommentView = (props: any) => {
           )}
         </div>
         <div className="comment-create-wrapper">
-          <CommentCreateView {...props} />
+          <CommentCreateView {...props} collapse={props.collapse} />
         </div>
       </div>
     </>

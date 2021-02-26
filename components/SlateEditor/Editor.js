@@ -85,7 +85,7 @@ const SlateEditor = (props) => {
         {value && (
           <Slate editor={editor} value={value} onChange={(newValue) => handleValue(newValue)}>
             {!props.readOnly && <EditorToolbar editor={editor} Text={Text} value={value} />}
-            <div className={`slate-content-container mt-2 mb-2`}>
+            <div className={`slate-content-container ` + (props.readOnly ? `p-0` : ``)}>
               <Editable
                 renderElement={renderElement}
                 renderLeaf={renderLeaf}
