@@ -62,14 +62,14 @@ const ChannelDetail = () => {
               ) : (
                 <div>
                   <div className="channel-thread-heading">
-                    <div>
+                    <div className="icon">
                       <Link href="/channels">
                         <a>
                           <ArrowBack width="20" />
                         </a>
                       </Link>
                     </div>
-                    <div>{channelDetail && channelDetail.name}</div>
+                    <div className="heading">{channelDetail && channelDetail.name}</div>
                   </div>
                   {channelThreadList && channelThreadList.length > 0 ? (
                     <div>
@@ -116,10 +116,12 @@ const ChannelDetail = () => {
                       <ThreadModalCreateView channel_id={channel_id} threadView={threadView} />
                     </div>
                   )}
-                  {threadView === "collapse" && (
-                    <ThreadCreateView channel_id={channel_id} threadView={threadView} />
-                  )}
                 </div>
+              )}
+            </div>
+            <div className={threadView === "collapse" ? `channel-bottom-bar` : ""}>
+              {threadView === "collapse" && (
+                <ThreadCreateView channel_id={channel_id} threadView={threadView} />
               )}
             </div>
           </div>

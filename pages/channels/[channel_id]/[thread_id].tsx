@@ -27,9 +27,11 @@ const ChannelDetail = () => {
   );
 
   const { data: channelDetailList, error: channelDetailListError } = useSWR(
-    thread_id ? THREAD_WITH_COMMENT_ENDPOINT(thread_id) : null,
+    thread_id && threadDetail ? THREAD_WITH_COMMENT_ENDPOINT(thread_id) : null,
     (url) => APIFetcher(url)
   );
+
+  console.log("threadDetail", threadDetail);
 
   return (
     <div>
@@ -39,6 +41,7 @@ const ChannelDetail = () => {
             <div className="text-center mt- 5 mb-5">Loading.....</div>
           ) : (
             <CommentDetailView
+              threadDetail={threadDetail}
               data={channelDetailList}
               channel_id={channel_id}
               thread_id={thread_id}

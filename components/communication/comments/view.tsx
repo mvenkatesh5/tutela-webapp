@@ -1,16 +1,58 @@
+import React from "react";
+// next imports
+import Link from "next/link";
+// material icons
+import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
 // components
 import CommentCreateView from "@components/communication/comments/create";
 import CommentEditView from "@components/communication/comments/edit";
+import CommentEditor from "./helpers/editor";
+
 // global imports
 import { datePreview } from "@constants/global";
 
 const CommentView = (props: any) => {
+  const [editorData, setEditorData] = React.useState<any>(false);
+  React.useEffect(() => {
+    console.log(props.threadDetail.data.content);
+    if (props.threadDetail)
+      setEditorData({
+        ...editorData,
+        content:
+          props.threadDetail.data && props.threadDetail.data.content
+            ? props.threadDetail.data.content
+            : [
+                {
+                  type: "paragraph",
+                  children: [{ text: "" }],
+                },
+              ],
+      });
+  }, [props.threadDetail]);
+
   return (
     <>
       <div className="comment-root-wrapper">
         <div className="comment-detail-wrapper">
           {props.data && props.data.length > 0 ? (
             <div className="h-100">
+              <div>
+                {editorData && (
+                  <div className="channel-thread-heading comment">
+                    <div className="icon">
+                      <Link href={`/channels/${props.channel_id}`}>
+                        <a>
+                          <ArrowBack width="20" />
+                        </a>
+                      </Link>
+                    </div>
+                    <div className="heading">
+                      {editorData && <CommentEditor data={editorData} edit={false} />}
+                    </div>
+                  </div>
+                )}
+              </div>
+
               {props.data.map((data: any, index: any) => (
                 <div className="mb-3">
                   <div key={`channels-comment-view-${data.id}`} className="comment-user-wrapper">
