@@ -43,7 +43,6 @@ const ChannelDetail = () => {
       <AdminLayout>
         <div className="right-layout">
           <Container>
-            <ThreadCreateView channel_id={channel_id} />
             <div className="channel-root-wrapper">
               {!channelThreadList && !channelThreadListError ? (
                 <div className="text-center mt- 5 mb-5">Loading.....</div>
@@ -55,10 +54,18 @@ const ChannelDetail = () => {
                         <div key={`channels-view-${data.id}`} className="mb-2">
                           <ChannelCardView data={data} channel_id={channel_id}>
                             <div className="item left">
-                              <ThreadDeleteView data={data} channel_id={channel_id} />
+                              <ThreadDeleteView
+                                data={data}
+                                channel_id={channel_id}
+                                threadView={threadView}
+                              />
                             </div>
                             <div className="item">
-                              <ThreadEditView data={data} channel_id={channel_id} />
+                              <ThreadEditView
+                                data={data}
+                                channel_id={channel_id}
+                                threadView={threadView}
+                              />
                             </div>
                           </ChannelCardView>
                           {threadView === "collapse" && (
@@ -80,6 +87,7 @@ const ChannelDetail = () => {
                 </div>
               )}
             </div>
+            <ThreadCreateView channel_id={channel_id} threadView={threadView} />
           </Container>
         </div>
       </AdminLayout>

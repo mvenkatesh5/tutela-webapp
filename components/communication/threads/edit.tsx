@@ -4,11 +4,16 @@ import { Button, Form, Modal } from "react-bootstrap";
 // swr
 import { mutate } from "swr";
 // components
-import ChannelForm from "./helpers/formRender";
+import ThreadForm from "./helpers/formRender";
+import ThreadEditor from "./helpers/editor";
 // api routes
-import { CHANNEL_WITH_THREAD_ENDPOINT } from "@constants/routes";
+import {
+  CHANNEL_WITH_THREAD_ENDPOINT,
+  CHANNEL_WITH_THREAD_COLLAPSE_ENDPOINT,
+} from "@constants/routes";
 // api services
 import { ThreadUpdate } from "@lib/services/communicationService";
+import { APIFetcher } from "@lib/services";
 
 const ThreadEditView = (props: any) => {
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
@@ -27,6 +32,15 @@ const ThreadEditView = (props: any) => {
       setThreadData({
         ...threadData,
         title: props.data.title ? props.data.title : "",
+        content:
+          props.data.data && props.data.data.content
+            ? props.data.data.content
+            : [
+                {
+                  type: "paragraph",
+                  children: [{ text: "type your content here." }],
+                },
+              ],
       });
     }
   }, [props.data]);
@@ -38,18 +52,28 @@ const ThreadEditView = (props: any) => {
     const channelPayload = {
       id: props.data.id,
       title: threadData.title,
+      data: {
+        content: threadData.content,
+      },
     };
 
     ThreadUpdate(channelPayload)
       .then((res) => {
-        mutate(
-          CHANNEL_WITH_THREAD_ENDPOINT(props.channel_id),
-          async (elements: any) => {
-            let index = elements.findIndex((mutateData: any) => mutateData.id === res.id);
-            return elements.map((oldElement: any, i: Number) => (i === index ? res : oldElement));
-          },
-          false
-        );
+        if (props.threadView === "collapse")
+          mutate(
+            CHANNEL_WITH_THREAD_COLLAPSE_ENDPOINT(props.channel_id),
+            APIFetcher(CHANNEL_WITH_THREAD_COLLAPSE_ENDPOINT(props.channel_id)),
+            false
+          );
+        else
+          mutate(
+            CHANNEL_WITH_THREAD_ENDPOINT(props.channel_id),
+            async (elements: any) => {
+              let index = elements.findIndex((mutateData: any) => mutateData.id === res.id);
+              return elements.map((oldElement: any, i: Number) => (i === index ? res : oldElement));
+            },
+            false
+          );
         setButtonLoader(false);
         closeModal();
       })
@@ -65,13 +89,16 @@ const ThreadEditView = (props: any) => {
         Edit
       </Button>
 
-      <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
+      <Modal show={modal} size="lg" onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>
           <Form onSubmit={threadUpdate}>
             <h4>Edit</h4>
             {threadData && (
               <div>
-                <ChannelForm data={threadData} handleData={handleThreadData} />
+                {/* <ThreadForm data={threadData} handleData={handleThreadData} /> */}
+                <div className="mb-2">
+                  <ThreadEditor data={threadData} handleData={handleThreadData} edit={true} />
+                </div>
                 <Button
                   variant="outline-primary"
                   className="btn-sm"

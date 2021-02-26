@@ -4,9 +4,13 @@ import { Button, Form, Modal } from "react-bootstrap";
 // swr
 import { mutate } from "swr";
 // api routes
-import { CHANNEL_WITH_THREAD_ENDPOINT } from "@constants/routes";
+import {
+  CHANNEL_WITH_THREAD_ENDPOINT,
+  CHANNEL_WITH_THREAD_COLLAPSE_ENDPOINT,
+} from "@constants/routes";
 // api services
 import { ThreadDelete } from "@lib/services/communicationService";
+import { APIFetcher } from "@lib/services";
 
 const ThreadDeleteView = (props: any) => {
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
@@ -20,13 +24,20 @@ const ThreadDeleteView = (props: any) => {
     setButtonLoader(true);
     ThreadDelete(props.data.id)
       .then((res) => {
-        mutate(
-          CHANNEL_WITH_THREAD_ENDPOINT(props.channel_id),
-          async (elements: any) => {
-            return elements.filter((oldElement: any, i: any) => oldElement.id != props.data.id);
-          },
-          false
-        );
+        if (props.threadView === "collapse")
+          mutate(
+            CHANNEL_WITH_THREAD_COLLAPSE_ENDPOINT(props.channel_id),
+            APIFetcher(CHANNEL_WITH_THREAD_COLLAPSE_ENDPOINT(props.channel_id)),
+            false
+          );
+        else
+          mutate(
+            CHANNEL_WITH_THREAD_ENDPOINT(props.channel_id),
+            async (elements: any) => {
+              return elements.filter((oldElement: any, i: any) => oldElement.id != props.data.id);
+            },
+            false
+          );
         setButtonLoader(false);
         closeModal();
       })
