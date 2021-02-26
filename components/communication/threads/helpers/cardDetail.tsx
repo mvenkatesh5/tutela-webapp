@@ -42,12 +42,17 @@ const ThreadCardView = (props: any) => {
     <>
       <div className="thread-card">
         <div className="thread-card-header">
-          <Link href={`/channels/${props.channel_id}/${props.data.id}`}>
-            <a className="heading">
-              {/* {props.data.title} */}
+          {props.threadView === "collapse" ? (
+            <div className="heading">
               {editorData && <ThreadEditor data={editorData} edit={false} />}
-            </a>
-          </Link>
+            </div>
+          ) : (
+            <Link href={`/channels/${props.channel_id}/${props.data.id}`}>
+              <a className="heading">
+                {editorData && <ThreadEditor data={editorData} edit={false} />}
+              </a>
+            </Link>
+          )}
         </div>
         <div className="thread-card-edit-options">{props.children}</div>
       </div>

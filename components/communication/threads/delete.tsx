@@ -1,6 +1,8 @@
 import React from "react";
 // react bootstrap
 import { Button, Form, Modal } from "react-bootstrap";
+// material icons
+import { Delete } from "@styled-icons/material/Delete";
 // swr
 import { mutate } from "swr";
 // api routes
@@ -49,8 +51,8 @@ const ThreadDeleteView = (props: any) => {
 
   return (
     <div>
-      <Button variant="outline-danger" className="btn-sm" onClick={openModal}>
-        Delete
+      <Button variant="outline-danger" className="btn-sm border-0" onClick={openModal}>
+        <Delete width="20" />
       </Button>
 
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>

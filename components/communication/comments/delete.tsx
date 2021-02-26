@@ -49,7 +49,11 @@ const CommentDeleteView = (props: any) => {
 
   return (
     <div>
-      <Button variant="outline-danger" className="btn-sm slate-buttons" onClick={openModal}>
+      <Button
+        variant="outline-danger border-0 p-0"
+        className="btn-sm slate-buttons"
+        onClick={openModal}
+      >
         Delete
       </Button>
 

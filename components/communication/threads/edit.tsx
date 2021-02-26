@@ -1,6 +1,8 @@
 import React from "react";
 // react bootstrap
 import { Button, Form, Modal } from "react-bootstrap";
+// material icons
+import { CalendarEdit } from "@styled-icons/boxicons-regular/CalendarEdit";
 // swr
 import { mutate } from "swr";
 // components
@@ -101,8 +103,8 @@ const ThreadEditView = (props: any) => {
 
   return (
     <div>
-      <Button variant="outline-primary" className="btn-sm" onClick={openModal}>
-        Edit
+      <Button variant="outline-primary border-0" className="btn-sm" onClick={openModal}>
+        <CalendarEdit width="20" />
       </Button>
 
       <Modal show={modal} size="lg" onHide={closeModal} centered backdrop={"static"}>

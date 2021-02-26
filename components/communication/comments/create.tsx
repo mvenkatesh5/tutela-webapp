@@ -86,7 +86,7 @@ const CommentsCreateView = (props: any) => {
             onClick={threadCreate}
             disabled={buttonLoader}
           >
-            {buttonLoader ? "Sending..." : "Send"}
+            {buttonLoader ? "Replying..." : "Reply"}
           </Button>
         </div>
       </div>

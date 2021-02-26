@@ -1,13 +1,17 @@
 import React from "react";
 // next imports
+import Link from "next/link";
 import { useRouter } from "next/router";
 // react bootstrap
 import { Container } from "react-bootstrap";
+// material icons
+import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
 // swr
 import useSWR from "swr";
 // components
 import ChannelCardView from "@components/communication/threads/helpers/cardDetail";
 import ThreadCreateView from "@components/communication/threads/create";
+import ThreadModalCreateView from "@components/communication/threads/createModal";
 import ThreadEditView from "@components/communication/threads/edit";
 import ThreadDeleteView from "@components/communication/threads/delete";
 import CommentView from "@components/communication/comments/view";
@@ -18,6 +22,7 @@ import AdminLayout from "@layouts/adminLayout";
 import {
   CHANNEL_WITH_THREAD_ENDPOINT,
   CHANNEL_WITH_THREAD_COLLAPSE_ENDPOINT,
+  CHANNEL_WITH_ID_ENDPOINT,
 } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
@@ -29,6 +34,11 @@ const ChannelDetail = () => {
   const threadView: any = router.query.view;
   const channel_id: any = router.query.channel_id;
 
+  const { data: channelDetail, error: channelDetailError } = useSWR(
+    channel_id ? CHANNEL_WITH_ID_ENDPOINT(channel_id) : null,
+    (url) => APIFetcher(url)
+  );
+
   const { data: channelThreadList, error: channelThreadListError } = useSWR(
     channel_id
       ? threadView === "collapse"
@@ -37,6 +47,9 @@ const ChannelDetail = () => {
       : null,
     (url) => APIFetcher(url)
   );
+
+  console.log("channelThreadList", channelThreadList);
+  console.log("channelDetail", channelDetail);
 
   return (
     <div>
@@ -48,11 +61,25 @@ const ChannelDetail = () => {
                 <div className="text-center mt- 5 mb-5">Loading.....</div>
               ) : (
                 <div>
+                  <div className="channel-thread-heading">
+                    <div>
+                      <Link href="/channels">
+                        <a>
+                          <ArrowBack width="20" />
+                        </a>
+                      </Link>
+                    </div>
+                    <div>{channelDetail && channelDetail.name}</div>
+                  </div>
                   {channelThreadList && channelThreadList.length > 0 ? (
                     <div>
                       {channelThreadList.map((data: any, index: any) => (
-                        <div key={`channels-view-${data.id}`} className="mb-2">
-                          <ChannelCardView data={data} channel_id={channel_id}>
+                        <div key={`channels-view-list-${data.id}`} className="mb-3">
+                          <ChannelCardView
+                            data={data}
+                            channel_id={channel_id}
+                            threadView={threadView}
+                          >
                             <div className="item left">
                               <ThreadDeleteView
                                 data={data}
@@ -82,13 +109,18 @@ const ChannelDetail = () => {
                       ))}
                     </div>
                   ) : (
-                    <div className="text-center mt- 5 mb-5">No Threads are available.</div>
+                    <div className="text-center mt-5 mb-5">No Threads are available.</div>
+                  )}
+                  {threadView != "collapse" && (
+                    <div className="mt-3">
+                      <ThreadModalCreateView channel_id={channel_id} threadView={threadView} />
+                    </div>
+                  )}
+                  {threadView === "collapse" && (
+                    <ThreadCreateView channel_id={channel_id} threadView={threadView} />
                   )}
                 </div>
               )}
-            </div>
-            <div className={`channel-bottom-bar`}>
-              <ThreadCreateView channel_id={channel_id} threadView={threadView} />
             </div>
           </div>
         </div>

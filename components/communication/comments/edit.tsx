@@ -117,32 +117,34 @@ const CommentsEditView = (props: any) => {
             </div>
           )}
         </div>
-        <div className="right">
-          {slateEditorEditToggle ? (
-            <Button
-              variant="outline-primary"
-              className="btn-sm slate-buttons"
-              onClick={threadUpdate}
-              disabled={buttonLoader}
-            >
-              {buttonLoader ? "Updating..." : "Update"}
-            </Button>
-          ) : (
-            <Button
-              variant="outline-primary"
-              className="btn-sm slate-buttons"
-              onClick={() => setSlateEditorEditToggle(!slateEditorEditToggle)}
-            >
-              Edit
-            </Button>
-          )}
-        </div>
-        <div className="right">
-          <CommentDeleteView
-            data={props.data}
-            channel_id={props.channel_id}
-            thread_id={props.thread_id ? props.thread_id : null}
-          />
+        <div className="right comment">
+          <div>
+            {slateEditorEditToggle ? (
+              <Button
+                variant="outline-primary border-0 p-0"
+                className="btn-sm slate-buttons"
+                onClick={threadUpdate}
+                disabled={buttonLoader}
+              >
+                {buttonLoader ? "Updating..." : "Update"}
+              </Button>
+            ) : (
+              <Button
+                variant="outline-primary border-0 p-0"
+                className="btn-sm slate-buttons"
+                onClick={() => setSlateEditorEditToggle(!slateEditorEditToggle)}
+              >
+                Edit
+              </Button>
+            )}
+          </div>
+          <div>
+            <CommentDeleteView
+              data={props.data}
+              channel_id={props.channel_id}
+              thread_id={props.thread_id ? props.thread_id : null}
+            />
+          </div>
         </div>
       </div>
     </div>

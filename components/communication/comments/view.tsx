@@ -12,7 +12,7 @@ const CommentView = (props: any) => {
           {props.data && props.data.length > 0 ? (
             <div className="h-100">
               {props.data.map((data: any, index: any) => (
-                <div className="mb-2">
+                <div className="mb-3">
                   <div key={`channels-comment-view-${data.id}`} className="comment-user-wrapper">
                     <div className="user-header">
                       <div className="icon">
