@@ -14,7 +14,6 @@ import { datePreview } from "@constants/global";
 const CommentView = (props: any) => {
   const [editorData, setEditorData] = React.useState<any>(false);
   React.useEffect(() => {
-    console.log(props.threadDetail.data.content);
     if (props.threadDetail)
       setEditorData({
         ...editorData,
