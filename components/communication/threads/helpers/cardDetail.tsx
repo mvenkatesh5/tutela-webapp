@@ -27,31 +27,22 @@ const ThreadCardView = (props: any) => {
   }, [props.data]);
 
   return (
-    <>
-      <div className="thread-card">
-        <div className="thread-card-header">
-          <div className="d-flex">
-            <div className="align-items-center">
-              <img className="img-fluid rounded-circle" src="/user.png" width="30" />
-            </div>
-            <div className="ms-3 fw-bolder">{props.data.user_info}</div>
-          </div>
-
+    <div className="content-header">
+      <div className="icon">{props.data.user_info.substring(0, 1)}</div>
+      <div className="thread-card-header">
+        <div className="heading">{props.data.user_info}</div>
+        <div className="description">
           {props.threadView === "collapse" ? (
-            <div className="heading">
-              {editorData && <ThreadEditor data={editorData} edit={false} />}
-            </div>
+            <div>{editorData && <ThreadEditor data={editorData} edit={false} />}</div>
           ) : (
             <Link href={`/channels/${props.channel_id}/${props.data.id}`}>
-              <a className="heading">
-                {editorData && <ThreadEditor data={editorData} edit={false} />}
-              </a>
+              <a>{editorData && <ThreadEditor data={editorData} edit={false} />}</a>
             </Link>
           )}
         </div>
-        <div className="thread-card-edit-options">{props.children}</div>
       </div>
-    </>
+      <div className="edit-options">{props.children}</div>
+    </div>
   );
 };
 

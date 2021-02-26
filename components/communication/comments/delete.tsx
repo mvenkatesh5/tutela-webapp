@@ -16,8 +16,10 @@ const CommentDeleteView = (props: any) => {
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
 
   const [modal, setModal] = React.useState<any>(false);
-  const closeModal = () => setModal(false);
-  const openModal = () => setModal(true);
+  const closeModal = () => {
+    setModal(false);
+    props.handleDeleteToggle(false);
+  };
 
   const commentDelete = (event: any) => {
     event.preventDefault();
@@ -47,16 +49,12 @@ const CommentDeleteView = (props: any) => {
       });
   };
 
+  React.useEffect(() => {
+    setModal(props.deleteToggle);
+  }, [props.deleteToggle]);
+
   return (
     <div>
-      <Button
-        variant="outline-danger border-0 p-0"
-        className="btn-sm slate-buttons"
-        onClick={openModal}
-      >
-        Delete
-      </Button>
-
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>
           <Form onSubmit={commentDelete}>

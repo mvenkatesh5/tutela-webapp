@@ -18,7 +18,9 @@ const ChannelCardView = (props: any) => {
                   : `${props.data.id}`
               }`}
             >
-              <h6 className="m-0">{props.data.name}</h6>
+              <a>
+                <h6 className="m-0">{props.data.name}</h6>
+              </a>
             </Link>
             <p className="m-0">{props.data.description}</p>
             {props.children}

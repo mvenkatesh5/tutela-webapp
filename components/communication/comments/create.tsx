@@ -83,21 +83,15 @@ const CommentsCreateView = (props: any) => {
 
   return (
     <div>
-      <div className="slate-editor-wrapper create">
-        <div className="left">
-          <CommentEditor data={commentData} handleData={handleCommentData} edit={true} />
-        </div>
-        <div className="right">
-          <Button
-            variant="primary"
-            className="btn-sm"
-            onClick={threadCreate}
-            disabled={buttonLoader}
-          >
-            {buttonLoader ? "Replying..." : "Reply"}
-          </Button>
-        </div>
-      </div>
+      <CommentEditor data={commentData} handleData={handleCommentData} edit={true} />
+      <Button
+        variant="primary"
+        className="btn-sm mt-2"
+        onClick={threadCreate}
+        disabled={buttonLoader}
+      >
+        {buttonLoader ? "Replying..." : "Reply"}
+      </Button>
     </div>
   );
 };

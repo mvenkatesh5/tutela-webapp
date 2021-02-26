@@ -92,22 +92,18 @@ const ThreadCreateView = (props: any) => {
   };
 
   return (
-    <div className="slate-editor-wrapper create">
-      <div className="left">
-        <ThreadEditor data={threadData} handleData={handleThreadData} edit={true} />
-      </div>
-      <div className="right">
-        <Button
-          variant="outline-primary"
-          className="btn-sm"
-          type="submit"
-          style={{ marginRight: "10px" }}
-          disabled={buttonLoader}
-          onClick={channelCreate}
-        >
-          {buttonLoader ? "Creating Thread..." : "Create Thread"}
-        </Button>
-      </div>
+    <div>
+      <ThreadEditor data={threadData} handleData={handleThreadData} edit={true} />
+      <Button
+        variant="outline-primary"
+        className="btn-sm mt-2"
+        type="submit"
+        style={{ marginRight: "10px" }}
+        disabled={buttonLoader}
+        onClick={channelCreate}
+      >
+        {buttonLoader ? "Creating Thread..." : "Create Thread"}
+      </Button>
     </div>
   );
 };

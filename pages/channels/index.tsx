@@ -44,10 +44,10 @@ const Channel = () => {
                                 <small className="item me-3">
                                   {data.settings && data.settings.collapse ? (
                                     // <Selector width="20" />
-                                    <>Discuss</>
+                                    <>Chat</>
                                   ) : (
                                     //  <ArrowsCollapse width="20" />
-                                    <>Chat</>
+                                    <>Discuss</>
                                   )}
                                 </small>
                               </div>

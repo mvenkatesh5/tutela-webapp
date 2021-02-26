@@ -17,7 +17,12 @@ import { APIFetcher } from "@lib/services";
 
 const CommentsEditView = (props: any) => {
   const [slateEditorEditToggle, setSlateEditorEditToggle] = React.useState<any>(false);
+  React.useEffect(() => {
+    setSlateEditorEditToggle(props.editToggle);
+  }, [props.editToggle]);
+
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
+
   const [commentData, setCommentData] = React.useState<any>({
     content: null,
   });
@@ -89,56 +94,51 @@ const CommentsEditView = (props: any) => {
 
   return (
     <div>
-      <div className="slate-editor-wrapper">
-        <div className="left">
-          {commentData && commentData.content && (
-            <div>
-              {slateEditorEditToggle ? (
-                <CommentEditor
-                  data={commentData}
-                  handleData={handleCommentData}
-                  edit={slateEditorEditToggle}
-                />
-              ) : (
-                <CommentEditor
-                  data={commentData}
-                  handleData={handleCommentData}
-                  edit={slateEditorEditToggle}
-                />
-              )}
-            </div>
+      {commentData && commentData.content && (
+        <div>
+          {slateEditorEditToggle ? (
+            <CommentEditor
+              data={commentData}
+              handleData={handleCommentData}
+              edit={slateEditorEditToggle}
+            />
+          ) : (
+            <CommentEditor
+              data={commentData}
+              handleData={handleCommentData}
+              edit={slateEditorEditToggle}
+            />
           )}
         </div>
-        <div className="right comment">
-          <div>
-            {slateEditorEditToggle ? (
-              <Button
-                variant="outline-primary border-0 p-0"
-                className="btn-sm slate-buttons"
-                onClick={threadUpdate}
-                disabled={buttonLoader}
-              >
-                {buttonLoader ? "Updating..." : "Update"}
-              </Button>
-            ) : (
-              <Button
-                variant="outline-primary border-0 p-0"
-                className="btn-sm slate-buttons"
-                onClick={() => setSlateEditorEditToggle(!slateEditorEditToggle)}
-              >
-                Edit
-              </Button>
-            )}
-          </div>
-          <div>
-            <CommentDeleteView
-              data={props.data}
-              channel_id={props.channel_id}
-              thread_id={props.thread_id ? props.thread_id : null}
-            />
-          </div>
+      )}
+
+      {slateEditorEditToggle && (
+        <div className="mt-2">
+          <Button
+            variant="outline-secondary"
+            className="btn-sm me-2"
+            onClick={() => props.handleEditToggle(false)}
+          >
+            Close
+          </Button>
+          <Button
+            variant="outline-primary"
+            className="btn-sm"
+            onClick={threadUpdate}
+            disabled={buttonLoader}
+          >
+            {buttonLoader ? "Saving..." : "Save Changes"}
+          </Button>
         </div>
-      </div>
+      )}
+
+      <CommentDeleteView
+        data={props.data}
+        channel_id={props.channel_id}
+        thread_id={props.thread_id ? props.thread_id : null}
+        deleteToggle={props.deleteToggle}
+        handleDeleteToggle={props.handleDeleteToggle}
+      />
     </div>
   );
 };
