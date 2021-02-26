@@ -3,9 +3,11 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 // react bootstrap
-import { Container } from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
 // material icons
 import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
+import { People } from "@styled-icons/ionicons-sharp";
+import { DotsHorizontal } from "@styled-icons/boxicons-regular";
 // swr
 import useSWR from "swr";
 // components
@@ -61,7 +63,30 @@ const ChannelDetail = () => {
                 <div className="text-center mt- 5 mb-5">Loading.....</div>
               ) : (
                 <div>
-                  <div className="channel-thread-heading">
+                  <div className="d-flex align-items-center mt-3 p-3 border">
+                    <div className="me-3">
+                      <img src="/sat.png" className="rounded" />
+                    </div>
+
+                    <div className="w-50">
+                      <h3 className="fw-bold mb-1">{channelDetail && channelDetail.name}</h3>
+                      <p className="text-muted m-0">{channelDetail && channelDetail.description}</p>
+                    </div>
+
+                    <div className="ms-auto me-3">
+                      <People className="styled-icon" />
+                    </div>
+                    <div className="me-3">
+                      <span className="fw-bold">8.2k</span>
+                    </div>
+                    <div className="me-3">
+                      <Button className="py-1 px-4"> Follow</Button>
+                    </div>
+                    <div className="bg-light rounded border">
+                      <DotsHorizontal className="styled-icon text-muted" />
+                    </div>
+                  </div>
+                  {/* <div className="channel-thread-heading">
                     <div className="icon">
                       <Link href="/channels">
                         <a>
@@ -69,8 +94,8 @@ const ChannelDetail = () => {
                         </a>
                       </Link>
                     </div>
-                    <div className="heading">{channelDetail && channelDetail.name}</div>
-                  </div>
+                    <div className="heading"></div>
+                  </div> */}
                   {channelThreadList && channelThreadList.length > 0 ? (
                     <div>
                       {channelThreadList.map((data: any, index: any) => (

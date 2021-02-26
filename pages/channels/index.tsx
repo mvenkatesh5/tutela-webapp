@@ -34,26 +34,34 @@ const Channel = () => {
             ) : (
               <div>
                 {channelList && channelList.length > 0 ? (
-                  <div>
-                    {channelList.map((data: any, index: any) => (
-                      <div key={`channels-view-${data.id}`} className="mb-2">
-                        <ChannelCardView data={data}>
-                          <small className="item me-3">
-                            {data.settings && data.settings.collapse ? (
-                              <Selector width="20" />
-                            ) : (
-                              <ArrowsCollapse width="20" />
-                            )}
-                          </small>
-                          <div className="item left">
-                            <ChannelDeleteView data={data} />
-                          </div>
-                          <div className="item">
-                            <ChannelEditView data={data} />
-                          </div>
-                        </ChannelCardView>
-                      </div>
-                    ))}
+                  <div className="container-fluid">
+                    <div className="row">
+                      {channelList.map((data: any, index: any) => (
+                        <div key={`channels-view-${data.id}`} className="col-md-3 mt-4">
+                          <ChannelCardView data={data}>
+                            <div className="d-flex">
+                              <div>
+                                <small className="item me-3">
+                                  {data.settings && data.settings.collapse ? (
+                                    // <Selector width="20" />
+                                    <>Discuss</>
+                                  ) : (
+                                    //  <ArrowsCollapse width="20" />
+                                    <>Chat</>
+                                  )}
+                                </small>
+                              </div>
+                              <div className="me-3">
+                                <ChannelDeleteView data={data} />
+                              </div>
+                              <div>
+                                <ChannelEditView data={data} />
+                              </div>
+                            </div>
+                          </ChannelCardView>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 ) : (
                   <div className="text-center mt- 5 mb-5">No channels are available.</div>

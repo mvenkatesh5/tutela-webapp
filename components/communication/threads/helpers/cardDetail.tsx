@@ -30,6 +30,13 @@ const ThreadCardView = (props: any) => {
     <>
       <div className="thread-card">
         <div className="thread-card-header">
+          <div className="d-flex">
+            <div className="align-items-center">
+              <img className="img-fluid rounded-circle" src="/user.png" width="30" />
+            </div>
+            <div className="ms-3 fw-bolder">{props.data.user_info}</div>
+          </div>
+
           {props.threadView === "collapse" ? (
             <div className="heading">
               {editorData && <ThreadEditor data={editorData} edit={false} />}

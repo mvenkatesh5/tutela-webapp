@@ -71,9 +71,12 @@ const ChannelEditView = (props: any) => {
 
   return (
     <div>
-      <Button variant="outline-primary border-0" className="btn-sm" onClick={openModal}>
+      <p className="m-0 text-primary" onClick={openModal}>
+        Edit
+      </p>
+      {/* <Button variant="outline-primary border-0" className="btn-sm" onClick={openModal}>
         <CalendarEdit width="20" />
-      </Button>
+      </Button> */}
 
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>
