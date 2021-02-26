@@ -40,9 +40,12 @@ const ChannelDeleteView = (props: any) => {
 
   return (
     <div>
-      <Button variant="outline-danger border-0" className="btn-sm" onClick={openModal}>
+      <p className="m-0 text-danger" onClick={openModal}>
+        Delete
+      </p>
+      {/* <Button variant="outline-danger border-0" className="btn-sm">
         <Delete width="20" />
-      </Button>
+      </Button> */}
 
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>
