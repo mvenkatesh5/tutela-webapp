@@ -57,8 +57,6 @@ const ThreadCreateView = (props: any) => {
       channel: props.channel_id,
     };
 
-    console.log(threadPayload);
-
     ChannelWithThreadCreate(threadPayload)
       .then((res) => {
         if (props.threadView === "collapse")

@@ -5,7 +5,6 @@ import CommentEditView from "@components/communication/comments/edit";
 import { datePreview } from "@constants/global";
 
 const CommentView = (props: any) => {
-  console.log("props", props);
   return (
     <>
       <div className="comment-root-wrapper">
