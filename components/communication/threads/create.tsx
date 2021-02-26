@@ -19,16 +19,8 @@ const ThreadCreateView = (props: any) => {
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
 
   const [threadData, setThreadData] = React.useState<any>({
-    title: "Thread",
+    title: "",
     content: [
-      {
-        type: "paragraph",
-        children: [{ text: "" }],
-      },
-      {
-        type: "paragraph",
-        children: [{ text: "" }],
-      },
       {
         type: "paragraph",
         children: [{ text: "" }],
@@ -60,13 +52,13 @@ const ThreadCreateView = (props: any) => {
 
     ChannelWithThreadCreate(threadPayload)
       .then((res) => {
-        if (props.threadView === "collapse")
+        if (props.threadView === "collapse") {
           mutate(
             CHANNEL_WITH_THREAD_COLLAPSE_ENDPOINT(props.channel_id),
             APIFetcher(CHANNEL_WITH_THREAD_COLLAPSE_ENDPOINT(props.channel_id)),
             false
           );
-        else
+        } else
           mutate(
             CHANNEL_WITH_THREAD_ENDPOINT(props.channel_id),
             async (elements: any) => {
@@ -75,18 +67,9 @@ const ThreadCreateView = (props: any) => {
             false
           );
         setButtonLoader(false);
-        setThreadData({
-          ...threadData,
-          title: "Thread",
+        handleThreadData({
+          title: "",
           content: [
-            {
-              type: "paragraph",
-              children: [{ text: "" }],
-            },
-            {
-              type: "paragraph",
-              children: [{ text: "" }],
-            },
             {
               type: "paragraph",
               children: [{ text: "" }],

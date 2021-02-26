@@ -7,9 +7,8 @@ import ThreadEditor from "./editor";
 const ThreadCardView = (props: any) => {
   const [editorData, setEditorData] = React.useState<any>(false);
   React.useEffect(() => {
-    if (props.data)
+    if (props.data) {
       setEditorData({
-        ...editorData,
         content:
           props.data.data && props.data.data.content
             ? props.data.data.content
@@ -22,20 +21,9 @@ const ThreadCardView = (props: any) => {
                   type: "paragraph",
                   children: [{ text: "" }],
                 },
-                {
-                  type: "paragraph",
-                  children: [{ text: "" }],
-                },
-                {
-                  type: "paragraph",
-                  children: [{ text: "" }],
-                },
-                {
-                  type: "paragraph",
-                  children: [{ text: "" }],
-                },
               ],
       });
+    }
   }, [props.data]);
 
   return (

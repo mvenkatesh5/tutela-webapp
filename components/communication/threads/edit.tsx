@@ -22,46 +22,44 @@ const ThreadEditView = (props: any) => {
 
   const [modal, setModal] = React.useState<any>(false);
   const closeModal = () => setModal(false);
-  const openModal = () => setModal(true);
+  const openModal = () => {
+    setModal(true);
+    initialDataSet();
+  };
 
   const [threadData, setThreadData] = React.useState<any>();
   const handleThreadData = (value: any) => {
     setThreadData(value);
   };
 
+  const initialDataSet = () => {
+    handleThreadData({
+      title: props.data.title ? props.data.title : "",
+      content:
+        props.data.data && props.data.data.content
+          ? props.data.data.content
+          : [
+              {
+                type: "paragraph",
+                children: [{ text: "" }],
+              },
+              {
+                type: "paragraph",
+                children: [{ text: "" }],
+              },
+              {
+                type: "paragraph",
+                children: [{ text: "" }],
+              },
+            ],
+    });
+  };
+
   React.useEffect(() => {
     if (props.data) {
-      setThreadData({
-        ...threadData,
-        title: props.data.title ? props.data.title : "",
-        content:
-          props.data.data && props.data.data.content
-            ? props.data.data.content
-            : [
-                {
-                  type: "paragraph",
-                  children: [{ text: "" }],
-                },
-                {
-                  type: "paragraph",
-                  children: [{ text: "" }],
-                },
-                {
-                  type: "paragraph",
-                  children: [{ text: "" }],
-                },
-                {
-                  type: "paragraph",
-                  children: [{ text: "" }],
-                },
-                {
-                  type: "paragraph",
-                  children: [{ text: "" }],
-                },
-              ],
-      });
+      initialDataSet();
     }
-  }, [props.data]);
+  }, [props.data, props.data.data, props.data.data.content]);
 
   const threadUpdate = (event: any) => {
     event.preventDefault();
@@ -128,7 +126,7 @@ const ThreadEditView = (props: any) => {
               <div>
                 {/* <ThreadForm data={threadData} handleData={handleThreadData} /> */}
                 <div className="mb-2">
-                  <Form.Label className="mb-1 text-muted">Title</Form.Label>
+                  <Form.Label className="mb-1 text-muted">Description</Form.Label>
                   <ThreadEditor data={threadData} handleData={handleThreadData} edit={true} />
                 </div>
                 <Button

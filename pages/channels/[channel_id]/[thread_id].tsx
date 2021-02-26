@@ -37,16 +37,13 @@ const ChannelDetail = () => {
     <div>
       <AdminLayout>
         <div className="right-layout-comment">
-          {!channelDetailList && !channelDetailListError ? (
-            <div className="text-center mt- 5 mb-5">Loading.....</div>
-          ) : (
-            <CommentDetailView
-              threadDetail={threadDetail}
-              data={channelDetailList}
-              channel_id={channel_id}
-              thread_id={thread_id}
-            />
-          )}
+          <CommentDetailView
+            threadDetail={threadDetail}
+            data={channelDetailList}
+            dataError={channelDetailListError}
+            channel_id={channel_id}
+            thread_id={thread_id}
+          />
         </div>
       </AdminLayout>
     </div>

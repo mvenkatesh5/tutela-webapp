@@ -17,6 +17,7 @@ const CommentView = (props: any) => {
     if (props.threadDetail)
       setEditorData({
         ...editorData,
+        title: props.threadDetail.title ? props.threadDetail.title : "",
         content:
           props.threadDetail.data && props.threadDetail.data.content
             ? props.threadDetail.data.content
@@ -33,7 +34,9 @@ const CommentView = (props: any) => {
     <>
       <div className="comment-root-wrapper">
         <div className="comment-detail-wrapper">
-          {props.data && props.data.length > 0 ? (
+          {!props.data && !props.dataError ? (
+            <div className="text-center mt- 5 mb-5">Loading.....</div>
+          ) : (
             <div className="h-100">
               <div>
                 {editorData && (
@@ -46,38 +49,49 @@ const CommentView = (props: any) => {
                       </Link>
                     </div>
                     <div className="heading">
-                      {editorData && <CommentEditor data={editorData} edit={false} />}
+                      {editorData && (
+                        <div>
+                          <h4>{editorData.title}</h4>
+                          <CommentEditor data={editorData} edit={false} />
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
               </div>
-
-              {props.data.map((data: any, index: any) => (
-                <div className="mb-3">
-                  <div key={`channels-comment-view-${data.id}`} className="comment-user-wrapper">
-                    <div className="user-header">
-                      <div className="icon">
-                        <img src={`/bird.svg`} />
-                      </div>
-                      <div className="title">
-                        {data.user_info}
-                        <div className="date">{datePreview(data.created)}</div>
-                        <div className="user-content">
-                          <CommentEditView
-                            data={data}
-                            channel_id={props.channel_id}
-                            thread_id={props.thread_id}
-                            collapse={props.collapse}
-                          />
+              {props.data && props.data.length > 0 ? (
+                <div>
+                  {props.data.map((data: any, index: any) => (
+                    <div className="mb-3">
+                      <div
+                        key={`channels-comment-view-${data.id}`}
+                        className="comment-user-wrapper"
+                      >
+                        <div className="user-header">
+                          <div className="icon">
+                            <img src={`/bird.svg`} />
+                          </div>
+                          <div className="title">
+                            {data.user_info}
+                            <div className="date">{datePreview(data.created)}</div>
+                            <div className="user-content">
+                              <CommentEditView
+                                data={data}
+                                channel_id={props.channel_id}
+                                thread_id={props.thread_id}
+                                collapse={props.collapse}
+                              />
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
-              ))}
+              ) : (
+                <div className="text-center mt-5 mb-5">No Comments are available.</div>
+              )}
             </div>
-          ) : (
-            <div className="text-center mt-5 mb-5">No Comments are available.</div>
           )}
         </div>
         <div className="comment-create-wrapper">

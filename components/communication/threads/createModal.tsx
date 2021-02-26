@@ -24,8 +24,16 @@ const ThreadCreateModalView = (props: any) => {
     setModal(false);
     setThreadData({
       ...threadData,
-      title: "Thread",
+      title: "",
       content: [
+        {
+          type: "paragraph",
+          children: [{ text: "" }],
+        },
+        {
+          type: "paragraph",
+          children: [{ text: "" }],
+        },
         {
           type: "paragraph",
           children: [{ text: "" }],
@@ -36,8 +44,16 @@ const ThreadCreateModalView = (props: any) => {
   const openModal = () => setModal(true);
 
   const [threadData, setThreadData] = React.useState<any>({
-    title: "Thread",
+    title: "",
     content: [
+      {
+        type: "paragraph",
+        children: [{ text: "" }],
+      },
+      {
+        type: "paragraph",
+        children: [{ text: "" }],
+      },
       {
         type: "paragraph",
         children: [{ text: "" }],
@@ -108,8 +124,9 @@ const ThreadCreateModalView = (props: any) => {
             </div>
           </div>
 
+          <ThreadForm data={threadData} handleData={handleThreadData} />
           <div className="mb-2">
-            <Form.Label className="mb-1 text-muted">Title</Form.Label>
+            <Form.Label className="mb-1 text-muted">Description</Form.Label>
             <ThreadEditor data={threadData} handleData={handleThreadData} edit={true} />
           </div>
 
@@ -120,7 +137,7 @@ const ThreadCreateModalView = (props: any) => {
             disabled={buttonLoader}
             onClick={channelThread}
           >
-            {buttonLoader ? "Creating Thread..." : "Create Thred"}
+            {buttonLoader ? "Creating Thread..." : "Create Thread"}
           </Button>
         </Modal.Body>
       </Modal>

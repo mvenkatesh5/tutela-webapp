@@ -45,14 +45,6 @@ const CommentsEditView = (props: any) => {
                   type: "paragraph",
                   children: [{ text: "" }],
                 },
-                {
-                  type: "paragraph",
-                  children: [{ text: "" }],
-                },
-                {
-                  type: "paragraph",
-                  children: [{ text: "" }],
-                },
               ],
       });
     }

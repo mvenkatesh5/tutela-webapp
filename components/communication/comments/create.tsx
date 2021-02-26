@@ -20,7 +20,15 @@ const CommentsCreateView = (props: any) => {
     content: [
       {
         type: "paragraph",
-        children: [{ text: "Type content here..." }],
+        children: [{ text: "" }],
+      },
+      {
+        type: "paragraph",
+        children: [{ text: "" }],
+      },
+      {
+        type: "paragraph",
+        children: [{ text: "" }],
       },
     ],
   });
