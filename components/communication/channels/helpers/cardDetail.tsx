@@ -1,12 +1,11 @@
 // next imports
 import Link from "next/link";
-// react bootstrap
-import { Card } from "react-bootstrap";
 
 const ChannelCardView = (props: any) => {
   return (
     <>
-      <Card className="discussion-card">
+      <div className="discussion-card">
+        <div className="discussion-card-icon">{props.data.name.substring(0, 1)}</div>
         <Link
           href={`/channels/${
             props.data && props.data.settings && props.data.settings.collapse
@@ -20,7 +19,7 @@ const ChannelCardView = (props: any) => {
           </a>
         </Link>
         <div className="discussion-card-edit-options">{props.children}</div>
-      </Card>
+      </div>
     </>
   );
 };

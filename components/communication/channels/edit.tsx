@@ -1,6 +1,8 @@
 import React from "react";
 // react bootstrap
 import { Button, Form, Modal } from "react-bootstrap";
+// material icons
+import { CalendarEdit } from "@styled-icons/boxicons-regular/CalendarEdit";
 // swr
 import { mutate } from "swr";
 // components
@@ -69,8 +71,8 @@ const ChannelEditView = (props: any) => {
 
   return (
     <div>
-      <Button variant="outline-primary" className="btn-sm" onClick={openModal}>
-        Edit
+      <Button variant="outline-primary border-0" className="btn-sm" onClick={openModal}>
+        <CalendarEdit width="20" />
       </Button>
 
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
@@ -100,7 +102,7 @@ const ChannelEditView = (props: any) => {
                   style={{ marginRight: "10px" }}
                   disabled={buttonLoader}
                 >
-                  {buttonLoader ? "Updating Channel..." : "Update Channel"}
+                  {buttonLoader ? "Updating..." : "Update"}
                 </Button>
               </div>
             )}

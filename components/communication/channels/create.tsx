@@ -1,6 +1,8 @@
 import React from "react";
 // react bootstrap
 import { Button, Form, Modal } from "react-bootstrap";
+// material icons
+import { Plus } from "@styled-icons/bootstrap";
 // swr
 import { mutate } from "swr";
 // components
@@ -64,9 +66,14 @@ const ChannelCreateView = () => {
 
   return (
     <div>
-      <Button variant="primary" className="btn-sm" onClick={openModal}>
-        Add Channel
-      </Button>
+      <div className="d-flex">
+        <div className="ms-auto">
+          <Button variant="primary" className="btn-sm border ms-auto" onClick={openModal}>
+            <Plus width="20" />
+            Add Channel
+          </Button>
+        </div>
+      </div>
 
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>
