@@ -48,7 +48,7 @@ const ThreadCreateModalView = (props: any) => {
     setThreadData(value);
   };
 
-  const channelCreate = (event: any) => {
+  const channelThread = (event: any) => {
     event.preventDefault();
     setButtonLoader(true);
     const threadPayload = {
@@ -90,7 +90,7 @@ const ThreadCreateModalView = (props: any) => {
         <div>
           <Button variant="primary" className="btn-sm border ms-auto" onClick={openModal}>
             <Plus width="20" />
-            Add Channel
+            Add Thread
           </Button>
         </div>
       </div>
@@ -118,9 +118,9 @@ const ThreadCreateModalView = (props: any) => {
             className="btn-sm"
             style={{ marginRight: "10px" }}
             disabled={buttonLoader}
-            onClick={channelCreate}
+            onClick={channelThread}
           >
-            {buttonLoader ? "Creating Channel..." : "Create Channel"}
+            {buttonLoader ? "Creating Thread..." : "Create Thred"}
           </Button>
         </Modal.Body>
       </Modal>
