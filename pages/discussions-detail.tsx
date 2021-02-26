@@ -8,7 +8,7 @@ import { People } from "@styled-icons/ionicons-sharp";
 import { DotsHorizontal } from "@styled-icons/boxicons-regular";
 
 // components
-import DiscussionFeedCard from "components/discussion/DiscussionFeedCard";
+// import DiscussionFeedCard from "components/discussion/DiscussionFeedCard";
 
 function discussionsDetail() {
   return (
@@ -49,9 +49,9 @@ function discussionsDetail() {
           </div>
           <div className="col-md-6">
             <div className="border p-3">
-              <DiscussionFeedCard />
-              <DiscussionFeedCard />
-              <DiscussionFeedCard />
+              {/* <DiscussionFeedCard /> */}
+              {/* <DiscussionFeedCard /> */}
+              {/* <DiscussionFeedCard /> */}
             </div>
           </div>
           <div className="col-md-3">

@@ -7,8 +7,8 @@ import Link from "next/link";
 import { RightArrowAlt } from "@styled-icons/boxicons-regular";
 
 // components
-import DiscussionFeaturedCard from "components/discussion/DiscussionFeaturedCard";
-import DiscussionCard from "components/discussion/DiscussionCard";
+// import DiscussionFeaturedCard from "components/discussion/DiscussionFeaturedCard";
+// import DiscussionCard from "components/discussion/DiscussionCard";
 
 function DiscussionsPage() {
   return (
@@ -31,18 +31,10 @@ function DiscussionsPage() {
         {/* Featured  */}
 
         <div className="d-flex mt-3">
-          <div className="me-3">
-            <DiscussionFeaturedCard title="Sat" img={"/ad.png"} />
-          </div>
-          <div className="me-3">
-            <DiscussionFeaturedCard title="Sat" img={"/ad.png"} />
-          </div>
-          <div className="me-3">
-            <DiscussionFeaturedCard title="Sat" img={"/ad.png"} />
-          </div>
-          <div className="me-3">
-            <DiscussionFeaturedCard title="Sat" img={"/ad.png"} />
-          </div>
+          <div className="me-3">{/* <DiscussionFeaturedCard title="Sat" img={"/ad.png"} /> */}</div>
+          <div className="me-3">{/* <DiscussionFeaturedCard title="Sat" img={"/ad.png"} /> */}</div>
+          <div className="me-3">{/* <DiscussionFeaturedCard title="Sat" img={"/ad.png"} /> */}</div>
+          <div className="me-3">{/* <DiscussionFeaturedCard title="Sat" img={"/ad.png"} /> */}</div>
         </div>
 
         {/* End Featured */}
@@ -62,32 +54,16 @@ function DiscussionsPage() {
         {/* discussion cards */}
 
         <div className="row mt-4">
-          <div className="col-md-3">
-            <DiscussionCard />
-          </div>
-          <div className="col-md-3">
-            <DiscussionCard />
-          </div>
-          <div className="col-md-3">
-            <DiscussionCard />
-          </div>
-          <div className="col-md-3">
-            <DiscussionCard />
-          </div>
+          <div className="col-md-3">{/* <DiscussionCard /> */}</div>
+          <div className="col-md-3">{/* <DiscussionCard /> */}</div>
+          <div className="col-md-3">{/* <DiscussionCard /> */}</div>
+          <div className="col-md-3">{/* <DiscussionCard /> */}</div>
         </div>
         <div className="row mt-4">
-          <div className="col-md-3">
-            <DiscussionCard />
-          </div>
-          <div className="col-md-3">
-            <DiscussionCard />
-          </div>
-          <div className="col-md-3">
-            <DiscussionCard />
-          </div>
-          <div className="col-md-3">
-            <DiscussionCard />
-          </div>
+          <div className="col-md-3">{/* <DiscussionCard /> */}</div>
+          <div className="col-md-3">{/* <DiscussionCard /> */}</div>
+          <div className="col-md-3">{/* <DiscussionCard /> */}</div>
+          <div className="col-md-3">{/* <DiscussionCard /> */}</div>
         </div>
       </div>
     </TeacherLayout>
