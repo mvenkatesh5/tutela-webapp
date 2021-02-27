@@ -28,15 +28,15 @@ const ThreadCreateModalView = (props: any) => {
       content: [
         {
           type: "paragraph",
-          children: [{ text: "" }],
+          children: [{ text: " " }],
         },
         {
           type: "paragraph",
-          children: [{ text: "" }],
+          children: [{ text: " " }],
         },
         {
           type: "paragraph",
-          children: [{ text: "" }],
+          children: [{ text: " " }],
         },
       ],
     });
@@ -48,15 +48,15 @@ const ThreadCreateModalView = (props: any) => {
     content: [
       {
         type: "paragraph",
-        children: [{ text: "" }],
+        children: [{ text: " " }],
       },
       {
         type: "paragraph",
-        children: [{ text: "" }],
+        children: [{ text: " " }],
       },
       {
         type: "paragraph",
-        children: [{ text: "" }],
+        children: [{ text: " " }],
       },
     ],
   });

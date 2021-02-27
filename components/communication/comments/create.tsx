@@ -20,15 +20,15 @@ const CommentsCreateView = (props: any) => {
     content: [
       {
         type: "paragraph",
-        children: [{ text: "" }],
+        children: [{ text: " " }],
       },
       {
         type: "paragraph",
-        children: [{ text: "" }],
+        children: [{ text: " " }],
       },
       {
         type: "paragraph",
-        children: [{ text: "" }],
+        children: [{ text: " " }],
       },
     ],
   });
@@ -65,11 +65,18 @@ const CommentsCreateView = (props: any) => {
             false
           );
         handleCommentData({
-          ...commentData,
           content: [
             {
               type: "paragraph",
-              children: [{ text: "Type content here..." }],
+              children: [{ text: " " }],
+            },
+            {
+              type: "paragraph",
+              children: [{ text: " " }],
+            },
+            {
+              type: "paragraph",
+              children: [{ text: " " }],
             },
           ],
         });

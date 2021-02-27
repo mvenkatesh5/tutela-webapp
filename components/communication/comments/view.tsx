@@ -24,7 +24,7 @@ const CommentView = (props: any) => {
             : [
                 {
                   type: "paragraph",
-                  children: [{ text: "" }],
+                  children: [{ text: " " }],
                 },
               ],
       });
