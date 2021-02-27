@@ -72,7 +72,7 @@
     }
     .channel-bottom-bar {
       width: 100%;
-      min-height: 100px;
+      min-height: 40px;
       max-height: 400px;
       flex-shrink: 0;
     }
@@ -182,7 +182,7 @@
       border-top: 1px solid #e1e1e1;
       padding: 10px;
       flex-shrink: 0;
-      min-height: 100px;
+      min-height: 40px;
       max-height: 400px;
     }
   }
@@ -319,7 +319,7 @@
     border-top: 1px solid #e1e1e1;
     padding: 10px;
     flex-shrink: 0;
-    min-height: 100px;
+    min-height: 40px;
     max-height: 400px;
   }
 }

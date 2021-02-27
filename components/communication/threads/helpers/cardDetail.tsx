@@ -30,8 +30,8 @@ const ThreadCardView = (props: any) => {
     <div className="content-header">
       <div className="icon">{props.data.user_info.substring(0, 1)}</div>
       <div className="thread-card-header">
-        <div className="heading">{props.data.user_info}</div>
-        <div className="description">
+        {/* <div className="heading">{props.data.user_info}</div> */}
+        <div className="heading">
           {props.threadView === "collapse" ? (
             <div>{editorData && <ThreadEditor data={editorData} edit={false} />}</div>
           ) : (

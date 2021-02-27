@@ -15,6 +15,11 @@ import { ThreadWithCommentCreate } from "@lib/services/communicationService";
 import { APIFetcher } from "@lib/services";
 
 const CommentsCreateView = (props: any) => {
+  const [threadViewEditorDisplay, setThreadViewEditorDisplay] = React.useState<any>(false);
+  React.useEffect(() => {
+    if (!props.threadView) setThreadViewEditorDisplay(true);
+  }, []);
+
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
   const [commentData, setCommentData] = React.useState<any>({
     content: [
@@ -90,15 +95,38 @@ const CommentsCreateView = (props: any) => {
 
   return (
     <div>
-      <CommentEditor data={commentData} handleData={handleCommentData} edit={true} />
-      <Button
-        variant="primary"
-        className="btn-sm mt-2"
-        onClick={threadCreate}
-        disabled={buttonLoader}
-      >
-        {buttonLoader ? "Replying..." : "Reply"}
-      </Button>
+      {threadViewEditorDisplay ? (
+        <div>
+          <CommentEditor data={commentData} handleData={handleCommentData} edit={true} />
+          {props.threadView && props.threadView === "collapse" && (
+            <Button
+              variant="outline-secondary"
+              className="btn-sm mt-2 me-2"
+              onClick={() => setThreadViewEditorDisplay(false)}
+              disabled={buttonLoader}
+            >
+              Close
+            </Button>
+          )}
+          <Button
+            variant="primary"
+            className="btn-sm mt-2"
+            onClick={threadCreate}
+            disabled={buttonLoader}
+          >
+            {buttonLoader ? "Sending..." : "Send"}
+          </Button>
+        </div>
+      ) : (
+        <Button
+          variant="primary"
+          className="btn-sm mt-2"
+          onClick={() => setThreadViewEditorDisplay(true)}
+          disabled={buttonLoader}
+        >
+          Reply
+        </Button>
+      )}
     </div>
   );
 };

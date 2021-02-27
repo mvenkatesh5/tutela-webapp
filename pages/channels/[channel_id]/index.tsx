@@ -56,7 +56,7 @@ const ChannelDetail = () => {
   return (
     <div>
       <AdminLayout>
-        <div className="right-layout-comment">
+        <div className="right-layout-comment container ps-5 pe-5">
           <div className="thread-default-wrapper collapse-view">
             {!channelThreadList && !channelThreadListError ? (
               <div className="text-center mt- 5 mb-5">Loading.....</div>
@@ -103,6 +103,7 @@ const ChannelDetail = () => {
                                 channel_id={channel_id}
                                 thread_id={data.id}
                                 collapse={true}
+                                threadView={threadView}
                               />
                             </div>
                           )}

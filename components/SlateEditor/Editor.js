@@ -25,15 +25,18 @@ const SlateEditor = (props) => {
   };
 
   React.useEffect(() => {
-    if (props.initialValue && props.initialValue.length > 0 && Array.isArray(props.initialValue))
+    if (props.initialValue && props.initialValue.length > 0 && Array.isArray(props.initialValue)) {
+      // Transforms.deselect(editor);
       setValue(props.initialValue);
-    else
+    } else {
+      // Transforms.deselect(editor);
       setValue([
         {
           type: "paragraph",
           children: [{ text: " " }],
         },
       ]);
+    }
   }, [props.initialValue]);
 
   // custom render elements

@@ -88,7 +88,7 @@ const CommentView = (props: any) => {
           <div className="comment-content">
             {editorData && (
               <div className="header-wrapper">
-                <div className="icon">{editorData.title.substring(0, 1)}</div>
+                {/* <div className="icon">{editorData.title.substring(0, 1)}</div> */}
                 <div className="content">
                   <div className="content-heading">{editorData.title}</div>
                   <div className="content-description">
@@ -109,7 +109,7 @@ const CommentView = (props: any) => {
           </div>
         )}
         <div className="comment-footer">
-          <CommentCreateView {...props} collapse={props.collapse} />
+          <CommentCreateView {...props} collapse={props.collapse} threadView={props.threadView} />
         </div>
       </div>
     </>

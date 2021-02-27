@@ -31,12 +31,10 @@ const ChannelDetail = () => {
     (url) => APIFetcher(url)
   );
 
-  console.log("threadDetail", threadDetail);
-
   return (
     <div>
       <AdminLayout>
-        <div className="right-layout-comment">
+        <div className="right-layout-comment container ps-5 pe-5">
           <CommentDetailView
             threadDetail={threadDetail}
             data={channelDetailList}
