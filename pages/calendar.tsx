@@ -1,4 +1,8 @@
 import React from "react";
+// next imports
+import Link from "next/link";
+// react bootstrap
+import { Button } from "react-bootstrap";
 // swr
 import useSWR from "swr";
 // layouts
@@ -175,6 +179,11 @@ const CalendarView = () => {
                       currentDateQuery={currentDateQuery}
                       currentDate={currentDate}
                     />
+                    <Link href="/bulk-schedules">
+                      <a>
+                        <Button>Bulk Sessions</Button>
+                      </a>
+                    </Link>
                   </div>
                 )}
               </div>

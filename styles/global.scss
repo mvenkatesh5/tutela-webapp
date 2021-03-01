@@ -71,6 +71,16 @@ a {
   }
 }
 
+.calender-flex-container {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+.calender-flex-item {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
 .styled-icon {
   width: 25px;
   height: 25px;
