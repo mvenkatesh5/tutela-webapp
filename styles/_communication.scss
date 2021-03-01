@@ -132,8 +132,13 @@
         position: relative;
         display: flex;
         flex-direction: row;
-        border: 1px solid #ccc;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        border-left: 1px solid #ccc;
+        border-right: 1px solid #ccc;
         border-radius: 4px;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
         overflow: hidden;
         padding: 10px;
         .icon {
@@ -188,10 +193,11 @@
   }
 }
 .channel-thread-card {
-  border: 1px solid #00000020;
+  border: 1px solid #ccc;
   border-radius: 4px;
   border-top: none;
-  margin-left: 50px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
 }
 
 // comments detailed scss
@@ -241,7 +247,6 @@
       }
     }
     .message-wrapper {
-      padding: 10px;
       .message-item {
         width: 100%;
         display: flex;
@@ -260,7 +265,7 @@
           align-items: center;
           font-size: 18px;
           font-weight: 700;
-          border-radius: 4px;
+          border-radius: 50%;
           overflow: hidden;
           text-transform: capitalize;
         }
@@ -316,10 +321,9 @@
     }
   }
   .comment-footer {
-    border-top: 1px solid #e1e1e1;
     padding: 10px;
     flex-shrink: 0;
-    min-height: 40px;
+    min-height: 20px;
     max-height: 400px;
   }
 }

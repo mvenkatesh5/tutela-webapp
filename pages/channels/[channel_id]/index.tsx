@@ -2,12 +2,6 @@ import React from "react";
 // next imports
 import Link from "next/link";
 import { useRouter } from "next/router";
-// react bootstrap
-import { Container, Button } from "react-bootstrap";
-// material icons
-import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
-import { People } from "@styled-icons/ionicons-sharp";
-import { DotsHorizontal } from "@styled-icons/boxicons-regular";
 // swr
 import useSWR from "swr";
 // components
@@ -97,15 +91,17 @@ const ChannelDetail = () => {
                             </div>
                           </ChannelCardView>
                           {threadView === "collapse" && (
-                            <div className="channel-thread-card">
-                              <CommentView
-                                data={data.thread_comments}
-                                channel_id={channel_id}
-                                thread_id={data.id}
-                                collapse={true}
-                                threadView={threadView}
-                              />
-                            </div>
+                            <>
+                              <div className="channel-thread-card">
+                                <CommentView
+                                  data={data.thread_comments}
+                                  channel_id={channel_id}
+                                  thread_id={data.id}
+                                  collapse={true}
+                                  threadView={threadView}
+                                />
+                              </div>
+                            </>
                           )}
                         </div>
                       ))}

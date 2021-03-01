@@ -36,12 +36,15 @@ const CommentView = (props: any) => {
 
     return (
       <>
-        <div className="message-item">
+        <div className="message-item px-5 py-2 pt-4">
           <div className="icon">{data.user_info.substring(0, 1)}</div>
           <div className="content">
             <div className="header">
-              <div className="text">{data.user_info}</div>
-              <div className="time">{datePreview(data.created)}</div>
+              <div className="text">
+                {data.user_info}
+                <small className="d-block text-muted">{datePreview(data.created)}</small>
+              </div>
+              <div className="time"></div>
               <div className="edit-options">
                 {!commentEditToggle && (
                   <div
@@ -75,6 +78,7 @@ const CommentView = (props: any) => {
             </div>
           </div>
         </div>
+        <hr className="mb-0" />
       </>
     );
   };
@@ -83,19 +87,21 @@ const CommentView = (props: any) => {
     <>
       <div className="comment-default-wrapper">
         {!props.data && !props.dataError ? (
-          <div className="comment-content text-center mt- 5 mb-5">Loading.....</div>
+          <div className="comment-content text-center mt-5 mb-5">Loading.....</div>
         ) : (
           <div className="comment-content">
             {editorData && (
-              <div className="header-wrapper">
-                {/* <div className="icon">{editorData.title.substring(0, 1)}</div> */}
-                <div className="content">
-                  <div className="content-heading">{editorData.title}</div>
-                  <div className="content-description">
-                    <CommentEditor data={editorData} edit={false} />
+              <>
+                <div className="header-wrapper">
+                  {/* <div className="icon">{editorData.title.substring(0, 1)}</div> */}
+                  <div className="content">
+                    <div className="content-heading">{editorData.title}</div>
+                    <div className="content-description">
+                      <CommentEditor data={editorData} edit={false} />
+                    </div>
                   </div>
                 </div>
-              </div>
+              </>
             )}
             <div className="message-wrapper">
               {props.data && props.data.length > 0 && (
