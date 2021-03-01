@@ -103,85 +103,93 @@ const BulkSchedules = () => {
     event.preventDefault();
 
     if (sessionData.start_date && sessionData.end_date) {
-      var options = {
-        currentDate: new Date(sessionData.start_date),
-        endDate: new Date(sessionData.end_date),
-        iterator: true,
-      };
-      options.endDate.setDate(options.endDate.getDate() + 1);
-      let returnArray = [];
-      let dateArray = [];
-      // second(0 - 59), minute(0 - 59), hour(0 - 23), dayOfMonth(1 - 31), month(1 - 12), dayOfWeek (0 - 7) (0 or 7 is Sun)
-      let cronExpression = `0 ${sessionData.start_time.getMinutes()} ${sessionData.start_time.getHours()} * * *`;
-      if (sessionData.cornJobKind === "daily") {
-        if (sessionData.cornJobKindValue === "everyday") {
-          cronExpression = `0 ${sessionData.start_time.getMinutes()} ${sessionData.start_time.getHours()} * * *`;
-        }
-        if (sessionData.cornJobKindValue === "weekday") {
-          cronExpression = `0 ${sessionData.start_time.getMinutes()} ${sessionData.start_time.getHours()} * * MON-FRI`;
-        }
-        if (sessionData.cornJobKindValue === "weekend") {
-          cronExpression = `0 ${sessionData.start_time.getMinutes()} ${sessionData.start_time.getHours()} * * SAT,SUN`;
-        }
-      }
-      if (sessionData.cornJobKind === "weekly" && sessionData.cornJobKindValue.length > 0) {
-        const weeklyDay = returnCalenderDays(sessionData.cornJobKindValue);
-        cronExpression = `0 ${sessionData.start_time.getMinutes()} ${sessionData.start_time.getHours()} * * ${weeklyDay}`;
-      }
-      if (sessionData.cornJobKind === "monthly") {
-        if (sessionData.cornJobKindValue && sessionData.cornJobKindValue.category) {
-          if (sessionData.cornJobKindValue.category === "c1") {
-            cronExpression = `0 ${sessionData.start_time.getMinutes()} ${sessionData.start_time.getHours()} ${
-              sessionData.cornJobKindValue.date
-            } 1/${sessionData.cornJobKindValue.month} *`;
-          }
-          if (sessionData.cornJobKindValue.category === "c2") {
-            const weeklyDay = returnCalenderDays([sessionData.cornJobKindValue.day]);
-
-            cronExpression = `0 ${sessionData.start_time.getMinutes()} ${sessionData.start_time.getHours()} * 1/${
-              sessionData.cornJobKindValue.month
-            } ${weeklyDay}#${sessionData.cornJobKindValue.week}`;
-          }
-        }
-      }
-
-      try {
-        var interval = parser.parseExpression(cronExpression, options);
-
-        while (true) {
-          try {
-            var obj = interval.next();
-            returnArray.push(obj.value.toString());
-          } catch (e) {
-            break;
-          }
-        }
-      } catch (err) {
-        console.log("Error: " + err.message);
-      }
-
-      if (returnArray) {
-        for (let i = 0; i < returnArray.length; i++) {
-          const newDate = new Date(returnArray[i]);
-
-          const currentDate = new Date(returnArray[i]);
-          currentDate.setHours(sessionData.end_time.getHours());
-          currentDate.setMinutes(sessionData.end_time.getMinutes());
-          currentDate.setSeconds(sessionData.end_time.getSeconds());
-
-          const data = {
-            title: sessionData.title,
-            description: sessionData.description,
-            start_datetime: new Date(newDate),
-            end_datetime: new Date(currentDate),
-            link: sessionData.link,
-            data: sessionData.data,
+      if (new Date(sessionData.start_date).getDate() === new Date(sessionData.end_date).getDate()) {
+        alert("Start date and End date are equal");
+      } else {
+        if (new Date(sessionData.start_date).getDate() > new Date(sessionData.end_date).getDate()) {
+          alert("End date has to be greater than Start date");
+        } else {
+          var options = {
+            currentDate: new Date(sessionData.start_date),
+            endDate: new Date(sessionData.end_date),
+            iterator: true,
           };
+          options.endDate.setDate(options.endDate.getDate() + 1);
+          let returnArray = [];
+          let dateArray = [];
+          // second(0 - 59), minute(0 - 59), hour(0 - 23), dayOfMonth(1 - 31), month(1 - 12), dayOfWeek (0 - 7) (0 or 7 is Sun)
+          let cronExpression = `0 ${sessionData.start_time.getMinutes()} ${sessionData.start_time.getHours()} * * *`;
+          if (sessionData.cornJobKind === "daily") {
+            if (sessionData.cornJobKindValue === "everyday") {
+              cronExpression = `0 ${sessionData.start_time.getMinutes()} ${sessionData.start_time.getHours()} * * *`;
+            }
+            if (sessionData.cornJobKindValue === "weekday") {
+              cronExpression = `0 ${sessionData.start_time.getMinutes()} ${sessionData.start_time.getHours()} * * MON-FRI`;
+            }
+            if (sessionData.cornJobKindValue === "weekend") {
+              cronExpression = `0 ${sessionData.start_time.getMinutes()} ${sessionData.start_time.getHours()} * * SAT,SUN`;
+            }
+          }
+          if (sessionData.cornJobKind === "weekly" && sessionData.cornJobKindValue.length > 0) {
+            const weeklyDay = returnCalenderDays(sessionData.cornJobKindValue);
+            cronExpression = `0 ${sessionData.start_time.getMinutes()} ${sessionData.start_time.getHours()} * * ${weeklyDay}`;
+          }
+          if (sessionData.cornJobKind === "monthly") {
+            if (sessionData.cornJobKindValue && sessionData.cornJobKindValue.category) {
+              if (sessionData.cornJobKindValue.category === "c1") {
+                cronExpression = `0 ${sessionData.start_time.getMinutes()} ${sessionData.start_time.getHours()} ${
+                  sessionData.cornJobKindValue.date
+                } 1/${sessionData.cornJobKindValue.month} *`;
+              }
+              if (sessionData.cornJobKindValue.category === "c2") {
+                const weeklyDay = returnCalenderDays([sessionData.cornJobKindValue.day]);
 
-          dateArray.push(data);
+                cronExpression = `0 ${sessionData.start_time.getMinutes()} ${sessionData.start_time.getHours()} * 1/${
+                  sessionData.cornJobKindValue.month
+                } ${weeklyDay}#${sessionData.cornJobKindValue.week}`;
+              }
+            }
+          }
+
+          try {
+            var interval = parser.parseExpression(cronExpression, options);
+
+            while (true) {
+              try {
+                var obj = interval.next();
+                returnArray.push(obj.value.toString());
+              } catch (e) {
+                break;
+              }
+            }
+          } catch (err) {
+            console.log("Error: " + err.message);
+          }
+
+          if (returnArray) {
+            for (let i = 0; i < returnArray.length; i++) {
+              const newDate = new Date(returnArray[i]);
+
+              const currentDate = new Date(returnArray[i]);
+              currentDate.setHours(sessionData.end_time.getHours());
+              currentDate.setMinutes(sessionData.end_time.getMinutes());
+              currentDate.setSeconds(sessionData.end_time.getSeconds());
+
+              const data = {
+                title: sessionData.title,
+                description: sessionData.description,
+                start_datetime: new Date(newDate),
+                end_datetime: new Date(currentDate),
+                link: sessionData.link,
+                data: sessionData.data,
+              };
+
+              dateArray.push(data);
+            }
+
+            sessionBulkCreate(dateArray);
+          }
         }
-
-        sessionBulkCreate(dateArray);
       }
     } else {
       alert("Please select start date and end date");
@@ -467,6 +475,7 @@ const BulkSchedules = () => {
                   className="btn-sm mt-2"
                   type="submit"
                   disabled={buttonLoader}
+                  onClick={sessionCreate}
                 >
                   {buttonLoader ? "Saving..." : "Save"}
                 </Button>

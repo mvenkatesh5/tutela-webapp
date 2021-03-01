@@ -174,14 +174,14 @@ const CalendarView = () => {
                 )}
                 {userRole != "student" && (
                   <div style={{ marginLeft: "10px" }}>
-                    <SessionBulkCreateView
+                    {/* <SessionBulkCreateView
                       users={userList}
                       currentDateQuery={currentDateQuery}
                       currentDate={currentDate}
-                    />
+                    /> */}
                     <Link href="/bulk-schedules">
                       <a>
-                        <Button>Bulk Sessions</Button>
+                        <Button className="btn-sm">Create Bulk Sessions</Button>
                       </a>
                     </Link>
                   </div>
