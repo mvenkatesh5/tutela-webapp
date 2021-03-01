@@ -22,6 +22,30 @@ import { NEWS_ENDPOINT, ADVERTS_ENDPOINT, SESSION_ENDPOINT_TODAY } from "@consta
 import { APIFetcher } from "@lib/services";
 // hoc
 import withStudentAuth from "@lib/hoc/withStudentAuth";
+// react slick
+import Slider from "react-slick";
+
+function SampleNextArrow(props: any) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", background: "gray" }}
+      onClick={onClick}
+    />
+  );
+}
+
+function SamplePrevArrow(props: any) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", background: "gray" }}
+      onClick={onClick}
+    />
+  );
+}
 
 const StudentDetail = () => {
   const meta = {
@@ -69,6 +93,17 @@ const StudentDetail = () => {
     { refreshInterval: 0 }
   );
 
+  const settingsSlider = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+  };
+
+  console.log(advertsList);
   return (
     <Page meta={meta}>
       <DashboardNav />
@@ -111,14 +146,22 @@ const StudentDetail = () => {
             <UpcomingTestsCard />
 
             {advertsList && advertsList.length > 0 && (
-              <Card className="p-3 mt-4 border-0 shadow">
-                <a href={advertsList[0].link ? advertsList[0].link : "#"} target="_blank">
-                  <Image
-                    className="img-fluid mx-auto d-block"
-                    src={advertsList[0].image}
-                    width="300"
-                  />
-                </a>
+              <Card className="py-5 px-3 mt-4 mb-5 border-0 shadow">
+                <Slider {...settingsSlider}>
+                  {advertsList.map((item, index) => {
+                    return (
+                      <div>
+                        <a href={advertsList[0].link ? advertsList[0].link : "#"} target="_blank">
+                          <Image
+                            className="img-fluid mx-auto d-block"
+                            src={item.image}
+                            width="300"
+                          />
+                        </a>
+                      </div>
+                    );
+                  })}
+                </Slider>
               </Card>
             )}
           </Col>
