@@ -148,7 +148,7 @@ const StudentDetail = () => {
             {advertsList && advertsList.length > 0 && (
               <Card className="py-5 px-3 mt-4 mb-5 border-0 shadow">
                 <Slider {...settingsSlider}>
-                  {advertsList.map((item, index) => {
+                  {advertsList.map((item: any, index: any) => {
                     return (
                       <div>
                         <a href={advertsList[0].link ? advertsList[0].link : "#"} target="_blank">
