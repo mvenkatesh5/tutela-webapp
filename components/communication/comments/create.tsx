@@ -103,12 +103,12 @@ const CommentsCreateView = (props: any) => {
         </div>
       ) : (
         <Button
-          variant="primary"
+          variant="outline-primary"
           className="btn-sm mt-2"
           onClick={() => setThreadViewEditorDisplay(true)}
           disabled={buttonLoader}
         >
-          Reply
+          Reply to this discussion...
         </Button>
       )}
     </div>
