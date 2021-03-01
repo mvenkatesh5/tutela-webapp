@@ -141,32 +141,15 @@ const toggleTableSelectedBlock = {
           children: [
             {
               type: "table-cell",
-              children: [{ text: " " }],
+              children: [{ text: "" }],
             },
             {
               type: "table-cell",
-              children: [{ text: " " }],
+              children: [{ text: "" }],
             },
             {
               type: "table-cell",
-              children: [{ text: " " }],
-            },
-          ],
-        },
-        {
-          type: "table-row",
-          children: [
-            {
-              type: "table-cell",
-              children: [{ text: " " }],
-            },
-            {
-              type: "table-cell",
-              children: [{ text: " " }],
-            },
-            {
-              type: "table-cell",
-              children: [{ text: " " }],
+              children: [{ text: "" }],
             },
           ],
         },
@@ -175,15 +158,32 @@ const toggleTableSelectedBlock = {
           children: [
             {
               type: "table-cell",
-              children: [{ text: " " }],
+              children: [{ text: "" }],
             },
             {
               type: "table-cell",
-              children: [{ text: " " }],
+              children: [{ text: "" }],
             },
             {
               type: "table-cell",
-              children: [{ text: " " }],
+              children: [{ text: "" }],
+            },
+          ],
+        },
+        {
+          type: "table-row",
+          children: [
+            {
+              type: "table-cell",
+              children: [{ text: "" }],
+            },
+            {
+              type: "table-cell",
+              children: [{ text: "" }],
+            },
+            {
+              type: "table-cell",
+              children: [{ text: "" }],
             },
           ],
         },
@@ -212,7 +212,7 @@ const toggleTableSelectedBlock = {
       for (let i in rowColumnData) {
         let data = {
           type: "table-cell",
-          children: [{ text: " " }],
+          children: [{ text: "" }],
         };
         newTableRowChildren.push(data);
       }
@@ -246,7 +246,7 @@ const toggleTableSelectedBlock = {
       for (let i in rowColumnData) {
         let data = {
           type: "table-cell",
-          children: [{ text: " " }],
+          children: [{ text: "" }],
         };
         newTableRowChildren.push(data);
       }
@@ -283,7 +283,7 @@ const toggleTableSelectedBlock = {
       currentTable.children.map((row, rowIndex) => {
         let data = {
           type: "table-cell",
-          children: [{ text: " " }],
+          children: [{ text: "" }],
         };
         row.children.splice(currentColIndex + 1, 0, data);
       });
@@ -315,7 +315,7 @@ const toggleTableSelectedBlock = {
       currentTable.children.map((row, rowIndex) => {
         let data = {
           type: "table-cell",
-          children: [{ text: " " }],
+          children: [{ text: "" }],
         };
         row.children.splice(currentColIndex, 1);
       });
@@ -340,7 +340,7 @@ const toggleTableSelectedBlock = {
       });
       const newProperties = {
         type: "paragraph",
-        children: [{ text: " " }],
+        children: [{ text: "" }],
       };
       Transforms.insertNodes(editor, newProperties);
     }

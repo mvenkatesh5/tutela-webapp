@@ -33,7 +33,7 @@ const SlateEditor = (props) => {
       setValue([
         {
           type: "paragraph",
-          children: [{ text: " " }],
+          children: [{ text: "" }],
         },
       ]);
     }
@@ -92,7 +92,7 @@ const SlateEditor = (props) => {
               <Editable
                 renderElement={renderElement}
                 renderLeaf={renderLeaf}
-                placeholder="Enter some rich text…"
+                placeholder="Write message"
                 spellCheck
                 autoFocus
                 readOnly={props.readOnly}

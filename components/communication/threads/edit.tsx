@@ -41,15 +41,7 @@ const ThreadEditView = (props: any) => {
           : [
               {
                 type: "paragraph",
-                children: [{ text: " " }],
-              },
-              {
-                type: "paragraph",
-                children: [{ text: " " }],
-              },
-              {
-                type: "paragraph",
-                children: [{ text: " " }],
+                children: [{ text: "" }],
               },
             ],
     });

@@ -25,15 +25,7 @@ const CommentsCreateView = (props: any) => {
     content: [
       {
         type: "paragraph",
-        children: [{ text: " " }],
-      },
-      {
-        type: "paragraph",
-        children: [{ text: " " }],
-      },
-      {
-        type: "paragraph",
-        children: [{ text: " " }],
+        children: [{ text: "" }],
       },
     ],
   });
@@ -73,15 +65,7 @@ const CommentsCreateView = (props: any) => {
           content: [
             {
               type: "paragraph",
-              children: [{ text: " " }],
-            },
-            {
-              type: "paragraph",
-              children: [{ text: " " }],
-            },
-            {
-              type: "paragraph",
-              children: [{ text: " " }],
+              children: [{ text: "" }],
             },
           ],
         });
