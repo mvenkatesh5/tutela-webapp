@@ -61,7 +61,7 @@ const SessionCard = (props: any) => {
               </div>
               <div>
                 <div className="badge border bg-light text-dark ms-3">
-                  {datePreview(props.data.datetime)}
+                  {datePreview(props.data.start_datetime)}
                 </div>
               </div>
 
@@ -98,7 +98,7 @@ const SessionCard = (props: any) => {
               </div>
               <div>
                 <div className="heading">{props.data.title}</div>
-                <div className="description">{datePreview(props.data.datetime)}</div>
+                <div className="description">{datePreview(props.data.start_datetime)}</div>
                 {/* <div className="description">Weekly on weekdays</div> */}
               </div>
               <div className="ms-auto text-end" onClick={handleSessionDetailView}>

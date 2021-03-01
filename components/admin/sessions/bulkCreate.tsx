@@ -6,6 +6,8 @@ import { CalendarPlus } from "@styled-icons/boxicons-regular";
 import { Times } from "@styled-icons/fa-solid";
 // swr
 import { mutate } from "swr";
+// cron parser
+const parser = require("cron-parser");
 // components
 import SessionForm from "./sessionForm";
 import SessionUser from "./sessionUser";
@@ -13,13 +15,13 @@ import SessionUser from "./sessionUser";
 import { USER_CALENDAR_SESSION_ENDPOINT } from "@constants/routes";
 // api services
 import {
-  SessionCreate,
+  SessionBulkCreate,
   SessionUserCreate,
   SessionBulkUserCreate,
 } from "@lib/services/sessionservice";
 import { APIFetcher } from "@lib/services";
 
-const SessionCreateView = (props: any) => {
+const SessionBulkCreateView = (props: any) => {
   const [buttonLoader, setButtonLoader] = React.useState(false);
   const [modal, setModal] = React.useState(false);
   const closeModal = () => {
@@ -35,6 +37,8 @@ const SessionCreateView = (props: any) => {
       data: {},
       listeners: [],
       teachers: [],
+      cornJobKind: "daily",
+      cornJobKindValue: "everyday",
     });
   };
   const openModal = () => setModal(true);
@@ -42,14 +46,16 @@ const SessionCreateView = (props: any) => {
   const [sessionData, setSessionData] = React.useState({
     title: "",
     description: "",
-    start_date: props.currentDate ? new Date(props.currentDate) : new Date(),
-    end_date: props.currentDate ? new Date(props.currentDate) : new Date(),
-    start_time: props.currentDate ? new Date(props.currentDate) : new Date(),
-    end_time: props.currentDate ? new Date(props.currentDate) : new Date(),
+    start_date: new Date(),
+    end_date: new Date(),
+    start_time: new Date(),
+    end_time: new Date(),
     link: "",
     data: {},
     listeners: [],
     teachers: [],
+    cornJobKind: "daily",
+    cornJobKindValue: "everyday",
   });
   const handleSessionData = (value: any) => {
     setSessionData(value);
@@ -57,29 +63,118 @@ const SessionCreateView = (props: any) => {
   const handleSessionListeners = (key: any, value: any) => {
     setSessionData({ ...sessionData, [key]: value });
   };
-  const handleDatetime = (date: any, time: any) => {
-    let currentDate = new Date(date);
-    let currentTime = new Date(time);
-    currentDate.setHours(currentTime.getHours());
-    currentDate.setMinutes(currentTime.getMinutes());
-    currentDate.setSeconds(currentTime.getSeconds());
-    return new Date(currentDate);
+  const handleDateTime = (date: any, time: any) => {
+    return date;
+  };
+
+  const returnCalenderDays = (days: any) => {
+    const array = [];
+    for (let i = 0; i < days.length; i++) {
+      if (days[i] === "Sunday") array.push("SUN");
+      if (days[i] === "Monday") array.push("MON");
+      if (days[i] === "Tuesday") array.push("TUE");
+      if (days[i] === "Wednesday") array.push("WED");
+      if (days[i] === "Thursday") array.push("THU");
+      if (days[i] === "Friday") array.push("FRI");
+      if (days[i] === "Saturday") array.push("SAT");
+    }
+    return array.toString();
   };
 
   const sessionCreate = (event: any) => {
     event.preventDefault();
+
+    if (sessionData.start_date && sessionData.end_date) {
+      var options = {
+        currentDate: new Date(sessionData.start_date),
+        endDate: new Date(sessionData.end_date),
+        iterator: true,
+      };
+      options.endDate.setDate(options.endDate.getDate() + 1);
+      let returnArray = [];
+      let dateArray = [];
+      // second(0 - 59), minute(0 - 59), hour(0 - 23), dayOfMonth(1 - 31), month(1 - 12), dayOfWeek (0 - 7) (0 or 7 is Sun)
+      let cronExpression = `0 ${sessionData.start_time.getMinutes()} ${sessionData.start_time.getHours()} * * *`;
+      if (sessionData.cornJobKind === "daily") {
+        if (sessionData.cornJobKindValue === "everyday") {
+          cronExpression = `0 ${sessionData.start_time.getMinutes()} ${sessionData.start_time.getHours()} * * *`;
+        }
+        // if (sessionData.cornJobKindValue === "weekday") {
+        //   cronExpression = `0 ${sessionData.start_time.getMinutes()} ${sessionData.start_time.getHours()} * * MON-FRI`;
+        // }
+        // if (sessionData.cornJobKindValue === "weekend") {
+        //   cronExpression = `0 ${sessionData.start_time.getMinutes()} ${sessionData.start_time.getHours()} * * SAT,SUN`;
+        // }
+      }
+      // if (sessionData.cornJobKind === "weekly" && sessionData.cornJobKindValue.length > 0) {
+      //   const weeklyDay = returnCalenderDays(sessionData.cornJobKindValue);
+      //   cronExpression = `0 ${sessionData.start_time.getMinutes()} ${sessionData.start_time.getHours()} * * ${weeklyDay}`;
+      // }
+      // if (sessionData.cornJobKind === "monthly") {
+      //   if (sessionData.cornJobKindValue) {
+      //     if (sessionData.cornJobKindValue.category === "c1") {
+      //       cronExpression = `0 ${sessionData.start_time.getMinutes()} ${sessionData.start_time.getHours()} ${
+      //         sessionData.cornJobKindValue.date
+      //       } 1/${sessionData.cornJobKindValue.month} *`;
+      //     }
+      //     if (sessionData.cornJobKindValue.category === "c2") {
+      //       const weeklyDay = returnCalenderDays([sessionData.cornJobKindValue.day]);
+
+      //       cronExpression = `0 ${sessionData.start_time.getMinutes()} ${sessionData.start_time.getHours()} * 1/${
+      //         sessionData.cornJobKindValue.month
+      //       } ${weeklyDay}#${sessionData.cornJobKindValue.week}`;
+      //     }
+      //   }
+      // }
+
+      try {
+        var interval = parser.parseExpression(cronExpression, options);
+
+        while (true) {
+          try {
+            var obj = interval.next();
+            returnArray.push(obj.value.toString());
+          } catch (e) {
+            break;
+          }
+        }
+      } catch (err) {
+        console.log("Error: " + err.message);
+      }
+
+      if (returnArray) {
+        for (let i = 0; i < returnArray.length; i++) {
+          const newDate = new Date(returnArray[i]);
+
+          const currentDate = new Date(returnArray[i]);
+          currentDate.setHours(sessionData.end_time.getHours());
+          currentDate.setMinutes(sessionData.end_time.getMinutes());
+          currentDate.setSeconds(sessionData.end_time.getSeconds());
+
+          const data = {
+            title: sessionData.title,
+            description: sessionData.description,
+            start_datetime: new Date(newDate),
+            end_datetime: new Date(currentDate),
+            link: sessionData.link,
+            data: sessionData.data,
+          };
+
+          dateArray.push(data);
+        }
+
+        sessionBulkCreate(dateArray);
+      }
+    } else {
+      alert("Please select start date and end date");
+    }
+  };
+
+  const sessionBulkCreate = (session_payload: any) => {
     setButtonLoader(true);
+    const payload = { sessions: session_payload };
 
-    const payload = {
-      title: sessionData.title,
-      description: sessionData.description,
-      start_datetime: handleDatetime(sessionData.start_date, sessionData.start_time),
-      end_datetime: handleDatetime(sessionData.start_date, sessionData.end_time),
-      link: sessionData.link,
-      data: sessionData.data,
-    };
-
-    SessionCreate(payload)
+    SessionBulkCreate(payload)
       .then((res) => {
         createSessionUsers(res);
       })
@@ -145,7 +240,7 @@ const SessionCreateView = (props: any) => {
           <div style={{ width: "18px", marginRight: "8px" }}>
             <CalendarPlus />
           </div>
-          <div>Schedule Sessions</div>
+          <div>Bulk Schedule Sessions</div>
         </div>
       </Button>
 
@@ -197,16 +292,12 @@ const SessionCreateView = (props: any) => {
                 padding: "10px 12px",
               }}
             >
-              <SessionForm
-                data={sessionData}
-                handleData={handleSessionData}
-                view_end_date={false}
-              />
-              <SessionUser
+              <SessionForm data={sessionData} handleData={handleSessionData} view_end_date={true} />
+              {/* <SessionUser
                 data={sessionData}
                 users={props.users}
                 handleData={handleSessionListeners}
-              />
+              /> */}
             </div>
             <div
               style={{
@@ -239,32 +330,8 @@ const SessionCreateView = (props: any) => {
           </Form>
         </div>
       )}
-
-      {/* <Modal show={modal} onHide={closeModal} size="lg" centered backdrop={"static"}>
-        <Modal.Body>
-          <Form onSubmit={sessionCreate}>
-            <SessionForm data={sessionData} handleData={handleSessionData} />
-            <SessionUser
-              data={sessionData}
-              users={props.users}
-              handleData={handleSessionListeners}
-            />
-            <Button
-              variant="outline-primary"
-              className="btn-sm"
-              type="submit"
-              style={{ marginRight: "10px" }}
-            >
-              Create Sessions
-            </Button>
-            <Button variant="outline-secondary" className="btn-sm" onClick={closeModal}>
-              Close
-            </Button>
-          </Form>
-        </Modal.Body>
-      </Modal> */}
     </div>
   );
 };
 
-export default SessionCreateView;
+export default SessionBulkCreateView;

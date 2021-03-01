@@ -17,7 +17,8 @@ const ZoomSession = (props: any) => {
     setButtonLoader(true);
     const payload = {
       topic: props.data && props.data.title ? props.data.title : "New Meeting",
-      start_datetime: new Date().toISOString().replace(/.\d+Z$/g, "Z"),
+      start_datetime: new Date(props.data.start_datetime).toISOString().replace(/.\d+Z$/g, "Z"),
+      end_datetime: new Date(props.data.end_datetime).toISOString().replace(/.\d+Z$/g, "Z"),
     };
 
     CreateZoomMeeting(payload)

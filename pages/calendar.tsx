@@ -7,6 +7,7 @@ import AdminLayout from "@layouts/adminLayout";
 import CalenderView from "@components/calendar";
 // components
 import SessionCreateView from "@components/admin/sessions/create";
+import SessionBulkCreateView from "@components/admin/sessions/bulkCreate";
 import CalenderDayView from "@components/admin/calenderviews/dayview";
 import CalenderWeekView from "@components/admin/calenderviews/weekview";
 import CalenderMonthView from "@components/admin/calenderviews/monthview";
@@ -159,8 +160,17 @@ const CalendarView = () => {
                   </div>
                 </div>
                 {userRole != "student" && (
-                  <div style={{ marginLeft: "20px" }}>
+                  <div style={{ marginLeft: "10px" }}>
                     <SessionCreateView
+                      users={userList}
+                      currentDateQuery={currentDateQuery}
+                      currentDate={currentDate}
+                    />
+                  </div>
+                )}
+                {userRole != "student" && (
+                  <div style={{ marginLeft: "10px" }}>
+                    <SessionBulkCreateView
                       users={userList}
                       currentDateQuery={currentDateQuery}
                       currentDate={currentDate}

@@ -20,6 +20,7 @@ export const ADVERTS_ENDPOINT = `/api/adverts/`;
 export const ADVERTS_WITH_ID_ENDPOINT = (advert_id: Number) => `/api/adverts/${advert_id}`;
 
 // sessions
+export const BULK_SESSION_ENDPOINT = `/api/sessions/bulk/`;
 export const SESSION_ENDPOINT = `/api/tutela-sessions/`;
 export const SESSION_ENDPOINT_TODAY = `/api/tutela-sessions/today/`;
 export const SESSION_WITH_ID_ENDPOINT = (session_id: Number) =>
@@ -28,6 +29,7 @@ export const SESSION_USER_ENDPOINT = `/api/tutela-sessions-users/`;
 export const SESSION_USER_WITH_ID_ENDPOINT = (session_id: Number) =>
   `/api/tutela-sessions-users/${session_id}/`;
 export const ZOOM_MEETING_ENDPOINT = `/api/create-zoom-meeting/`;
+export const ZOOM_ACCOUNT_STATUS_ENDPOINT = `/api/zoom/users-status/`;
 
 // calendar sessions
 export const USER_CALENDAR_SESSION_ENDPOINT = (date_query: any) =>

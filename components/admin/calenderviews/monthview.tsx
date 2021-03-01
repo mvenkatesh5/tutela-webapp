@@ -9,7 +9,7 @@ const CalendarMonthView = (props: any) => {
     let currentDatePayload: any = [];
     if (props.sessionList && props.sessionList.length > 0)
       props.sessionList.map((element: any, index: any) => {
-        if (returnDate(element.datetime) === date) {
+        if (returnDate(element.start_datetime) === date) {
           currentDatePayload.push(element);
         }
       });

@@ -1,101 +1,125 @@
 // react bootstrap
-import { Button } from "react-bootstrap";
+import { Button, Badge } from "react-bootstrap";
+// material icon
+import { EventBusy } from "@styled-icons/material/EventBusy";
+import { EventAvailable } from "@styled-icons/material/EventAvailable";
+import { InfoCircle } from "@styled-icons/bootstrap/InfoCircle";
+import { ExternalLink } from "@styled-icons/heroicons-solid/ExternalLink";
+import { Link } from "@styled-icons/boxicons-regular/Link";
+// global imports
+import { datePreview } from "@constants/global";
+// swr
+import useSWR from "swr";
 // layouts
 import AdminLayout from "@layouts/adminLayout";
 // hoc
 import withAdminAuth from "@lib/hoc/withAdminAuth";
+// api routes
+import { ZOOM_ACCOUNT_STATUS_ENDPOINT } from "@constants/routes";
+// api services
+import { APIFetcher } from "@lib/services";
 
 const ZoomView = () => {
+  const { data: zoomUserList, error: zoomUserListError } = useSWR(
+    ZOOM_ACCOUNT_STATUS_ENDPOINT,
+    APIFetcher
+  );
+
+  if (!zoomUserList && !zoomUserListError)
+    return <div className="text-center mt-5 mb-5">Loading...</div>;
+
+  if (!zoomUserList) return <div className="text-center mt-5 mb-5">Loading...</div>;
+
+  if (zoomUserListError) console.log(zoomUserListError);
+
+  console.log("zoomUserList", zoomUserList);
+
   return (
     <AdminLayout>
-      <div className="container mt-4">
-        <div className="card shadow">
-          <div className="card-header bg-white fw-bold py-3">
-            <h4 className="m-0">Zoom Integration</h4>
-          </div>
-          <div className="card-body bg-light">
-            <div className="d-flex align-items-center">
-              <div className="me-3">
-                <img
-                  src="https://pbs.twimg.com/profile_images/1285693559992008704/oD_oPSBP_400x400.jpg"
-                  className="rounded"
-                  width="40"
-                />
-              </div>
-              <div>
-                <p className="lead m-0">Zoom</p>
-              </div>
-              <div className="ms-auto">
-                <Button variant="outline-primary">Add Key</Button>
-              </div>
+      <div className="right-layout">
+        <div className="container mt-4">
+          <div className="card shadow mt-4">
+            <div className="card-header bg-white fw-bold py-3">
+              <h4 className="m-0">Zoom User Status</h4>
             </div>
-
-            {/* table start */}
-            <table className="table table-bordered mt-3">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Host Name</th>
-                  <th scope="col">JWT Key</th>
-                  <th scope="col">JWT Secret</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Number Of Hosts</th>
-                  <th scope="col">Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  {/* <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td> */}
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div className="card shadow mt-4">
-          <div className="card-header bg-white fw-bold py-3">
-            <h4 className="m-0">Zoom User Status</h4>
-          </div>
-          <div className="card-body bg-light">
-            {/* <div className="d-flex align-items-center">
-              <div className="me-3">
-                <img
-                  src="https://pbs.twimg.com/profile_images/1285693559992008704/oD_oPSBP_400x400.jpg"
-                  className="rounded"
-                  width="40"
-                />
-              </div>
-              <div>
-                <p className="lead m-0">Zoom</p>
-              </div>
-              <div className="ms-auto">
-                <Button variant="outline-primary">Add Key</Button>
-              </div>
-            </div> */}
-
-            {/* table start */}
-            <table className="table table-bordered mt-3">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">User</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Remaining Time</th>
-                  <th scope="col">Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  {/* <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td> */}
-                </tr>
-              </tbody>
-            </table>
+            <div className="card-body ">
+              {/* table start */}
+              <table className="table table-bordered mt-3" style={{ whiteSpace: "nowrap" }}>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Host Email</th>
+                    <th>Status</th>
+                    <th>Barge in URL</th>
+                    <th>Participant URL</th>
+                    <th>Topic</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Remaining Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {zoomUserList &&
+                    zoomUserList.payload &&
+                    zoomUserList.payload.length > 0 &&
+                    zoomUserList.payload.map((key: any, index: any) => (
+                      <tr key={index + "zoomKeys"}>
+                        <td>{index + 1}</td>
+                        <td>{key.data && key.data.host_email ? key.data.host_email : "-"}</td>
+                        <td>
+                          {key.status && key.status == "busy" ? (
+                            <Badge
+                              pill
+                              variant="warning"
+                              style={{ width: "100%", backgroundColor: "#ffc107" }}
+                            >
+                              <EventBusy style={{ height: "10px", width: "15px" }}></EventBusy>
+                              {key.status}
+                            </Badge>
+                          ) : (
+                            <Badge
+                              pill
+                              variant="success"
+                              style={{ width: "100%", backgroundColor: "#28a745" }}
+                            >
+                              <EventAvailable
+                                style={{ height: "10px", width: "15px" }}
+                              ></EventAvailable>
+                              Available
+                            </Badge>
+                          )}
+                        </td>
+                        <td className="text-center">
+                          {key.data && key.data.start_url ? (
+                            <a href={key.data.start_url} target="_blank">
+                              <Link style={{ width: "20px" }}></Link>
+                            </a>
+                          ) : (
+                            "-"
+                          )}
+                        </td>
+                        <td className="text-center">
+                          {key.data && key.data.join_url ? (
+                            <a href={key.data.join_url} target="_blank">
+                              <Link style={{ width: "20px" }}></Link>
+                            </a>
+                          ) : (
+                            "-"
+                          )}
+                        </td>
+                        <td>{key.data && key.data.topic ? key.data.topic : "-"}</td>
+                        <td>
+                          {key.data && key.data.start_time ? datePreview(key.data.start_time) : "-"}
+                        </td>
+                        <td>
+                          {key.data && key.data.end_time ? datePreview(key.data.end_time) : "-"}
+                        </td>
+                        <td>{key.ttl && key.ttl === "inf" ? "-" : key.ttl}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

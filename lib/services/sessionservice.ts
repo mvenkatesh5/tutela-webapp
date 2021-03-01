@@ -1,12 +1,22 @@
 import axios from "axios";
 // api routes
 import {
+  BULK_SESSION_ENDPOINT,
   SESSION_ENDPOINT,
   SESSION_WITH_ID_ENDPOINT,
   SESSION_USER_ENDPOINT,
   ZOOM_MEETING_ENDPOINT,
   SESSION_USER_WITH_ID_ENDPOINT,
 } from "@constants/routes";
+
+export const SessionBulkCreate = async (data: any) => {
+  try {
+    const response = await axios.post(BULK_SESSION_ENDPOINT, data);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
 
 export const SessionCreate = async (data: any) => {
   try {
