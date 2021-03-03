@@ -1,9 +1,8 @@
 import React from "react";
 // react bootstrap
-import { Container, Row, Col } from "react-bootstrap";
+import { Dropdown, DropdownButton } from "react-bootstrap";
 // material icons
-import { ArrowsCollapse } from "@styled-icons/bootstrap/ArrowsCollapse";
-import { Selector } from "@styled-icons/heroicons-solid/Selector";
+import { ArrowDropDown } from "@styled-icons/remix-line";
 // swr
 import useSWR from "swr";
 // components
@@ -39,25 +38,14 @@ const Channel = () => {
                       {channelList.map((data: any, index: any) => (
                         <div key={`channels-view-${data.id}`} className="col-md-3 mt-4">
                           <ChannelCardView data={data}>
-                            <div className="d-flex">
-                              <div>
-                                <small className="item me-3">
-                                  {data.settings && data.settings.collapse ? (
-                                    // <Selector width="20" />
-                                    <>Chat</>
-                                  ) : (
-                                    //  <ArrowsCollapse width="20" />
-                                    <>Discuss</>
-                                  )}
-                                </small>
-                              </div>
-                              <div className="me-3">
-                                <ChannelDeleteView data={data} />
-                              </div>
-                              <div>
+                            <DropdownButton variant="light" title={<></>}>
+                              <Dropdown.Item>
                                 <ChannelEditView data={data} />
-                              </div>
-                            </div>
+                              </Dropdown.Item>
+                              <Dropdown.Item>
+                                <ChannelDeleteView data={data} />
+                              </Dropdown.Item>
+                            </DropdownButton>
                           </ChannelCardView>
                         </div>
                       ))}

@@ -97,3 +97,31 @@ a {
   -o-background-size: cover;
   background-size: cover;
 }
+
+.icon-size {
+  width: 12px;
+  height: 12px;
+}
+
+.icon-size-lg {
+  width: 18px;
+  height: 18px;
+}
+
+.custom-nav-tabs-links {
+  border-bottom: 1px solid #e7e7e7;
+}
+
+.custom-nav-tabs-links .nav-link.active,
+.nav-pills .show > .nav-link {
+  color: #c0405c !important;
+  background-color: white !important;
+  border-radius: 0px;
+  border-bottom: 2px solid #c0405c;
+}
+
+.custom-nav-tabs-links .nav-item a {
+  color: #6b778c !important;
+  font-weight: bold;
+  padding: 10px 20px !important;
+}
