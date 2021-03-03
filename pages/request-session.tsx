@@ -12,9 +12,6 @@ function RequestSectionPage() {
           <Form.Control type="email" />
           <Form.Label className="mt-3">Topic</Form.Label>
           <Form.Control type="text" />
-          <Form.Label className="mt-3">Topic</Form.Label>
-          <Form.Control type="text" />
-
           <Form.Label className="mt-3">Offering</Form.Label>
           <Form.Control as="select">
             <option>1</option>
