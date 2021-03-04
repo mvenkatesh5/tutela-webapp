@@ -20,7 +20,7 @@ const ZoomSession = (props: any) => {
   const [target, setTarget] = useState(null);
   const ref = useRef(null);
 
-  const handleClick = (event) => {
+  const handleClick = (event: any) => {
     setShow(!show);
     setTarget(event.target);
   };
