@@ -51,28 +51,35 @@ function ParentDetailReport() {
                         padding: "30px",
                         borderRadius: "50%",
                       }}
+                      className="me-3"
                     >
                       <h6 className="fw-bolder text-white m-0 mt-2">100%</h6>
                     </div>
                   </div>
                   <div className="p-3 px-5">
+                    <img className="img-fluid mb-1" src="/calender.svg" width="30" />
                     <p className="mb-0 text-white fw-bolder">20/24</p>
                     <p className="text-white mb-0">Attendance</p>
                   </div>
                   <div className="p-3 px-5">
+                    <img className="img-fluid mb-1" src="/clock.svg" width="30" />
                     <p className="mb-0 text-white fw-bolder">76%</p>
                     <p className="text-white mb-0">Overall Progress</p>
                   </div>
                   <div className="p-3 px-5">
+                    <img className="img-fluid mb-1" src="/exam.svg" width="30" />
                     <p className="mb-0 text-white fw-bolder">80/100</p>
                     <p className="text-white mb-0">Average Score</p>
                   </div>
 
                   <div className="p-3 px-5">
+                    <img className="img-fluid mb-1" src="/complete.svg" width="30" />
+
                     <p className="mb-0 text-white fw-bolder">147hrs</p>
                     <p className="text-white mb-0">Time Spent</p>
                   </div>
                   <div className="p-3 px-5">
+                    <img className="img-fluid mb-1" src="/calender.svg" width="30" />
                     <p className="mb-0 text-white fw-bolder">Raj Gopal &amp; others</p>
                     <p className="text-white mb-0">Teachers</p>
                   </div>

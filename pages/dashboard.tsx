@@ -23,6 +23,7 @@ import withTeacherAuth from "@lib/hoc/withTeacherAuth";
 const DashboardDetail = (props: any) => {
   const meta = {
     description: META_DESCRIPTION,
+    title: "Tutela",
   };
 
   const [currentDateQuery, setCurrentDateQuery] = React.useState<any>();
