@@ -58,7 +58,7 @@
       &.month-view-calender-row {
         position: relative;
         overflow: hidden;
-        height: 100%;
+        height: auto;
         &:last-child {
           border-bottom: 1px solid #ccc;
         }
@@ -94,7 +94,7 @@
           color: $light-text;
         }
         &.selected-active {
-          color: red !important;
+          color: #ed6368 !important;
         }
 
         // calendar month view
@@ -108,7 +108,7 @@
           width: 100%;
           display: block;
           min-height: 100px;
-          height: 100%;
+          height: auto;
 
           &:first-child {
             border-left: 1px solid #ccc;
@@ -126,7 +126,7 @@
           &.selected-active {
             color: #000;
             .month-header {
-              color: red !important;
+              color: #ed6368 !important;
             }
           }
           .month-header {
@@ -177,7 +177,7 @@
       &.active {
         border-color: $primary-color;
         background-color: #fff;
-        color: red;
+        color: #ed6368 !important;
       }
     }
   }
