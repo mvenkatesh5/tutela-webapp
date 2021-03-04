@@ -110,14 +110,18 @@ function ParentDashboard() {
                     <div className="card-body">
                       <div className="d-flex">
                         <div className="p-3 py-1">
+                          <img className="img-fluid mb-3" src="/calender.svg" width="30" />
                           <p className="mb-0 fw-bolder">20/24</p>
                           <p className="text-muted mb-0">Attendance</p>
                         </div>
                         <div className="p-3 py-1">
+                          <img className="img-fluid mb-3" src="/clock.svg" width="30" />
+
                           <p className="mb-0 fw-bolder">76%</p>
                           <p className="text-muted mb-0">Overall Progress</p>
                         </div>
                         <div className="p-3 py-1">
+                          <img className="img-fluid mb-3" src="/exam.svg" width="30" />
                           <p className="mb-0 fw-bolder">80/100</p>
                           <p className="text-muted mb-0">Avg. Score</p>
                         </div>
