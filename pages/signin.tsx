@@ -24,7 +24,7 @@ const SignInView = () => {
   const [buttonLoader, setButtonLoader] = React.useState(false);
 
   const meta = {
-    title: "Sign In",
+    title: "Tutela",
     description: META_DESCRIPTION,
   };
 

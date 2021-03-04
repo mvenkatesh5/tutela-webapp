@@ -25,31 +25,31 @@ import withStudentAuth from "@lib/hoc/withStudentAuth";
 // react slick
 import Slider from "react-slick";
 
-function SampleNextArrow(props: any) {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{ ...style, display: "block", background: "gray" }}
-      onClick={onClick}
-    />
-  );
-}
+// function SampleNextArrow(props: any) {
+//   const { className, style, onClick } = props;
+//   return (
+//     <div
+//       className={className}
+//       style={{ ...style, display: "block", background: "gray" }}
+//       onClick={onClick}
+//     />
+//   );
+// }
 
-function SamplePrevArrow(props: any) {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{ ...style, display: "block", background: "gray" }}
-      onClick={onClick}
-    />
-  );
-}
+// function SamplePrevArrow(props: any) {
+//   const { className, style, onClick } = props;
+//   return (
+//     <div
+//       className={className}
+//       style={{ ...style, display: "block", background: "gray" }}
+//       onClick={onClick}
+//     />
+//   );
+// }
 
 const StudentDetail = () => {
   const meta = {
-    title: "Sign In",
+    title: "Tutela",
     description: META_DESCRIPTION,
   };
 
@@ -96,11 +96,12 @@ const StudentDetail = () => {
   const settingsSlider = {
     dots: true,
     infinite: true,
-    speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
+    autoplay: true,
+    autoplaySpeed: 2500,
+    // nextArrow: <SampleNextArrow />,
+    // prevArrow: <SamplePrevArrow />,
   };
 
   console.log(advertsList);
