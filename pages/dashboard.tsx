@@ -22,7 +22,6 @@ import withTeacherAuth from "@lib/hoc/withTeacherAuth";
 
 const DashboardDetail = (props: any) => {
   const meta = {
-    title: "Sign In",
     description: META_DESCRIPTION,
   };
 

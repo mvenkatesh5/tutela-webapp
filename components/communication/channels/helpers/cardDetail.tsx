@@ -5,8 +5,10 @@ const ChannelCardView = (props: any) => {
   return (
     <>
       <div className="card p-3 border-0 shadow">
+        <div className="position-absolute top-0 end-0 p-3">{props.children}</div>
+
         <div className="d-flex align-items-center">
-          <div className="bg-light rounded py-4 p-3">
+          <div className="bg-light rounded p-4">
             <span className="fw-bolder">{props.data.name.substring(0, 1)}</span>
           </div>
 
@@ -23,7 +25,12 @@ const ChannelCardView = (props: any) => {
               </a>
             </Link>
             <p className="m-0">{props.data.description}</p>
-            {props.children}
+
+            {props.data.settings && props.data.settings.collapse ? (
+              <span className="badge bg-light text-dark">Chat</span>
+            ) : (
+              <span className="badge bg-light text-dark">Discuss</span>
+            )}
           </div>
         </div>
       </div>

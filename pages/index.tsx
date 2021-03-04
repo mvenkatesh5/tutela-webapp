@@ -11,7 +11,7 @@ import { META_DESCRIPTION } from "@constants/page";
 
 const Home = () => {
   const meta = {
-    title: "Sign In",
+    title: "Tutela",
     description: META_DESCRIPTION,
   };
   return (
