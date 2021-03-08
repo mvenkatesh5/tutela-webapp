@@ -61,6 +61,12 @@ function DashboardNav() {
                   My Calender
                 </Nav.Link>
               )}
+
+              {tokenDetails && tokenDetails.user && tokenDetails.user.role === 1 && (
+                <Nav.Link className="fw-bold text-muted" href="/teacher-profile">
+                  Profile
+                </Nav.Link>
+              )}
             </Nav>
           </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">

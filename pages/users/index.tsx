@@ -57,7 +57,9 @@ const UserDetails = () => {
                     <tr key={i}>
                       <td className="text-center">{i + 1}</td>
                       <td className="heading">
-                        <Link href={`/users/${users.id}`}>
+                        <Link
+                          href={`/users/${users.role === 1 ? `${users.id}/teacher` : users.id}`}
+                        >
                           <a target="_blank">{users.first_name}</a>
                         </Link>
                       </td>
