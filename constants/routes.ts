@@ -49,3 +49,6 @@ export const CHANNEL_WITH_THREAD_COLLAPSE_ENDPOINT = (channel_id: Number) =>
 
 export const THREAD_WITH_COMMENT_ENDPOINT = (thread_id: Number) =>
   `/api/threads/${thread_id}/comments/`;
+
+// user session
+export const REQUEST_SESSION_ENDPOINT = `/api/request-sessions/`;

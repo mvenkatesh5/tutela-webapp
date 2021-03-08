@@ -51,12 +51,12 @@ function DashboardNav() {
                   Profile
                 </Nav.Link>
               )}
-              {tokenDetails && tokenDetails.user && tokenDetails.user.role != 3 && (
-                <Nav.Link className="fw-bold text-muted" href="/calendar">
-                  My Calender
+              {tokenDetails && tokenDetails.user && tokenDetails.user.role === 0 && (
+                <Nav.Link className="fw-bold text-muted" href="/request-session">
+                  Request Session
                 </Nav.Link>
               )}
-              {tokenDetails && tokenDetails.user && tokenDetails.user.role === 3 && (
+              {tokenDetails && tokenDetails.user && tokenDetails.user.role != 3 && (
                 <Nav.Link className="fw-bold text-muted" href="/calendar">
                   My Calender
                 </Nav.Link>

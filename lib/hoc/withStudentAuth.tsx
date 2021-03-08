@@ -24,16 +24,13 @@ const withStudentAuth = (WrappedComponent: any) => {
         const componentProps =
           WrappedComponent.getInitialProps && (await WrappedComponent.getInitialProps(ctx));
         return { ...componentProps, tokenDetails };
-      }
-      if (tokenDetails.user.role === 1) {
+      } else if (tokenDetails.user.role === 1) {
         redirect(ctx, "/calendar");
         return {};
-      }
-      if (tokenDetails.user.role === 2) {
+      } else if (tokenDetails.user.role === 2) {
         redirect(ctx, "/calendar");
         return {};
-      }
-      if (tokenDetails.user.role === 3) {
+      } else if (tokenDetails.user.role === 3) {
         redirect(ctx, "/parent/dashboard");
         return {};
       }

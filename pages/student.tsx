@@ -104,7 +104,6 @@ const StudentDetail = () => {
     // prevArrow: <SamplePrevArrow />,
   };
 
-  console.log(advertsList);
   return (
     <Page meta={meta}>
       <DashboardNav />

@@ -6,6 +6,7 @@ import { Feedback, DynamicFeed } from "@styled-icons/material-rounded/";
 import { Calendar, User } from "@styled-icons/boxicons-regular/";
 import { Video } from "@styled-icons/boxicons-regular/Video";
 import { Chat } from "@styled-icons/boxicons-regular/Chat";
+import { ArchiveOut } from "@styled-icons/boxicons-regular/ArchiveOut";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -40,6 +41,11 @@ const Sidebar = () => {
       label: "Channels",
       icon: <Chat />,
       href: "/channels",
+    },
+    {
+      label: "Channels",
+      icon: <ArchiveOut />,
+      href: "/admin/request-session",
     },
   ];
 

@@ -67,6 +67,8 @@ const BulkSchedules = () => {
     setSessionData(value);
   };
   const handleSessionListeners = (key: any, value: any) => {
+    console.log(key);
+    console.log(value);
     setSessionData({ ...sessionData, [key]: value });
   };
   const handleSessionTabData = (value: any) => {
@@ -183,7 +185,6 @@ const BulkSchedules = () => {
                 link: sessionData.link,
                 data: sessionData.data,
               };
-
               dateArray.push(data);
             }
             setSessionList(dateArray);
@@ -194,18 +195,6 @@ const BulkSchedules = () => {
       // alert("Please select start date and end date");
     }
   };
-
-  // React.useEffect(() => {
-  //   sessionCreate();
-  // }, [
-  //   sessionData.title,
-  //   sessionData.start_date,
-  //   sessionData.end_date,
-  //   sessionData.start_time,
-  //   sessionData.end_time,
-  //   sessionData.cornJobKind,
-  //   sessionData.cornJobKindValue,
-  // ]);
 
   React.useEffect(() => {
     sessionCreate();
@@ -230,7 +219,11 @@ const BulkSchedules = () => {
     event.preventDefault();
 
     setButtonLoader(true);
-    const payload = { sessions: sessionList };
+    const payload = {
+      sessions: sessionList,
+      students: sessionData.listeners,
+      teachers: sessionData.teachers,
+    };
 
     SessionBulkCreate(payload)
       .then((res) => {

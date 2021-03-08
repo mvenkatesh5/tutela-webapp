@@ -44,9 +44,6 @@ const ChannelDetail = () => {
     (url) => APIFetcher(url)
   );
 
-  console.log("channelThreadList", channelThreadList);
-  console.log("channelDetail", channelDetail);
-
   return (
     <div>
       <AdminLayout>
