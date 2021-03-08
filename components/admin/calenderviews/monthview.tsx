@@ -141,6 +141,7 @@ const CalendarMonthView = (props: any) => {
                 `${bindZero(data.date)}-${bindZero(data.month)}-${bindZero(data.year)}`
               )}
               role={props.role}
+              bulkPreview={props.bulkPreview}
             />
           )}
         </div>

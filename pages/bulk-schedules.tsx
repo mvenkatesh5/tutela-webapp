@@ -10,6 +10,7 @@ const parser = require("cron-parser");
 // components
 import SessionForm from "@components/admin/sessions/sessionForm";
 import SessionUser from "@components/admin/sessions/sessionUser";
+import CalenderMonthView from "@components/admin/calenderviews/monthview";
 // layouts
 import AdminLayout from "@layouts/adminLayout";
 // api routes
@@ -46,6 +47,7 @@ const BulkSchedules = () => {
   ];
 
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
+  const [sessionList, setSessionList] = React.useState<any>();
 
   const [sessionData, setSessionData] = React.useState<any>({
     title: "",
@@ -99,15 +101,13 @@ const BulkSchedules = () => {
     return array.toString();
   };
 
-  const sessionCreate = (event: any) => {
-    event.preventDefault();
-
+  const sessionCreate = () => {
     if (sessionData.start_date && sessionData.end_date) {
       if (new Date(sessionData.start_date).getDate() === new Date(sessionData.end_date).getDate()) {
-        alert("Start date and End date are equal");
+        // alert("Start date and End date are equal");
       } else {
         if (new Date(sessionData.start_date).getDate() > new Date(sessionData.end_date).getDate()) {
-          alert("End date has to be greater than Start date");
+          // alert("End date has to be greater than Start date");
         } else {
           var options = {
             currentDate: new Date(sessionData.start_date),
@@ -186,19 +186,54 @@ const BulkSchedules = () => {
 
               dateArray.push(data);
             }
-
-            sessionBulkCreate(dateArray);
+            setSessionList(dateArray);
           }
         }
       }
     } else {
-      alert("Please select start date and end date");
+      // alert("Please select start date and end date");
     }
   };
 
-  const sessionBulkCreate = (session_payload: any) => {
+  // React.useEffect(() => {
+  //   sessionCreate();
+  // }, [
+  //   sessionData.title,
+  //   sessionData.start_date,
+  //   sessionData.end_date,
+  //   sessionData.start_time,
+  //   sessionData.end_time,
+  //   sessionData.cornJobKind,
+  //   sessionData.cornJobKindValue,
+  // ]);
+
+  React.useEffect(() => {
+    sessionCreate();
+  }, [sessionData.startDate && sessionData.endDate]);
+  React.useEffect(() => {
+    sessionCreate();
+  }, [sessionData.startTime]);
+  React.useEffect(() => {
+    sessionCreate();
+  }, [sessionData.endTime]);
+  React.useEffect(() => {
+    sessionCreate();
+  }, [sessionData.name]);
+  React.useEffect(() => {
+    sessionCreate();
+  }, [sessionData.notes]);
+  React.useEffect(() => {
+    sessionCreate();
+  }, [sessionData.color]);
+  React.useEffect(() => {
+    sessionCreate();
+  }, [sessionData.cornJobKindValue]);
+
+  const sessionBulkCreate = (event: any) => {
+    event.preventDefault();
+
     setButtonLoader(true);
-    const payload = { sessions: session_payload };
+    const payload = { sessions: sessionList };
 
     SessionBulkCreate(payload)
       .then((res) => {
@@ -470,12 +505,25 @@ const BulkSchedules = () => {
                     </div>
                   </Tab>
                 </Tabs>
+
+                <hr />
+                <div>
+                  <h5>Calendar View</h5>
+                  <CalenderMonthView
+                    currentDate={new Date()}
+                    sessionList={sessionList}
+                    role={"admin"}
+                    bulkPreview={true}
+                  />
+                </div>
+
+                <hr />
                 <Button
                   variant="primary"
                   className="btn-sm mt-2"
                   type="submit"
                   disabled={buttonLoader}
-                  onClick={sessionCreate}
+                  onClick={sessionBulkCreate}
                 >
                   {buttonLoader ? "Saving..." : "Save"}
                 </Button>
