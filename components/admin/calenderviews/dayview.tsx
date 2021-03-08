@@ -8,24 +8,28 @@ import SessionPreviewCard from "@components/sesspreview";
 const CalenderDayView = (props: any) => {
   return (
     <div>
-      <Row>
-        {props.sessionList && props.sessionList.length > 0 ? (
-          <div>
-            {props.sessionList.map((data: any, index: Number) => (
-              <Col md={12} key={data.id} style={{ marginTop: "10px" }}>
-                <SessionCard
-                  data={data}
-                  users={props.users}
-                  role={props.role}
-                  currentDateQuery={props.currentDateQuery}
-                />
-              </Col>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center mt-5 mb-5">No sessions scheduled.</div>
-        )}
-      </Row>
+      {!props.sessionListError && !props.sessionList ? (
+        <div className="text-center text-muted mt-5 mb-5">Loading...</div>
+      ) : (
+        <Row>
+          {props.sessionList && props.sessionList.length > 0 ? (
+            <div>
+              {props.sessionList.map((data: any, index: Number) => (
+                <Col md={12} key={data.id} style={{ marginTop: "10px" }}>
+                  <SessionCard
+                    data={data}
+                    users={props.users}
+                    role={props.role}
+                    currentDateQuery={props.currentDateQuery}
+                  />
+                </Col>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center text-muted mt-5 mb-5">No sessions scheduled.</div>
+          )}
+        </Row>
+      )}
     </div>
   );
 };

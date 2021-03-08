@@ -195,6 +195,7 @@ const CalendarView = () => {
                     users={userList}
                     role={userRole}
                     currentDateQuery={currentDateQuery}
+                    sessionListError={sessionListError}
                   />
                 ) : currentRenderView === "week" ? (
                   <CalenderWeekView
@@ -205,6 +206,7 @@ const CalendarView = () => {
                     endDate={endDate}
                     role={userRole}
                     currentDateQuery={currentDateQuery}
+                    sessionListError={sessionListError}
                   />
                 ) : (
                   <CalenderMonthView
@@ -215,6 +217,7 @@ const CalendarView = () => {
                     endDate={endDate}
                     role={userRole}
                     currentDateQuery={currentDateQuery}
+                    sessionListError={sessionListError}
                   />
                 )}
               </div>

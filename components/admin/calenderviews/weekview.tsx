@@ -69,18 +69,23 @@ const CalenderWeekView = (props: any) => {
               </div>
             ))}
         </div>
-        <div className="week-wrapper-content">
-          {currentWeekRenderData &&
-            currentWeekRenderData.length > 0 &&
-            currentWeekRenderData.map((day: any, index: any) => (
-              <div
-                className={`item ` + (day.active ? "active" : "")}
-                key={`calender-days-${index}`}
-              >
-                <CalendarWeekMonthCardDetailView data={day.data} role={props.role} />
-              </div>
-            ))}
-        </div>
+
+        {!props.sessionListError && !props.sessionList ? (
+          <div className="text-center text-muted mt-5 mb-5">Loading...</div>
+        ) : (
+          <div className="week-wrapper-content">
+            {currentWeekRenderData &&
+              currentWeekRenderData.length > 0 &&
+              currentWeekRenderData.map((day: any, index: any) => (
+                <div
+                  className={`item ` + (day.active ? "active" : "")}
+                  key={`calender-days-${index}`}
+                >
+                  <CalendarWeekMonthCardDetailView data={day.data} role={props.role} />
+                </div>
+              ))}
+          </div>
+        )}
       </div>
     </div>
   );
