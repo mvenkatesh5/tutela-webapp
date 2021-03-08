@@ -181,7 +181,7 @@ const CalendarView = () => {
                     /> */}
                     <Link href="/bulk-schedules">
                       <a>
-                        <Button className="btn-sm">Create Bulk Sessions</Button>
+                        <Button className="btn-sm">Schedule recurring sessions</Button>
                       </a>
                     </Link>
                   </div>

@@ -7,8 +7,10 @@ import { Container, Table, Form } from "react-bootstrap";
 import useSWR, { mutate } from "swr";
 // layouts
 import AdminLayout from "@layouts/adminLayout";
+// global imports
+import { datePreview } from "@constants/global";
 // api routes
-import { REQUEST_SESSION_ENDPOINT } from "@constants/routes";
+import { USER_ENDPOINT, REQUEST_SESSION_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher, APIUpdater } from "@lib/services";
 // hoc
@@ -20,11 +22,23 @@ const UserRequestSession = () => {
     APIFetcher
   );
 
+  const { data: userList, error: userListError } = useSWR(USER_ENDPOINT, APIFetcher);
+
+  const returnCurrentUser = (user_id: any) => {
+    if (userList) {
+      const currentUser: any = userList.find((element: any) => element.id === user_id);
+      if (currentUser) {
+        return `${currentUser.first_name} (${currentUser.email})`;
+      }
+    }
+  };
+
   return (
     <div>
       <AdminLayout>
         <div className="right-layout">
           <Container>
+            <h5>Requested sessions.</h5>
             {!requestSessions && !requestSessionsError ? (
               <div className="text-center mt-5">Loading...</div>
             ) : (
@@ -33,8 +47,8 @@ const UserRequestSession = () => {
                   <tr>
                     <th className="text-center">#</th>
                     <th>Topic</th>
-                    <th>Date time</th>
-                    <th>Created</th>
+                    <th>Requested date</th>
+                    <th>Requested on</th>
                     <th>User</th>
                   </tr>
                 </thead>
@@ -44,9 +58,9 @@ const UserRequestSession = () => {
                       <tr key={i}>
                         <td className="text-center">{i + 1}</td>
                         <td className="heading">{users.topic}</td>
-                        <td className="">{users.datetime}</td>
-                        <td className="">{users.created}</td>
-                        <td className="">{users.user}</td>
+                        <td className="">{datePreview(users.datetime)}</td>
+                        <td className="">{datePreview(users.created)}</td>
+                        <td className="">{returnCurrentUser(users.user)}</td>
                       </tr>
                     ))}
                   </tbody>

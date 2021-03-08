@@ -315,7 +315,7 @@ const BulkSchedules = () => {
           <Container className="mt-4">
             <div className="card shadow">
               <div className="card-header bg-white fw-bold py-3">
-                <h4 className="m-0">Generate Bulk Schedule</h4>
+                <h4 className="m-0">Schedule recurring sessions.</h4>
               </div>
               <div className="card-body">
                 <SessionForm

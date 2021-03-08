@@ -77,7 +77,7 @@ const RequestSession = () => {
           payload: {
             kind: "success",
             heading: "success",
-            description: `Session created successfully.`,
+            description: `Request Session sent for approval.`,
           },
         });
         router.push("/student");
@@ -90,7 +90,7 @@ const RequestSession = () => {
           payload: {
             kind: "warning",
             heading: "warning",
-            description: `Session request is not successful.`,
+            description: `Request Session not sent, please refresh and try again.`,
           },
         });
       });
@@ -120,7 +120,7 @@ const RequestSession = () => {
                   <br />
                   <DatePicker
                     className="form-control w-100"
-                    selected={sessionData.date ? new Date(sessionData.date) : new Date()}
+                    selected={sessionData.date ? new Date(sessionData.date) : ""}
                     onChange={(date: any) => handleSessionData("date", date)}
                   />
                 </Form.Group>
@@ -130,7 +130,7 @@ const RequestSession = () => {
                   <br />
                   <DatePicker
                     className="form-control w-100"
-                    selected={sessionData.time ? new Date(sessionData.time) : new Date()}
+                    selected={sessionData.time ? new Date(sessionData.time) : ""}
                     onChange={(date: any) => handleSessionData("time", date)}
                     showTimeSelect
                     showTimeSelectOnly
