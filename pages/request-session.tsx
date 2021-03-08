@@ -43,8 +43,8 @@ const RequestSession = () => {
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
   const [sessionData, setSessionData] = React.useState<any>({
     topic: "",
-    date: "",
-    time: "",
+    date: new Date(),
+    time: new Date(),
   });
   const handleSessionData = (key: any, value: any) => {
     setSessionData({ ...sessionData, [key]: value });
@@ -120,7 +120,7 @@ const RequestSession = () => {
                   <br />
                   <DatePicker
                     className="form-control w-100"
-                    selected={sessionData.date ? new Date(sessionData.date) : ""}
+                    selected={sessionData.date ? new Date(sessionData.date) : new Date()}
                     onChange={(date: any) => handleSessionData("date", date)}
                   />
                 </Form.Group>
@@ -130,7 +130,7 @@ const RequestSession = () => {
                   <br />
                   <DatePicker
                     className="form-control w-100"
-                    selected={sessionData.time ? new Date(sessionData.time) : ""}
+                    selected={sessionData.time ? new Date(sessionData.time) : new Date()}
                     onChange={(date: any) => handleSessionData("time", date)}
                     showTimeSelect
                     showTimeSelectOnly
