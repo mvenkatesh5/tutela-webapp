@@ -1,4 +1,6 @@
 import React from "react";
+// next
+import Link from "next/link";
 // constants
 import { META_DESCRIPTION } from "@constants/page";
 // react-bootstrap
@@ -151,13 +153,15 @@ const StudentDetail = () => {
                   {advertsList.map((item: any, index: any) => {
                     return (
                       <div>
-                        <a href={advertsList[0].link ? advertsList[0].link : "#"} target="_blank">
-                          <Image
-                            className="img-fluid mx-auto d-block"
-                            src={item.image}
-                            width="300"
-                          />
-                        </a>
+                        <Link href={item.link}>
+                          <a target="_blank">
+                            <Image
+                              className="img-fluid mx-auto d-block"
+                              src={item.image}
+                              width="300"
+                            />
+                          </a>
+                        </Link>
                       </div>
                     );
                   })}
