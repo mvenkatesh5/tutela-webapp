@@ -17,6 +17,14 @@ const withGlobalAuth = (WrappedComponent: any) => {
     return <WrappedComponent {...props} />;
   };
 
+  /* 
+    role and permissions of user
+    0 - student
+    1 - teacher
+    2 - admin
+    3 - parent
+  */
+
   Wrapper.getInitialProps = async (ctx: any) => {
     let tokenDetails: any = getServerAuthenticationCookie(ctx);
     if (tokenDetails && tokenDetails.user && tokenDetails.user.is_active) {

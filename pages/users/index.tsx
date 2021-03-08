@@ -74,6 +74,7 @@ const UserDetails = () => {
                             <option value="0">Learner</option>
                             <option value="1">Teacher</option>
                             <option value="2">Admin</option>
+                            <option value="3">Parent</option>
                           </Form.Control>
                         </Form.Group>
                       </td>

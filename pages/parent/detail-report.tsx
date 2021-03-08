@@ -1,12 +1,12 @@
-// layouts
-import StudentLayout from "layouts/studentLayout";
-
 // icons
 import { LeftArrowAlt } from "@styled-icons/boxicons-regular";
-
-// navtabs
+// layouts
+import StudentLayout from "layouts/studentLayout";
+// components
 import CustomNavTabs from "@components/navtabs/customNavtabs";
 import Sonnet from "@components/navtabs/Sonnet";
+// hoc
+import withParentAuth from "@lib/hoc/withParentAuth";
 
 function ParentDetailReport() {
   const navTabsData = [
@@ -97,4 +97,4 @@ function ParentDetailReport() {
   );
 }
 
-export default ParentDetailReport;
+export default withParentAuth(ParentDetailReport);

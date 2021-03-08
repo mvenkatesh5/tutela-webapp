@@ -51,14 +51,21 @@ function DashboardNav() {
                   Profile
                 </Nav.Link>
               )}
-              <Nav.Link className="fw-bold text-muted" href="/calendar">
-                My Calender
-              </Nav.Link>
+              {tokenDetails && tokenDetails.user && tokenDetails.user.role != 3 && (
+                <Nav.Link className="fw-bold text-muted" href="/calendar">
+                  My Calender
+                </Nav.Link>
+              )}
+              {tokenDetails && tokenDetails.user && tokenDetails.user.role === 3 && (
+                <Nav.Link className="fw-bold text-muted" href="/calendar">
+                  My Calender
+                </Nav.Link>
+              )}
             </Nav>
           </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">
             <Nav>
-              {tokenDetails && tokenDetails.user && tokenDetails.user.role <= 2 && (
+              {tokenDetails && tokenDetails.user && tokenDetails.user.role <= 3 && (
                 <Nav.Link className="mt-1">
                   <div
                     className="d-flex align-items-center pe-2 ps-2 border"
@@ -75,7 +82,9 @@ function DashboardNav() {
                         ? "Admin"
                         : tokenDetails.user.role === 1
                         ? " Teaching"
-                        : " Learning"}
+                        : tokenDetails.user.role === 0
+                        ? " Learning"
+                        : " Parents"}
                     </div>
                   </div>
                 </Nav.Link>

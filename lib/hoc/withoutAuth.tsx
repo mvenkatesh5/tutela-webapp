@@ -25,6 +25,10 @@ const withoutAuth = (WrappedComponent: any) => {
         redirect(ctx, "/calendar");
         return {};
       }
+      if (tokenDetails.user.role === 3) {
+        redirect(ctx, "/parent/dashboard");
+        return {};
+      }
     } else {
       const componentProps =
         WrappedComponent.getInitialProps && (await WrappedComponent.getInitialProps(ctx));

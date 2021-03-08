@@ -33,6 +33,10 @@ const withAdminAuth = (WrappedComponent: any) => {
           WrappedComponent.getInitialProps && (await WrappedComponent.getInitialProps(ctx));
         return { ...componentProps, tokenDetails };
       }
+      if (tokenDetails.user.role === 3) {
+        redirect(ctx, "/parent/dashboard");
+        return {};
+      }
     } else {
       redirect(ctx, "/signin");
     }

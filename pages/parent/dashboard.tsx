@@ -1,12 +1,11 @@
-// react
 import React, { useRef, useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
-
-// layouts
-import StudentLayout from "layouts/studentLayout";
-
 // icons
 import { Calendar, RightArrowAlt } from "@styled-icons/boxicons-regular";
+// layouts
+import StudentLayout from "layouts/studentLayout";
+// hoc
+import withParentAuth from "@lib/hoc/withParentAuth";
 
 const chartData = {
   labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
@@ -239,4 +238,4 @@ function ParentDashboard() {
   );
 }
 
-export default ParentDashboard;
+export default withParentAuth(ParentDashboard);

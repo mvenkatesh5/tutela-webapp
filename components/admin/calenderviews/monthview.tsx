@@ -1,8 +1,10 @@
 import React from "react";
+// material icons
+import { ChevronLeft, ChevronRight } from "@styled-icons/boxicons-regular/";
 // components
 import CalendarWeekMonthCardDetailView from "./monthWeekCardView";
 // global imports
-import { calendarDays, returnDate, bindZero } from "@constants/global";
+import { calendarMonths, calendarDays, returnDate, bindZero } from "@constants/global";
 
 const CalendarMonthView = (props: any) => {
   const returnSessionWithDate = (date: any) => {
@@ -21,16 +23,36 @@ const CalendarMonthView = (props: any) => {
   const [currentYear, setCurrentYear] = React.useState<any>(Number);
 
   const [currentSelectDate, setCurrentSelectDate] = React.useState<any>(String);
+  const [renderDateTitle, setRenderDateTitle] = React.useState(String);
 
   React.useEffect(() => {
     updateTodayDate(new Date(props.currentDate));
   }, [props.currentDate]);
+
+  const updateNextDate = () => {
+    const year = currentMonth === 11 ? currentYear + 1 : currentYear;
+    const month = (currentMonth + 1) % 12;
+    setCurrentMonth(month);
+    setCurrentYear(year);
+    setRenderDateTitle(calendarMonths[month].fullName + " " + year);
+  };
+
+  const updatePreviousDate = () => {
+    const year = currentMonth === 0 ? currentYear - 1 : currentYear;
+    const month = currentMonth === 0 ? 11 : currentMonth - 1;
+    setCurrentMonth(month);
+    setCurrentYear(year);
+    setRenderDateTitle(calendarMonths[month].fullName + " " + year);
+  };
 
   const updateTodayDate = (todayDateValue: any) => {
     setTodayDate(new Date());
     setCurrentSelectDate(todayDateValue);
     setCurrentMonth(todayDateValue.getMonth());
     setCurrentYear(todayDateValue.getFullYear());
+    setRenderDateTitle(
+      `${calendarMonths[todayDateValue.getMonth()].fullName} ${todayDateValue.getFullYear()}`
+    );
   };
 
   const daysInMonth = (iMonth: any, iYear: any) => {
@@ -152,6 +174,19 @@ const CalendarMonthView = (props: any) => {
   return (
     <div>
       <div className="calendar-root shadow">
+        {props.bulkPreview && (
+          <div className="calendar-navigation">
+            <div className="left" onClick={updatePreviousDate}>
+              <ChevronLeft />
+            </div>
+            <div className="middle text-center" onClick={() => updateTodayDate(new Date())}>
+              {renderDateTitle && renderDateTitle}
+            </div>
+            <div className="right" onClick={updateNextDate}>
+              <ChevronRight />
+            </div>
+          </div>
+        )}
         {/* days */}
         <div className="calendar-header">
           {calendarDays &&

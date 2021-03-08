@@ -33,6 +33,10 @@ const withStudentAuth = (WrappedComponent: any) => {
         redirect(ctx, "/calendar");
         return {};
       }
+      if (tokenDetails.user.role === 3) {
+        redirect(ctx, "/parent/dashboard");
+        return {};
+      }
     } else {
       redirect(ctx, "/signin");
     }

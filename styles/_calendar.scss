@@ -57,7 +57,7 @@
       }
       &.month-view-calender-row {
         position: relative;
-        overflow: hidden;
+        // overflow: hidden;
         height: auto;
         &:last-child {
           border-bottom: 1px solid #ccc;
@@ -109,7 +109,6 @@
           display: block;
           min-height: 100px;
           height: auto;
-
           &:first-child {
             border-left: 1px solid #ccc;
           }
@@ -141,8 +140,8 @@
           .month-content {
             color: #000;
             height: 100%;
-            overflow: hidden;
-            overflow-y: auto;
+            // overflow: hidden;
+            // overflow-y: auto;
           }
         }
       }
@@ -200,9 +199,10 @@
 }
 
 .calendar-card {
+  position: relative;
   background-color: #f7f7f7;
   border-radius: 4px;
-  overflow: hidden;
+  // overflow: hidden;
   font-size: 14px;
   padding: 6px 8px;
   margin-bottom: 10px;
@@ -213,7 +213,7 @@
     background: #dfe1e6;
     padding: 2px 8px;
     border-radius: 4px;
-    overflow: hidden;
+    // overflow: hidden;
     display: inline;
     font-size: 12px;
     font-weight: 600;
@@ -221,5 +221,34 @@
   .instructor {
     margin-top: 4px;
     font-size: 12px;
+    button.start-meeting {
+      font-size: 12px;
+      padding: 2px 4px;
+    }
+  }
+}
+
+.zoom-settings-dropdown-wrapper {
+  .dropdown-toggle::after {
+    display: none;
+  }
+  .content-wrapper {
+    padding: 0px;
+    margin: 0px;
+    min-width: 300px;
+    transform: none !important;
+    margin-top: 40px;
+    border-radius: 4px;
+    overflow: hidden;
+    & .title-header {
+      background-color: #eee;
+      font-weight: 500;
+      padding: 2px 12px;
+      font-size: 14px;
+      text-transform: capitalize;
+    }
+    & .content {
+      padding: 6px 10px;
+    }
   }
 }

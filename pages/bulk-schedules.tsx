@@ -114,7 +114,7 @@ const BulkSchedules = () => {
             endDate: new Date(sessionData.end_date),
             iterator: true,
           };
-          options.endDate.setDate(options.endDate.getDate() + 1);
+          options.endDate.setDate(options.endDate.getDate());
           let returnArray = [];
           let dateArray = [];
           // second(0 - 59), minute(0 - 59), hour(0 - 23), dayOfMonth(1 - 31), month(1 - 12), dayOfWeek (0 - 7) (0 or 7 is Sun)
@@ -209,22 +209,19 @@ const BulkSchedules = () => {
 
   React.useEffect(() => {
     sessionCreate();
-  }, [sessionData.startDate && sessionData.endDate]);
+  }, [sessionData.start_date && sessionData.end_date]);
   React.useEffect(() => {
     sessionCreate();
-  }, [sessionData.startTime]);
+  }, [sessionData.start_time]);
   React.useEffect(() => {
     sessionCreate();
-  }, [sessionData.endTime]);
+  }, [sessionData.end_time]);
   React.useEffect(() => {
     sessionCreate();
-  }, [sessionData.name]);
+  }, [sessionData.title]);
   React.useEffect(() => {
     sessionCreate();
-  }, [sessionData.notes]);
-  React.useEffect(() => {
-    sessionCreate();
-  }, [sessionData.color]);
+  }, [sessionData.description]);
   React.useEffect(() => {
     sessionCreate();
   }, [sessionData.cornJobKindValue]);

@@ -1,10 +1,11 @@
 // layouts
 import StudentLayout from "layouts/studentLayout";
-
 // bootstrap
 import { Card, Accordion, Button } from "react-bootstrap";
 // icons
 import { Phone, MailSend, LocationPlus } from "@styled-icons/boxicons-regular";
+// hoc
+import withParentAuth from "@lib/hoc/withParentAuth";
 
 function TeacherProfile() {
   return (
@@ -108,4 +109,4 @@ function TeacherProfile() {
   );
 }
 
-export default TeacherProfile;
+export default withParentAuth(TeacherProfile);

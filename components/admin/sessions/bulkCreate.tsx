@@ -258,6 +258,7 @@ const SessionBulkCreateView = (props: any) => {
             boxShadow: `#0f0f0f0d 0px 0px 0px 1px, #0f0f0f1a 0px 3px 6px, #0f0f0f33 0px 9px 24px`,
             borderRadius: "4px",
             overflow: "hidden",
+            zIndex: 999999,
           }}
         >
           <Form onSubmit={sessionCreate}>

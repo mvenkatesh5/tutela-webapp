@@ -60,7 +60,7 @@ const StudentDetail = () => {
     if (getAuthenticationToken()) {
       let details: any = getAuthenticationToken();
       details = details ? JSON.parse(details) : null;
-      if (details) {
+      if (details && details.info) {
         setTokenDetails(details);
         if (details.info.role === 2) {
           setUserRole("admin");
