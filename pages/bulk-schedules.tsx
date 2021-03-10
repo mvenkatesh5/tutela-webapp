@@ -222,32 +222,19 @@ const BulkSchedules = () => {
         if (new Date(sessionData.start_date) > new Date(sessionData.end_date)) {
           alert("End date has to be greater than or Equal to Start date");
         } else {
-          // time validation
-          if (sessionData.start_time && sessionData.end_time) {
-            if (
-              new Date(sessionData.start_time).getHours() >
-              new Date(sessionData.end_time).getHours()
-            ) {
-              alert("End Time has to be greater than or Equal to Start Time");
+          // students validation
+          if (sessionData.listeners.length <= 0) {
+            alert("Students has to be selected.");
+            return false;
+          } else {
+            // teacher validation
+            if (sessionData.teachers.length <= 0) {
+              alert("Teachers has to be selected.");
               return false;
             } else {
-              // students validation
-              if (sessionData.listeners.length <= 0) {
-                alert("Students has to be selected.");
-                return false;
-              } else {
-                // teacher validation
-                if (sessionData.teachers.length <= 0) {
-                  alert("Teachers has to be selected.");
-                  return false;
-                } else {
-                  return true;
-                }
-              }
+              // return true;
+              return false;
             }
-          } else {
-            alert("Please select Start time and End time");
-            return false;
           }
         }
       } else {
