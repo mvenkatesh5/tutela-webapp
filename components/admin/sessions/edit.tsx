@@ -35,7 +35,20 @@ const SessionEditView = (props: any) => {
 
   React.useEffect(() => {
     if (props.data) {
-      setSessionData(props.data);
+      console.log(props.data);
+      setSessionData({
+        ...sessionData,
+        title: props.data.title,
+        description: props.data.description,
+        start_date: props.data.start_datetime ? new Date(props.data.start_datetime) : new Date(),
+        end_date: props.data.end_datetime ? new Date(props.data.end_datetime) : new Date(),
+        start_time: props.data.start_datetime ? new Date(props.data.start_datetime) : new Date(),
+        end_time: props.data.end_datetime ? new Date(props.data.end_datetime) : new Date(),
+        link: props.data.link,
+        data: props.data.data,
+        listeners: [],
+        teachers: [],
+      });
     }
   }, [props.data]);
 
