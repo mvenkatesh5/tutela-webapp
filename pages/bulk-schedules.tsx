@@ -67,8 +67,6 @@ const BulkSchedules = () => {
     setSessionData(value);
   };
   const handleSessionListeners = (key: any, value: any) => {
-    console.log(key);
-    console.log(value);
     setSessionData({ ...sessionData, [key]: value });
   };
   const handleSessionTabData = (value: any) => {
@@ -116,7 +114,8 @@ const BulkSchedules = () => {
             endDate: new Date(sessionData.end_date),
             iterator: true,
           };
-          options.endDate.setDate(options.endDate.getDate());
+
+          options.endDate.setDate(options.endDate.getDate() + 1);
           let returnArray = [];
           let dateArray = [];
           // second(0 - 59), minute(0 - 59), hour(0 - 23), dayOfMonth(1 - 31), month(1 - 12), dayOfWeek (0 - 7) (0 or 7 is Sun)
@@ -215,27 +214,78 @@ const BulkSchedules = () => {
     sessionCreate();
   }, [sessionData.cornJobKindValue]);
 
+  const validateBulkCreate = () => {
+    // title validate
+    if (sessionData.title) {
+      // date validation
+      if (sessionData.start_date && sessionData.end_date) {
+        if (
+          new Date(sessionData.start_date).getDate() > new Date(sessionData.end_date).getDate() ||
+          new Date(sessionData.start_date).getDate() < new Date(sessionData.end_date).getDate()
+        ) {
+          alert("End date has to be greater than or Equal to Start date");
+        } else {
+          // time validation
+          if (sessionData.start_time && sessionData.end_time) {
+            if (
+              new Date(sessionData.start_time).getHours() >
+              new Date(sessionData.end_time).getHours()
+            ) {
+              alert("End Time has to be greater than or Equal to Start Time");
+              return false;
+            } else {
+              // students validation
+              if (sessionData.listeners.length <= 0) {
+                alert("Students has to be selected.");
+                return false;
+              } else {
+                // teacher validation
+                if (sessionData.teachers.length <= 0) {
+                  alert("Teachers has to be selected.");
+                  return false;
+                } else {
+                  return true;
+                }
+              }
+            }
+          } else {
+            alert("Please select Start time and End time");
+            return false;
+          }
+        }
+      } else {
+        alert("Please select Start date and End date");
+        return false;
+      }
+    } else {
+      alert("Please select Title");
+      return false;
+    }
+  };
+
   const sessionBulkCreate = (event: any) => {
     event.preventDefault();
+    if (validateBulkCreate()) {
+      setButtonLoader(true);
+      setButtonLoader(false);
+      const payload = {
+        sessions: sessionList,
+        students: sessionData.listeners,
+        teachers: sessionData.teachers,
+      };
 
-    setButtonLoader(true);
-    const payload = {
-      sessions: sessionList,
-      students: sessionData.listeners,
-      teachers: sessionData.teachers,
-    };
-
-    SessionBulkCreate(payload)
-      .then((res) => {
-        console.log(res);
-        alert("sessions created successfully.");
-        window.location.href = "/calendar";
-        // redirect to calenders
-      })
-      .catch((errors) => {
-        console.log(errors);
-        setButtonLoader(false);
-      });
+      SessionBulkCreate(payload)
+        .then((res) => {
+          console.log(res);
+          alert("sessions created successfully.");
+          window.location.href = "/calendar";
+          // redirect to calenders
+        })
+        .catch((errors) => {
+          console.log(errors);
+          setButtonLoader(false);
+        });
+    }
   };
 
   const [dailyData, setDailyData] = React.useState<any>("everyday");
