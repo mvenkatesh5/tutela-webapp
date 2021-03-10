@@ -68,7 +68,7 @@ const SessionCard = (props: any) => {
               <div className="ms-auto">
                 <ZoomSessions data={props.data} role={props.role ? props.role : null} />
               </div>
-              {props.role === "admin" && (
+              {(props.role === "admin" || props.role === "teacher") && (
                 <div className="ms-2">
                   <SessionEdit
                     data={props.data}

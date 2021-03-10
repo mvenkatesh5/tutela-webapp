@@ -38,6 +38,7 @@ const SessionEditView = (props: any) => {
       console.log(props.data);
       setSessionData({
         ...sessionData,
+        id: props.data.id,
         title: props.data.title,
         description: props.data.description,
         start_date: props.data.start_datetime ? new Date(props.data.start_datetime) : new Date(),
@@ -197,13 +198,15 @@ const SessionEditView = (props: any) => {
           <Form onSubmit={sessionUpdate}>
             {sessionData && (
               <div>
-                <SessionForm data={sessionData} handleData={handleSessionData} />
-                <SessionUser
-                  data={sessionData}
-                  users={props.users}
-                  handleData={handleSessionListeners}
-                  handleSessionData={setSessionData}
-                />
+                <SessionForm data={sessionData} handleData={handleSessionData} role={props.role} />
+                {props.role === "admin" && (
+                  <SessionUser
+                    data={sessionData}
+                    users={props.users}
+                    handleData={handleSessionListeners}
+                    handleSessionData={setSessionData}
+                  />
+                )}
                 <Button
                   variant="outline-primary"
                   className="btn-sm"

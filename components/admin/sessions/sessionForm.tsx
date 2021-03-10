@@ -63,88 +63,98 @@ const SessionFormView = (props: any) => {
             />
           </Form.Group>
 
-          <Row>
-            <Col>
-              <Form.Group className="mb-3">
-                <Form.Label className="mb-1 text-muted">
-                  <DateRange style={{ width: "16px", marginRight: "8px", marginTop: "-2px" }} />
-                  Start Date
-                </Form.Label>
-                <div>
-                  <DatePicker
-                    className="form-control w-100"
-                    selected={
-                      formPayload.start_date ? new Date(formPayload.start_date) : new Date()
-                    }
-                    onChange={(date: any) => handleFormPayload("start_date", date)}
-                  />
-                </div>
-              </Form.Group>
-            </Col>
-            {props.view_end_date && (
-              <Col>
-                <Form.Group className="mb-3">
-                  <Form.Label className="mb-1 text-muted">
-                    <DateRange style={{ width: "16px", marginRight: "8px", marginTop: "-2px" }} />
-                    End Date
-                  </Form.Label>
-                  <div>
-                    <DatePicker
-                      className="form-control w-100"
-                      selected={formPayload.end_date ? new Date(formPayload.end_date) : new Date()}
-                      onChange={(date: any) => handleFormPayload("end_date", date)}
-                    />
-                  </div>
-                </Form.Group>
-              </Col>
-            )}
-          </Row>
+          {props.role === "admin" && (
+            <div>
+              <Row>
+                <Col>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="mb-1 text-muted">
+                      <DateRange style={{ width: "16px", marginRight: "8px", marginTop: "-2px" }} />
+                      Start Date
+                    </Form.Label>
+                    <div>
+                      <DatePicker
+                        className="form-control w-100"
+                        selected={
+                          formPayload.start_date ? new Date(formPayload.start_date) : new Date()
+                        }
+                        onChange={(date: any) => handleFormPayload("start_date", date)}
+                      />
+                    </div>
+                  </Form.Group>
+                </Col>
+                {props.view_end_date && (
+                  <Col>
+                    <Form.Group className="mb-3">
+                      <Form.Label className="mb-1 text-muted">
+                        <DateRange
+                          style={{ width: "16px", marginRight: "8px", marginTop: "-2px" }}
+                        />
+                        End Date
+                      </Form.Label>
+                      <div>
+                        <DatePicker
+                          className="form-control w-100"
+                          selected={
+                            formPayload.end_date ? new Date(formPayload.end_date) : new Date()
+                          }
+                          onChange={(date: any) => handleFormPayload("end_date", date)}
+                        />
+                      </div>
+                    </Form.Group>
+                  </Col>
+                )}
+              </Row>
 
-          <Row>
-            <Col>
-              <Form.Group className="mb-3">
-                <Form.Label className="mb-1 text-muted">
-                  <Time style={{ width: "16px", marginRight: "8px", marginTop: "-2px" }} />
-                  Start Time
-                </Form.Label>
-                {console.log(formPayload)}
-                <div>
-                  <DatePicker
-                    className="form-control w-100"
-                    selected={
-                      formPayload.start_time ? new Date(formPayload.start_time) : new Date()
-                    }
-                    onChange={(date: any) => handleFormPayload("start_time", date)}
-                    showTimeSelect
-                    showTimeSelectOnly
-                    timeIntervals={15}
-                    timeCaption="Time"
-                    dateFormat="h:mm aa"
-                  />
-                </div>
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group className="mb-3">
-                <Form.Label className="mb-1 text-muted">
-                  <Time style={{ width: "16px", marginRight: "8px", marginTop: "-2px" }} />
-                  End Time
-                </Form.Label>
-                <div>
-                  <DatePicker
-                    className="form-control w-100"
-                    selected={formPayload.end_time ? new Date(formPayload.end_time) : new Date()}
-                    onChange={(date: any) => handleFormPayload("end_time", date)}
-                    showTimeSelect
-                    showTimeSelectOnly
-                    timeIntervals={15}
-                    timeCaption="Time"
-                    dateFormat="h:mm aa"
-                  />
-                </div>
-              </Form.Group>
-            </Col>
-          </Row>
+              <Row>
+                <Col>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="mb-1 text-muted">
+                      <Time style={{ width: "16px", marginRight: "8px", marginTop: "-2px" }} />
+                      Start Time
+                    </Form.Label>
+                    {console.log(formPayload)}
+                    <div>
+                      <DatePicker
+                        className="form-control w-100"
+                        selected={
+                          formPayload.start_time ? new Date(formPayload.start_time) : new Date()
+                        }
+                        onChange={(date: any) => handleFormPayload("start_time", date)}
+                        showTimeSelect
+                        showTimeSelectOnly
+                        timeIntervals={15}
+                        timeCaption="Time"
+                        dateFormat="h:mm aa"
+                      />
+                    </div>
+                  </Form.Group>
+                </Col>
+                <Col>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="mb-1 text-muted">
+                      <Time style={{ width: "16px", marginRight: "8px", marginTop: "-2px" }} />
+                      End Time
+                    </Form.Label>
+                    <div>
+                      <DatePicker
+                        className="form-control w-100"
+                        selected={
+                          formPayload.end_time ? new Date(formPayload.end_time) : new Date()
+                        }
+                        onChange={(date: any) => handleFormPayload("end_time", date)}
+                        showTimeSelect
+                        showTimeSelectOnly
+                        timeIntervals={15}
+                        timeCaption="Time"
+                        dateFormat="h:mm aa"
+                      />
+                    </div>
+                  </Form.Group>
+                </Col>
+              </Row>
+            </div>
+          )}
         </div>
       )}
     </div>
