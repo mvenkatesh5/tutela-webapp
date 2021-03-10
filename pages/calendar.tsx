@@ -172,7 +172,7 @@ const CalendarView = () => {
                     />
                   </div>
                 )}
-                {userRole != "student" && (
+                {userRole === "admin" && (
                   <div style={{ marginLeft: "10px" }}>
                     {/* <SessionBulkCreateView
                       users={userList}

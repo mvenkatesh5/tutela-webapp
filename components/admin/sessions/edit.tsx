@@ -47,8 +47,7 @@ const SessionEditView = (props: any) => {
         end_time: props.data.end_datetime ? new Date(props.data.end_datetime) : new Date(),
         link: props.data.link,
         data: props.data.data,
-        listeners: [],
-        teachers: [],
+        session_users: props.data.session_users,
       });
     }
   }, [props.data]);

@@ -219,10 +219,7 @@ const BulkSchedules = () => {
     if (sessionData.title) {
       // date validation
       if (sessionData.start_date && sessionData.end_date) {
-        if (
-          new Date(sessionData.start_date).getDate() > new Date(sessionData.end_date).getDate() ||
-          new Date(sessionData.start_date).getDate() < new Date(sessionData.end_date).getDate()
-        ) {
+        if (new Date(sessionData.start_date) > new Date(sessionData.end_date)) {
           alert("End date has to be greater than or Equal to Start date");
         } else {
           // time validation
@@ -258,7 +255,7 @@ const BulkSchedules = () => {
         return false;
       }
     } else {
-      alert("Please select Title");
+      alert("Add title");
       return false;
     }
   };
@@ -372,6 +369,7 @@ const BulkSchedules = () => {
                   data={sessionData}
                   handleData={handleSessionData}
                   view_end_date={true}
+                  role={`admin`}
                 />
                 <SessionUser users={userList} handleData={handleSessionListeners} />
                 <Tabs activeKey={sessionData.cornJobKind} onSelect={(k) => handleSessionTabData(k)}>
