@@ -232,8 +232,7 @@ const BulkSchedules = () => {
               alert("Teachers has to be selected.");
               return false;
             } else {
-              // return true;
-              return false;
+              return true;
             }
           }
         }

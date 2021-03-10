@@ -202,11 +202,13 @@ const SessionCreateView = (props: any) => {
                 data={sessionData}
                 handleData={handleSessionData}
                 view_end_date={false}
+                role={props.role}
               />
               <SessionUser
                 data={sessionData}
                 users={props.users}
                 handleData={handleSessionListeners}
+                role={props.role}
               />
             </div>
             <div

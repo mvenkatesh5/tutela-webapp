@@ -141,7 +141,11 @@ const CalendarView = () => {
           <div className="calender-root-wrapper">
             <div className="left-wrapper">
               {userRole && (
-                <CalenderView renderView={currentRenderView} handleData={handleCurrentDate} />
+                <CalenderView
+                  renderView={currentRenderView}
+                  handleData={handleCurrentDate}
+                  role={userRole}
+                />
               )}
             </div>
             <div className="right-wrapper">
@@ -169,6 +173,7 @@ const CalendarView = () => {
                       users={userList}
                       currentDateQuery={currentDateQuery}
                       currentDate={currentDate}
+                      role={userRole}
                     />
                   </div>
                 )}
