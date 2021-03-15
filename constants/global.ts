@@ -3,6 +3,8 @@ import { getAuthenticationToken } from "@lib/cookie";
 
 export const port = 5000;
 
+export const CRISP_WEBSITE_ID = `4e713b40-b259-401e-b410-19ac90d60b0b`;
+
 export const calendarMonths = [
   { key: "Jan", fullName: "January" },
   { key: "Feb", fullName: "February" },
