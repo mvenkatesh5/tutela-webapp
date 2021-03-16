@@ -57,7 +57,7 @@ const Profile = () => {
   const { data: userDetailList, error: userDetailListError } = useSWR(
     tokenDetails && tokenDetails.user ? USER_WITH_ID_ENDPOINT(tokenDetails.user.id) : null,
     (url) => APIFetcher(url),
-    { refreshInterval: 0 }
+    { refreshInterval: 1000 }
   );
 
   React.useEffect(() => {

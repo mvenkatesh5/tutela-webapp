@@ -113,7 +113,6 @@ const SessionFormView = (props: any) => {
                       <Time style={{ width: "16px", marginRight: "8px", marginTop: "-2px" }} />
                       Start Time
                     </Form.Label>
-                    {console.log(formPayload)}
                     <div>
                       <DatePicker
                         className="form-control w-100"

@@ -81,3 +81,24 @@ export const dateTimeFormat = (currentDate: any) => {
   let minutes = bindZero(newDate.getMinutes());
   return `${year}-${month}-${date}T${hours}:${minutes}`;
 };
+
+export const returnDateWithText = (currentDate: any) => {
+  let newDate = new Date(currentDate);
+  let date = bindZero(newDate.getDate());
+  let month = calendarMonths[newDate.getMonth()].fullName;
+  let day = calendarDays[newDate.getDay()].fullName;
+
+  return `${day}, ${month} ${date}`;
+};
+
+export const secondsToHms = (d: any) => {
+  d = Number(d);
+  var h = Math.floor(d / 3600);
+  var m = Math.floor((d % 3600) / 60);
+  var s = Math.floor((d % 3600) % 60);
+
+  var hDisplay = h >= 0 ? h + (h == 1 ? " hr, " : " hr, ") : "";
+  var mDisplay = m >= 0 ? m + (m == 1 ? " min, " : " min, ") : "";
+  var sDisplay = s >= 0 ? s + (s == 1 ? " sec" : " sec") : "";
+  return hDisplay + mDisplay + sDisplay;
+};

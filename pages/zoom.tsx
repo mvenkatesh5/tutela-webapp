@@ -32,8 +32,6 @@ const ZoomView = () => {
 
   if (zoomUserListError) console.log(zoomUserListError);
 
-  console.log("zoomUserList", zoomUserList);
-
   return (
     <AdminLayout>
       <div className="right-layout">

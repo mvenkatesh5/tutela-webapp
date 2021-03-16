@@ -92,7 +92,7 @@ const StudentDetail = () => {
   const { data: sessionList, error: sessionListError } = useSWR(
     currentDateQuery ? currentDateQuery : null,
     (url) => APIFetcher(url),
-    { refreshInterval: 0 }
+    { refreshInterval: 1000 }
   );
 
   const settingsSlider = {
