@@ -75,6 +75,7 @@ const SignInView = () => {
               onChange={(e) => setEmail(e.target.value)}
               type="email"
               placeholder="Enter Email"
+              required
             />
           </Form.Group>
 
@@ -85,6 +86,7 @@ const SignInView = () => {
               onChange={(e) => setPassword(e.target.value)}
               type="password"
               placeholder="Password"
+              required
             />
           </Form.Group>
 

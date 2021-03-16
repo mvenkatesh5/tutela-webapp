@@ -92,6 +92,7 @@ const SignUpView = () => {
               onChange={(e) => handleAuthData("last_name", e.target.value)}
               type="text"
               placeholder="Enter last name"
+              required
             />
           </Form.Group>
 
