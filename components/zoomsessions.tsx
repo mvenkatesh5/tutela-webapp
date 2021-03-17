@@ -26,7 +26,7 @@ const ZoomSession = (props: any) => {
     if (props.data && props.data.data && props.data.data.zoom) {
       setZoomData(props.data.data.zoom);
     }
-  }, [props.data]);
+  }, [props.data && props.data.data && props.data.data.zoom]);
 
   const zoomSubmit = () => {
     setButtonLoader(true);

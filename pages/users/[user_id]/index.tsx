@@ -30,7 +30,7 @@ const userDetailView = () => {
   const { data: userDetailList, error: userDetailListError } = useSWR(
     user_id ? USER_WITH_ID_ENDPOINT(user_id) : null,
     (url) => APIFetcher(url),
-    { refreshInterval: 1000 }
+    { refreshInterval: 0 }
   );
 
   React.useEffect(() => {

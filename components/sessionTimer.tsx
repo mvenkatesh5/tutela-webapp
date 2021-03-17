@@ -9,7 +9,11 @@ const SessionTimer = (props: any) => {
   const validateTodayDate = () => {
     const today: any = new Date();
     const currentDate: any = new Date(props.date);
-    if (today.getDate() === currentDate.getDate() && today.getMonth() === currentDate.getMonth()) {
+    if (
+      today.getDate() === currentDate.getDate() &&
+      today.getMonth() === currentDate.getMonth() &&
+      today.getYear() === currentDate.getYear()
+    ) {
       return true;
     }
     return false;
@@ -48,8 +52,6 @@ const SessionTimer = (props: any) => {
     }
     return () => clearInterval(timerVariable);
   }, [props.time]);
-
-  console.log("timer", timer);
 
   return (
     <div>

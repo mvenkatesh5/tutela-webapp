@@ -36,7 +36,7 @@ const SessionFormView = (props: any) => {
     <div>
       {formPayload && (
         <div>
-          <Form.Group className="mb-2">
+          <Form.Group className="mb-2" controlId="session-create-title">
             <Form.Label className="mb-1 text-muted">
               <Text style={{ width: "16px", marginRight: "8px", marginTop: "-2px" }} />
               Title
@@ -49,7 +49,7 @@ const SessionFormView = (props: any) => {
             />
           </Form.Group>
 
-          <Form.Group className="mb-3">
+          <Form.Group className="mb-3" controlId="session-create-description">
             <Form.Label className="mb-1 text-muted">
               <TextDescription style={{ width: "16px", marginRight: "8px", marginTop: "-2px" }} />
               Description
@@ -67,7 +67,7 @@ const SessionFormView = (props: any) => {
             <div>
               <Row>
                 <Col>
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-3" controlId="session-create-start-date">
                     <Form.Label className="mb-1 text-muted">
                       <DateRange style={{ width: "16px", marginRight: "8px", marginTop: "-2px" }} />
                       Start Date
@@ -85,7 +85,7 @@ const SessionFormView = (props: any) => {
                 </Col>
                 {props.view_end_date && (
                   <Col>
-                    <Form.Group className="mb-3">
+                    <Form.Group className="mb-3" controlId="session-create-end-date">
                       <Form.Label className="mb-1 text-muted">
                         <DateRange
                           style={{ width: "16px", marginRight: "8px", marginTop: "-2px" }}
@@ -108,7 +108,7 @@ const SessionFormView = (props: any) => {
 
               <Row>
                 <Col>
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-3" controlId="session-create-start-time">
                     <Form.Label className="mb-1 text-muted">
                       <Time style={{ width: "16px", marginRight: "8px", marginTop: "-2px" }} />
                       Start Time
@@ -130,7 +130,7 @@ const SessionFormView = (props: any) => {
                   </Form.Group>
                 </Col>
                 <Col>
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-3" controlId="session-create-end-tile">
                     <Form.Label className="mb-1 text-muted">
                       <Time style={{ width: "16px", marginRight: "8px", marginTop: "-2px" }} />
                       End Time

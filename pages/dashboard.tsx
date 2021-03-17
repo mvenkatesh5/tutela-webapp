@@ -61,7 +61,7 @@ const DashboardDetail = (props: any) => {
   const { data: sessionList, error: sessionListError } = useSWR(
     currentDateQuery ? currentDateQuery : null,
     (url) => APIFetcher(url),
-    { refreshInterval: 1000 }
+    { refreshInterval: 5000 }
   );
   const { data: advertsList, error: advertsListError } = useSWR(ADVERTS_ENDPOINT, APIFetcher);
 

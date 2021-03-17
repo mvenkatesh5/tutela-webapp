@@ -129,7 +129,7 @@ const CalendarView = () => {
         ]
       : null,
     (url) => APIFetcher(url),
-    { refreshInterval: 1000 }
+    { refreshInterval: 5000 }
   );
 
   const { data: userList, error: userListError } = useSWR(USER_ENDPOINT, APIFetcher);

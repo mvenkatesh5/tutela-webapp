@@ -68,15 +68,11 @@ const Calendar = (props: any) => {
             currentMonth === new Date(todayDate).getMonth()
           ) {
             colData.push(
-              <>
-                {renderCalendarColumn(currentYear, currentMonth, date, calendarDays[j].key, true)}
-              </>
+              renderCalendarColumn(currentYear, currentMonth, date, calendarDays[j].key, true)
             );
           } else {
             colData.push(
-              <>
-                {renderCalendarColumn(currentYear, currentMonth, date, calendarDays[j].key, false)}
-              </>
+              renderCalendarColumn(currentYear, currentMonth, date, calendarDays[j].key, false)
             );
           }
           date++;
@@ -87,7 +83,7 @@ const Calendar = (props: any) => {
         let countData = 7 - colCounter;
         for (let k = 0; k < countData; k++) {
           colData.push(
-            <div className="calendar-column old-dates" key={`col-extra-${k}`}>
+            <div className="calendar-column old-dates" key={`col-extra-${k}-next-month`}>
               {k + 1}
             </div>
           );

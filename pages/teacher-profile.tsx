@@ -57,7 +57,7 @@ const TeacherProfile = () => {
   const { data: userDetailList, error: userDetailListError } = useSWR(
     tokenDetails && tokenDetails.user ? USER_WITH_ID_ENDPOINT(tokenDetails.user.id) : null,
     (url) => APIFetcher(url),
-    { refreshInterval: 1000 }
+    { refreshInterval: 0 }
   );
 
   React.useEffect(() => {
