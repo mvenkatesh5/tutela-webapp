@@ -16,7 +16,10 @@ const SearchCheckbox = (props: any) => {
     props.users.map((data: any, index: any) => {
       if (data.role === props.role) {
         if (search) {
-          if (data.first_name.includes(search) || data.last_name.includes(search)) {
+          if (
+            data.first_name.toLowerCase().includes(search.toLowerCase()) ||
+            data.last_name.toLowerCase().includes(search.toLowerCase())
+          ) {
             if (!userOptions.includes(data.id)) currentUsers.push(data);
           }
         } else {
