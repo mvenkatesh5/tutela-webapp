@@ -102,7 +102,7 @@ const Admin = () => {
         ]
       : null,
     (url) => APIFetcher(url),
-    { refreshInterval: 0 }
+    { refreshInterval: 5000 }
   );
   const { data: userList, error: userListError } = useSWR(USER_ENDPOINT, APIFetcher);
 

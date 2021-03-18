@@ -85,15 +85,11 @@ const CalendarMonthView = (props: any) => {
             currentMonth === new Date(todayDate).getMonth()
           ) {
             colData.push(
-              <>
-                {renderCalendarColumn(currentYear, currentMonth, date, calendarDays[j].key, true)}
-              </>
+              renderCalendarColumn(currentYear, currentMonth, date, calendarDays[j].key, true)
             );
           } else {
             colData.push(
-              <>
-                {renderCalendarColumn(currentYear, currentMonth, date, calendarDays[j].key, false)}
-              </>
+              renderCalendarColumn(currentYear, currentMonth, date, calendarDays[j].key, false)
             );
           }
           date++;

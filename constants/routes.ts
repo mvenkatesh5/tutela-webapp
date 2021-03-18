@@ -17,14 +17,14 @@ export const NEWS_WITH_ID_ENDPOINT = (news_id: Number) => `/api/news/${news_id}`
 
 // adverts
 export const ADVERTS_ENDPOINT = `/api/adverts/`;
-export const ADVERTS_WITH_ID_ENDPOINT = (advert_id: Number) => `/api/adverts/${advert_id}`;
+export const ADVERTS_WITH_ID_ENDPOINT = (advert_id: Number) => `/api/adverts/${advert_id}/`;
 
 // sessions
 export const BULK_SESSION_ENDPOINT = `/api/sessions/bulk/`;
 export const SESSION_ENDPOINT = `/api/tutela-sessions/`;
 export const SESSION_ENDPOINT_TODAY = `/api/tutela-sessions/today/`;
 export const SESSION_WITH_ID_ENDPOINT = (session_id: Number) =>
-  `/api/tutela-sessions/${session_id}`;
+  `/api/tutela-sessions/${session_id}/`;
 export const SESSION_USER_ENDPOINT = `/api/tutela-sessions-users/`;
 export const SESSION_USER_WITH_ID_ENDPOINT = (session_id: Number) =>
   `/api/tutela-sessions-users/${session_id}/`;

@@ -35,7 +35,6 @@ const SessionEditView = (props: any) => {
 
   React.useEffect(() => {
     if (props.data) {
-      console.log(props.data);
       setSessionData({
         ...sessionData,
         id: props.data.id,

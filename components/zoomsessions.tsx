@@ -8,6 +8,8 @@ import { Description } from "@styled-icons/material-rounded";
 import { AttachOutline } from "@styled-icons/evaicons-outline";
 // swr
 import { mutate } from "swr";
+// components
+import SessionTimer from "./sessionTimer";
 // global imports
 import { datePreview } from "@constants/global";
 // api service
@@ -70,6 +72,31 @@ const ZoomSession = (props: any) => {
       });
   };
 
+  // detailed validations
+  const disablePreviousDate = (date: any) => {
+    var currentDate = new Date();
+    var endDate = new Date(date);
+    if (endDate >= currentDate) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const convertTimeToSeconds = (data: any) => {
+    const startDateTime: any = new Date(data);
+    const currentDate: any = new Date();
+    const ZoomDate: any = new Date(
+      `${
+        currentDate.getMonth() + 1
+      }/${currentDate.getDate()}/${currentDate.getFullYear()} ${startDateTime.getHours()}:${startDateTime.getMinutes()}:${startDateTime.getSeconds()}`
+    );
+    const difference = ZoomDate.getTime() - currentDate.getTime();
+    const differenceInSeconds = difference / 1000;
+    const absSeconds = Math.floor(differenceInSeconds);
+    return absSeconds;
+  };
+
   const SessionDetailModal = ({ data }: any) => {
     return (
       <div className="zoom-settings-dropdown-wrapper">
@@ -99,16 +126,6 @@ const ZoomSession = (props: any) => {
                   <p className="text-muted m-0 p-0">{props.data && props.data.description}</p>
                 </div>
               </div>
-
-              {/* <div className="d-flex align-items-center">
-                <div className="me-2">
-                  <AttachOutline className="icon-size-lg text-muted" />
-                </div>
-                <div>
-                  <p className="text-muted bg-light border p-2 rounded m-0">Assignment1.pdf</p>
-                </div>
-              </div> */}
-
               <Button className="btn-sm mt-3" onClick={zoomSubmit} disabled={buttonLoader}>
                 {buttonLoader ? "Starting..." : "Start Meeting"}
               </Button>
@@ -121,26 +138,54 @@ const ZoomSession = (props: any) => {
 
   return (
     <div>
-      {zoomData ? (
+      {disablePreviousDate(props.data.end_datetime) ? (
         <div>
-          {props.role === "student" ? (
-            <a href={zoomData.join_url} target="_blank">
-              <Badge className="bg-success hover-cursor">Join Meeting</Badge>
-            </a>
+          {zoomData ? (
+            <div>
+              {props.role === "student" ? (
+                <SessionTimer
+                  date={props.data.start_datetime}
+                  time={convertTimeToSeconds(props.data.start_datetime)}
+                >
+                  <a href={zoomData.join_url} target="_blank">
+                    <Badge className="bg-success hover-cursor">Join Meeting</Badge>
+                  </a>
+                </SessionTimer>
+              ) : (
+                <SessionTimer
+                  date={props.data.start_datetime}
+                  time={convertTimeToSeconds(props.data.start_datetime)}
+                >
+                  <a href={zoomData.start_url} target="_blank">
+                    <Badge className="bg-success hover-cursor">Join Meeting</Badge>
+                  </a>
+                </SessionTimer>
+              )}
+            </div>
           ) : (
-            <a href={zoomData.start_url} target="_blank">
-              <Badge className="bg-success hover-cursor">Join Meeting</Badge>
-            </a>
+            <div>
+              {props.role === "student" ? (
+                <SessionTimer
+                  date={props.data.start_datetime}
+                  time={convertTimeToSeconds(props.data.start_datetime)}
+                >
+                  <Badge className="bg-info hover-cursor">Session is yet to start!</Badge>
+                </SessionTimer>
+              ) : (
+                <SessionTimer
+                  date={props.data.start_datetime}
+                  time={convertTimeToSeconds(props.data.start_datetime)}
+                >
+                  <SessionDetailModal data={props.data} />
+                </SessionTimer>
+              )}
+            </div>
           )}
         </div>
       ) : (
-        <div>
-          {props.role === "student" ? (
-            <div>Session is yet to start!</div>
-          ) : (
-            <SessionDetailModal data={props.data} />
-          )}
-        </div>
+        <small>
+          <Badge className="bg-warning">Completed!</Badge>
+        </small>
       )}
     </div>
   );

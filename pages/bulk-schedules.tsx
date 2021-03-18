@@ -109,11 +109,19 @@ const BulkSchedules = () => {
         if (new Date(sessionData.start_date).getDate() > new Date(sessionData.end_date).getDate()) {
           // alert("End date has to be greater than Start date");
         } else {
-          var options = {
+          let options: any = {
             currentDate: new Date(sessionData.start_date),
             endDate: new Date(sessionData.end_date),
             iterator: true,
           };
+
+          options.currentDate.setHours(0);
+          options.currentDate.setMinutes(0);
+          options.currentDate.setSeconds(0);
+
+          options.endDate.setHours(0);
+          options.endDate.setMinutes(0);
+          options.endDate.setSeconds(0);
 
           options.endDate.setDate(options.endDate.getDate() + 1);
           let returnArray = [];
@@ -197,22 +205,35 @@ const BulkSchedules = () => {
 
   React.useEffect(() => {
     sessionCreate();
-  }, [sessionData.start_date && sessionData.end_date]);
+  }, [sessionData.start_date]);
+
+  React.useEffect(() => {
+    sessionCreate();
+  }, [sessionData.end_date]);
+
   React.useEffect(() => {
     sessionCreate();
   }, [sessionData.start_time]);
+
   React.useEffect(() => {
     sessionCreate();
   }, [sessionData.end_time]);
+
   React.useEffect(() => {
     sessionCreate();
   }, [sessionData.title]);
+
   React.useEffect(() => {
     sessionCreate();
   }, [sessionData.description]);
+
   React.useEffect(() => {
     sessionCreate();
   }, [sessionData.cornJobKindValue]);
+
+  React.useEffect(() => {
+    sessionCreate();
+  }, [sessionData.cornJobKind]);
 
   const validateBulkCreate = () => {
     // title validate
@@ -259,7 +280,6 @@ const BulkSchedules = () => {
 
       SessionBulkCreate(payload)
         .then((res) => {
-          console.log(res);
           alert("sessions created successfully.");
           window.location.href = "/calendar";
           // redirect to calenders
