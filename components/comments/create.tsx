@@ -20,8 +20,6 @@ const CommentCreate = (props: any) => {
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
   const [formData, setFormData] = React.useState<any>(null);
 
-  console.log(getCurrentUser());
-
   const formSubmit = (event: any) => {
     event.preventDefault();
     setButtonLoader(true);

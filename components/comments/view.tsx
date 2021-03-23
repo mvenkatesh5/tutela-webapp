@@ -37,8 +37,6 @@ const CommentView = (props: any) => {
 
   if (commentDetailError) console.log(commentDetailError);
 
-  console.log(commentDetail);
-
   return (
     <div className="user-comments-root-wrapper">
       <div className="messages" id="messages">
