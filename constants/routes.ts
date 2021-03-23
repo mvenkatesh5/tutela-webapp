@@ -57,4 +57,4 @@ export const REQUEST_SESSION_ENDPOINT = `/api/request-sessions/`;
 export const USER_MESSAGE_ENDPOINT = `/api/messages/`;
 export const USER_MESSAGE_WITH_ID_ENDPOINT = (message_id: any) => `/api/messages/${message_id}/`;
 export const USER_MESSAGE_WITH_STUDENT_ENDPOINT = (student_id: any) =>
-  `/api/messages?student=${student_id}`;
+  `/api/messages/?student=${student_id}`;
