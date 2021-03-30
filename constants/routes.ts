@@ -58,3 +58,8 @@ export const USER_MESSAGE_ENDPOINT = `/api/messages/`;
 export const USER_MESSAGE_WITH_ID_ENDPOINT = (message_id: any) => `/api/messages/${message_id}/`;
 export const USER_MESSAGE_WITH_STUDENT_ENDPOINT = (student_id: any) =>
   `/api/messages/?student=${student_id}`;
+
+// products
+export const PRODUCTS_ENDPOINT = `/api/products/`;
+export const PRODUCTS_WITH_ID_ENDPOINT = (product_id: any) => `/api/products/${product_id}/`;
+export const USER_WITH_PRODUCT_ENDPOINT = ``;

@@ -1,9 +1,20 @@
 import React, { useRef, useState, useEffect } from "react";
+// next imports
+import Link from "next/link";
+// chart js
 import { Bar } from "react-chartjs-2";
+// react bootstrap
+import { Row, Col } from "react-bootstrap";
 // icons
 import { Calendar, RightArrowAlt } from "@styled-icons/boxicons-regular";
+// swr
+import useSWR from "swr";
 // layouts
 import StudentLayout from "layouts/studentLayout";
+// api services
+import { APIFetcher } from "@lib/services";
+// api routes
+import { PRODUCTS_ENDPOINT } from "@constants/routes";
 // hoc
 import withParentAuth from "@lib/hoc/withParentAuth";
 
@@ -63,6 +74,10 @@ const randomColor = () => {
 };
 
 function ParentDashboard() {
+  const { data: productsList, error: productsListError } = useSWR(PRODUCTS_ENDPOINT, APIFetcher);
+
+  console.log("productsList", productsList);
+
   const data = [
     { name: "Maths" },
     { name: "Physics" },
@@ -88,8 +103,71 @@ function ParentDashboard() {
         {/* Cards */}
         <h3 className="fw-bold mt-4">Progress Report</h3>
 
-        <div className="row">
-          {data.map((item, index) => {
+        {!productsListError && !productsList ? (
+          <div className="text-center text-muted mt-5 mb-5">Loading...</div>
+        ) : (
+          <Row className="mt-3 mb-3">
+            {productsList &&
+              productsList.length > 0 &&
+              productsList.map((product: any, index: any) => (
+                <Col md={4} key={product.id}>
+                  <Link href={`/parent/product/${product.id}`}>
+                    <a>
+                      <div className="card rounded mb-3">
+                        <div
+                          className="card-header d-flex align-items-center text-white"
+                          style={{ backgroundColor: product.color ? product.color : "#ccc" }}
+                        >
+                          <div>
+                            <h5 className="mb-0 text-white fw-bold single-line-text">
+                              {product.name}
+                            </h5>
+                          </div>
+                          <div className="ms-auto">
+                            <RightArrowAlt className="icon-size-lg text-white" />
+                          </div>
+                        </div>
+
+                        <div className="card-body">
+                          <div className="d-flex">
+                            <div className="p-3 py-1">
+                              <img className="img-fluid mb-3" src="/calender.svg" width="30" />
+                              <p className="mb-0 fw-bolder text-black-50">20/24</p>
+                              <p className="text-muted mb-0">Attendance</p>
+                            </div>
+                            <div className="p-3 py-1">
+                              <img className="img-fluid mb-3" src="/clock.svg" width="30" />
+
+                              <p className="mb-0 fw-bolder text-black">76%</p>
+                              <p className="text-muted mb-0">Overall Progress</p>
+                            </div>
+                            <div className="p-3 py-1">
+                              <img className="img-fluid mb-3" src="/exam.svg" width="30" />
+                              <p className="mb-0 fw-bolder text-black-50">80/100</p>
+                              <p className="text-muted mb-0">Avg. Score</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </Link>
+                  {/* <div className="product-card-wrapper">
+                      <div
+                        className="header"
+                        style={{ backgroundColor: product.color ? product.color : "#ccc" }}
+                      >
+                        <div className="left">{product.name}</div>
+                      </div>
+                      <div className="content">
+                        <div className="description">{product.description}</div>
+                      </div>
+                    </div> */}
+                </Col>
+              ))}
+          </Row>
+        )}
+
+        {/* {data.map((item, index) => {
             return (
               <>
                 <div className="col-md-4">
@@ -130,8 +208,7 @@ function ParentDashboard() {
                 </div>
               </>
             );
-          })}
-        </div>
+          })} */}
 
         <h3 className="fw-bold mt-4">Time spent on learning</h3>
         <div className="row mb-3">

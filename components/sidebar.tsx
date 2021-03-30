@@ -7,6 +7,7 @@ import { Calendar, User } from "@styled-icons/boxicons-regular/";
 import { Video } from "@styled-icons/boxicons-regular/Video";
 import { Chat } from "@styled-icons/boxicons-regular/Chat";
 import { ArchiveOut } from "@styled-icons/boxicons-regular/ArchiveOut";
+import { ShoppingBag } from "@styled-icons/boxicons-solid/ShoppingBag";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -46,6 +47,11 @@ const Sidebar = () => {
       label: "Channels",
       icon: <ArchiveOut />,
       href: "/admin/request-session",
+    },
+    {
+      label: "Products",
+      icon: <ShoppingBag />,
+      href: "/products",
     },
   ];
 
