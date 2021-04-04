@@ -66,6 +66,7 @@ const SignUpView = () => {
     if (tokenDetails.user.role === 0) router.push("/dashboard");
     if (tokenDetails.user.role === 1) router.push("/dashboard");
     if (tokenDetails.user.role === 2) router.push("/calendar");
+    if (tokenDetails.user.role === 3) router.push("/parent/dashboard");
   };
 
   return (
