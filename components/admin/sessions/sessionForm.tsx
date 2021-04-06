@@ -122,7 +122,7 @@ const SessionFormView = (props: any) => {
                         onChange={(date: any) => handleFormPayload("start_time", date)}
                         showTimeSelect
                         showTimeSelectOnly
-                        timeIntervals={15}
+                        timeIntervals={5}
                         timeCaption="Time"
                         dateFormat="h:mm aa"
                       />
@@ -144,7 +144,7 @@ const SessionFormView = (props: any) => {
                         onChange={(date: any) => handleFormPayload("end_time", date)}
                         showTimeSelect
                         showTimeSelectOnly
-                        timeIntervals={15}
+                        timeIntervals={5}
                         timeCaption="Time"
                         dateFormat="h:mm aa"
                       />
