@@ -1,4 +1,6 @@
 import React from "react";
+// next imports
+import { useRouter } from "next/router";
 // react bootstrap
 import { Container, Button, Form, Tabs, Tab } from "react-bootstrap";
 // swr
@@ -22,6 +24,7 @@ import { APIFetcher, APIUpdater } from "@lib/services";
 import withAdminAuth from "@lib/hoc/withAdminAuth";
 
 const BulkSchedules = () => {
+  const router = useRouter();
   const calendarMonths: any = [
     "January",
     "February",
@@ -103,11 +106,40 @@ const BulkSchedules = () => {
 
   const sessionCreate = () => {
     if (sessionData.start_date && sessionData.end_date) {
-      if (new Date(sessionData.start_date).getDate() === new Date(sessionData.end_date).getDate()) {
+      if (
+        new Date(sessionData.start_date).getDate() === new Date(sessionData.end_date).getDate() &&
+        new Date(sessionData.start_date).getMonth() === new Date(sessionData.end_date).getMonth() &&
+        new Date(sessionData.start_date).getFullYear() ===
+          new Date(sessionData.end_date).getFullYear()
+      ) {
         // alert("Start date and End date are equal");
+        setSessionList([]);
       } else {
-        if (new Date(sessionData.start_date).getDate() > new Date(sessionData.end_date).getDate()) {
+        console.log(
+          "new Date(sessionData.start_date).getDate()",
+          new Date(sessionData.start_date).getDate()
+        );
+        console.log(
+          "new Date(sessionData.start_date).getMonth()",
+          new Date(sessionData.start_date).getMonth()
+        );
+        console.log(
+          "new Date(sessionData.start_date).getFullYear()",
+          new Date(sessionData.start_date).getFullYear()
+        );
+        console.log(
+          "new Date(sessionData.end_date).getDate()",
+          new Date(sessionData.end_date).getDate()
+        );
+        if (
+          (new Date(sessionData.start_date).getMonth() ===
+            new Date(sessionData.end_date).getMonth() &&
+            new Date(sessionData.start_date).getDate() >
+              new Date(sessionData.end_date).getDate()) ||
+          new Date(sessionData.start_date).getMonth() > new Date(sessionData.end_date).getMonth()
+        ) {
           // alert("End date has to be greater than Start date");
+          setSessionList([]);
         } else {
           let options: any = {
             currentDate: new Date(sessionData.start_date),
@@ -200,39 +232,48 @@ const BulkSchedules = () => {
       }
     } else {
       // alert("Please select start date and end date");
+      setSessionList([]);
     }
   };
 
   React.useEffect(() => {
     sessionCreate();
+    console.log(`start_date`);
   }, [sessionData.start_date]);
 
   React.useEffect(() => {
     sessionCreate();
+    console.log(`end_date`);
   }, [sessionData.end_date]);
 
   React.useEffect(() => {
     sessionCreate();
+    console.log(`start_time`);
   }, [sessionData.start_time]);
 
   React.useEffect(() => {
     sessionCreate();
+    console.log(`end_time`);
   }, [sessionData.end_time]);
 
   React.useEffect(() => {
     sessionCreate();
+    console.log(`title`);
   }, [sessionData.title]);
 
   React.useEffect(() => {
     sessionCreate();
+    console.log(`description`);
   }, [sessionData.description]);
 
   React.useEffect(() => {
     sessionCreate();
+    console.log(`cornJobKindValue`);
   }, [sessionData.cornJobKindValue]);
 
   React.useEffect(() => {
     sessionCreate();
+    console.log(`cornJobKind`);
   }, [sessionData.cornJobKind]);
 
   const validateBulkCreate = () => {
@@ -269,9 +310,8 @@ const BulkSchedules = () => {
 
   const sessionBulkCreate = (event: any) => {
     event.preventDefault();
+    setButtonLoader(true);
     if (validateBulkCreate()) {
-      setButtonLoader(true);
-      setButtonLoader(false);
       const payload = {
         sessions: sessionList,
         students: sessionData.listeners,
@@ -281,13 +321,16 @@ const BulkSchedules = () => {
       SessionBulkCreate(payload)
         .then((res) => {
           alert("sessions created successfully.");
-          window.location.href = "/calendar";
+          router.push("/calendar");
           // redirect to calenders
+          setButtonLoader(false);
         })
         .catch((errors) => {
           console.log(errors);
           setButtonLoader(false);
         });
+    } else {
+      setButtonLoader(false);
     }
   };
 

@@ -1,6 +1,8 @@
 import React from "react";
 // react bootstrap
 import { Form } from "react-bootstrap";
+// components
+import ProductSubjectsView from "./productSubjects";
 
 const ProductsFormView = (props: any) => {
   const [formPayload, setFormPayload] = React.useState(Object);
@@ -48,6 +50,11 @@ const ProductsFormView = (props: any) => {
           onChange={(e) => handleFormPayload("color", e.target.value)}
           required
         />
+      </Form.Group>
+
+      <Form.Group className="mb-2">
+        <Form.Label className="mb-1 text-muted">Subjects</Form.Label>
+        <ProductSubjectsView data={formPayload.subjects} handleFormData={handleFormPayload} />
       </Form.Group>
     </div>
   );

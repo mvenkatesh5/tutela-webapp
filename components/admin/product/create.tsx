@@ -19,6 +19,7 @@ const ProductsCreateView = () => {
       description: "",
       color: "#000000",
       data: {},
+      subjects: [],
     });
   };
   const openModal = () => setModal(true);
@@ -30,6 +31,7 @@ const ProductsCreateView = () => {
     description: "",
     color: "#000000",
     data: {},
+    subjects: [],
   });
   const handleFormData = (value: any) => {
     setFormData(value);

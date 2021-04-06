@@ -63,6 +63,7 @@ const SearchCheckbox = (props: any) => {
       SetUserOptions(payload);
       props.handleData(payload);
     }
+    validateUserOptions(null);
   };
 
   const getCurrentUserName = (user_id: any) => {
@@ -79,7 +80,7 @@ const SearchCheckbox = (props: any) => {
     <div className="mb-2">
       <div className="search-root-wrapper">
         <div className="search-container">
-          <Form.Group controlId="search-input">
+          <Form.Group controlId="bulk-search-input">
             <Form.Control
               type="text"
               placeholder={`Search ${props.role === 0 ? `User's` : `Teacher's`}`}
@@ -93,7 +94,14 @@ const SearchCheckbox = (props: any) => {
           <div className="search-dropdown">
             <div className="search-dropdown-Header">
               <div className="content">{props.role === 0 ? `User's` : `Teacher's`}</div>
-              <div className="icon" onClick={() => setFocusToggle(false)}>
+              <div
+                className="icon"
+                onClick={() => {
+                  setFocusToggle(false);
+                  validateUserOptions(null);
+                  setSearchInput("");
+                }}
+              >
                 <Times />
               </div>
             </div>
