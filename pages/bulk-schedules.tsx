@@ -106,11 +106,38 @@ const BulkSchedules = () => {
 
   const sessionCreate = () => {
     if (sessionData.start_date && sessionData.end_date) {
-      if (new Date(sessionData.start_date).getDate() === new Date(sessionData.end_date).getDate()) {
+      if (
+        new Date(sessionData.start_date).getDate() === new Date(sessionData.end_date).getDate() &&
+        new Date(sessionData.start_date).getMonth() === new Date(sessionData.end_date).getMonth() &&
+        new Date(sessionData.start_date).getFullYear() ===
+          new Date(sessionData.end_date).getFullYear()
+      ) {
         // alert("Start date and End date are equal");
         setSessionList([]);
       } else {
-        if (new Date(sessionData.start_date).getDate() > new Date(sessionData.end_date).getDate()) {
+        console.log(
+          "new Date(sessionData.start_date).getDate()",
+          new Date(sessionData.start_date).getDate()
+        );
+        console.log(
+          "new Date(sessionData.start_date).getMonth()",
+          new Date(sessionData.start_date).getMonth()
+        );
+        console.log(
+          "new Date(sessionData.start_date).getFullYear()",
+          new Date(sessionData.start_date).getFullYear()
+        );
+        console.log(
+          "new Date(sessionData.end_date).getDate()",
+          new Date(sessionData.end_date).getDate()
+        );
+        if (
+          (new Date(sessionData.start_date).getMonth() ===
+            new Date(sessionData.end_date).getMonth() &&
+            new Date(sessionData.start_date).getDate() >
+              new Date(sessionData.end_date).getDate()) ||
+          new Date(sessionData.start_date).getMonth() > new Date(sessionData.end_date).getMonth()
+        ) {
           // alert("End date has to be greater than Start date");
           setSessionList([]);
         } else {
