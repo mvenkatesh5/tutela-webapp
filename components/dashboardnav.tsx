@@ -58,7 +58,7 @@ function DashboardNav() {
               )}
               {tokenDetails && tokenDetails.user && tokenDetails.user.role != 3 && (
                 <Nav.Link className="fw-bold text-muted" href="/calendar">
-                  My Calender
+                  My Calendar
                 </Nav.Link>
               )}
 
