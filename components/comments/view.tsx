@@ -4,7 +4,7 @@ import useSWR from "swr";
 // components
 import CommentEditView from "./edit";
 // api routes
-import { USER_MESSAGE_WITH_STUDENT_ENDPOINT } from "@constants/routes";
+import { USER_ENDPOINT, USER_MESSAGE_WITH_STUDENT_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services/index";
 // components
@@ -14,8 +14,12 @@ const CommentView = (props: any) => {
   const defaultImageUrl =
     "https://www.searchpng.com/wp-content/uploads/2019/02/Profile-PNG-Icon.png";
 
+  const { data: userList, error: userListError } = useSWR(USER_ENDPOINT, APIFetcher, {
+    refreshInterval: 0,
+  });
+
   const { data: commentDetail, error: commentDetailError } = useSWR(
-    props.userId ? USER_MESSAGE_WITH_STUDENT_ENDPOINT(props.userId) : null,
+    props.userId && userList ? USER_MESSAGE_WITH_STUDENT_ENDPOINT(props.userId) : null,
     (url) => APIFetcher(url),
     { refreshInterval: 0 }
   );
@@ -50,7 +54,11 @@ const CommentView = (props: any) => {
                 </div>
                 <div className="content">
                   {/* <div className="content-user">{renderUserName(comment.user)}</div> */}
-                  <CommentEditView data={comment} currentUserDetail={props.currentUserDetail} />
+                  <CommentEditView
+                    data={comment}
+                    currentUserDetail={props.currentUserDetail}
+                    allUsers={userList}
+                  />
                 </div>
               </div>
             ))}
