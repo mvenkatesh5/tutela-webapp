@@ -3,7 +3,7 @@ import React from "react";
 import { Form } from "react-bootstrap";
 
 const CommentEditor = (props: any) => {
-  const [formData, setFormData] = React.useState({
+  const [formData, setFormData] = React.useState<any>({
     content: "",
   });
 
@@ -14,7 +14,13 @@ const CommentEditor = (props: any) => {
 
   React.useEffect(() => {
     if (props.data) {
-      setFormData({ ...formData, content: props.data.content ? props.data.content : "" });
+      setFormData({
+        ...formData,
+        content: props.data.content ? props.data.content : "",
+        is_actionable: props.data.is_actionable ? props.data.is_actionable : false,
+        is_accomplished: props.data.is_accomplished ? props.data.is_accomplished : false,
+        assigned: props.data.assigned ? props.data.assigned : null,
+      });
     }
   }, [props.data]);
 
