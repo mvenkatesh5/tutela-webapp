@@ -1,13 +1,18 @@
 // next imports
 import { useRouter } from "next/router";
 import Link from "next/link";
+// react bootstrap
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 // material icons
-import { Feedback, DynamicFeed } from "@styled-icons/material-rounded/";
+import { DynamicFeed } from "@styled-icons/material-rounded/";
 import { Calendar, User } from "@styled-icons/boxicons-regular/";
 import { Video } from "@styled-icons/boxicons-regular/Video";
 import { Chat } from "@styled-icons/boxicons-regular/Chat";
 import { ArchiveOut } from "@styled-icons/boxicons-regular/ArchiveOut";
 import { ShoppingBag } from "@styled-icons/boxicons-solid/ShoppingBag";
+import { MarkChatRead } from "@styled-icons/material/MarkChatRead";
+import { Announcement } from "@styled-icons/zondicons/Announcement";
+import { MeetingRoom } from "@styled-icons/material/MeetingRoom";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -25,7 +30,7 @@ const Sidebar = () => {
     },
     {
       label: "Adverts",
-      icon: <Feedback />,
+      icon: <Announcement />,
       href: "/adverts",
     },
     {
@@ -34,7 +39,17 @@ const Sidebar = () => {
       href: "/users",
     },
     {
-      label: "Zoom",
+      label: "Messages",
+      icon: <MarkChatRead />,
+      href: "/admin/messages",
+    },
+    {
+      label: "Quick Meetings",
+      icon: <MeetingRoom />,
+      href: "/admin/quick-meetings",
+    },
+    {
+      label: "Zoom Integrations",
       icon: <Video />,
       href: "/zoom",
     },
@@ -44,7 +59,7 @@ const Sidebar = () => {
       href: "/channels",
     },
     {
-      label: "Channels",
+      label: "Request Sessions",
       icon: <ArchiveOut />,
       href: "/admin/request-session",
     },
@@ -63,12 +78,18 @@ const Sidebar = () => {
           sidebarOptions.map((menuItems, index) => (
             <Link key={menuItems.href} href={menuItems.href}>
               <a>
-                <div
-                  className={"item " + (router.pathname.includes(menuItems.href) ? "active" : "")}
+                <OverlayTrigger
+                  key={`right`}
+                  placement={`right`}
+                  overlay={<Tooltip id={`tooltip-right`}>{menuItems.label}</Tooltip>}
                 >
-                  <div className="icon">{menuItems.icon}</div>
-                  <div className="label">{menuItems.label}</div>
-                </div>
+                  <div
+                    className={"item " + (router.pathname.includes(menuItems.href) ? "active" : "")}
+                  >
+                    <div className="icon">{menuItems.icon}</div>
+                    <div className="label">{menuItems.label}</div>
+                  </div>
+                </OverlayTrigger>
               </a>
             </Link>
           ))}

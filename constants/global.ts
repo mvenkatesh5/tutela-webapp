@@ -4,6 +4,7 @@ import { getAuthenticationToken } from "@lib/cookie";
 export const port = 5000;
 
 export const CRISP_WEBSITE_ID = `4e713b40-b259-401e-b410-19ac90d60b0b`;
+export const SMARTLOOK_KEY = `db8e4f0632a73a84cf2f9ba0ab0e905ef1848ca4`;
 
 export const calendarMonths = [
   { key: "Jan", fullName: "January" },

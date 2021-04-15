@@ -32,6 +32,14 @@ const UserRequestSession = () => {
       }
     }
   };
+  const handleDatetime = (date: any, time: any) => {
+    let currentDate: any = new Date(date);
+    let currentTime: any = new Date(time);
+    currentDate.setHours(currentTime.getHours());
+    currentDate.setMinutes(currentTime.getMinutes());
+    currentDate.setSeconds(currentTime.getSeconds());
+    return new Date(currentDate);
+  };
 
   return (
     <div>
@@ -58,7 +66,22 @@ const UserRequestSession = () => {
                       <tr key={i}>
                         <td className="text-center">{i + 1}</td>
                         <td className="heading">{users.topic}</td>
-                        <td className="">{datePreview(users.datetime)}</td>
+                        <td className="">
+                          {users.data && users.data.dateTime ? (
+                            <div>
+                              {users.data.dateTime.length > 0 &&
+                                users.data.dateTime.map((data: any, index: any) => (
+                                  <div key={datePreview(handleDatetime(data.date, data.time))}>
+                                    <small>
+                                      {datePreview(handleDatetime(data.date, data.time))}
+                                    </small>
+                                  </div>
+                                ))}
+                            </div>
+                          ) : (
+                            <div className="text-center">-</div>
+                          )}
+                        </td>
                         <td className="">{datePreview(users.created)}</td>
                         <td className="">{returnCurrentUser(users.user)}</td>
                       </tr>

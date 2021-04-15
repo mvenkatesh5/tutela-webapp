@@ -43,20 +43,25 @@ const RequestSession = () => {
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
   const [sessionData, setSessionData] = React.useState<any>({
     topic: "",
-    date: new Date(),
-    time: new Date(),
+    data: [{ date: new Date(), time: new Date() }],
   });
   const handleSessionData = (key: any, value: any) => {
     setSessionData({ ...sessionData, [key]: value });
   };
-
-  const handleDatetime = (date: any, time: any) => {
-    let currentDate = new Date(date);
-    let currentTime = new Date(time);
-    currentDate.setHours(currentTime.getHours());
-    currentDate.setMinutes(currentTime.getMinutes());
-    currentDate.setSeconds(currentTime.getSeconds());
-    return new Date(currentDate);
+  const handleSessionDataDate = (index: any, key: any, value: any) => {
+    const payload = { ...sessionData };
+    payload.data[index][key] = value;
+    setSessionData(payload);
+  };
+  const addSessionDataDate = () => {
+    const payload = { ...sessionData };
+    payload.data.push({ date: new Date(), time: new Date() });
+    setSessionData(payload);
+  };
+  const removeSessionDataDate = (index: any) => {
+    const payload = { ...sessionData };
+    payload.data.splice(index, 1);
+    setSessionData(payload);
   };
 
   const sessionSubmit = (event: any) => {
@@ -65,7 +70,7 @@ const RequestSession = () => {
 
     const payload = {
       topic: sessionData.topic,
-      datetime: handleDatetime(sessionData.date, sessionData.time),
+      data: { dateTime: sessionData.data },
       user: tokenDetails && tokenDetails.user && tokenDetails.user.id,
     };
 
@@ -116,29 +121,60 @@ const RequestSession = () => {
                 </Form.Group>
 
                 <Form.Group controlId="session_data.date" className="mb-2">
-                  <Form.Label>Date</Form.Label>
+                  <Form.Label>Select Date and Time</Form.Label>
                   <br />
-                  <DatePicker
-                    className="form-control w-100"
-                    selected={sessionData.date ? new Date(sessionData.date) : new Date()}
-                    onChange={(date: any) => handleSessionData("date", date)}
-                  />
+                  {sessionData &&
+                    sessionData.data &&
+                    sessionData.data.map((data: any, index: any) => (
+                      <Row className="mb-2" key={`rquestiod-sessions-${index}`}>
+                        <Col md={3}>Date Time</Col>
+                        <Col>
+                          <DatePicker
+                            className="form-control w-100"
+                            selected={data.date ? new Date(data.date) : new Date()}
+                            onChange={(date: any) => handleSessionDataDate(index, "date", date)}
+                          />
+                        </Col>
+                        <Col>
+                          <DatePicker
+                            className="form-control w-100"
+                            selected={data.time ? new Date(data.time) : new Date()}
+                            onChange={(date: any) => handleSessionDataDate(index, "time", date)}
+                            showTimeSelect
+                            showTimeSelectOnly
+                            timeIntervals={15}
+                            timeCaption="Time"
+                            dateFormat="h:mm aa"
+                          />
+                        </Col>
+                        {sessionData.data.length != 1 && (
+                          <Col
+                            xs={1}
+                            sm={1}
+                            md={1}
+                            style={{ cursor: "pointer" }}
+                            onClick={() => removeSessionDataDate(index)}
+                          >
+                            X
+                          </Col>
+                        )}
+                      </Row>
+                    ))}
                 </Form.Group>
 
-                <Form.Group controlId="session_data.time" className="mb-2">
-                  <Form.Label>Time</Form.Label>
-                  <br />
-                  <DatePicker
-                    className="form-control w-100"
-                    selected={sessionData.time ? new Date(sessionData.time) : new Date()}
-                    onChange={(date: any) => handleSessionData("time", date)}
-                    showTimeSelect
-                    showTimeSelectOnly
-                    timeIntervals={15}
-                    timeCaption="Time"
-                    dateFormat="h:mm aa"
-                  />
-                </Form.Group>
+                <div>
+                  <small>{sessionData.data.length} / 5</small>
+                </div>
+
+                {sessionData.data.length != 5 && (
+                  <Button
+                    variant="outline-primary"
+                    className="mt-2 btn-sm"
+                    onClick={addSessionDataDate}
+                  >
+                    Add New Date
+                  </Button>
+                )}
 
                 <Button
                   type="submit"
