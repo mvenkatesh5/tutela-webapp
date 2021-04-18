@@ -11,8 +11,7 @@ import { APIFetcher } from "@lib/services/index";
 import CommentCreate from "./create";
 
 const CommentView = (props: any) => {
-  const defaultImageUrl =
-    "https://www.searchpng.com/wp-content/uploads/2019/02/Profile-PNG-Icon.png";
+  const defaultImageUrl = "/default-image.png";
 
   const { data: userList, error: userListError } = useSWR(USER_ENDPOINT, APIFetcher, {
     refreshInterval: 0,

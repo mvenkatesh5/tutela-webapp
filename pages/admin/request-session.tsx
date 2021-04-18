@@ -3,6 +3,8 @@ import React from "react";
 import Link from "next/link";
 // react bootstrap
 import { Container, Table, Form } from "react-bootstrap";
+// material icons
+import { Calendar } from "@styled-icons/boxicons-regular/Calendar";
 // swr
 import useSWR, { mutate } from "swr";
 // layouts
@@ -28,7 +30,13 @@ const UserRequestSession = () => {
     if (userList) {
       const currentUser: any = userList.find((element: any) => element.id === user_id);
       if (currentUser) {
-        return `${currentUser.first_name} (${currentUser.email})`;
+        return (
+          <div>
+            <strong>{currentUser.first_name}</strong>
+            <br />
+            <small className="text-secondary">{currentUser.email}</small>
+          </div>
+        );
       }
     }
   };
@@ -71,10 +79,20 @@ const UserRequestSession = () => {
                             <div>
                               {users.data.dateTime.length > 0 &&
                                 users.data.dateTime.map((data: any, index: any) => (
-                                  <div key={datePreview(handleDatetime(data.date, data.time))}>
-                                    <small>
-                                      {datePreview(handleDatetime(data.date, data.time))}
-                                    </small>
+                                  <div
+                                    key={datePreview(handleDatetime(data.date, data.time))}
+                                    className="c-badge"
+                                  >
+                                    <div className="d-flex align-items-center">
+                                      <div className="me-2">
+                                        <Calendar width="14" />
+                                      </div>
+                                      <div>
+                                        <small>
+                                          {datePreview(handleDatetime(data.date, data.time))}
+                                        </small>
+                                      </div>
+                                    </div>
                                   </div>
                                 ))}
                             </div>
@@ -83,7 +101,26 @@ const UserRequestSession = () => {
                           )}
                         </td>
                         <td className="">{datePreview(users.created)}</td>
-                        <td className="">{returnCurrentUser(users.user)}</td>
+                        <td className="">
+                          <div className="d-flex align-items-center">
+                            <div
+                              style={{
+                                width: "25px",
+                                height: "25px",
+                                borderRadius: "100px",
+                                backgroundColor: "#ccc",
+                                overflow: "hidden",
+                                marginRight: "10px",
+                              }}
+                            >
+                              <img
+                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                src="/default-image.png"
+                              />
+                            </div>
+                            <div>{returnCurrentUser(users.user)}</div>
+                          </div>
+                        </td>
                       </tr>
                     ))}
                   </tbody>

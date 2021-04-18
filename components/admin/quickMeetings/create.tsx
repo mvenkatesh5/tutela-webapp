@@ -1,6 +1,8 @@
 import React from "react";
 // react bootstrap
 import { Button, Form, Modal } from "react-bootstrap";
+// material icons
+import { Calendar } from "@styled-icons/boxicons-regular/Calendar";
 // swr
 import { mutate } from "swr";
 // components
@@ -59,9 +61,16 @@ const QuickMeetingCreateView = () => {
 
   return (
     <div>
-      <Button variant="primary" className="btn-sm" onClick={openModal}>
-        Add Quick Meeting
-      </Button>
+      <div className="d-flex">
+        <Button variant="primary" className="btn-sm ms-auto" onClick={openModal}>
+          <div className="d-flex align-items-center">
+            <div className="me-2">
+              <Calendar width="16" />
+            </div>
+            <div>Add Quick Meeting</div>
+          </div>
+        </Button>
+      </div>
 
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>

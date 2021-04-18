@@ -1,6 +1,10 @@
 import React from "react";
 // react bootstrap
 import { Row, Col, Card } from "react-bootstrap";
+// material icons
+import { TextLeft } from "@styled-icons/bootstrap/TextLeft";
+import { Calendar } from "@styled-icons/boxicons-regular/Calendar";
+import { Time } from "@styled-icons/boxicons-regular/Time";
 // swr
 import useSWR from "swr";
 // layouts
@@ -36,7 +40,14 @@ const QuickMeetingsView = () => {
     <div>
       <AdminLayout>
         <div className="right-layout">
-          <QuickMeetingCreateView />
+          <Row className="align-items-center">
+            <Col>
+              <h5>Quick Meetings</h5>
+            </Col>
+            <Col>
+              <QuickMeetingCreateView />
+            </Col>
+          </Row>
           <Row>
             {quickMeetingsList &&
               quickMeetingsList.length > 0 &&
@@ -44,19 +55,41 @@ const QuickMeetingsView = () => {
                 <Col md={3} key={data.id} style={{ marginTop: "10px" }}>
                   <Card>
                     <Card.Body>
-                      <h6 className="mb-2">{data.name}</h6>
-                      <div>
-                        <small>{data.description}</small>
+                      <div className="quick-meeting-flex">
+                        <div className="image-container">
+                          <img src="/default-image.png" />
+                        </div>
+                        <div className="content">
+                          <h6 className="mb-2">{data.name}</h6>
+                        </div>
                       </div>
-                      <div className="mt-2">
-                        <small>
-                          Starts At : <strong>{datePreview(data.start_time)}</strong>
-                        </small>
+                      <div className="quick-meeting-flex">
+                        <div className="image-container">
+                          <TextLeft />
+                        </div>
+                        <div className="content">
+                          <small>{data.description}</small>
+                        </div>
                       </div>
-                      <div className="mt-0 mb-2">
-                        <small>
-                          Ends At : <strong>{datePreview(data.end_date)}</strong>
-                        </small>
+                      <div className="quick-meeting-flex mb-0">
+                        <div className="image-container">
+                          <Calendar />
+                        </div>
+                        <div className="content">
+                          <small>
+                            Starts At : <strong>{datePreview(data.start_time)}</strong>
+                          </small>
+                        </div>
+                      </div>
+                      <div className="quick-meeting-flex">
+                        <div className="image-container">
+                          <Time />
+                        </div>
+                        <div className="content">
+                          <small>
+                            Ends At : <strong>{datePreview(data.end_date)}</strong>
+                          </small>
+                        </div>
                       </div>
 
                       <QuickMeetingEditView data={data} />

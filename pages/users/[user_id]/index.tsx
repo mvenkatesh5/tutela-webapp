@@ -21,8 +21,7 @@ import { APIFetcher } from "@lib/services";
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 
 const userDetailView = () => {
-  const defaultImageUrl =
-    "https://www.searchpng.com/wp-content/uploads/2019/02/Profile-PNG-Icon.png";
+  const defaultImageUrl = "/default-image.png";
 
   const router = useRouter();
   const user_id: any = router.query.user_id;
