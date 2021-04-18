@@ -63,3 +63,8 @@ export const USER_MESSAGE_WITH_STUDENT_ENDPOINT = (student_id: any) =>
 export const PRODUCTS_ENDPOINT = `/api/products/`;
 export const PRODUCTS_WITH_ID_ENDPOINT = (product_id: any) => `/api/products/${product_id}/`;
 export const USER_WITH_PRODUCT_ENDPOINT = ``;
+
+// quick meetings
+export const QUICK_MEETINGS_ENDPOINT = `/api/quick-meetings`;
+export const QUICK_MEETINGS_WITH_ID_ENDPOINT = (quick_meeting_id: Number) =>
+  `/api/quick-meetings/${quick_meeting_id}/`;

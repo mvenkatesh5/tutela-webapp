@@ -13,7 +13,8 @@ import { GlobalContextProvider } from "@contexts/global";
 // components
 import ToastAlert from "@components/alert";
 
-const CrispWithNoSSR = dynamic(() => import("@components/crisp"), { ssr: false });
+const CrispWithNoSSR = dynamic(() => import("@constants/scripts/crisp"), { ssr: false });
+const SmartLookWithNoSSR = dynamic(() => import("@constants/scripts/smartLook"), { ssr: false });
 
 // styles
 import "@styles/app.scss";
@@ -25,6 +26,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <OverlayProvider>
         <GlobalContextProvider>
           <CrispWithNoSSR />
+          <SmartLookWithNoSSR />
           <ToastAlert />
           <Component {...pageProps} />
         </GlobalContextProvider>

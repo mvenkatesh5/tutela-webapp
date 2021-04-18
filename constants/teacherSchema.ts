@@ -6,7 +6,7 @@ export const teacherSchema = [
       {
         kind_name: "Profile Details",
         kind_description:
-          "Please fill in your basic details to ensure you don't miss out on any important information from Tutela's end",
+          "Please fill in your basic details so that the students and their parents can reach out to you without any hassle",
         kind_data: [
           {
             key: "image",
@@ -77,7 +77,7 @@ export const teacherSchema = [
       {
         kind_name: "Educational Details",
         kind_description:
-          "Please help us understand your interests and aptitude. Try to answer these as honestly and instinctively as possible!",
+          "Please help us know your academic background (High school/undergraduate/postgraduate/doctorate) so that the students and their parents can understand you better",
         kind_data: [
           {
             key: "Educational-details",
@@ -92,7 +92,7 @@ export const teacherSchema = [
       {
         kind_name: "Experience Details",
         kind_description:
-          "Please help us understand your interests and aptitude. Try to answer these as honestly and instinctively as possible!",
+          "Please help us know the history of your work experience (include paid/unpaid internships, if any)",
         kind_data: [
           {
             key: "Experience-details",
@@ -107,7 +107,7 @@ export const teacherSchema = [
       {
         kind_name: "Skills and Achievements",
         kind_description:
-          "Please help us understand your interests and aptitude. Try to answer these as honestly and instinctively as possible!",
+          "Please help us know any notable achievement(s) or interesting skill(s) that gives you the extra edge",
         kind_data: [
           {
             key: "skills-Achievements",

@@ -55,6 +55,27 @@ a {
   text-decoration: none !important;
 }
 
+// react date picker
+.custom-date-picker .react-datepicker-wrapper {
+  width: 100%;
+}
+
+// custom badges
+.c-badge {
+  display: inline-block;
+  font-size: 12px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-left: 5px;
+  padding: 2px 6px;
+  font-weight: 500;
+  background: #e9edf5;
+  .success {
+    background: rgba(8, 173, 54, 0.15);
+    color: #019129;
+  }
+}
+
 // global dropdown css
 .global-dropdown {
   .dropdown-toggle::after {

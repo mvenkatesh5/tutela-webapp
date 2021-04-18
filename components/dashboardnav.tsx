@@ -56,15 +56,23 @@ function DashboardNav() {
                   Request Session
                 </Nav.Link>
               )}
+
               {tokenDetails && tokenDetails.user && tokenDetails.user.role != 3 && (
                 <Nav.Link className="fw-bold text-muted" href="/calendar">
                   My Calendar
                 </Nav.Link>
               )}
 
+              {/* teacher */}
               {tokenDetails && tokenDetails.user && tokenDetails.user.role === 1 && (
                 <Nav.Link className="fw-bold text-muted" href="/teacher-profile">
                   Profile
+                </Nav.Link>
+              )}
+              {/* teacher */}
+              {tokenDetails && tokenDetails.user && tokenDetails.user.role === 1 && (
+                <Nav.Link className="fw-bold text-muted" href="/users?t=1">
+                  Students
                 </Nav.Link>
               )}
             </Nav>

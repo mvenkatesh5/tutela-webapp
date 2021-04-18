@@ -18,11 +18,10 @@ import { USER_WITH_ID_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 // hoc
-import withAdminAuth from "@lib/hoc/withAdminAuth";
+import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 
 const userDetailView = () => {
-  const defaultImageUrl =
-    "https://www.searchpng.com/wp-content/uploads/2019/02/Profile-PNG-Icon.png";
+  const defaultImageUrl = "/default-image.png";
 
   const router = useRouter();
   const user_id: any = router.query.user_id;
@@ -191,4 +190,4 @@ const userDetailView = () => {
   );
 };
 
-export default withAdminAuth(userDetailView);
+export default withGlobalAuth(userDetailView);

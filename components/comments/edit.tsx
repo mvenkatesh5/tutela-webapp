@@ -45,7 +45,6 @@ const CommentEdit = (props: any) => {
   const messageUpdate = (payloadObject: any) => {
     const payload = { ...payloadObject };
     payload["id"] = props.data.id;
-    console.log(payload);
     MessageUpdate(payload)
       .then((response) => {
         setButtonLoader(false);
