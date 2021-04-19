@@ -20,7 +20,7 @@ import { QuickMeetingDelete } from "@lib/services/quickmeetingsservice";
 // global imports
 import { datePreview } from "@constants/global";
 // hoc
-import withAdminAuth from "@lib/hoc/withAdminAuth";
+import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 
 const QuickMeetingsView = () => {
   const advertsDelete = (id: Number) => {
@@ -104,4 +104,4 @@ const QuickMeetingsView = () => {
   );
 };
 
-export default withAdminAuth(QuickMeetingsView);
+export default withGlobalAuth(QuickMeetingsView);

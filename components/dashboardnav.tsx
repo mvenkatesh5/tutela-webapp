@@ -75,6 +75,16 @@ function DashboardNav() {
                   Students
                 </Nav.Link>
               )}
+              {tokenDetails && tokenDetails.user && tokenDetails.user.role === 1 && (
+                <Nav.Link className="fw-bold text-muted" href="/admin/request-session">
+                  Request Sessions
+                </Nav.Link>
+              )}
+              {tokenDetails && tokenDetails.user && tokenDetails.user.role === 1 && (
+                <Nav.Link className="fw-bold text-muted" href="/admin/messages">
+                  Messages
+                </Nav.Link>
+              )}
             </Nav>
           </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">

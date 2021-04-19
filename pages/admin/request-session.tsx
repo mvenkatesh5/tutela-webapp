@@ -16,7 +16,7 @@ import { USER_ENDPOINT, REQUEST_SESSION_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher, APIUpdater } from "@lib/services";
 // hoc
-import withAdminAuth from "@lib/hoc/withAdminAuth";
+import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 
 const UserRequestSession = () => {
   const { data: requestSessions, error: requestSessionsError } = useSWR(
@@ -136,4 +136,4 @@ const UserRequestSession = () => {
   );
 };
 
-export default withAdminAuth(UserRequestSession);
+export default withGlobalAuth(UserRequestSession);

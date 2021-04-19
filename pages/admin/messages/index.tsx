@@ -19,7 +19,7 @@ import { APIFetcher, APIUpdater } from "@lib/services";
 // api services
 import { MessageUpdate } from "@lib/services/commentService";
 // hoc
-import withAdminAuth from "@lib/hoc/withAdminAuth";
+import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 // global context provider
 import { globalContext } from "@contexts/global";
 
@@ -121,4 +121,4 @@ const Messages = () => {
   );
 };
 
-export default withAdminAuth(Messages);
+export default withGlobalAuth(Messages);
