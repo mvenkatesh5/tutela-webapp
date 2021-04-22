@@ -6,6 +6,11 @@ import { useRouter } from "next/router";
 import { Container, Table, Form } from "react-bootstrap";
 // swr
 import useSWR, { mutate } from "swr";
+// blueprint
+import { TimezonePicker } from "@blueprintjs/timezone";
+// blueprint css
+import "@blueprintjs/core/lib/css/blueprint.css";
+import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 // layouts
 import AdminLayout from "@layouts/adminLayout";
 // api routes
@@ -21,12 +26,20 @@ const UserDetails = () => {
   const { data: userList, error: userListError } = useSWR(USER_ENDPOINT, APIFetcher);
 
   const handleUserRole = (user: any, role: any) => {
-    APIUpdater(USER_WITH_ID_ENDPOINT(user.id), { role: role })
+    const payload = { id: user.id, role: role };
+    handleUpdate(payload);
+  };
+  const handleUserTimezone = (user: any, timezone: any) => {
+    const payload = { id: user.id, timezone: timezone };
+    handleUpdate(payload);
+  };
+  const handleUpdate = (payload: any) => {
+    APIUpdater(USER_WITH_ID_ENDPOINT(payload.id), payload)
       .then((res: any) => {
         mutate(
           USER_ENDPOINT,
           async (elements: any) => {
-            let index = elements.findIndex((mutateData: any) => mutateData.id === user.id);
+            let index = elements.findIndex((mutateData: any) => mutateData.id === payload.id);
             return elements.map((oldElement: any, i: any) => (i === index ? res : oldElement));
           },
           false
@@ -63,6 +76,7 @@ const UserDetails = () => {
                   <th>Username</th>
                   <th>Email</th>
                   <th>Role</th>
+                  <th>TimeZone</th>
                 </tr>
               </thead>
               <tbody>
@@ -96,6 +110,16 @@ const UserDetails = () => {
                                 <option value="3">Parent</option>
                               </Form.Control>
                             </Form.Group>
+                          </td>
+                          <td className="description">
+                            <TimezonePicker
+                              className="timezone-root"
+                              valueDisplayFormat="composite"
+                              value={users.timezone}
+                              onChange={(value) => {
+                                handleUserTimezone(users, value);
+                              }}
+                            />
                           </td>
                         </tr>
                       );

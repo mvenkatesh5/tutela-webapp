@@ -8,7 +8,7 @@ import Page from "@components/page";
 import SessionCard from "@components/admin/sessions/sessionCard";
 import UpcomingTestsCard from "@components/uptestscard";
 // api routes
-import { SESSION_ENDPOINT_TODAY, ADVERTS_ENDPOINT } from "@constants/routes";
+import { SESSION_ENDPOINT_UPCOMING, ADVERTS_ENDPOINT } from "@constants/routes";
 // constants
 import { META_DESCRIPTION } from "@constants/page";
 // cookie
@@ -50,9 +50,9 @@ const DashboardDetail = (props: any) => {
   }, []);
 
   const handleCurrentDateQuery = (user_id: any, role: any) => {
-    let currentRoute: any = SESSION_ENDPOINT_TODAY;
+    let currentRoute: any = SESSION_ENDPOINT_UPCOMING;
     if (role != "admin") {
-      currentRoute = currentRoute + `&user_id=${user_id}`;
+      currentRoute = currentRoute + `?user_id=${user_id}`;
     }
     console.log(currentRoute);
     setCurrentDateQuery(currentRoute);
@@ -70,7 +70,7 @@ const DashboardDetail = (props: any) => {
       <StudentLayout>
         <Container className="mt-5 container-lg">
           <Row>
-            <h4 className="fw-bold text-dark mb-3">Today's Sessions</h4>
+            <h4 className="fw-bold text-dark mb-3">Upcoming Sessions</h4>
             <Col md="8">
               {sessionList && sessionList.length > 0 ? (
                 <div>

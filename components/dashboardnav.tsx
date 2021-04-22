@@ -76,8 +76,8 @@ function DashboardNav() {
                 </Nav.Link>
               )}
               {tokenDetails && tokenDetails.user && tokenDetails.user.role === 1 && (
-                <Nav.Link className="fw-bold text-muted" href="/admin/request-session">
-                  Request Sessions
+                <Nav.Link className="fw-bold text-muted" href="/admin/quick-meetings">
+                  Quick Meetings
                 </Nav.Link>
               )}
               {tokenDetails && tokenDetails.user && tokenDetails.user.role === 1 && (

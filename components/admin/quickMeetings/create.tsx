@@ -8,7 +8,7 @@ import { mutate } from "swr";
 // components
 import QuickMeetingForm from "./quickMeetingForm";
 // api routes
-import { QUICK_MEETINGS_ENDPOINT } from "@constants/routes";
+import { QUICK_MEETINGS_ENDPOINT, DEFAULT_ZOOM_URL } from "@constants/routes";
 // api services
 import { QuickMeetingCreate } from "@lib/services/quickmeetingsservice";
 // global imports
@@ -23,7 +23,9 @@ const QuickMeetingCreateView = () => {
       description: "",
       start_time: "",
       end_date: "",
-      data: {},
+      data: {
+        link: DEFAULT_ZOOM_URL,
+      },
       created_by: getCurrentUser() && getCurrentUser().user && getCurrentUser().user.id,
     });
   };
@@ -34,7 +36,7 @@ const QuickMeetingCreateView = () => {
     description: "",
     start_time: "",
     end_date: "",
-    data: {},
+    data: { link: DEFAULT_ZOOM_URL },
     created_by: getCurrentUser() && getCurrentUser().user && getCurrentUser().user.id,
   });
   const handleQuickMeetingsData = (value: any) => {
