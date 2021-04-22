@@ -3,6 +3,9 @@ export const BASE_PROD = "https://tutelaotlp.herokuapp.com/";
 export const BASE_STAGING = "https://tutelaotlp-staging.herokuapp.com/";
 export const BASE_LOCAL = "http://127.0.0.1:8000/";
 
+// default urls
+export const DEFAULT_ZOOM_URL = `https://zoom.us/j/2505542539?pwd=dXh0amx3TktJTEFTYk9OYUJ3YUNYUT09`;
+
 // authentication
 export const AUTH_LOGIN = `/login/`;
 export const AUTH_SIGNUP = `/signup/`;
@@ -23,6 +26,7 @@ export const ADVERTS_WITH_ID_ENDPOINT = (advert_id: Number) => `/api/adverts/${a
 export const BULK_SESSION_ENDPOINT = `/api/sessions/bulk/`;
 export const SESSION_ENDPOINT = `/api/tutela-sessions/`;
 export const SESSION_ENDPOINT_TODAY = `/api/tutela-sessions/today/`;
+export const SESSION_ENDPOINT_UPCOMING = `/api/upcoming-sessions/`;
 export const SESSION_WITH_ID_ENDPOINT = (session_id: Number) =>
   `/api/tutela-sessions/${session_id}/`;
 export const SESSION_USER_ENDPOINT = `/api/tutela-sessions-users/`;

@@ -3,6 +3,11 @@ import React from "react";
 import { Form, Container, Card, Button, Tab, Nav, Row, Col } from "react-bootstrap";
 // swr
 import useSWR from "swr";
+// blueprint
+import { TimezonePicker } from "@blueprintjs/timezone";
+// blueprint css
+import "@blueprintjs/core/lib/css/blueprint.css";
+import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 // components
 import FromBuilder from "@components/forms";
 // layouts
@@ -36,12 +41,14 @@ const TeacherProfile = () => {
   const handleProfile = (key: any, value: any) => {
     setProfile({ ...profile, [key]: value });
   };
+  const [timeZone, setTimeZone] = React.useState<any>();
 
   const updateProfileData = () => {
     setButtonLoader(true);
     const payload = {
       id: tokenDetails && tokenDetails.user && tokenDetails.user.id,
       profile_data: profile,
+      timezone: timeZone,
     };
 
     UserUpdate(payload)
@@ -61,8 +68,9 @@ const TeacherProfile = () => {
   );
 
   React.useEffect(() => {
-    if (userDetailList && userDetailList.profile_data) {
-      setProfile(userDetailList.profile_data);
+    if (userDetailList) {
+      if (userDetailList.profile_data) setProfile(userDetailList.profile_data);
+      setTimeZone(userDetailList.timezone);
     }
   }, [userDetailList]);
 
@@ -73,6 +81,19 @@ const TeacherProfile = () => {
       <StudentLayout>
         <Container className="pt-3 pb-3">
           <h3 className="mb-4">Account</h3>
+
+          <div className="mb-2">
+            <div className="text-secondary mb-1">Select TimeZone</div>
+            <TimezonePicker
+              className="timezone-root"
+              valueDisplayFormat="composite"
+              value={timeZone}
+              onChange={(value) => {
+                setTimeZone(value);
+              }}
+            />
+          </div>
+
           <Tab.Container defaultActiveKey={teacherSchema[0].tab_key}>
             <Nav className="custom-nav-tabs-links profile-account-nav" variant="pills">
               {teacherSchema.map((item: any, index: any) => (

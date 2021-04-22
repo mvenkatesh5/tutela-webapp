@@ -13,6 +13,8 @@
   "dependencies": {
     "@agility/content-fetch": "1.0.0",
     "@agility/content-sync": "0.1.23",
+    "@blueprintjs/core": "^3.44.0",
+    "@blueprintjs/timezone": "^3.9.0",
     "@reach/skip-nav": "0.12.1",
     "@types/chart.js": "^2.9.31",
     "@types/js-cookie": "^2.2.6",
