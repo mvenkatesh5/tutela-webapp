@@ -76,13 +76,11 @@ const TreeChildrenRenderView = ({ tree, level, children, root_node_id, parent, i
               )}
 
               {tree.data.kind === "SECTION" ? (
-                <div className="flex-item title">
-                  {tree.id} - {tree.data && tree.data.title}
-                </div>
+                <div className="flex-item title">{tree.data && tree.data.title}</div>
               ) : (
                 <div className="flex-item title">
                   <a href={tree.data.data.url} target="_blank">
-                    {tree.id} - {tree.data && tree.data.title}
+                    {tree.data && tree.data.title}
                   </a>
                 </div>
               )}
