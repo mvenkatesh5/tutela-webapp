@@ -23,6 +23,16 @@ export const addNodeAsSibling = (node_id: any, position: any = "right", name: an
   return data;
 };
 
+export const moveNode = (node_id: any, target_id: any, position: any) => {
+  const data = {
+    node_id: node_id,
+    target_id: target_id,
+    position: position,
+    operation: "move",
+  };
+  return data;
+};
+
 export const deleteNode = (node_id: any) => {
   const data = {
     node_id: node_id,

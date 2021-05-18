@@ -6,7 +6,7 @@ import { mutate } from "swr";
 // node operations
 import { deleteNode } from "./helpers/nodeOperations";
 // api routes
-import { RESOURCE_WITH_NODE_ENDPOINT } from "@constants/routes";
+import { RESOURCE_WITH_NODE_ENDPOINT, RESOURCE_ENDPOINT } from "@constants/routes";
 // api services
 import { ResourceNodeOperation } from "@lib/services/resource.service";
 import { APIFetcher } from "@lib/services";
@@ -29,11 +29,13 @@ const ResourceDelete = (props: any) => {
     ResourceNodeOperation(payload)
       .then((response) => {
         setButtonLoader(false);
-        mutate(
-          RESOURCE_WITH_NODE_ENDPOINT(props.root_node_id),
-          APIFetcher(RESOURCE_WITH_NODE_ENDPOINT(props.root_node_id)),
-          false
-        );
+        if (props.root_node_id)
+          mutate(
+            RESOURCE_WITH_NODE_ENDPOINT(props.root_node_id),
+            APIFetcher(RESOURCE_WITH_NODE_ENDPOINT(props.root_node_id)),
+            false
+          );
+        else mutate(RESOURCE_ENDPOINT, APIFetcher(RESOURCE_ENDPOINT), false);
         handleClose();
       })
       .catch((error) => {

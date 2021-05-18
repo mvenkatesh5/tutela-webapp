@@ -1,158 +1,122 @@
 import React from "react";
-// react bootstrap
-import { Button } from "react-bootstrap";
-// material icons
-import { ChevronDown } from "@styled-icons/boxicons-regular/ChevronDown";
-import { ChevronRight } from "@styled-icons/boxicons-regular/ChevronRight";
-import { Edit } from "@styled-icons/boxicons-regular/Edit";
-import { Delete } from "@styled-icons/material/Delete";
-import { Folder } from "@styled-icons/boxicons-solid/Folder";
-import { Upload } from "@styled-icons/boxicons-regular/Upload";
-import { FolderAdd } from "@styled-icons/remix-fill/FolderAdd";
-import { DragIndicator } from "@styled-icons/material/DragIndicator";
-import { FilePng } from "@styled-icons/boxicons-solid/FilePng";
-import { FileJson } from "@styled-icons/boxicons-solid/FileJson";
-import { FileBlank } from "@styled-icons/boxicons-regular/FileBlank";
-import { FilePdf } from "@styled-icons/boxicons-solid/FilePdf";
+// swr
+import { mutate } from "swr";
+// react beautiful dnd
+import { DragDropContext } from "react-beautiful-dnd";
 // components
-import TreeUploadView from "./upload";
-import TreeCreateView from "./create";
-import TreeEditView from "./edit";
-import TreeDeleteView from "./delete";
+import TreeRenderView from "./helpers/treeRenderView";
+// api routes
+import { RESOURCE_WITH_NODE_ENDPOINT } from "@constants/routes";
+// api services
+import { ResourceNodeOperation } from "@lib/services/resource.service";
+import { APIFetcher } from "@lib/services";
+// node operations
+import { moveNode } from "./helpers/nodeOperations";
 
-export const TreeChildrenRenderView = ({ tree, level, children, root_node_id }: any) => {
-  const [dropdownToggle, setDropdownToggle] = React.useState<any>(true);
-
-  const imageFileNameSplitRender = (value: any) => {
-    let splitValue = value.split("/");
-    if (splitValue && splitValue.length > 0) {
-      splitValue = splitValue[splitValue.length - 1];
-      splitValue = splitValue.split(".");
-      splitValue = splitValue[splitValue.length - 1];
-      return splitValue.toUpperCase();
+const TreeView = (props: any) => {
+  const [tree, setTree] = React.useState<any>();
+  React.useEffect(() => {
+    if (props.data) {
+      setTree(props.data);
     }
-    return "";
+  }, [props.data]);
+
+  const findItemNested = (arr: any, itemId: any, nestingKey: any) =>
+    arr.reduce((a: any, item: any) => {
+      if (a) return a;
+      if (item.id === itemId) return item;
+      if (item[nestingKey]) return findItemNested(item[nestingKey], itemId, nestingKey);
+    }, null);
+
+  const sequenceReorder = (list: any, startIndex: any, endIndex: any) => {
+    const result: any = Array.from(list);
+    const [removed]: any = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+    return result;
+  };
+
+  const updateSequenceDataChange = (node: Array<object>, nodeId: number, data: object) => {
+    node.map((nodeItem: any) => {
+      if (nodeId === nodeItem.id) {
+        nodeItem.children = data;
+      } else {
+        if (nodeItem.children) {
+          updateSequenceDataChange(nodeItem.children, nodeId, data);
+        }
+      }
+    });
+    return node;
+  };
+
+  const onDragEnd = (result: any) => {
+    if (!result.destination) {
+      return;
+    }
+
+    if (result.source && result.destination) {
+      let currentTreeParentNode: any = findItemNested(
+        props.currentProduct.tree,
+        parseInt(result.source.droppableId),
+        "children"
+      );
+
+      let node_id: any = currentTreeParentNode.children[result.source.index].id;
+      let target_id: any = currentTreeParentNode.children[result.destination.index].id;
+
+      let execData: any;
+      if (result.destination.index > result.source.index) {
+        execData = moveNode(node_id, target_id, "right");
+      } else {
+        execData = moveNode(node_id, target_id, "left");
+      }
+      executeNodeBlockOperation(execData);
+
+      let reorderedData: any = sequenceReorder(
+        currentTreeParentNode.children,
+        result.source.index,
+        result.destination.index
+      );
+
+      let updatedCurrentTree: any = updateSequenceDataChange(
+        props.currentProduct.tree,
+        parseInt(result.source.droppableId),
+        reorderedData
+      );
+
+      setTree([...updatedCurrentTree[0].children]);
+
+      mutate(
+        RESOURCE_WITH_NODE_ENDPOINT(props.root_node_id),
+        async (elements: any) => {
+          const payload = { ...elements, tree: updatedCurrentTree };
+          return payload;
+        },
+        false
+      );
+    }
+  };
+
+  const executeNodeBlockOperation = (dataPayload: any) => {
+    ResourceNodeOperation(dataPayload)
+      .then((response) => {})
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
-    <div>
-      <div className="flex" style={{ paddingLeft: `${children}px` }}>
-        {tree.children && tree.children.length > 0 && (
-          <div className="flex-item dropdown" onClick={() => setDropdownToggle(!dropdownToggle)}>
-            {dropdownToggle ? <ChevronDown /> : <ChevronRight />}
-          </div>
-        )}
-
-        <div className="flex-item">
-          <DragIndicator />
-        </div>
-
-        {tree.data.kind === "SECTION" ? (
-          <div className="flex-item">
-            <Folder />
-          </div>
-        ) : (
-          <div className="flex-item">
-            {imageFileNameSplitRender(tree.data.data.url) === "PNG" ? (
-              <FilePng />
-            ) : imageFileNameSplitRender(tree.data.data.url) === "JSON" ? (
-              <FileJson />
-            ) : imageFileNameSplitRender(tree.data.data.url) === "PDF" ? (
-              <FilePdf />
-            ) : (
-              <FileBlank />
-            )}
-          </div>
-        )}
-
-        {tree.data.kind === "SECTION" ? (
-          <div className="flex-item title">{tree.data && tree.data.title}</div>
-        ) : (
-          <div className="flex-item title">
-            <a href={tree.data.data.url} target="_blank">
-              {tree.data && tree.data.title}
-            </a>
-          </div>
-        )}
-
-        {tree.data.kind === "SECTION" && (
-          <div className="flex-item upload">
-            <TreeUploadView data={tree} root_node_id={root_node_id} add_to="children">
-              <Upload />
-            </TreeUploadView>
-          </div>
-        )}
-
-        {tree.data.kind === "SECTION" && (
-          <div className="flex-item folder-add">
-            <TreeCreateView data={tree} root_node_id={root_node_id} add_to="children">
-              <FolderAdd />
-            </TreeCreateView>
-          </div>
-        )}
-
-        {tree.data.kind === "SECTION" && (
-          <div className="flex-item edit">
-            <TreeEditView data={tree} root_node_id={root_node_id}>
-              <Edit />
-            </TreeEditView>
-          </div>
-        )}
-
-        <div className="flex-item delete">
-          <TreeDeleteView data={tree} root_node_id={root_node_id}>
-            <Delete />
-          </TreeDeleteView>
-        </div>
-      </div>
-
-      {dropdownToggle && tree.children && tree.children.length > 0 && (
-        <div>
-          <TreeRenderView
-            tree={tree.children}
-            level={level}
-            children={children + 30}
-            root_node_id={root_node_id}
-          />
-        </div>
-      )}
-    </div>
-  );
-};
-
-export const TreeRenderView = ({ tree, level, children, root_node_id }: any) => {
-  return (
-    <div>
-      {tree &&
-        tree.length > 0 &&
-        tree.map((initialRoot: any, initialRootIndex: any) => (
-          <div
-            key={`tree-structure-level-${level}-${initialRootIndex}`}
-            className={`${children ? "children" : ""}`}
-          >
-            <TreeChildrenRenderView
-              tree={initialRoot}
-              level={`${level}-${initialRootIndex}`}
-              children={children}
-              root_node_id={root_node_id}
-            />
-          </div>
-        ))}
-    </div>
-  );
-};
-
-const TreeView = (props: any) => {
-  return (
     <>
-      {props.data && props.data.length > 0 ? (
+      {tree && tree.length > 0 ? (
         <div className="resource-tree-card">
-          <TreeRenderView
-            tree={props.data}
-            level={0}
-            children={20}
-            root_node_id={props.root_node_id}
-          />
+          <DragDropContext onDragEnd={onDragEnd}>
+            <TreeRenderView
+              tree={tree}
+              level={0}
+              children={20}
+              root_node_id={props.root_node_id}
+              parent={props.root_node_id}
+            />
+          </DragDropContext>
         </div>
       ) : (
         <div>No Data Available.</div>
