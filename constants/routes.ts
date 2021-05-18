@@ -5,6 +5,7 @@ export const BASE_LOCAL = "http://127.0.0.1:8000/";
 
 // default urls
 export const DEFAULT_ZOOM_URL = `https://zoom.us/j/2505542539?pwd=dXh0amx3TktJTEFTYk9OYUJ3YUNYUT09`;
+export const S3_ENDPOINT = `/api/files/`;
 
 // authentication
 export const AUTH_LOGIN = `/login/`;
@@ -72,3 +73,9 @@ export const USER_WITH_PRODUCT_ENDPOINT = ``;
 export const QUICK_MEETINGS_ENDPOINT = `/api/quick-meetings`;
 export const QUICK_MEETINGS_WITH_ID_ENDPOINT = (quick_meeting_id: Number) =>
   `/api/quick-meetings/${quick_meeting_id}/`;
+
+// resource endpoints
+export const RESOURCE_CREATE_ENDPOINT = `/api/resources/tree/create/`;
+export const RESOURCE_ENDPOINT = `/api/resources/`;
+export const RESOURCE_WITH_NODE_ENDPOINT = (node_id: any) => `/api/resources/tree/${node_id}/`;
+export const RESOURCE_NODE_OPERATIONS_ENDPOINT = `/api/resources/tree/`;

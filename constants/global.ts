@@ -103,3 +103,4 @@ export const secondsToHms = (d: any) => {
   var sDisplay = s >= 0 ? s + (s == 1 ? " sec" : " sec") : "";
   return hDisplay + mDisplay + sDisplay;
 };
+

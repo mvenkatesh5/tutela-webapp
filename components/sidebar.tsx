@@ -13,6 +13,7 @@ import { ShoppingBag } from "@styled-icons/boxicons-solid/ShoppingBag";
 import { MarkChatRead } from "@styled-icons/material/MarkChatRead";
 import { Announcement } from "@styled-icons/zondicons/Announcement";
 import { MeetingRoom } from "@styled-icons/material/MeetingRoom";
+import { Folder } from "@styled-icons/boxicons-regular/Folder";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -67,6 +68,11 @@ const Sidebar = () => {
       label: "Products",
       icon: <ShoppingBag />,
       href: "/products",
+    },
+    {
+      label: "Resources",
+      icon: <Folder />,
+      href: "/resources",
     },
   ];
 

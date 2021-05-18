@@ -1,0 +1,105 @@
+// global tree view
+// resource home cards
+.resource-home-card {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px 12px;
+  margin-bottom: 7px;
+  .resource-title {
+    font-size: 16px;
+    font-weight: 600;
+    a {
+      cursor: pointer;
+      color: #333;
+      &:hover {
+        color: #777;
+      }
+    }
+  }
+}
+
+// resource tree view
+.resource-tree-card {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 7px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  & .children {
+    border-radius: 0px;
+    margin: 0px;
+    border: 1px solid #eee;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+  }
+  & .flex {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 12px;
+    .flex-item {
+      width: 25px;
+      height: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+      margin: 0px 3px;
+      border-radius: 4px;
+      overflow: hidden;
+      color: #666;
+      padding: 10px 0px;
+      &:first-child {
+        margin-left: 0px;
+      }
+      &:last-child {
+        margin-right: 0px;
+      }
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+      &:hover {
+        background-color: #f5f5f5;
+        color: #212121;
+      }
+    }
+    .dropdown,
+    .checkbox,
+    .plus,
+    .edit,
+    .upload,
+    .folder-add,
+    .delete {
+      cursor: pointer;
+    }
+    .title {
+      display: block;
+      width: 100%;
+      height: 100%;
+      flex-shrink: 1;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      &:hover {
+        background-color: transparent;
+      }
+    }
+    .plus {
+      margin-left: auto;
+    }
+  }
+}
+
+.resource-tree-create-button {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background-color: #f5f5f5 !important;
+  &:hover {
+    background-color: #999 !important;
+  }
+}
