@@ -53,6 +53,7 @@ const ResourceTreeView = () => {
                 admin={true}
                 check={false}
                 root_node_id={resource_id}
+                currentProduct={productCategory}
               />
             ) : (
               <div className="mt-4 mb-4 text-center text-secondary">

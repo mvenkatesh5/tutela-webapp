@@ -5,10 +5,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 // react bootstrap
 import { Container, Button } from "react-bootstrap";
+// material icons
+import { Delete } from "@styled-icons/material/Delete";
 // swr
 import useSWR from "swr";
 // components
 import ResourceCreateView from "@components/resources/create";
+import ResourceDeleteView from "@components/resources/treeStructure/delete";
 // layouts
 import AdminLayout from "@layouts/adminLayout";
 // api routes
@@ -53,10 +56,19 @@ const Resources = () => {
                   <div>
                     {resources.map((resource: any, resourceIndex: number) => (
                       <div key={`resource-title-${resourceIndex}`} className="resource-home-card">
-                        <div className="resource-title">
-                          <Link href={`/resources/${resource.id}`}>
-                            <a>{resource.title}</a>
-                          </Link>
+                        <div className="flex">
+                          <div className="flex-item title">
+                            <div className="resource-title">
+                              <Link href={`/resources/${resource.id}`}>
+                                <a>{resource.title}</a>
+                              </Link>
+                            </div>
+                          </div>
+                          <div className="flex-item delete">
+                            <ResourceDeleteView data={resource} root_node_id={null}>
+                              <Delete />
+                            </ResourceDeleteView>
+                          </div>
                         </div>
                       </div>
                     ))}
