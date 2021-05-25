@@ -8,11 +8,12 @@ import { Container, Button } from "react-bootstrap";
 import useSWR from "swr";
 // components
 import ResourceView from "@components/resources/treeStructure/view";
-import ResourceCreateView from "@components/resources/treeStructure/create";
 // layouts
-import AdminLayout from "@layouts/adminLayout";
+import StudentLayout from "@layouts/studentLayout";
+// cookie
+import { getAuthenticationToken } from "@lib/cookie";
 // api routes
-import { RESOURCE_WITH_NODE_ENDPOINT } from "@constants/routes";
+import { RESOURCE_WITH_NODE_ENDPOINT, USER_RESOURCE_WITH_ID_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 // hoc
@@ -20,11 +21,27 @@ import withStudentAuth from "@lib/hoc/withStudentAuth";
 
 const ResourceTreeView = () => {
   const router = useRouter();
-
   const resource_id = router.query.resource_id;
 
+  const [tokenDetails, setTokenDetails] = React.useState<any>();
+  React.useEffect(() => {
+    if (getAuthenticationToken()) {
+      let details: any = getAuthenticationToken();
+      details = details ? JSON.parse(details) : null;
+      if (details) {
+        setTokenDetails(details);
+      }
+    }
+  }, []);
+
+  const { data: resourceNode, error: resourceNodeError } = useSWR(
+    resource_id ? USER_RESOURCE_WITH_ID_ENDPOINT(resource_id) : null,
+    (url) => APIFetcher(url),
+    { refreshInterval: 0 }
+  );
+
   const { data: productCategory, error: productCategoryError } = useSWR(
-    resource_id ? RESOURCE_WITH_NODE_ENDPOINT(resource_id) : null,
+    resourceNode ? RESOURCE_WITH_NODE_ENDPOINT(resourceNode.resource_node) : null,
     (url) => APIFetcher(url),
     { refreshInterval: 0 }
   );
@@ -39,10 +56,12 @@ const ResourceTreeView = () => {
         <title>Resources</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <AdminLayout>
+      <StudentLayout>
         <div className="right-layout">
-          <Container>
-            <h5>Resource {productCategory.tree[0].data.title}</h5>
+          <Container className="pt-3 pb-3">
+            <h5 className="mb-4">
+              Resource {productCategory && productCategory.tree[0].data.title}
+            </h5>
             {productCategory &&
             productCategory.tree &&
             productCategory.tree.length > 0 &&
@@ -55,27 +74,17 @@ const ResourceTreeView = () => {
                 isDrag={false}
                 root_node_id={resource_id}
                 currentProduct={productCategory}
+                resourceNode={resourceNode}
+                user={tokenDetails}
               />
             ) : (
               <div className="mt-4 mb-4 text-center text-secondary">
                 No Resources are available.
               </div>
             )}
-            <ResourceCreateView
-              data={{ id: resource_id }}
-              root_node_id={resource_id}
-              add_to="children"
-            >
-              <Button
-                variant="outline-secondary"
-                className="mb-2 btn-sm resource-tree-create-button"
-              >
-                New Folder
-              </Button>
-            </ResourceCreateView>
           </Container>
         </div>
-      </AdminLayout>
+      </StudentLayout>
     </div>
   );
 };

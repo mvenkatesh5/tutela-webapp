@@ -34,8 +34,6 @@ function ParentDetailReport() {
     (url) => APIFetcher(url)
   );
 
-  console.log("productDetail", productDetail);
-
   return (
     <StudentLayout>
       {!productDetailError && !productDetail ? (
