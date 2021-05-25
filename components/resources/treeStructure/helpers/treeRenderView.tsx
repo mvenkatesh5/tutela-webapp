@@ -4,7 +4,7 @@ import { Droppable } from "react-beautiful-dnd";
 // components
 import TreeChildrenRenderView from "./treeCardView";
 
-const TreeRenderView = ({ tree, level, children, root_node_id, parent }: any) => {
+const TreeRenderView = ({ tree, level, children, root_node_id, parent, admin, isDrag }: any) => {
   return (
     <>
       <Droppable droppableId={`${parent}`} type={`${parent}`}>
@@ -24,6 +24,8 @@ const TreeRenderView = ({ tree, level, children, root_node_id, parent }: any) =>
                     root_node_id={root_node_id}
                     parent={parent}
                     index={initialRootIndex}
+                    admin={admin}
+                    isDrag={isDrag}
                   />
                 </div>
               ))}

@@ -16,7 +16,7 @@ import { RESOURCE_WITH_NODE_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 // hoc
-import withAdminAuth from "@lib/hoc/withAdminAuth";
+import withStudentAuth from "@lib/hoc/withStudentAuth";
 
 const ResourceTreeView = () => {
   const router = useRouter();
@@ -50,9 +50,9 @@ const ResourceTreeView = () => {
             productCategory.tree[0].children ? (
               <ResourceView
                 data={productCategory.tree[0].children}
-                admin={true}
+                admin={false}
                 check={false}
-                isDrag={true}
+                isDrag={false}
                 root_node_id={resource_id}
                 currentProduct={productCategory}
               />
@@ -80,4 +80,4 @@ const ResourceTreeView = () => {
   );
 };
 
-export default withAdminAuth(ResourceTreeView);
+export default withStudentAuth(ResourceTreeView);

@@ -143,3 +143,119 @@
     background-color: #999 !important;
   }
 }
+
+// admin user resources
+.user-resource-detail {
+  border: 1px solid #e7e7e7;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 6px 0px;
+  .user-resource-header {
+    border-bottom: 1px solid #e7e7e7;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 6px 10px;
+    .title {
+      font-weight: 500;
+      font-size: 14px;
+      width: 100%;
+    }
+    .toggle {
+      flex-shrink: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      &:hover {
+        background-color: #f5f5f5;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+
+  .search-container {
+    margin: 6px 10px;
+    border: 1px solid #e7e7e7;
+    .user-resource-search-container {
+      padding: 6px 10px;
+      & input {
+        box-shadow: none !important;
+        outline: none !important;
+      }
+    }
+    .resource-dropdown-clear {
+      padding: 4px 10px;
+      text-align: right;
+      font-weight: 500;
+      small {
+        cursor: pointer;
+      }
+    }
+    .resource-dropdown-list-container {
+      margin: 6px 10px;
+      border: 1px solid #e7e7e7;
+      overflow-y: auto;
+      min-height: 0px;
+      max-height: 200px;
+      .resource-dropdown-list-item {
+        padding: 6px 20px;
+        border-bottom: 1px solid #e7e7e7;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        &:hover {
+          background-color: #eee;
+        }
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+  .user-resource-content-list-view {
+    margin: 4px 10px;
+    padding: 6px 10px;
+    background-color: #f5f5f5;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    & .text {
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+    & .icon {
+      flex-shrink: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      margin-left: auto;
+      &:hover {
+        background-color: #eee;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      svg {
+        width: 12px;
+        height: 12px;
+      }
+    }
+  }
+}

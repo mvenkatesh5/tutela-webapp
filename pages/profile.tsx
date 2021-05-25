@@ -94,6 +94,8 @@ const Profile = () => {
             />
           </div>
 
+          <div className="mb-2">Resources</div>
+
           <Tab.Container defaultActiveKey={profileSchemaData[0].tab_key}>
             <Nav className="custom-nav-tabs-links profile-account-nav" variant="pills">
               {profileSchemaData.map((item: any, index: any) => (
