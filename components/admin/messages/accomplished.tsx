@@ -56,7 +56,6 @@ const Accomplished = (props: any) => {
             if (message.is_accomplished) {
               return (
                 <Card key={`message-table-row${i}`} className="mb-2">
-                  {console.log(message)}
                   <Card.Body className="p-2 ps-3 pe-3">
                     <Row>
                       <Col md={1}>

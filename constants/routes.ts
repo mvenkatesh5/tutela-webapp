@@ -83,3 +83,9 @@ export const USER_RESOURCE_VIEW_ENDPOINT = (user_id: any) => `/api/users/${user_
 export const USER_RESOURCE_ENDPOINT = `/api/resources-users/`;
 export const USER_RESOURCE_WITH_ID_ENDPOINT = (resource_id: any) =>
   `/api/resources-users/${resource_id}/`;
+
+// noes
+export const NOTES_ENDPOINT = `/api/notes/`;
+export const NOTES_WITH_ID_ENDPOINT = (notes_id: any) => `/api/notes/${notes_id}/`;
+export const USER_NOTES_ENDPOINT = (resource_id: any, node_id: any) =>
+  `/api/attaches?user_resource_id=${resource_id}&node_id=${node_id}`;

@@ -31,7 +31,7 @@ const ResourceFormUpload = (props: any) => {
       };
       formData.append("asset", input.target.files[0]);
       formData.append("attributes", JSON.stringify(ImageData));
-      console.log(formData);
+
       uploadImageToS3(formData);
     }
   };
@@ -53,7 +53,6 @@ const ResourceFormUpload = (props: any) => {
     };
     ResourceFileUpload(formData, config)
       .then((response) => {
-        console.log(response);
         createFileUploadTree(response);
         setUploadTimerToggle(false);
         setUploadTimer(0);
@@ -64,8 +63,6 @@ const ResourceFormUpload = (props: any) => {
   const createFileUploadTree = (assetData: any) => {
     let payload: any = null;
     payload = addFileNodeAsChild(props.data.id, assetData.attributes.name, assetData.asset);
-
-    console.log(payload);
 
     ResourceNodeOperation(payload)
       .then((response) => {

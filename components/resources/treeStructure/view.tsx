@@ -117,6 +117,8 @@ const TreeView = (props: any) => {
               parent={props.root_node_id}
               admin={props.admin}
               isDrag={false}
+              resourceNode={props.resourceNode}
+              user={props.user}
             />
           </DragDropContext>
         </div>

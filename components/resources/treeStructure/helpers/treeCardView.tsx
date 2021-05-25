@@ -22,6 +22,7 @@ import TreeUploadView from "../upload";
 import TreeCreateView from "../create";
 import TreeEditView from "../edit";
 import TreeDeleteView from "../delete";
+import ResourceNotesView from "@components/notes/view";
 
 const TreeChildrenRenderView = ({
   tree,
@@ -32,6 +33,8 @@ const TreeChildrenRenderView = ({
   index,
   admin,
   isDrag,
+  resourceNode,
+  user,
 }: any) => {
   const [dropdownToggle, setDropdownToggle] = React.useState<any>(true);
 
@@ -135,7 +138,9 @@ const TreeChildrenRenderView = ({
               )}
               {!admin && (
                 <div className="flex-item delete">
-                  <ClipboardNotes />
+                  <ResourceNotesView resourceNode={resourceNode} user={user} tree={tree}>
+                    <ClipboardNotes />
+                  </ResourceNotesView>
                 </div>
               )}
             </div>
@@ -149,6 +154,8 @@ const TreeChildrenRenderView = ({
                   parent={tree.id}
                   admin={admin}
                   isDrag={isDrag}
+                  resourceNode={resourceNode}
+                  user={user}
                 />
               </div>
             )}

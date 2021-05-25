@@ -33,7 +33,7 @@ const UserResourceView = (props: any) => {
           if (resourceData.title.toLowerCase().includes(value.toLowerCase())) {
             let toggle: any = false;
             props.userResourceList.map((propResource: any) => {
-              if (propResource.id === resourceData.id) {
+              if (propResource.resource_node.id === resourceData.id) {
                 toggle = true;
               }
             });
@@ -146,7 +146,7 @@ const UserResourceView = (props: any) => {
                   className="user-resource-content-list-view"
                   onClick={() => attachResourceToUser(data.id)}
                 >
-                  <div className="title">{data.title}</div>
+                  <div className="title">{data.resource_node.title}</div>
                   <div className="icon" onClick={() => removeResourceFromUser(data.id)}>
                     <Times />
                   </div>

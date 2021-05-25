@@ -56,6 +56,11 @@ function DashboardNav() {
                   Request Session
                 </Nav.Link>
               )}
+              {tokenDetails && tokenDetails.user && tokenDetails.user.role === 0 && (
+                <Nav.Link className="fw-bold text-muted" href="/user-resources">
+                  Resources
+                </Nav.Link>
+              )}
 
               {tokenDetails && tokenDetails.user && tokenDetails.user.role != 3 && (
                 <Nav.Link className="fw-bold text-muted" href="/calendar">
