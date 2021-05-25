@@ -8,7 +8,6 @@ import { Container, Button } from "react-bootstrap";
 import useSWR from "swr";
 // components
 import ResourceView from "@components/resources/treeStructure/view";
-import ResourceCreateView from "@components/resources/treeStructure/create";
 // layouts
 import StudentLayout from "@layouts/studentLayout";
 // cookie
@@ -83,18 +82,6 @@ const ResourceTreeView = () => {
                 No Resources are available.
               </div>
             )}
-            <ResourceCreateView
-              data={{ id: resource_id }}
-              root_node_id={resource_id}
-              add_to="children"
-            >
-              <Button
-                variant="outline-secondary"
-                className="mb-2 btn-sm resource-tree-create-button"
-              >
-                New Folder
-              </Button>
-            </ResourceCreateView>
           </Container>
         </div>
       </StudentLayout>
