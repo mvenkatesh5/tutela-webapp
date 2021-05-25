@@ -1,6 +1,7 @@
 import React from "react";
 // react bootstrap
 import { Form, Container, Card, Button, Tab, Nav, Row, Col } from "react-bootstrap";
+import Link from "next/link";
 // swr
 import useSWR from "swr";
 // blueprint
@@ -15,7 +16,7 @@ import StudentLayout from "@layouts/studentLayout";
 // global imports
 import { profileSchemaData } from "@constants/profileSchema";
 // api routes
-import { USER_WITH_ID_ENDPOINT } from "@constants/routes";
+import { USER_WITH_ID_ENDPOINT, USER_RESOURCE_VIEW_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 import { UserUpdate } from "@lib/services/userService";
@@ -66,6 +67,11 @@ const Profile = () => {
     (url) => APIFetcher(url),
     { refreshInterval: 0 }
   );
+  const { data: resources, error: resourcesError } = useSWR(
+    tokenDetails && tokenDetails.user ? USER_RESOURCE_VIEW_ENDPOINT(tokenDetails.user.id) : null,
+    (url) => APIFetcher(url),
+    { refreshInterval: 0 }
+  );
 
   React.useEffect(() => {
     if (userDetailList) {
@@ -94,8 +100,6 @@ const Profile = () => {
             />
           </div>
 
-          <div className="mb-2">Resources</div>
-
           <Tab.Container defaultActiveKey={profileSchemaData[0].tab_key}>
             <Nav className="custom-nav-tabs-links profile-account-nav" variant="pills">
               {profileSchemaData.map((item: any, index: any) => (
@@ -105,6 +109,11 @@ const Profile = () => {
                   </Nav.Link>
                 </Nav.Item>
               ))}
+              <Nav.Item className="profile-account-nav-item">
+                <Nav.Link key={`nav-item-resources`} eventKey="resources">
+                  Resources
+                </Nav.Link>
+              </Nav.Item>
             </Nav>
 
             <Tab.Content className="mt-4">
@@ -140,6 +149,38 @@ const Profile = () => {
                     ))}
                 </Tab.Pane>
               ))}
+              <Tab.Pane key={`tab-pane-resources`} eventKey="resources">
+                {!resources && !resourcesError ? (
+                  <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
+                ) : (
+                  <div>
+                    {resources && resources.length === 0 ? (
+                      <div className="text-secondary mt-5 mb-5 text-center">
+                        No resources are available.
+                      </div>
+                    ) : (
+                      <div>
+                        {resources.map((resource: any, resourceIndex: number) => (
+                          <div
+                            key={`resource-title-${resourceIndex}`}
+                            className="resource-home-card"
+                          >
+                            <div className="flex">
+                              <div className="flex-item title">
+                                <div className="resource-title">
+                                  <Link href={`/user-resources/${resource.id}`}>
+                                    <a>{resource.title}</a>
+                                  </Link>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </Tab.Pane>
             </Tab.Content>
           </Tab.Container>
 
