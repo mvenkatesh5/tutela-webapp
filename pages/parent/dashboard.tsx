@@ -76,8 +76,6 @@ const randomColor = () => {
 function ParentDashboard() {
   const { data: productsList, error: productsListError } = useSWR(PRODUCTS_ENDPOINT, APIFetcher);
 
-  console.log("productsList", productsList);
-
   const data = [
     { name: "Maths" },
     { name: "Physics" },

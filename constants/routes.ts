@@ -79,3 +79,13 @@ export const RESOURCE_CREATE_ENDPOINT = `/api/resources/tree/create/`;
 export const RESOURCE_ENDPOINT = `/api/resources/`;
 export const RESOURCE_WITH_NODE_ENDPOINT = (node_id: any) => `/api/resources/tree/${node_id}/`;
 export const RESOURCE_NODE_OPERATIONS_ENDPOINT = `/api/resources/tree/`;
+export const USER_RESOURCE_VIEW_ENDPOINT = (user_id: any) => `/api/users/${user_id}/resources/`;
+export const USER_RESOURCE_ENDPOINT = `/api/resources-users/`;
+export const USER_RESOURCE_WITH_ID_ENDPOINT = (resource_id: any) =>
+  `/api/resources-users/${resource_id}/`;
+
+// noes
+export const NOTES_ENDPOINT = `/api/notes/`;
+export const NOTES_WITH_ID_ENDPOINT = (notes_id: any) => `/api/notes/${notes_id}/`;
+export const USER_NOTES_ENDPOINT = (resource_id: any, node_id: any) =>
+  `/api/attaches/?user_resource_id=${resource_id}&node_id=${node_id}`;

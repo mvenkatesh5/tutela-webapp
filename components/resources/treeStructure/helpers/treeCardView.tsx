@@ -13,6 +13,7 @@ import { FilePng } from "@styled-icons/boxicons-solid/FilePng";
 import { FileJson } from "@styled-icons/boxicons-solid/FileJson";
 import { FileBlank } from "@styled-icons/boxicons-regular/FileBlank";
 import { FilePdf } from "@styled-icons/boxicons-solid/FilePdf";
+import { ClipboardNotes } from "@styled-icons/foundation/ClipboardNotes";
 // react beautiful dnd
 import { Draggable } from "react-beautiful-dnd";
 // components
@@ -21,8 +22,20 @@ import TreeUploadView from "../upload";
 import TreeCreateView from "../create";
 import TreeEditView from "../edit";
 import TreeDeleteView from "../delete";
+import ResourceNotesView from "@components/notes/view";
 
-const TreeChildrenRenderView = ({ tree, level, children, root_node_id, parent, index }: any) => {
+const TreeChildrenRenderView = ({
+  tree,
+  level,
+  children,
+  root_node_id,
+  parent,
+  index,
+  admin,
+  isDrag,
+  resourceNode,
+  user,
+}: any) => {
   const [dropdownToggle, setDropdownToggle] = React.useState<any>(true);
 
   const imageFileNameSplitRender = (value: any) => {
@@ -38,7 +51,12 @@ const TreeChildrenRenderView = ({ tree, level, children, root_node_id, parent, i
 
   return (
     <>
-      <Draggable key={`${tree.id}`} draggableId={`${tree.id}`} index={index}>
+      <Draggable
+        key={`${tree.id}`}
+        draggableId={`${tree.id}`}
+        index={index}
+        isDragDisabled={isDrag ? false : true}
+      >
         {(provided: any, snapshot: any) => (
           <div ref={provided.innerRef} {...provided.draggableProps}>
             <div className="flex" style={{ paddingLeft: `${children}px` }}>
@@ -53,9 +71,11 @@ const TreeChildrenRenderView = ({ tree, level, children, root_node_id, parent, i
                 <div className="flex-item dropdown"></div>
               )}
 
-              <div className="flex-item" {...provided.dragHandleProps}>
-                <DragIndicator />
-              </div>
+              {admin && (
+                <div className="flex-item" {...provided.dragHandleProps}>
+                  <DragIndicator />
+                </div>
+              )}
 
               {tree.data.kind === "SECTION" ? (
                 <div className="flex-item">
@@ -85,7 +105,7 @@ const TreeChildrenRenderView = ({ tree, level, children, root_node_id, parent, i
                 </div>
               )}
 
-              {tree.data.kind === "SECTION" && (
+              {tree.data.kind === "SECTION" && admin && (
                 <div className="flex-item upload">
                   <TreeUploadView data={tree} root_node_id={root_node_id} add_to="children">
                     <Upload />
@@ -93,7 +113,7 @@ const TreeChildrenRenderView = ({ tree, level, children, root_node_id, parent, i
                 </div>
               )}
 
-              {tree.data.kind === "SECTION" && (
+              {tree.data.kind === "SECTION" && admin && (
                 <div className="flex-item folder-add">
                   <TreeCreateView data={tree} root_node_id={root_node_id} add_to="children">
                     <FolderAdd />
@@ -101,7 +121,7 @@ const TreeChildrenRenderView = ({ tree, level, children, root_node_id, parent, i
                 </div>
               )}
 
-              {tree.data.kind === "SECTION" && (
+              {tree.data.kind === "SECTION" && admin && (
                 <div className="flex-item edit">
                   <TreeEditView data={tree} root_node_id={root_node_id}>
                     <Edit />
@@ -109,11 +129,20 @@ const TreeChildrenRenderView = ({ tree, level, children, root_node_id, parent, i
                 </div>
               )}
 
-              <div className="flex-item delete">
-                <TreeDeleteView data={tree} root_node_id={root_node_id}>
-                  <Delete />
-                </TreeDeleteView>
-              </div>
+              {admin && (
+                <div className="flex-item delete">
+                  <TreeDeleteView data={tree} root_node_id={root_node_id}>
+                    <Delete />
+                  </TreeDeleteView>
+                </div>
+              )}
+              {!admin && (
+                <div className="flex-item delete">
+                  <ResourceNotesView resourceNode={resourceNode} user={user} tree={tree}>
+                    <ClipboardNotes />
+                  </ResourceNotesView>
+                </div>
+              )}
             </div>
             {dropdownToggle && tree.children && tree.children.length > 0 && (
               <div>
@@ -123,6 +152,10 @@ const TreeChildrenRenderView = ({ tree, level, children, root_node_id, parent, i
                   children={children + 30}
                   root_node_id={root_node_id}
                   parent={tree.id}
+                  admin={admin}
+                  isDrag={isDrag}
+                  resourceNode={resourceNode}
+                  user={user}
                 />
               </div>
             )}

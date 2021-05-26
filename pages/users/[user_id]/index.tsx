@@ -8,13 +8,18 @@ import useSWR from "swr";
 // components
 import FromBuilder from "@components/forms";
 import MessageView from "@components/comments/view";
+import UserResourceView from "@components/resources/userResources/view";
 // layouts
 import AdminLayout from "@layouts/adminLayout";
 // global imports
 import { profileSchemaData } from "@constants/profileSchema";
 import { datePreview } from "@constants/global";
 // api routes
-import { USER_WITH_ID_ENDPOINT } from "@constants/routes";
+import {
+  USER_WITH_ID_ENDPOINT,
+  USER_RESOURCE_VIEW_ENDPOINT,
+  RESOURCE_ENDPOINT,
+} from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 // hoc
@@ -102,6 +107,15 @@ const userDetailView = () => {
     { refreshInterval: 0 }
   );
 
+  const { data: userResourceList, error: userResourceListError } = useSWR(
+    user_id ? USER_RESOURCE_VIEW_ENDPOINT(user_id) : null,
+    (url) => APIFetcher(url),
+    { refreshInterval: 0 }
+  );
+  const { data: resources, error: resourcesError } = useSWR(RESOURCE_ENDPOINT, APIFetcher, {
+    refreshInterval: 0,
+  });
+
   React.useEffect(() => {
     if (userDetailList && userDetailList.profile_data) {
       setProfile(userDetailList.profile_data);
@@ -141,6 +155,12 @@ const userDetailView = () => {
                       <div className="details-text">{userDetailList.email}</div>
                     </div>
                   </div>
+                  {/* resource binding */}
+                  <UserResourceView
+                    userResourceList={userResourceList}
+                    resources={resources}
+                    userId={user_id}
+                  />
                 </div>
                 <div className="right-wrapper">
                   <Tab.Container

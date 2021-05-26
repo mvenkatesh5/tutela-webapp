@@ -15,7 +15,7 @@ import StudentLayout from "@layouts/studentLayout";
 // global imports
 import { profileSchemaData } from "@constants/profileSchema";
 // api routes
-import { USER_WITH_ID_ENDPOINT } from "@constants/routes";
+import { USER_WITH_ID_ENDPOINT, USER_RESOURCE_VIEW_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 import { UserUpdate } from "@lib/services/userService";

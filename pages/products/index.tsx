@@ -21,8 +21,6 @@ import withAdminAuth from "@lib/hoc/withAdminAuth";
 const ProductView = () => {
   const { data: productsList, error: productsListError } = useSWR(PRODUCTS_ENDPOINT, APIFetcher);
 
-  console.log("productsList", productsList);
-
   return (
     <AdminLayout>
       <div className="right-layout">
