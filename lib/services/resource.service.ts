@@ -6,11 +6,21 @@ import {
   S3_ENDPOINT,
   USER_RESOURCE_ENDPOINT,
   USER_RESOURCE_WITH_ID_ENDPOINT,
+  RESOURCE_NODE_ENDPOINT,
 } from "@constants/routes";
 
 export const ResourceCreate = async (data: any) => {
   try {
     const response = await axios.post(RESOURCE_CREATE_ENDPOINT, data);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const ResourceNodeEdit = async (data: any) => {
+  try {
+    const response = await axios.put(RESOURCE_NODE_ENDPOINT(data.id), data);
     return response.data;
   } catch (error) {
     throw error.response.data;

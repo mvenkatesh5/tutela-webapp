@@ -216,3 +216,50 @@ a {
   -ms-user-select: none;
   user-select: none;
 }
+
+.e-pdf-block-toolbar {
+  position: relative;
+  .e-flex-container {
+    display: flex;
+    align-items: center;
+    .e-flex-item {
+      flex-shrink: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 0px 4px;
+      &.e-text {
+        width: 50px;
+      }
+      &.e-inner-flex-container {
+        display: flex;
+        align-items: center;
+        width: 80px;
+        margin: 0px 5px;
+        .e-flex-item {
+          flex-shrink: 0;
+          width: 30px;
+          height: 30px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 12px;
+          font-weight: 600;
+          input {
+            border: none;
+            box-shadow: none;
+            outline: none;
+            background-color: transparent;
+            padding: 0px;
+            width: 100%;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}
