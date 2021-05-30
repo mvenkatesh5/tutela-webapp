@@ -7,10 +7,12 @@ import { useRouter } from "next/router";
 import { Container, Button } from "react-bootstrap";
 // material icons
 import { Delete } from "@styled-icons/material/Delete";
+import { Edit } from "@styled-icons/boxicons-regular/Edit";
 // swr
 import useSWR from "swr";
 // components
 import ResourceCreateView from "@components/resources/create";
+import RenderEditView from "@components/resources/treeStructure/edit";
 import ResourceDeleteView from "@components/resources/treeStructure/delete";
 // layouts
 import AdminLayout from "@layouts/adminLayout";
@@ -63,6 +65,14 @@ const Resources = () => {
                                 <a>{resource.title}</a>
                               </Link>
                             </div>
+                          </div>
+                          <div className="flex-item delete">
+                            <RenderEditView
+                              data={{ id: resource.id, data: resource }}
+                              root_node_id={null}
+                            >
+                              <Edit />
+                            </RenderEditView>
                           </div>
                           <div className="flex-item delete">
                             <ResourceDeleteView data={resource} root_node_id={null}>

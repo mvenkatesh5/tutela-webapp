@@ -3,7 +3,11 @@ import React from "react";
 import { Form, Button, Modal } from "react-bootstrap";
 // swr
 import { mutate } from "swr";
+// api routes
+import { RESOURCE_WITH_NODE_ENDPOINT, RESOURCE_ENDPOINT } from "@constants/routes";
 // api services
+import { ResourceNodeEdit } from "@lib/services/resource.service";
+import { APIFetcher } from "@lib/services";
 
 const ResourceEdit = (props: any) => {
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
@@ -12,12 +16,14 @@ const ResourceEdit = (props: any) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [formData, setFormData] = React.useState<any>({ name: "" });
+  const [formData, setFormData] = React.useState<any>({ title: "" });
   const handleFormData = (key: any, value: any) => {
     setFormData({ ...formData, [key]: value });
   };
   React.useEffect(() => {
-    setFormData({ ...formData, name: props.data.name ? props.data.name : "" });
+    if (props.data) {
+      setFormData({ ...formData, title: props.data.data.title ? props.data.data.title : "" });
+    }
   }, [props.data]);
 
   const formSubmit = (event: any) => {
@@ -27,25 +33,24 @@ const ResourceEdit = (props: any) => {
   };
 
   const updateResource = () => {
-    const payload = props.data.id ? props.data.id : "";
+    const payload = { id: props.data.id, title: formData.title };
 
-    // DeleteTask(payload)
-    //   .then((response) => {
-    //     setButtonLoader(false);
-    //     mutate(
-    //       props.currentUrl,
-    //       async (elements: any) => {
-    //         let index = elements.findIndex((mutateData: any) => mutateData.id === payload);
-    //         return elements.filter((_: any, i: any) => i != index);
-    //       },
-    //       false
-    //     );
-    //     handleClose();
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     setButtonLoader(false);
-    //   });
+    ResourceNodeEdit(payload)
+      .then((response) => {
+        setButtonLoader(false);
+        if (props.root_node_id)
+          mutate(
+            RESOURCE_WITH_NODE_ENDPOINT(props.root_node_id),
+            APIFetcher(RESOURCE_WITH_NODE_ENDPOINT(props.root_node_id)),
+            false
+          );
+        else mutate(RESOURCE_ENDPOINT, APIFetcher(RESOURCE_ENDPOINT), false);
+        handleClose();
+      })
+      .catch((error) => {
+        console.log(error);
+        setButtonLoader(false);
+      });
   };
 
   return (
@@ -56,17 +61,17 @@ const ResourceEdit = (props: any) => {
           <hr />
           <div>
             <Form onSubmit={formSubmit}>
-              <Form.Group controlId="tree-form-create.name">
-                <Form.Label>Name</Form.Label>
+              <Form.Group controlId="tree-form-create.name" className="mb-2">
+                <Form.Label>Category Name</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter tree name"
+                  placeholder="Enter category name"
                   required
-                  value={formData.name}
-                  onChange={(e) => handleFormData("name", e.target.value)}
+                  value={formData.title}
+                  onChange={(e) => handleFormData("title", e.target.value)}
                 />
               </Form.Group>
-              <Button variant="outline-secondary" onClick={handleClose} className="btn-sm mr-2">
+              <Button variant="outline-secondary" onClick={handleClose} className="btn-sm me-2">
                 Close
               </Button>
               <Button
