@@ -10,7 +10,8 @@ import { Readthedocs } from "@styled-icons/simple-icons";
 import { CheveronDown } from "@styled-icons/zondicons";
 // components
 import ZoomSessions from "@components/zoomsessions";
-import IconStacking from "@components/IconStacking";
+import IconRow from "@components/iconRow";
+
 import SessionEdit from "@components/admin/sessions/edit";
 import SessionDelete from "@components/admin/sessions/delete";
 // global imports
@@ -153,7 +154,7 @@ const SessionCard = (props: any) => {
                       {/* <div className="description ms-2">- 18 yes, 2 awaiting</div> */}
                     </div>
                     <div className="mt-1">
-                      <IconStacking data={studentImages} multiple={true} />
+                      <IconRow data={studentImages} />
                     </div>
                   </div>
                 </div>
@@ -164,7 +165,7 @@ const SessionCard = (props: any) => {
                     <User className="text-muted" width={20} />
                   </div>
                   <div className="">
-                    <IconStacking data={teacherImages} multiple={true} />
+                    <IconRow data={teacherImages} />
                   </div>
                   {/* <div className=" mt-2 ms-2">Hello</div> */}
                 </div>

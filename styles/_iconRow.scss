@@ -1,0 +1,39 @@
+.row-icons-root-alter {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-top: 10px;
+  padding-left: 10px;
+  gap: 8px;
+  .row-icons-alter-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #e6e6e6;
+    border-radius: 4px;
+    padding: 5px;
+    .row-icons-alter {
+      height: 18px;
+      width: 18px;
+      border-radius: 100px;
+      overflow: hidden;
+      display: flex;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+    
+    .row-name {
+      padding-left: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+    }
+  }
+}
+.cursor{
+  cursor: pointer !important;
+}

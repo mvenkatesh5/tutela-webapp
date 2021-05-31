@@ -25,17 +25,18 @@ const ZoomView = () => {
     APIFetcher
   );
 
-  if (!zoomUserList && !zoomUserListError)
-    return <div className="text-center mt-5 mb-5">Loading...</div>;
-
-  if (!zoomUserList) return <div className="text-center mt-5 mb-5">Loading...</div>;
-
   if (zoomUserListError) console.log(zoomUserListError);
 
   return (
     <AdminLayout>
       <div className="right-layout">
+      {!zoomUserList && !zoomUserListError ? (
+              <div className="text-center mt- 5 mb-5">Loading.....</div>
+            ) : (
         <div className="container mt-4">
+          {!zoomUserList ? (
+              <div className="text-center mt- 5 mb-5">Loading.....</div>
+            ) : (
           <div className="card shadow mt-4">
             <div className="card-header bg-white fw-bold py-3">
               <h4 className="m-0">Zoom User Status</h4>
@@ -119,7 +120,9 @@ const ZoomView = () => {
               </table>
             </div>
           </div>
+            )}
         </div>
+        )}
       </div>
     </AdminLayout>
   );

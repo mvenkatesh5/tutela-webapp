@@ -263,3 +263,31 @@ a {
     }
   }
 }
+
+
+.trail-message-box-container {
+  display: flex;
+  border: 2px solid #ffeeba;
+  background-color: #fff3cd;
+  border-radius: 8px;
+  margin: 0px 0px 20px 0px ;
+  .text {
+    font-size: 15px;
+    font-weight: 500;
+    color: #856404;
+    @media (max-width: 768px) {
+      & {
+        font-size: 12px;
+      }
+    }
+  }
+  .icon {
+    width: 15px;
+    color: #856404;
+    @media (max-width: 411px) {
+      & {
+        width: 30px;
+      }
+    }
+  }
+}
