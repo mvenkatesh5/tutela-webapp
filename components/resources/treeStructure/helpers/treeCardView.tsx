@@ -1,5 +1,6 @@
 import React from "react";
-
+// next imports
+import Link from "next/link";
 // material icons
 import { ChevronDown } from "@styled-icons/boxicons-regular/ChevronDown";
 import { ChevronRight } from "@styled-icons/boxicons-regular/ChevronRight";
@@ -99,9 +100,12 @@ const TreeChildrenRenderView = ({
                 <div className="flex-item title">{tree.data && tree.data.title}</div>
               ) : (
                 <div className="flex-item title">
-                  <a href={tree.data.data.url} target="_blank">
+                  <Link href={`/pdf-viewer/${tree.id}/`}>
+                    <a target="_blank">{tree.data && tree.data.title}</a>
+                  </Link>
+                  {/* <a href={tree.data.data.url} target="_blank">
                     {tree.data && tree.data.title}
-                  </a>
+                  </a> */}
                 </div>
               )}
 
