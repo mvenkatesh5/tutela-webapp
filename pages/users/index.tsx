@@ -11,6 +11,8 @@ import { TimezonePicker } from "@blueprintjs/timezone";
 // blueprint css
 import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
+// global constants
+import { dateTimeFormat } from "@constants/global";
 // layouts
 import AdminLayout from "@layouts/adminLayout";
 // api routes
@@ -75,6 +77,7 @@ const UserDetails = () => {
                   <th>Last Name</th>
                   <th>Username</th>
                   <th>Email</th>
+                  <th>Last Login</th>
                   <th>Role</th>
                   <th>TimeZone</th>
                 </tr>
@@ -94,9 +97,13 @@ const UserDetails = () => {
                               <a target="_blank">{users.first_name}</a>
                             </Link>
                           </td>
+                          {console.log(users)}
                           <td className="heading">{users.last_name}</td>
                           <td className="heading">{users.username}</td>
                           <td className="description">{users.email}</td>
+                          <td className="description text-center">
+                            {users.last_login ? dateTimeFormat(users.last_login) : "-"}
+                          </td>
                           <td>
                             <Form.Group controlId="exampleForm.ControlSelect1">
                               <Form.Control
