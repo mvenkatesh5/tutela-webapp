@@ -46,10 +46,6 @@ const ResourceTreeView = () => {
     { refreshInterval: 0 }
   );
 
-  if (!productCategory) {
-    return "Loading...";
-  }
-
   return (
     <div>
       <Head>
@@ -57,33 +53,37 @@ const ResourceTreeView = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <StudentLayout>
-        <div className="right-layout">
-          <Container className="pt-3 pb-3">
-            <h5 className="mb-4">
-              Resource {productCategory && productCategory.tree[0].data.title}
-            </h5>
-            {productCategory &&
-            productCategory.tree &&
-            productCategory.tree.length > 0 &&
-            productCategory.tree[0] &&
-            productCategory.tree[0].children ? (
-              <ResourceView
-                data={productCategory.tree[0].children}
-                admin={false}
-                check={false}
-                isDrag={false}
-                root_node_id={resource_id}
-                currentProduct={productCategory}
-                resourceNode={resourceNode}
-                user={tokenDetails}
-              />
-            ) : (
-              <div className="mt-4 mb-4 text-center text-secondary">
-                No Resources are available.
-              </div>
-            )}
-          </Container>
-        </div>
+        {!productCategory ? (
+          <div className="text-center mt- 5 mb-5">Loading.....</div>
+        ) : (
+          <div className="right-layout">
+            <Container className="pt-3 pb-3">
+              <h5 className="mb-4">
+                Resource {productCategory && productCategory.tree[0].data.title}
+              </h5>
+              {productCategory &&
+              productCategory.tree &&
+              productCategory.tree.length > 0 &&
+              productCategory.tree[0] &&
+              productCategory.tree[0].children ? (
+                <ResourceView
+                  data={productCategory.tree[0].children}
+                  admin={false}
+                  check={false}
+                  isDrag={false}
+                  root_node_id={resource_id}
+                  currentProduct={productCategory}
+                  resourceNode={resourceNode}
+                  user={tokenDetails}
+                />
+              ) : (
+                <div className="mt-4 mb-4 text-center text-secondary">
+                  No Resources are available.
+                </div>
+              )}
+            </Container>
+          </div>
+        )}
       </StudentLayout>
     </div>
   );

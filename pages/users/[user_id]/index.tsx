@@ -122,89 +122,91 @@ const userDetailView = () => {
     }
   }, [userDetailList]);
 
-  if (!userDetailList) return <div className="mt-5 mb-5 text-center">Loading...</div>;
-
   return (
     <div>
       <AdminLayout>
-        <div className="right-layout m-0 p-0">
-          <div className="profile-layout-wrapper">
-            <div className="profile-title">
-              <h3 className="m-0 p-0">Account</h3>
-            </div>
-            <div className="profile-content">
-              <div className="profile-layout">
-                <div className="left-wrapper">
-                  {/* profile detail */}
-                  <div className="profile-detail">
-                    <div className="header">
-                      <div className="icon">
-                        <img className="rounded-circle img-fluid" src={defaultImageUrl} />
+        {!userDetailList ? (
+          <div className="text-center mt- 5 mb-5">Loading.....</div>
+        ) : (
+          <div className="right-layout m-0 p-0">
+            <div className="profile-layout-wrapper">
+              <div className="profile-title">
+                <h3 className="m-0 p-0">Account</h3>
+              </div>
+              <div className="profile-content">
+                <div className="profile-layout">
+                  <div className="left-wrapper">
+                    {/* profile detail */}
+                    <div className="profile-detail">
+                      <div className="header">
+                        <div className="icon">
+                          <img className="rounded-circle img-fluid" src={defaultImageUrl} />
+                        </div>
+                        <div className="content">
+                          <div className="content-primary">
+                            {userDetailList.first_name} {userDetailList.last_name}
+                          </div>
+                          <div className="content-secondary">
+                            joined: {datePreview(userDetailList.date_joined)}
+                          </div>
+                        </div>
                       </div>
-                      <div className="content">
-                        <div className="content-primary">
-                          {userDetailList.first_name} {userDetailList.last_name}
-                        </div>
-                        <div className="content-secondary">
-                          joined: {datePreview(userDetailList.date_joined)}
-                        </div>
+                      <div className="extra-details">
+                        <div className="details-label">Email</div>
+                        <div className="details-text">{userDetailList.email}</div>
                       </div>
                     </div>
-                    <div className="extra-details">
-                      <div className="details-label">Email</div>
-                      <div className="details-text">{userDetailList.email}</div>
-                    </div>
+                    {/* resource binding */}
+                    <UserResourceView
+                      userResourceList={userResourceList}
+                      resources={resources}
+                      userId={user_id}
+                    />
                   </div>
-                  {/* resource binding */}
-                  <UserResourceView
-                    userResourceList={userResourceList}
-                    resources={resources}
-                    userId={user_id}
-                  />
-                </div>
-                <div className="right-wrapper">
-                  <Tab.Container
-                    id="profile-tab-content"
-                    defaultActiveKey={`profile_tab_content_${profileTabContent[0].tab_key}`}
-                  >
-                    <div className="inner-profile-layout-wrapper">
-                      <div className="inner-profile-title">
-                        <Nav
-                          className="custom-nav-tabs-links profile-account-nav w-100"
-                          variant="pills"
-                        >
-                          {profileTabContent.map((item: any, index: any) => (
-                            <Nav.Item className="profile-account-nav-item">
-                              <Nav.Link
-                                key={`profile-tab-content-nav-item-${item.tab_key}`}
+                  <div className="right-wrapper">
+                    <Tab.Container
+                      id="profile-tab-content"
+                      defaultActiveKey={`profile_tab_content_${profileTabContent[0].tab_key}`}
+                    >
+                      <div className="inner-profile-layout-wrapper">
+                        <div className="inner-profile-title">
+                          <Nav
+                            className="custom-nav-tabs-links profile-account-nav w-100"
+                            variant="pills"
+                          >
+                            {profileTabContent.map((item: any, index: any) => (
+                              <Nav.Item className="profile-account-nav-item">
+                                <Nav.Link
+                                  key={`profile-tab-content-nav-item-${item.tab_key}`}
+                                  eventKey={`profile_tab_content_${item.tab_key}`}
+                                >
+                                  {item.tab_name}
+                                </Nav.Link>
+                              </Nav.Item>
+                            ))}
+                          </Nav>
+                        </div>
+                        <div className="inner-profile-content">
+                          <Tab.Content className="h-100">
+                            {profileTabContent.map((item: any, index: any) => (
+                              <Tab.Pane
+                                key={`profile-tab-content-tab-pane-${item.tab_key}`}
                                 eventKey={`profile_tab_content_${item.tab_key}`}
+                                className="h-100"
                               >
-                                {item.tab_name}
-                              </Nav.Link>
-                            </Nav.Item>
-                          ))}
-                        </Nav>
+                                {item.tab_component}
+                              </Tab.Pane>
+                            ))}
+                          </Tab.Content>
+                        </div>
                       </div>
-                      <div className="inner-profile-content">
-                        <Tab.Content className="h-100">
-                          {profileTabContent.map((item: any, index: any) => (
-                            <Tab.Pane
-                              key={`profile-tab-content-tab-pane-${item.tab_key}`}
-                              eventKey={`profile_tab_content_${item.tab_key}`}
-                              className="h-100"
-                            >
-                              {item.tab_component}
-                            </Tab.Pane>
-                          ))}
-                        </Tab.Content>
-                      </div>
-                    </div>
-                  </Tab.Container>
+                    </Tab.Container>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </AdminLayout>
     </div>
   );
