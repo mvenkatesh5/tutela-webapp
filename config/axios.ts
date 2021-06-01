@@ -3,6 +3,8 @@ import axios from "axios";
 import cookie from "js-cookie";
 // constants
 import { BASE_STAGING, BASE_LOCAL, BASE_PROD } from "@constants/routes";
+// cookie helpers
+import { logout } from "lib/cookie";
 
 // if (process.env.APP_ENV === "production") {
 //   axios.defaults.baseURL = BASE_PROD;
@@ -33,3 +35,16 @@ export function setAxiosHeader(token: string) {
     }
   }
 })();
+
+const UNAUTHORIZED = [401];
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const { status }: any = error.response;
+    if (UNAUTHORIZED.includes(status)) {
+      logout();
+      window.location.href = "/signin";
+    }
+    return Promise.reject(error);
+  }
+);

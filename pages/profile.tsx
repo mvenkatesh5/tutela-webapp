@@ -10,7 +10,7 @@ import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 // components
 import FromBuilder from "@components/forms";
-import TrailAccess from "@components/trial-axis";
+import WarningPopup from "@components/warningpopup";
 // layouts
 import StudentLayout from "@layouts/studentLayout";
 // global imports
@@ -82,7 +82,7 @@ const Profile = () => {
           <div className="text-center my-5">Loading.....</div>
         ) : (
           <Container className="py-3">
-            {userDetailList.profile_data.length == 0 && <TrailAccess />}
+            {/* {userDetailList && userDetailList.profile_data.length <= 0 && <WarningPopup />} */}
             <h3 className="mb-4">Account</h3>
 
             <div className="mb-2">

@@ -12,7 +12,6 @@ const IconRow = (props: any) => {
     <div>
       <div className="row-icons-root-alter">
         {props.data.map((item: any, i: Number) => {
-
           if (toggle == true || (!toggle && i < 5)) {
             return (
               <div className="row-icons-alter-wrapper">
@@ -22,7 +21,7 @@ const IconRow = (props: any) => {
                 <div className="row-name">{item.name} </div>
               </div>
             );
-          } 
+          }
         })}
         {props.data.length > 5 && (
           <div onClick={handle} className="row-icons-alter-wrapper cursor">

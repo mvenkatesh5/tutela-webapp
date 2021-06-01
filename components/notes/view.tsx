@@ -13,42 +13,28 @@ import { USER_NOTES_ENDPOINT } from "@constants/routes";
 import { APIFetcher } from "@lib/services";
 
 const Notes = (props: any) => {
-  const [notesToggle, setNotesToggle] = React.useState<any>(false);
-
-  const { data: notes, error: notesError } = useSWR(
-    props.tree && props.tree.id && props.resourceNode && props.resourceNode.id
-      ? [
-          USER_NOTES_ENDPOINT(props.resourceNode.id, props.tree.id),
-          props.resourceNode.id,
-          props.tree.id,
-        ]
-      : null,
-    (url) => APIFetcher(url),
-    { refreshInterval: 0 }
-  );
-
-  if (!notes) {
-    return <div></div>;
-  }
-
   return (
-    <div>
-      {notesToggle && (
-        <div className="notes-wrapper">
-          <div className="notes-header">
-            <div className="notes-title">Notes</div>
-            <div className="toggle-icon" onClick={() => setNotesToggle(!notesToggle)}>
-              <Times />
-            </div>
+    <>
+      <div className="notes-wrapper">
+        <div className="notes-header">
+          <div className="notes-title">Notes</div>
+          <div className="toggle-icon" onClick={() => props.handleNotesToggle(props.tree)}>
+            <Times />
           </div>
+        </div>
+        {!props.notes ? (
+          <div className="text-center text-secondary">
+            <small>Loading...</small>
+          </div>
+        ) : (
           <div className="notes-content">
             <div className="notes-create-container">
               <NotesCreate resourceNode={props.resourceNode} user={props.user} tree={props.tree} />
             </div>
 
-            {notes && notes.length > 0 ? (
+            {props.notes && props.notes.length > 0 ? (
               <div>
-                {notes.map((note: any, index: any) => (
+                {props.notes.map((note: any, index: any) => (
                   <div key={`notes-card-${index}`} className="notes-card">
                     <div className="notes-card-title">{note.text}</div>
                     <div className="d-flex">
@@ -78,10 +64,9 @@ const Notes = (props: any) => {
               </div>
             )}
           </div>
-        </div>
-      )}
-      <div onClick={() => setNotesToggle(!notesToggle)}>{props.children}</div>
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 
