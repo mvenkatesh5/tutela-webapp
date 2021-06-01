@@ -30,7 +30,7 @@ function DashboardNav() {
 
   return (
     <>
-      <Navbar className="shadow-sm" collapseOnSelect expand="lg">
+      <Navbar className="shadow-sm" collapseOnSelect expand="xl">
         <Container fluid>
           <Navbar.Brand>
             <Image className="img-fluid" src="/logo.svg" width="200" />

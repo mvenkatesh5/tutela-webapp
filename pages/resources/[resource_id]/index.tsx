@@ -29,10 +29,6 @@ const ResourceTreeView = () => {
     { refreshInterval: 0 }
   );
 
-  if (!productCategory) {
-    return "Loading...";
-  }
-
   return (
     <div>
       <Head>
@@ -40,41 +36,47 @@ const ResourceTreeView = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <AdminLayout>
-        <div className="right-layout">
-          <Container>
-            <h5>Resource {productCategory.tree[0].data.title}</h5>
-            {productCategory &&
-            productCategory.tree &&
-            productCategory.tree.length > 0 &&
-            productCategory.tree[0] &&
-            productCategory.tree[0].children ? (
-              <ResourceView
-                data={productCategory.tree[0].children}
-                admin={true}
-                check={false}
-                isDrag={true}
+        {!productCategory ? (
+          <div className="text-center mt- 5 mb-5">Loading.....</div>
+        ) : (
+          <div className="right-layout">
+            <Container>
+              {productCategory &&
+              productCategory.tree &&
+              productCategory.tree.length > 0 &&
+              productCategory.tree[0] &&
+              productCategory.tree[0].children ? (
+                <>
+                  <h5>Resource {productCategory.tree[0].data.title}</h5>
+                  <ResourceView
+                    data={productCategory.tree[0].children}
+                    admin={true}
+                    check={false}
+                    isDrag={true}
+                    root_node_id={resource_id}
+                    currentProduct={productCategory}
+                  />
+                </>
+              ) : (
+                <div className="mt-4 mb-4 text-center text-secondary">
+                  No Resources are available.
+                </div>
+              )}
+              <ResourceCreateView
+                data={{ id: resource_id }}
                 root_node_id={resource_id}
-                currentProduct={productCategory}
-              />
-            ) : (
-              <div className="mt-4 mb-4 text-center text-secondary">
-                No Resources are available.
-              </div>
-            )}
-            <ResourceCreateView
-              data={{ id: resource_id }}
-              root_node_id={resource_id}
-              add_to="children"
-            >
-              <Button
-                variant="outline-secondary"
-                className="mb-2 btn-sm resource-tree-create-button"
+                add_to="children"
               >
-                New Folder
-              </Button>
-            </ResourceCreateView>
-          </Container>
-        </div>
+                <Button
+                  variant="outline-secondary"
+                  className="mb-2 btn-sm resource-tree-create-button"
+                >
+                  New Folder
+                </Button>
+              </ResourceCreateView>
+            </Container>
+          </div>
+        )}
       </AdminLayout>
     </div>
   );

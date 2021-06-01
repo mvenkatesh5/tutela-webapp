@@ -1,11 +1,5 @@
 .notes-wrapper {
-  position: fixed;
-  width: 300px;
-  top: 0px;
-  right: 0;
-  bottom: 0;
-  background-color: #fff;
-  border: 1px solid #e7e7e7;
+  position: relative;
   display: flex;
   flex-direction: column;
   & .notes-header {

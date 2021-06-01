@@ -4,7 +4,7 @@ import { secondsToHms, returnDateWithText, returnTime } from "@constants/global"
 
 const SessionTimer = (props: any) => {
   let timerVariable: any;
-  let closeTimer: any = 2 * 60;
+  let closeTimer: any = 10 * 60;
 
   const validateTodayDate = () => {
     const today: any = new Date();

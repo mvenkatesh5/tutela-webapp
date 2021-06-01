@@ -25,7 +25,7 @@ export const setAuthenticationToken = (token_details: any) => {
 };
 
 export const getAuthenticationToken = () => {
-  const tokenDetails = cookie.get("token_details");
+  const tokenDetails = cookie.get("token_details") ? cookie.get("token_details") : null;
   return tokenDetails;
 };
 

@@ -7,13 +7,18 @@ import { Container, Button } from "react-bootstrap";
 // swr
 import useSWR from "swr";
 // components
-import ResourceView from "@components/resources/treeStructure/view";
+import ResourceView from "@components/resources/userRender";
+import ResourceNotesView from "@components/notes/view";
 // layouts
-import StudentLayout from "@layouts/studentLayout";
+import StudentNotesLayout from "@layouts/studentNotesLayout";
 // cookie
 import { getAuthenticationToken } from "@lib/cookie";
 // api routes
-import { RESOURCE_WITH_NODE_ENDPOINT, USER_RESOURCE_WITH_ID_ENDPOINT } from "@constants/routes";
+import {
+  RESOURCE_WITH_NODE_ENDPOINT,
+  USER_RESOURCE_WITH_ID_ENDPOINT,
+  USER_NOTES_ENDPOINT,
+} from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 // hoc
@@ -34,6 +39,12 @@ const ResourceTreeView = () => {
     }
   }, []);
 
+  const [notesToggle, setNotesToggle] = React.useState<any>("");
+  const handleNotesToggle = (tree: any) => {
+    if (tree.id === notesToggle.id) setNotesToggle("");
+    else setNotesToggle(tree);
+  };
+
   const { data: resourceNode, error: resourceNodeError } = useSWR(
     resource_id ? USER_RESOURCE_WITH_ID_ENDPOINT(resource_id) : null,
     (url) => APIFetcher(url),
@@ -46,9 +57,13 @@ const ResourceTreeView = () => {
     { refreshInterval: 0 }
   );
 
-  if (!productCategory) {
-    return "Loading...";
-  }
+  const { data: notes, error: notesError } = useSWR(
+    notesToggle && notesToggle.id && resourceNode && resourceNode.id
+      ? [USER_NOTES_ENDPOINT(resourceNode.id, notesToggle.id), resourceNode.id, notesToggle.id]
+      : null,
+    (url) => APIFetcher(url),
+    { refreshInterval: 0 }
+  );
 
   return (
     <div>
@@ -56,35 +71,53 @@ const ResourceTreeView = () => {
         <title>Resources</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <StudentLayout>
-        <div className="right-layout">
-          <Container className="pt-3 pb-3">
-            <h5 className="mb-4">
-              Resource {productCategory && productCategory.tree[0].data.title}
-            </h5>
-            {productCategory &&
-            productCategory.tree &&
-            productCategory.tree.length > 0 &&
-            productCategory.tree[0] &&
-            productCategory.tree[0].children ? (
-              <ResourceView
-                data={productCategory.tree[0].children}
-                admin={false}
-                check={false}
-                isDrag={false}
-                root_node_id={resource_id}
-                currentProduct={productCategory}
+      <StudentNotesLayout
+        notesToggle={notesToggle}
+        right={
+          <>
+            {notesToggle && (
+              <ResourceNotesView
                 resourceNode={resourceNode}
                 user={tokenDetails}
+                tree={notesToggle}
+                handleNotesToggle={handleNotesToggle}
+                notes={notes}
               />
-            ) : (
-              <div className="mt-4 mb-4 text-center text-secondary">
-                No Resources are available.
-              </div>
             )}
-          </Container>
-        </div>
-      </StudentLayout>
+          </>
+        }
+      >
+        {!productCategory ? (
+          <div className="text-center mt- 5 mb-5">Loading.....</div>
+        ) : (
+          <div>
+            <Container className="pt-3 pb-3">
+              <h5 className="mb-4">
+                Resource {productCategory && productCategory.tree[0].data.title}
+              </h5>
+              {productCategory &&
+              productCategory.tree &&
+              productCategory.tree.length > 0 &&
+              productCategory.tree[0] &&
+              productCategory.tree[0].children ? (
+                <ResourceView
+                  data={productCategory.tree[0].children}
+                  root_node_id={resource_id}
+                  currentProduct={productCategory}
+                  resourceNode={resourceNode}
+                  user={tokenDetails}
+                  handleNotesToggle={handleNotesToggle}
+                  notesToggle={notesToggle}
+                />
+              ) : (
+                <div className="mt-4 mb-4 text-center text-secondary">
+                  No Resources are available.
+                </div>
+              )}
+            </Container>
+          </div>
+        )}
+      </StudentNotesLayout>
     </div>
   );
 };
