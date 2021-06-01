@@ -74,11 +74,12 @@ const TeacherProfile = () => {
     }
   }, [userDetailList]);
 
-  if (!userDetailList) return <div className="mt-5 mb-5 text-center">Loading...</div>;
-
   return (
     <div>
       <StudentLayout>
+      {!userDetailList ? (
+          <div className="text-center my-5">Loading.....</div>
+        ) : (
         <Container className="pt-3 pb-3">
           <h3 className="mb-4">Account</h3>
 
@@ -145,6 +146,7 @@ const TeacherProfile = () => {
             {buttonLoader ? "Updating Profile..." : "Update Profile"}
           </Button>
         </Container>
+        )}
       </StudentLayout>
     </div>
   );

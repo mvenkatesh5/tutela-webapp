@@ -82,7 +82,7 @@ const Profile = () => {
           <div className="text-center my-5">Loading.....</div>
         ) : (
           <Container className="py-3">
-            {userDetailList.profile_data.length != 0 && <TrailAccess />}
+            {userDetailList.profile_data.length == 0 && <TrailAccess />}
             <h3 className="mb-4">Account</h3>
 
             <div className="mb-2">
