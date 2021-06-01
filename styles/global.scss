@@ -291,6 +291,10 @@ a {
   }
 }
 
+
+.nav-link.active{
+  color: blue !important;
+}
 // student-notes-layout-container
 .student-notes-layout-container {
   display: flex;

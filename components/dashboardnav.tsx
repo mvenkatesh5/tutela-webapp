@@ -11,6 +11,7 @@ import {
 import { CircleFill } from "@styled-icons/bootstrap";
 // cookie
 import { logout, getAuthenticationToken } from "@lib/cookie";
+import PreFetchLink from "@components/PreFetchLink";
 
 function DashboardNav() {
   const [tokenDetails, setTokenDetails] = React.useState<any>();
@@ -42,53 +43,53 @@ function DashboardNav() {
                 Dashboard
               </Nav.Link> */}
               {tokenDetails && tokenDetails.user && tokenDetails.user.role === 0 && (
-                <Nav.Link className="fw-bold text-muted" href="/student">
-                  Dashboard
-                </Nav.Link>
+                <PreFetchLink href="/student">
+                  <div> Dashboard</div>
+                </PreFetchLink>
               )}
               {tokenDetails && tokenDetails.user && tokenDetails.user.role === 0 && (
-                <Nav.Link className="fw-bold text-muted" href="/profile">
-                  Profile
-                </Nav.Link>
+                <PreFetchLink href="/profile">
+                  <div> Profile</div>
+                </PreFetchLink>
               )}
               {tokenDetails && tokenDetails.user && tokenDetails.user.role === 0 && (
-                <Nav.Link className="fw-bold text-muted" href="/request-session">
-                  Request Session
-                </Nav.Link>
+                <PreFetchLink href="/request-session">
+                  <div>Request Session</div>
+                </PreFetchLink>
               )}
               {tokenDetails && tokenDetails.user && tokenDetails.user.role === 0 && (
-                <Nav.Link className="fw-bold text-muted" href="/user-resources">
-                  Resources
-                </Nav.Link>
+                <PreFetchLink href="/user-resources">
+                  <div> Resources</div>
+                </PreFetchLink>
               )}
 
               {tokenDetails && tokenDetails.user && tokenDetails.user.role != 3 && (
-                <Nav.Link className="fw-bold text-muted" href="/calendar">
-                  My Calendar
-                </Nav.Link>
+                <PreFetchLink href="/calendar">
+                  <div> My Calendar</div>
+                </PreFetchLink>
               )}
 
               {/* teacher */}
               {tokenDetails && tokenDetails.user && tokenDetails.user.role === 1 && (
-                <Nav.Link className="fw-bold text-muted" href="/teacher-profile">
-                  Profile
-                </Nav.Link>
+                <PreFetchLink href="/teacher-profile">
+                  <div className="fw-bold text-muted nav-link    "> Profile</div>
+                </PreFetchLink>
               )}
               {/* teacher */}
               {tokenDetails && tokenDetails.user && tokenDetails.user.role === 1 && (
-                <Nav.Link className="fw-bold text-muted" href="/users?t=1">
-                  Students
-                </Nav.Link>
+                <PreFetchLink href="/users?t=1">
+                  <div> Students</div>
+                </PreFetchLink>
               )}
               {tokenDetails && tokenDetails.user && tokenDetails.user.role === 1 && (
-                <Nav.Link className="fw-bold text-muted" href="/admin/quick-meetings">
-                  Quick Meetings
-                </Nav.Link>
+                <PreFetchLink href="/admin/quick-meetings">
+                  <div> Quick Meetings</div>
+                </PreFetchLink>
               )}
               {tokenDetails && tokenDetails.user && tokenDetails.user.role === 1 && (
-                <Nav.Link className="fw-bold text-muted" href="/admin/messages">
-                  Messages
-                </Nav.Link>
+                <PreFetchLink href="/admin/messages">
+                  <div> Messages</div>
+                </PreFetchLink>
               )}
             </Nav>
           </Navbar.Collapse>
