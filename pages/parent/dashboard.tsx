@@ -210,12 +210,12 @@ function ParentDashboard() {
 
         <h3 className="fw-bold mt-4">Time spent on learning</h3>
         <div className="row mb-3">
-          <div className="col-md-8">
+          <div className="col-lg-8">
             <div className="border p-3">
               <Bar data={chartData} options={options} />
             </div>
           </div>
-          <div className="col-md-4">
+          <div className="col-lg-4">
             <div className="card mb-4">
               <div className="card-header border-bottom-0 bg-white d-flex align-items-center pt-3 pb-0">
                 <div>

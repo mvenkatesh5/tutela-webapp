@@ -112,7 +112,7 @@ const StudentDetail = () => {
       <Container className="mt-5 container-lg">
         <Row>
           <h4 className="fw-bold text-dark mb-3">Upcoming Sessions</h4>
-          <Col md="8">
+          <Col lg="8">
             {sessionList && sessionList.length > 0 ? (
               <div>
                 {sessionList.map((data: any, index: Number) => (
@@ -133,7 +133,7 @@ const StudentDetail = () => {
               {newsList &&
                 newsList.length > 0 &&
                 newsList.map((data: any, index: Number) => (
-                  <Col md={6} key={data.id} style={{ marginBottom: "10px" }}>
+                  <Col lg={6} key={data.id} style={{ marginBottom: "10px" }}>
                     <NewsCard data={data} />
                   </Col>
                 ))}
@@ -143,7 +143,7 @@ const StudentDetail = () => {
             <Doubts />
           </Col>
 
-          <Col md="4">
+          <Col lg="4">
             <TestScroreCard />
             <UpcomingTestsCard />
 

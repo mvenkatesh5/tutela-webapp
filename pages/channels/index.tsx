@@ -36,16 +36,19 @@ const Channel = () => {
                   <div className="container-fluid">
                     <div className="row">
                       {channelList.map((data: any, index: any) => (
-                        <div key={`channels-view-${data.id}`} className="col-md-3 mt-4">
+                        <div key={`channels-view-${data.id}`} className="col-lg-3 mt-4">
                           <ChannelCardView data={data}>
-                            <DropdownButton variant="light" title={<></>}>
-                              <Dropdown.Item>
+                            <Dropdown>
+                              <Dropdown.Toggle as="div"></Dropdown.Toggle>
+                              <Dropdown.Menu>
+                              <div>
                                 <ChannelEditView data={data} />
-                              </Dropdown.Item>
-                              <Dropdown.Item>
+                                </div>
+                                <div>
                                 <ChannelDeleteView data={data} />
-                              </Dropdown.Item>
-                            </DropdownButton>
+                                </div>
+                              </Dropdown.Menu>
+                            </Dropdown>
                           </ChannelCardView>
                         </div>
                       ))}

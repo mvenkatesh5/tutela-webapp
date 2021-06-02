@@ -40,7 +40,7 @@ function ParentDetailReport() {
         <div className="text-center text-muted mt-5 mb-5">Loading...</div>
       ) : (
         <div>
-          <div className="parent-detail-wrapper">
+          <div className="parent-detail-wrapper py-4">
             <div className="container h-100">
               <div className="row h-100">
                 {/* back arrow */}
@@ -68,8 +68,8 @@ function ParentDetailReport() {
 
                   {/* progress */}
                   <div className="">
-                    <div className="d-flex align-items-center">
-                      <div className="p-3 ps-0">
+                    <div className="d-flex align-items-center flex-wrap">
+                      <div className="p-3 ps-0" style={{width: "210px"}}>
                         <div
                           style={{
                             height: "100px",
@@ -83,29 +83,29 @@ function ParentDetailReport() {
                           <h6 className="fw-bolder text-white m-0 mt-2">100%</h6>
                         </div>
                       </div>
-                      <div className="p-3 px-5">
+                      <div className="p-3 px-5" style={{width: "210px"}}>
                         <img className="img-fluid mb-1" src="/calender.svg" width="30" />
                         <p className="mb-0 text-white fw-bolder">20/24</p>
                         <p className="text-white mb-0">Attendance</p>
                       </div>
-                      <div className="p-3 px-5">
+                      <div className="p-3 px-5" style={{width: "210px"}}>
                         <img className="img-fluid mb-1" src="/clock.svg" width="30" />
                         <p className="mb-0 text-white fw-bolder">76%</p>
                         <p className="text-white mb-0">Overall Progress</p>
                       </div>
-                      <div className="p-3 px-5">
+                      <div className="p-3 px-5" style={{width: "210px"}}>
                         <img className="img-fluid mb-1" src="/exam.svg" width="30" />
                         <p className="mb-0 text-white fw-bolder">80/100</p>
                         <p className="text-white mb-0">Average Score</p>
                       </div>
 
-                      <div className="p-3 px-5">
+                      <div className="p-3 px-5" style={{width: "210px"}}>
                         <img className="img-fluid mb-1" src="/complete.svg" width="30" />
 
                         <p className="mb-0 text-white fw-bolder">147hrs</p>
                         <p className="text-white mb-0">Time Spent</p>
                       </div>
-                      <div className="p-3 px-5">
+                      <div className="p-3 px-5" style={{width: "210px"}}>
                         <img className="img-fluid mb-1" src="/calender.svg" width="30" />
                         <p className="mb-0 text-white fw-bolder">Raj Gopal &amp; others</p>
                         <p className="text-white mb-0">Teachers</p>
