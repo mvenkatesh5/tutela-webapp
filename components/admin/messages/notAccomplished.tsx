@@ -34,16 +34,16 @@ const NotAccomplished = (props: any) => {
       <Card className="border-0">
         <Card.Body>
           <Row className="align-items-center">
-            <Col md={1}>
+            <Col lg={1}>
               <small className="text-secondary">#</small>
             </Col>
             <Col>
               <small className="text-secondary">MESSAGE</small>
             </Col>
-            <Col md={3}>
+            <Col lg={3}>
               <small className="text-secondary">STUDENT</small>
             </Col>
-            <Col md={3}>
+            <Col lg={3}>
               <small className="text-secondary">TEACHER</small>
             </Col>
           </Row>
@@ -58,7 +58,7 @@ const NotAccomplished = (props: any) => {
                 <Card key={`message-table-row${i}`} className="mb-2">
                   <Card.Body className="p-2 ps-3 pe-3">
                     <Row>
-                      <Col md={1}>
+                      <Col lg={1}>
                         <Form.Check
                           type="checkbox"
                           id={`message-not-accomplished-checkbox-${message.id}`}
@@ -68,7 +68,7 @@ const NotAccomplished = (props: any) => {
                         />
                       </Col>
                       <Col>{message.text}</Col>
-                      <Col md={3}>
+                      <Col lg={3}>
                         <div className="d-flex align-items-center">
                           <div
                             style={{
@@ -88,7 +88,7 @@ const NotAccomplished = (props: any) => {
                           <div>{validateUserName(message.student)}</div>
                         </div>
                       </Col>
-                      <Col md={3}>
+                      <Col lg={3}>
                         <div className="d-flex align-items-center">
                           <div
                             style={{
