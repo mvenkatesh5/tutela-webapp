@@ -16,6 +16,8 @@ import UpcomingTestsCard from "@components/uptestscard";
 import SessionCard from "@components/admin/sessions/sessionCard";
 // swr
 import useSWR from "swr";
+// layout
+import StudentLayout from "@layouts/studentLayout";
 // cookie
 import { getAuthenticationToken } from "@lib/cookie";
 // api routes
@@ -108,69 +110,70 @@ const StudentDetail = () => {
 
   return (
     <Page meta={meta}>
-      <DashboardNav />
-      <Container className="mt-5 container-lg">
-        <Row>
-          <h4 className="fw-bold text-dark mb-3">Upcoming Sessions</h4>
-          <Col lg="8">
-            {sessionList && sessionList.length > 0 ? (
-              <div>
-                {sessionList.map((data: any, index: Number) => (
-                  <div key={data.id} className="mb-2">
-                    <SessionCard data={data} role="student" />
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center mt-4 mb-4">No sessions for Today.</div>
-            )}
+      <StudentLayout>
+        <Container className="mt-5 container-lg">
+          <Row>
+            <h4 className="fw-bold text-dark mb-3">Upcoming Sessions</h4>
+            <Col lg="8">
+              {sessionList && sessionList.length > 0 ? (
+                <div>
+                  {sessionList.map((data: any, index: Number) => (
+                    <div key={data.id} className="mb-2">
+                      <SessionCard data={data} role="student" />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center mt-4 mb-4">No sessions for Today.</div>
+              )}
 
-            <h4 className="fw-bold text-dark mt-5 mb-3">Resources</h4>
-            {/* <ResourceTable /> */}
+              <h4 className="fw-bold text-dark mt-5 mb-3">Resources</h4>
+              {/* <ResourceTable /> */}
 
-            <h4 className="fw-bold text-dark mt-5 mb-3">News and Updates</h4>
-            <Row>
-              {newsList &&
-                newsList.length > 0 &&
-                newsList.map((data: any, index: Number) => (
-                  <Col lg={6} key={data.id} style={{ marginBottom: "10px" }}>
-                    <NewsCard data={data} />
-                  </Col>
-                ))}
-            </Row>
+              <h4 className="fw-bold text-dark mt-5 mb-3">News and Updates</h4>
+              <Row>
+                {newsList &&
+                  newsList.length > 0 &&
+                  newsList.map((data: any, index: Number) => (
+                    <Col lg={6} key={data.id} style={{ marginBottom: "10px" }}>
+                      <NewsCard data={data} />
+                    </Col>
+                  ))}
+              </Row>
 
-            <h4 className="fw-bold text-dark mt-5 mb-3">Doubts</h4>
-            <Doubts />
-          </Col>
+              <h4 className="fw-bold text-dark mt-5 mb-3">Doubts</h4>
+              <Doubts />
+            </Col>
 
-          <Col lg="4">
-            <TestScroreCard />
-            <UpcomingTestsCard />
+            <Col lg="4">
+              <TestScroreCard />
+              <UpcomingTestsCard />
 
-            {advertsList && advertsList.length > 0 && (
-              <Card className="py-5 px-3 mt-4 mb-5 border-0 shadow">
-                <Slider {...settingsSlider}>
-                  {advertsList.map((item: any, index: any) => {
-                    return (
-                      <div>
-                        <Link href={item.link}>
-                          <a target="_blank">
-                            <Image
-                              className="img-fluid mx-auto d-block"
-                              src={item.image}
-                              width="300"
-                            />
-                          </a>
-                        </Link>
-                      </div>
-                    );
-                  })}
-                </Slider>
-              </Card>
-            )}
-          </Col>
-        </Row>
-      </Container>
+              {advertsList && advertsList.length > 0 && (
+                <Card className="py-5 px-3 mt-4 mb-5 border-0 shadow">
+                  <Slider {...settingsSlider}>
+                    {advertsList.map((item: any, index: any) => {
+                      return (
+                        <div>
+                          <Link href={item.link}>
+                            <a target="_blank">
+                              <Image
+                                className="img-fluid mx-auto d-block"
+                                src={item.image}
+                                width="300"
+                              />
+                            </a>
+                          </Link>
+                        </div>
+                      );
+                    })}
+                  </Slider>
+                </Card>
+              )}
+            </Col>
+          </Row>
+        </Container>
+      </StudentLayout>
     </Page>
   );
 };
