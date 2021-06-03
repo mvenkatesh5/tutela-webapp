@@ -53,7 +53,7 @@ const SessionCard = (props: any) => {
       {!sessionDetailView ? (
         <div>
           <div className="session-card-root-container">
-            <div className="d-flex align-items-center">
+            <div className="d-flex flex-wrap align-items-center">
               <div className="icon">
                 <Image className="img-fluid rounded me-3" src="/bird.svg" />
               </div>
@@ -93,7 +93,7 @@ const SessionCard = (props: any) => {
       ) : (
         <div>
           <div className="session-card-root-container">
-            <div className="d-flex mb-3">
+            <div className="d-flex flex-wrap mb-3">
               <div className="icon">
                 <Image className="img-fluid rounded me-3" src="/bird.svg" />
               </div>

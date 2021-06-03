@@ -122,6 +122,9 @@ const Calendar = (props: any) => {
       const newDate = new Date(data.year, data.month - 1, data.date);
       setCurrentSelectDate(newDate.toString());
       props.handleData(newDate);
+      if (props.clickOnDate) {
+        props.clickOnDate();
+      }
       // }
     };
 
