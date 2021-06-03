@@ -3,10 +3,16 @@ import DashboardNav from "@components/dashboardnav";
 
 const TeacherLayout = (props: any) => {
   return (
-    <div>
-      <DashboardNav />
-      <div>{props.children}</div>
-    </div>
+    <>
+      <div className="t-default-layout">
+        <div className="top-bar">
+          <DashboardNav />
+        </div>
+        <div className="bottom-bar">
+          <div>{props.children}</div>
+        </div>
+      </div>
+    </>
   );
 };
 

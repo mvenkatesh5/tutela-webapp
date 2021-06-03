@@ -73,6 +73,7 @@ const UserResourceView = (props: any) => {
           APIFetcher(USER_RESOURCE_VIEW_ENDPOINT(props.userId)),
           false
         );
+        clearText();
       })
       .catch((error) => {
         console.log(error);

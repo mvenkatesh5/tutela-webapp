@@ -10,9 +10,7 @@ const WarningPopup = () => {
       <div className="container">
         <div className=" trail-message-box-container">
           <Warning className="icon m-3" />
-          <div className="text p-3">
-            You are using <b>trial axis.</b> click buy now to get full access to the classroom.
-          </div>
+          <div className="text p-3">Please fill up your profile.</div>
         </div>
       </div>
     </>

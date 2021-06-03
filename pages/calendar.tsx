@@ -3,6 +3,8 @@ import React from "react";
 import Link from "next/link";
 // react bootstrap
 import { Button } from "react-bootstrap";
+// material icons
+import { Calendar } from "@styled-icons/boxicons-regular/Calendar";
 // swr
 import useSWR from "swr";
 // layouts
@@ -33,6 +35,7 @@ import { APIFetcher } from "@lib/services";
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 
 const CalendarView = () => {
+  const [calendarToggle, setCalendarToggle] = React.useState(false);
   const [userRole, setUserRole] = React.useState<any>();
   const [tokenDetails, setTokenDetails] = React.useState<any>();
   React.useEffect(() => {
@@ -140,21 +143,34 @@ const CalendarView = () => {
         <div className="right-layout-calender">
           <div className="calender-root-wrapper">
             <div className="left-wrapper">
-              {userRole && (
-                <CalenderView
-                  renderView={currentRenderView}
-                  handleData={handleCurrentDate}
-                  role={userRole}
-                />
-              )}
+              <CalenderView
+                renderView={currentRenderView}
+                currentDate={currentDate}
+                handleData={handleCurrentDate}
+                role={userRole}
+              />
             </div>
             <div className="right-wrapper">
-              <div className="d-flex flex-row align-items-center border-bottom pb-2">
-                <div style={{ marginRight: "auto" }}>
+              <div className="border-bottom pb-2 calender-right-header">
+                <div className="user-view-calender dropdown-wrapper p-0 calendar">
+                  <div className="dropdown-icon" onClick={() => setCalendarToggle(!calendarToggle)}>
+                    <Calendar />
+                  </div>
+                  <div className={`dropdown-content ` + (calendarToggle ? `active` : ``)}>
+                    <CalenderView
+                      clickOnDate={() => setCalendarToggle(!calendarToggle)}
+                      renderView={currentRenderView}
+                      currentDate={currentDate}
+                      handleData={handleCurrentDate}
+                      role={userRole}
+                    />
+                  </div>
+                </div>
+                <div style={{ marginRight: "auto" }} className="today-date">
                   {currentDate && <div className="description">{renderDay()}</div>}
                   {currentDate && <div className="giant-heading">{renderDate()}</div>}
                 </div>
-                <div>
+                <div className="calendar-type">
                   <div className="d-flex flex-row align-items-center calender-render-view">
                     {renderViews.map((data, index) => (
                       <div
@@ -167,8 +183,9 @@ const CalendarView = () => {
                     ))}
                   </div>
                 </div>
+                <div className="divider"></div>
                 {userRole != "student" && (
-                  <div style={{ marginLeft: "10px" }}>
+                  <div style={{ marginLeft: "10px" }} className="calendar-session-create">
                     <SessionCreateView
                       users={userList}
                       currentDateQuery={currentDateQuery}
@@ -178,7 +195,7 @@ const CalendarView = () => {
                   </div>
                 )}
                 {userRole === "admin" && (
-                  <div style={{ marginLeft: "10px" }}>
+                  <div style={{ marginLeft: "10px" }} className="calendar-bulk-session">
                     {/* <SessionBulkCreateView
                       users={userList}
                       currentDateQuery={currentDateQuery}
