@@ -119,6 +119,8 @@ const TreeView = (props: any) => {
               isDrag={false}
               resourceNode={props.resourceNode}
               user={props.user}
+              pdfToggle={props.pdfToggle}
+              handlePdfToggle={props.handlePdfToggle}
             />
           </DragDropContext>
         </div>

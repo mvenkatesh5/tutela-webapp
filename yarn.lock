@@ -765,6 +765,13 @@
   dependencies:
     "@react-pdf-viewer/core" "2.5.0"
 
+"@react-pdf-viewer/highlight@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@react-pdf-viewer/highlight/-/highlight-2.5.0.tgz#2da080d3699769117e78d7fc3426b9c6dfbdd652"
+  integrity sha512-RdNcOnTTDCY3tjqVm/jfncjRyTMjEabQXUpVw1EXo0Hvw48PwZQOW9gflskPgVMKMPcNqbPJEZjsA1Gd14lX7A==
+  dependencies:
+    "@react-pdf-viewer/core" "2.5.0"
+
 "@react-pdf-viewer/open@2.5.0":
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/@react-pdf-viewer/open/-/open-2.5.0.tgz#cd139a7c993f6d6b4220d4b770f45d443ca70947"

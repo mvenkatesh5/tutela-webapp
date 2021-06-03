@@ -15,6 +15,7 @@ import { FileJson } from "@styled-icons/boxicons-solid/FileJson";
 import { FileBlank } from "@styled-icons/boxicons-regular/FileBlank";
 import { FilePdf } from "@styled-icons/boxicons-solid/FilePdf";
 import { ClipboardNotes } from "@styled-icons/foundation/ClipboardNotes";
+import { BookReader } from "@styled-icons/boxicons-regular/BookReader";
 // react beautiful dnd
 import { Draggable } from "react-beautiful-dnd";
 // components
@@ -36,6 +37,8 @@ const TreeChildrenRenderView = ({
   isDrag,
   resourceNode,
   user,
+  pdfToggle,
+  handlePdfToggle,
 }: any) => {
   const [dropdownToggle, setDropdownToggle] = React.useState<any>(true);
 
@@ -133,6 +136,17 @@ const TreeChildrenRenderView = ({
                 </div>
               )}
 
+              {tree.data.kind != "SECTION" && admin && (
+                <div
+                  className={`flex-item pdf-reader ${
+                    pdfToggle && pdfToggle.id === tree.id ? "active" : ""
+                  }`}
+                  onClick={() => handlePdfToggle(tree)}
+                >
+                  <BookReader />
+                </div>
+              )}
+
               {admin && (
                 <div className="flex-item delete">
                   <TreeDeleteView data={tree} root_node_id={root_node_id}>
@@ -160,6 +174,8 @@ const TreeChildrenRenderView = ({
                   isDrag={isDrag}
                   resourceNode={resourceNode}
                   user={user}
+                  pdfToggle={pdfToggle}
+                  handlePdfToggle={handlePdfToggle}
                 />
               </div>
             )}
