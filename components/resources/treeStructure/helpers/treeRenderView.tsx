@@ -15,6 +15,8 @@ const TreeRenderView = ({
   resourceNode,
   notes,
   user,
+  pdfToggle,
+  handlePdfToggle,
 }: any) => {
   return (
     <>
@@ -40,6 +42,8 @@ const TreeRenderView = ({
                     resourceNode={resourceNode}
                     notes={notes}
                     user={user}
+                    pdfToggle={pdfToggle}
+                    handlePdfToggle={handlePdfToggle}
                   />
                 </div>
               ))}

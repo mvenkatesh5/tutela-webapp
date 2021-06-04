@@ -10,18 +10,12 @@ import { FileJson } from "@styled-icons/boxicons-solid/FileJson";
 import { FileBlank } from "@styled-icons/boxicons-regular/FileBlank";
 import { FilePdf } from "@styled-icons/boxicons-solid/FilePdf";
 import { ClipboardNotes } from "@styled-icons/foundation/ClipboardNotes";
+import { BookReader } from "@styled-icons/boxicons-regular/BookReader";
 // components
 import ResourceNotesView from "@components/notes/view";
 
 const TreeView = (props: any) => {
-  const TreeChildrenRenderView = ({
-    tree,
-    level,
-    children,
-    root_node_id,
-
-    user,
-  }: any) => {
+  const TreeChildrenRenderView = ({ tree, level, children, root_node_id, user }: any) => {
     const [dropdownToggle, setDropdownToggle] = React.useState<any>(true);
 
     const imageFileNameSplitRender = (value: any) => {
@@ -74,11 +68,22 @@ const TreeView = (props: any) => {
             </div>
           )}
 
+          {tree.data.kind != "SECTION" && (
+            <div
+              className={`flex-item pdf-reader ${
+                props.pdfToggle && props.pdfToggle.id === tree.id ? "active" : ""
+              }`}
+              onClick={() => props.handlePdfToggle(tree)}
+            >
+              <BookReader />
+            </div>
+          )}
+
           <div
-            className="flex-item delete"
-            onClick={() => {
-              props.handleNotesToggle(tree);
-            }}
+            className={`flex-item notes ${
+              props.notesToggle && props.notesToggle.id === tree.id ? "active" : ""
+            }`}
+            onClick={() => props.handleNotesToggle(tree)}
           >
             <ClipboardNotes />
           </div>

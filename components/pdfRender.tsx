@@ -1,4 +1,6 @@
 import React, { ReactElement } from "react";
+// material icons
+import { Times } from "@styled-icons/fa-solid/Times";
 // react pdf viewer
 import { Viewer } from "@react-pdf-viewer/core";
 import { defaultLayoutPlugin, ToolbarProps, ToolbarSlot } from "@react-pdf-viewer/default-layout";
@@ -45,28 +47,18 @@ const PDFRender = (props: any) => {
                 <GoToNextPage />
               </div>
 
-              <div className="e-flex-item ml-auto">
+              <div className="e-flex-item ms-auto">
                 <ZoomOut />
               </div>
               <div className="e-flex-item e-text">
                 <Zoom />
               </div>
-              <div className="e-flex-item mr-auto">
+              <div className="e-flex-item me-auto">
                 <ZoomIn />
               </div>
 
               <div className="e-flex-item">
                 <EnterFullScreen />
-              </div>
-
-              {/* {props.data.allow_download && (
-                <div className="e-flex-item">
-                  <Download />
-                </div>
-              )} */}
-
-              <div className="e-flex-item">
-                <Print />
               </div>
             </div>
           </div>
@@ -85,14 +77,9 @@ const PDFRender = (props: any) => {
   });
 
   return (
-    <div
-      style={{
-        border: "1px solid rgba(0, 0, 0, 0.3)",
-        height: "750px",
-      }}
-    >
-      <Viewer fileUrl={props.data} plugins={[defaultLayoutPluginInstance]} />
-    </div>
+    <>
+      <Viewer fileUrl={props.pdf_url} plugins={[defaultLayoutPluginInstance]} />
+    </>
   );
 };
 
