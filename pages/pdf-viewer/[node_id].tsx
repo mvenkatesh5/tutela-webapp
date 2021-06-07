@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
 // react bootstrap
-import { Container, Row, Col } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 // swr
 import useSWR from "swr";
 // pdf worker
@@ -48,13 +48,9 @@ const PdfRender = () => {
                 {nodeDetail.data.url && (
                   <div>
                     <h5 className="mt-3 mb-3">{nodeDetail.title}</h5>
-                    <Row className="justify-content-center">
-                      <Col md={8}>
-                        <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
-                          <PDFRenderView pdf_url={nodeDetail.data.url} />
-                        </Worker>
-                      </Col>
-                    </Row>
+                    <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
+                      <PDFRenderView pdf_url={nodeDetail.data.url} />
+                    </Worker>
                   </div>
                 )}
               </div>
