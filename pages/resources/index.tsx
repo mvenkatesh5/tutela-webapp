@@ -4,7 +4,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 // react bootstrap
-import { Container, Button } from "react-bootstrap";
+import { Container, Button, Row, Col } from "react-bootstrap";
 // material icons
 import { Delete } from "@styled-icons/material/Delete";
 import { Edit } from "@styled-icons/boxicons-regular/Edit";
@@ -14,6 +14,7 @@ import useSWR from "swr";
 import ResourceCreateView from "@components/resources/create";
 import RenderEditView from "@components/resources/treeStructure/edit";
 import ResourceDeleteView from "@components/resources/treeStructure/delete";
+import BookCard from "@components/BookCard";
 // layouts
 import AdminLayout from "@layouts/adminLayout";
 // api routes
@@ -22,13 +23,11 @@ import { RESOURCE_ENDPOINT } from "@constants/routes";
 import { APIFetcher } from "@lib/services";
 // hoc
 import withAdminAuth from "@lib/hoc/withAdminAuth";
-
 const Resources = () => {
   const router = useRouter();
   const { data: resources, error: resourcesError } = useSWR(RESOURCE_ENDPOINT, APIFetcher, {
     refreshInterval: 0,
   });
-
   return (
     <div>
       <Head>
@@ -45,7 +44,6 @@ const Resources = () => {
                 </Button>
               </div>
             </ResourceCreateView>
-
             {!resources && !resourcesError ? (
               <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
             ) : (
@@ -55,34 +53,43 @@ const Resources = () => {
                     No resources are available.
                   </div>
                 ) : (
-                  <div>
+                  <Row>
                     {resources.map((resource: any, resourceIndex: number) => (
-                      <div key={`resource-title-${resourceIndex}`} className="resource-home-card">
-                        <div className="flex">
-                          <div className="flex-item title">
-                            <div className="resource-title">
-                              <Link href={`/resources/${resource.id}`}>
-                                <a>{resource.title}</a>
-                              </Link>
+                      <Col md={3} key={`resource-title-${resourceIndex}`} className="mb-2 h-100">
+                        <div className="resource-home-card-book-view">
+                          <Link href={`/resources/${resource.id}`}>
+                            <div className="book-root-container">
+                              <BookCard data={resource} />
+                            </div>
+                          </Link>
+                          <div className="book-content-container">
+                            <div className="flex">
+                              <div className="flex-item title">
+                                <div className="resource-title">
+                                  <Link href={`/resources/${resource.id}`}>
+                                    <a>{resource.title}</a>
+                                  </Link>
+                                </div>
+                              </div>
+                              <div className="flex-item delete">
+                                <RenderEditView
+                                  data={{ id: resource.id, data: resource }}
+                                  root_node_id={null}
+                                >
+                                  <Edit />
+                                </RenderEditView>
+                              </div>
+                              <div className="flex-item delete">
+                                <ResourceDeleteView data={resource} root_node_id={null}>
+                                  <Delete />
+                                </ResourceDeleteView>
+                              </div>
                             </div>
                           </div>
-                          <div className="flex-item delete">
-                            <RenderEditView
-                              data={{ id: resource.id, data: resource }}
-                              root_node_id={null}
-                            >
-                              <Edit />
-                            </RenderEditView>
-                          </div>
-                          <div className="flex-item delete">
-                            <ResourceDeleteView data={resource} root_node_id={null}>
-                              <Delete />
-                            </ResourceDeleteView>
-                          </div>
                         </div>
-                      </div>
+                      </Col>
                     ))}
-                  </div>
+                  </Row>
                 )}
               </div>
             )}
@@ -92,5 +99,4 @@ const Resources = () => {
     </div>
   );
 };
-
 export default withAdminAuth(Resources);

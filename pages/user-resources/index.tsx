@@ -4,7 +4,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 // react bootstrap
-import { Container, Button } from "react-bootstrap";
+import { Container, Button, Row, Col } from "react-bootstrap";
 // swr
 import useSWR from "swr";
 // cookie
@@ -17,6 +17,7 @@ import { USER_RESOURCE_VIEW_ENDPOINT } from "@constants/routes";
 import { APIFetcher } from "@lib/services";
 // hoc
 import withStudentAuth from "@lib/hoc/withStudentAuth";
+import BookCard from "@components/BookCard";
 
 const Resources = () => {
   const router = useRouter();
@@ -56,21 +57,30 @@ const Resources = () => {
                   No resources are available.
                 </div>
               ) : (
-                <div>
+                <Row>
                   {resources.map((resource: any, resourceIndex: number) => (
-                    <div key={`resource-title-${resourceIndex}`} className="resource-home-card">
-                      <div className="flex">
-                        <div className="flex-item title">
-                          <div className="resource-title">
-                            <Link href={`/user-resources/${resource.id}`}>
-                              <a>{resource.resource_node.title}</a>
-                            </Link>
+                    <Col md={3} key={`resource-title-${resourceIndex}`} className="mb-2 h-100">
+                      <div className="resource-home-card-book-view">
+                        <Link href={`/resources/${resource.id}`}>
+                          <div className="book-root-container">
+                            <BookCard data={resource.resource_node} />
+                          </div>
+                        </Link>
+                        <div className="book-content-container">
+                          <div className="flex">
+                            <div className="flex-item title">
+                              <div className="resource-title">
+                                <Link href={`/user-resources/${resource.id}`}>
+                                  <a>{resource.resource_node.title}</a>
+                                </Link>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </Col>
                   ))}
-                </div>
+                </Row>
               )}
             </div>
           )}

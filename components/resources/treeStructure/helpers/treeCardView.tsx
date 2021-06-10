@@ -25,6 +25,7 @@ import TreeCreateView from "../create";
 import TreeEditView from "../edit";
 import TreeDeleteView from "../delete";
 import ResourceNotesView from "@components/notes/view";
+import { SlateEditor } from "@components/SlateEditor";
 
 const TreeChildrenRenderView = ({
   tree,
@@ -51,6 +52,15 @@ const TreeChildrenRenderView = ({
       return splitValue.toUpperCase();
     }
     return "";
+  };
+
+  const extractFileNameFromUrl = (url: string) => {
+    let urlPayload: any = url ? url.split("/") : "";
+    urlPayload = urlPayload && urlPayload.length > 0 ? urlPayload[urlPayload.length - 1] : "";
+    urlPayload = urlPayload ? urlPayload.split(".") : "";
+    urlPayload = urlPayload && urlPayload.length > 0 ? urlPayload[urlPayload.length - 1] : "";
+    if (urlPayload.toLowerCase() === "pdf") return true;
+    return false;
   };
 
   return (
@@ -103,18 +113,45 @@ const TreeChildrenRenderView = ({
                 <div className="flex-item title">{tree.data && tree.data.title}</div>
               ) : (
                 <div className="flex-item title">
-                  <Link href={`/pdf-viewer/${tree.id}/`}>
-                    <a target="_blank">{tree.data && tree.data.title}</a>
-                  </Link>
-                  {/* <a href={tree.data.data.url} target="_blank">
-                    {tree.data && tree.data.title}
-                  </a> */}
+                  {extractFileNameFromUrl(tree.data.data.url) ? (
+                    <Link href={`/pdf-viewer/${tree.id}/`}>
+                      <a target="_blank">{tree.data && tree.data.title}</a>
+                    </Link>
+                  ) : (
+                    <>
+                      {tree.data.data && tree.data.data.kind === "rich-text" ? (
+                        <>
+                          <div className="d-flex align-items-center">
+                            <div className="me-2">{tree.data.data.kind} : </div>
+                            <div>
+                              <SlateEditor readOnly={true} initialValue={tree.data.data.content} />
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <a href={tree.data.data.url} target="_blank">
+                            {tree.data.data.kind} : {tree.data && tree.data.title}
+                          </a>
+                        </>
+                      )}
+                    </>
+                  )}
                 </div>
               )}
 
-              {tree.data.kind === "SECTION" && admin && (
+              {admin && (
                 <div className="flex-item upload">
-                  <TreeUploadView data={tree} root_node_id={root_node_id} add_to="children">
+                  <TreeUploadView
+                    data={tree}
+                    root_node_id={root_node_id}
+                    add_to="children"
+                    upload_new={
+                      tree && tree.data.data && (tree.data.data.url || tree.data.data.kind)
+                        ? false
+                        : true
+                    }
+                  >
                     <Upload />
                   </TreeUploadView>
                 </div>
@@ -136,15 +173,17 @@ const TreeChildrenRenderView = ({
                 </div>
               )}
 
-              {tree.data.kind != "SECTION" && admin && (
-                <div
-                  className={`flex-item pdf-reader ${
-                    pdfToggle && pdfToggle.id === tree.id ? "active" : ""
-                  }`}
-                  onClick={() => handlePdfToggle(tree)}
-                >
-                  <BookReader />
-                </div>
+              {tree.data.kind != "SECTION" && admin && extractFileNameFromUrl(tree.data.data.url) && (
+                <>
+                  <div
+                    className={`flex-item pdf-reader ${
+                      pdfToggle && pdfToggle.id === tree.id ? "active" : ""
+                    }`}
+                    onClick={() => handlePdfToggle(tree)}
+                  >
+                    <BookReader />
+                  </div>
+                </>
               )}
 
               {admin && (
