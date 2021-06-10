@@ -13,6 +13,7 @@ import { ClipboardNotes } from "@styled-icons/foundation/ClipboardNotes";
 import { BookReader } from "@styled-icons/boxicons-regular/BookReader";
 // components
 import ResourceNotesView from "@components/notes/view";
+import { SlateEditor } from "@components/SlateEditor";
 
 const TreeView = (props: any) => {
   const TreeChildrenRenderView = ({ tree, level, children, root_node_id, user }: any) => {
@@ -27,6 +28,15 @@ const TreeView = (props: any) => {
         return splitValue.toUpperCase();
       }
       return "";
+    };
+
+    const extractFileNameFromUrl = (url: string) => {
+      let urlPayload: any = url ? url.split("/") : "";
+      urlPayload = urlPayload && urlPayload.length > 0 ? urlPayload[urlPayload.length - 1] : "";
+      urlPayload = urlPayload ? urlPayload.split(".") : "";
+      urlPayload = urlPayload && urlPayload.length > 0 ? urlPayload[urlPayload.length - 1] : "";
+      if (urlPayload.toLowerCase() === "pdf") return true;
+      return false;
     };
 
     return (
@@ -58,7 +68,7 @@ const TreeView = (props: any) => {
             </div>
           )}
 
-          {tree.data.kind === "SECTION" ? (
+          {/* {tree.data.kind === "SECTION" ? (
             <div className="flex-item title">{tree.data && tree.data.title}</div>
           ) : (
             <div className="flex-item title">
@@ -66,9 +76,40 @@ const TreeView = (props: any) => {
                 <a target="_blank">{tree.data && tree.data.title}</a>
               </Link>
             </div>
+          )} */}
+
+          {tree.data.kind === "SECTION" ? (
+            <div className="flex-item title">{tree.data && tree.data.title}</div>
+          ) : (
+            <div className="flex-item title">
+              {extractFileNameFromUrl(tree.data.data.url) ? (
+                <Link href={`/pdf-viewer/${tree.id}/`}>
+                  <a target="_blank">{tree.data && tree.data.title}</a>
+                </Link>
+              ) : (
+                <>
+                  {tree.data.data && tree.data.data.kind === "rich-text" ? (
+                    <>
+                      <div className="d-flex align-items-center">
+                        <div className="me-2">{tree.data.data.kind} : </div>
+                        <div>
+                          <SlateEditor readOnly={true} initialValue={tree.data.data.content} />
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <a href={tree.data.data.url} target="_blank">
+                        {tree.data.data.kind} : {tree.data && tree.data.title}
+                      </a>
+                    </>
+                  )}
+                </>
+              )}
+            </div>
           )}
 
-          {tree.data.kind != "SECTION" && (
+          {tree.data.kind != "SECTION" && extractFileNameFromUrl(tree.data.data.url) && (
             <div
               className={`flex-item pdf-reader ${
                 props.pdfToggle && props.pdfToggle.id === tree.id ? "active" : ""

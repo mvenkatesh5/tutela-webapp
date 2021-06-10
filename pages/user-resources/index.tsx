@@ -61,7 +61,7 @@ const Resources = () => {
                   {resources.map((resource: any, resourceIndex: number) => (
                     <Col md={3} key={`resource-title-${resourceIndex}`} className="mb-2 h-100">
                       <div className="resource-home-card-book-view">
-                        <Link href={`/resources/${resource.id}`}>
+                        <Link href={`/user-resources/${resource.id}`}>
                           <div className="book-root-container">
                             <BookCard data={resource.resource_node} />
                           </div>
