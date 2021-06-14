@@ -4,7 +4,7 @@ import { Button, Form, Modal } from "react-bootstrap";
 // swr
 import { mutate } from "swr";
 // api routes
-import { USER_NOTES_ENDPOINT, NOTES_ENDPOINT } from "@constants/routes";
+import { USER_NOTES_ENDPOINT, NOTES_WITH_USER_ID_ENDPOINT } from "@constants/routes";
 // api services
 import { NotesDelete } from "@lib/services/notes.service";
 import { APIFetcher } from "@lib/services";
@@ -36,7 +36,7 @@ const NotesDeleteView = (props: any) => {
           );
         else
           mutate(
-            NOTES_ENDPOINT,
+            NOTES_WITH_USER_ID_ENDPOINT(props.user.id),
             async (elements: any) => {
               let index = elements.findIndex((mutateData: any) => mutateData.id === props.data.id);
               return elements.filter((oldElement: any, i: any) => i != index);

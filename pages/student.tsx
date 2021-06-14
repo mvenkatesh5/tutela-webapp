@@ -85,7 +85,6 @@ const StudentDetail = () => {
     if (role != "admin") {
       currentRoute = currentRoute + `?user_id=${user_id}`;
     }
-    console.log(currentRoute);
     setCurrentDateQuery(currentRoute);
   };
 

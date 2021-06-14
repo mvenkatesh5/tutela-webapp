@@ -6,7 +6,7 @@ import { mutate } from "swr";
 // components
 import NotesForm from "./notesForm";
 // api routes
-import { USER_NOTES_ENDPOINT, NOTES_ENDPOINT } from "@constants/routes";
+import { USER_NOTES_ENDPOINT, NOTES_WITH_USER_ID_ENDPOINT } from "@constants/routes";
 // api services
 import { NotesUpdate } from "@lib/services/notes.service";
 import { APIFetcher } from "@lib/services";
@@ -51,7 +51,7 @@ const NotesEditView = (props: any) => {
         } else {
           console.log("Hello polo");
           mutate(
-            NOTES_ENDPOINT,
+            NOTES_WITH_USER_ID_ENDPOINT(props.user.id),
             async (elements: any) => {
               let index = elements.findIndex((mutateData: any) => mutateData.id === res.id);
               return elements.map((oldElement: any, i: Number) => (i === index ? res : oldElement));

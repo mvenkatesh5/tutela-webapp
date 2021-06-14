@@ -15,7 +15,7 @@ import { getCurrentUser } from "@constants/global";
 // layouts
 import StudentLayout from "@layouts/studentLayout";
 // api routes
-import { NOTES_ENDPOINT } from "@constants/routes";
+import { NOTES_WITH_USER_ID_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 // hoc
@@ -34,9 +34,13 @@ const NotesView = () => {
     validateCurrentUser();
   }, []);
 
-  const { data: notes, error: notesError } = useSWR(NOTES_ENDPOINT, APIFetcher, {
-    refreshInterval: 0,
-  });
+  const { data: notes, error: notesError } = useSWR(
+    currentUser && currentUser.id ? NOTES_WITH_USER_ID_ENDPOINT(currentUser.id) : null,
+    (url) => APIFetcher(url),
+    {
+      refreshInterval: 0,
+    }
+  );
 
   return (
     <div>
@@ -59,21 +63,13 @@ const NotesView = () => {
                     <Col md={3} key={`note-title-${notesIndex}`} className="mb-3">
                       <div className="card">
                         <div className="card-body">
-                          <div className="flex">
-                            <div className="flex-item title">
-                              <div className="note-title">
-                                <Link href={`/user-notes/${note.id}`}>
-                                  <a>{note.text}</a>
-                                </Link>
-                                <div className="d-flex mt-2">
-                                  <div>
-                                    <NotesEdit data={note} user={currentUser} />
-                                  </div>
-                                  <div className="ms-2">
-                                    <NotesDelete data={note} user={currentUser} />
-                                  </div>
-                                </div>
-                              </div>
+                          <p>{note.text}</p>
+                          <div className="d-flex mt-2">
+                            <div>
+                              <NotesEdit data={note} user={currentUser} />
+                            </div>
+                            <div className="ms-2">
+                              <NotesDelete data={note} user={currentUser} />
                             </div>
                           </div>
                         </div>
