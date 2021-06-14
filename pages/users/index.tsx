@@ -97,7 +97,6 @@ const UserDetails = () => {
                               <a target="_blank">{users.first_name}</a>
                             </Link>
                           </td>
-                          {console.log(users)}
                           <td className="heading">{users.last_name}</td>
                           <td className="heading">{users.username}</td>
                           <td className="description">{users.email}</td>

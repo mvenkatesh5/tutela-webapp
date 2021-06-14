@@ -38,8 +38,6 @@ const NotesView = () => {
     refreshInterval: 0,
   });
 
-  console.log("notes", notes);
-
   return (
     <div>
       <Head>

@@ -54,7 +54,6 @@ const ResourceTreeView = () => {
 
   const [pdfToggle, setPdfToggle] = React.useState<any>("");
   const handlePdfToggle = (pdfObject: any) => {
-    console.log(pdfObject);
     setNotesToggle("");
     if (pdfObject.id === pdfToggle.id) setPdfToggle("");
     else setPdfToggle(pdfObject);
