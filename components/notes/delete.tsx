@@ -4,9 +4,10 @@ import { Button, Form, Modal } from "react-bootstrap";
 // swr
 import { mutate } from "swr";
 // api routes
-import { USER_NOTES_ENDPOINT } from "@constants/routes";
+import { USER_NOTES_ENDPOINT, NOTES_ENDPOINT } from "@constants/routes";
 // api services
 import { NotesDelete } from "@lib/services/notes.service";
+import { APIFetcher } from "@lib/services";
 
 const NotesDeleteView = (props: any) => {
   const [modal, setModal] = React.useState(false);
@@ -20,18 +21,28 @@ const NotesDeleteView = (props: any) => {
     setButtonLoader(true);
     NotesDelete(props.data.id)
       .then((res) => {
-        mutate(
-          [
-            USER_NOTES_ENDPOINT(props.resourceNode.id, props.tree.id),
-            props.resourceNode.id,
-            props.tree.id,
-          ],
-          async (elements: any) => {
-            let index = elements.findIndex((mutateData: any) => mutateData.id === props.data.id);
-            return elements.filter((oldElement: any, i: any) => i != index);
-          },
-          false
-        );
+        if (props.resourceNode && props.tree)
+          mutate(
+            [
+              USER_NOTES_ENDPOINT(props.resourceNode.id, props.tree.id),
+              props.resourceNode.id,
+              props.tree.id,
+            ],
+            async (elements: any) => {
+              let index = elements.findIndex((mutateData: any) => mutateData.id === props.data.id);
+              return elements.filter((oldElement: any, i: any) => i != index);
+            },
+            false
+          );
+        else
+          mutate(
+            NOTES_ENDPOINT,
+            async (elements: any) => {
+              let index = elements.findIndex((mutateData: any) => mutateData.id === props.data.id);
+              return elements.filter((oldElement: any, i: any) => i != index);
+            },
+            false
+          );
         closeModal();
         setButtonLoader(false);
       })

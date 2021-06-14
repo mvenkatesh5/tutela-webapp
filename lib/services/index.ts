@@ -5,6 +5,7 @@ export const APIFetcher = async (url: any) => {
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
+    console.log(error);
     throw error.response.data;
   }
 };

@@ -61,7 +61,12 @@ function DashboardNav() {
                   )}
                   {tokenDetails && tokenDetails.user && tokenDetails.user.role === 0 && (
                     <PreFetchLink href="/user-resources">
-                      <div> Resources</div>
+                      <div>My Resources</div>
+                    </PreFetchLink>
+                  )}
+                  {tokenDetails && tokenDetails.user && tokenDetails.user.role === 0 && (
+                    <PreFetchLink href="/notes">
+                      <div>My Notes</div>
                     </PreFetchLink>
                   )}
 
@@ -74,7 +79,7 @@ function DashboardNav() {
                   {/* teacher */}
                   {tokenDetails && tokenDetails.user && tokenDetails.user.role === 1 && (
                     <PreFetchLink href="/teacher-profile">
-                      <div className="fw-bold text-muted nav-link    "> Profile</div>
+                      <div className="fw-bold text-muted nav-link"> Profile</div>
                     </PreFetchLink>
                   )}
                   {/* teacher */}

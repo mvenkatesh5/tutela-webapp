@@ -6,9 +6,10 @@ import { mutate } from "swr";
 // components
 import NotesForm from "./notesForm";
 // api routes
-import { USER_NOTES_ENDPOINT } from "@constants/routes";
+import { USER_NOTES_ENDPOINT, NOTES_ENDPOINT } from "@constants/routes";
 // api services
 import { NotesUpdate } from "@lib/services/notes.service";
+import { APIFetcher } from "@lib/services";
 
 const NotesEditView = (props: any) => {
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
@@ -33,19 +34,32 @@ const NotesEditView = (props: any) => {
     setButtonLoader(true);
     NotesUpdate(notesData)
       .then((res) => {
-        mutate(
-          [
-            USER_NOTES_ENDPOINT(props.resourceNode.id, props.tree.id),
-            props.resourceNode.id,
-            props.tree.id,
-          ],
-          async (elements: any) => {
-            let index = elements.findIndex((mutateData: any) => mutateData.id === res.id);
-            return elements.map((oldElement: any, i: Number) => (i === index ? res : oldElement));
-            // return elements.filter((oldElement: any, i) => i != index);
-          },
-          false
-        );
+        if (props.resourceNode && props.tree) {
+          mutate(
+            [
+              USER_NOTES_ENDPOINT(props.resourceNode.id, props.tree.id),
+              props.resourceNode.id,
+              props.tree.id,
+            ],
+            async (elements: any) => {
+              let index = elements.findIndex((mutateData: any) => mutateData.id === res.id);
+              return elements.map((oldElement: any, i: Number) => (i === index ? res : oldElement));
+              // return elements.filter((oldElement: any, i) => i != index);
+            },
+            false
+          );
+        } else {
+          console.log("Hello polo");
+          mutate(
+            NOTES_ENDPOINT,
+            async (elements: any) => {
+              let index = elements.findIndex((mutateData: any) => mutateData.id === res.id);
+              return elements.map((oldElement: any, i: Number) => (i === index ? res : oldElement));
+              // return elements.filter((oldElement: any, i) => i != index);
+            },
+            false
+          );
+        }
         closeModal();
         setButtonLoader(false);
       })
