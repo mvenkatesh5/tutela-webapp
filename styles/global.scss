@@ -388,28 +388,40 @@ a {
 }
 
 .trail-message-box-container {
-  display: flex;
-  border: 2px solid #ffeeba;
-  background-color: #fff3cd;
+  background: rgba(0, 132, 244, 0.05);
+  border: 1px solid #0084f4;
   border-radius: 8px;
-  margin: 0px 0px 20px 0px;
-  .text {
-    font-size: 15px;
-    font-weight: 500;
-    color: #856404;
-    @media (max-width: 768px) {
-      & {
-        font-size: 12px;
-      }
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 10px;
+  color: #0066ff;
+  gap: 10px;
+  .toast-icon {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    svg {
+      width: 20px;
+      height: 20px;
     }
   }
-  .icon {
-    width: 15px;
-    color: #856404;
-    @media (max-width: 411px) {
-      & {
-        width: 30px;
-      }
+  .toast-text {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .toast-button {
+    margin-left: auto;
+    white-space: nowrap;
+    button {
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 100px;
+      padding-left: 14px;
+      padding-right: 14px;
     }
   }
 }

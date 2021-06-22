@@ -1,18 +1,29 @@
 import React from "react";
+// next imports
+import Link from "next/link";
 // react bootstrap
-import { Button } from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
 // style icons
-import { Warning } from "@styled-icons/entypo/Warning";
+import { Warning } from "@styled-icons/material-rounded/Warning";
 
-const WarningPopup = () => {
+const WarningPopup = (props: any) => {
   return (
     <>
-      <div className="container">
-        <div className=" trail-message-box-container">
-          <Warning className="icon m-3" />
-          <div className="text p-3">Please fill up your profile.</div>
-        </div>
-      </div>
+      <Link href={props.href}>
+        <a>
+          <div className="trail-message-box-container">
+            <div className="toast-icon">
+              <Warning />
+            </div>
+            <div className="toast-text">{props.children}</div>
+            <div className="toast-button">
+              <Button variant="primary" className="btn-sm">
+                Go to Profile
+              </Button>
+            </div>
+          </div>
+        </a>
+      </Link>
     </>
   );
 };
