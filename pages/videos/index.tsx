@@ -48,6 +48,13 @@ const VideoView = () => {
     setStartDate(value[0]);
     setEndDate(value[1]);
   };
+  React.useEffect(() => {
+    let date: any = new Date();
+    setStartDate(date);
+    let newDate: any = new Date();
+    newDate.setMonth(date.getMonth() + 1);
+    setEndDate(newDate);
+  }, []);
 
   React.useEffect(() => {
     if (startDate && endDate) {
