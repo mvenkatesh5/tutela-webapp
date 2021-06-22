@@ -338,6 +338,31 @@ const UserSidebar = () => {
             </a>
           </Link>
         )}
+
+        {/* parent */}
+        {tokenDetails && tokenDetails.user && tokenDetails.user.role === 3 && (
+          <Link href="/parent/dashboard">
+            <a>
+              <OverlayTrigger
+                key={`right`}
+                placement={`right`}
+                overlay={<Tooltip id={`tooltip-right`}>Dashboard</Tooltip>}
+              >
+                <div
+                  className={
+                    "sidebar-item-container " +
+                    (router.pathname.includes("/parent/dashboard") ? "active" : "")
+                  }
+                >
+                  <div className="sidebar-icon">
+                    <Dashboard />
+                  </div>
+                  <div className="sidebar-label">Dashboard</div>
+                </div>
+              </OverlayTrigger>
+            </a>
+          </Link>
+        )}
       </div>
     </div>
   );

@@ -21,12 +21,14 @@
       padding-top: 10px;
       padding-bottom: 10px;
       border-right: 1px solid #e2e2e2;
-      & .item {
+      & .item,
+      .sidebar-item-container {
         padding: 8px 16px;
         display: flex;
         align-items: center;
         color: $gray-color;
-        & .icon {
+        & .icon,
+        .sidebar-icon {
           width: 25px;
           height: 25px;
           display: flex;
@@ -36,7 +38,8 @@
             height: 20px;
           }
         }
-        & .label {
+        & .label,
+        .sidebar-label {
           padding-left: 10px;
           font-weight: 600;
         }
@@ -52,12 +55,15 @@
       }
       &.active {
         width: 70px;
-        & .item {
+        & .item,
+        .sidebar-item-container {
           justify-content: center;
-          & .icon {
+          & .icon,
+          .sidebar-icon {
             justify-content: center;
           }
-          & .label {
+          & .label,
+          .sidebar-label {
             display: none;
           }
         }

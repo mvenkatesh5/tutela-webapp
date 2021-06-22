@@ -1,7 +1,7 @@
 // icons
 import { LeftArrowAlt } from "@styled-icons/boxicons-regular";
 // layouts
-import StudentLayout from "layouts/studentLayout";
+import ParentLayout from "layouts/ParentLayout";
 // components
 import CustomNavTabs from "@components/navtabs/customNavtabs";
 import Sonnet from "@components/navtabs/Sonnet";
@@ -18,7 +18,7 @@ function ParentDetailReport() {
   ];
 
   return (
-    <StudentLayout>
+    <ParentLayout>
       <div className="parent-detail-wrapper">
         <div className="container h-100">
           <div className="row h-100">
@@ -93,7 +93,7 @@ function ParentDetailReport() {
       <div className="container mt-4">
         <CustomNavTabs data={navTabsData} />
       </div>
-    </StudentLayout>
+    </ParentLayout>
   );
 }
 

@@ -1,5 +1,5 @@
 // layouts
-import StudentLayout from "layouts/studentLayout";
+import ParentLayout from "layouts/ParentLayout";
 // bootstrap
 import { Card, Accordion, Button } from "react-bootstrap";
 // icons
@@ -9,7 +9,7 @@ import withParentAuth from "@lib/hoc/withParentAuth";
 
 function TeacherProfile() {
   return (
-    <StudentLayout>
+    <ParentLayout>
       <div className="container">
         <div className="row mt-5">
           <div className="col-md-8">
@@ -105,7 +105,7 @@ function TeacherProfile() {
           </div>
         </div>
       </div>
-    </StudentLayout>
+    </ParentLayout>
   );
 }
 
