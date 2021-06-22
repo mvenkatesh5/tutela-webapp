@@ -10,7 +10,7 @@ import { Calendar, RightArrowAlt } from "@styled-icons/boxicons-regular";
 // swr
 import useSWR from "swr";
 // layouts
-import StudentLayout from "layouts/studentLayout";
+import ParentLayout from "layouts/ParentLayout";
 // api services
 import { APIFetcher } from "@lib/services";
 // api routes
@@ -86,7 +86,7 @@ function ParentDashboard() {
   ];
 
   return (
-    <StudentLayout>
+    <ParentLayout>
       <div className="container mt-5">
         <div className="alert alert-light border" role="alert">
           <div className="d-flex">
@@ -309,7 +309,7 @@ function ParentDashboard() {
           </div>
         </div>
       </div>
-    </StudentLayout>
+    </ParentLayout>
   );
 }
 

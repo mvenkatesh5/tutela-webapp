@@ -2,6 +2,7 @@ import React from "react";
 // components
 import DashboardNav from "@components/dashboardnav";
 import SidebarView from "@components/sidebar";
+import UserSidebarView from "@components/UserSidebar";
 // cookie
 import { getAuthenticationToken } from "@lib/cookie";
 
@@ -24,9 +25,13 @@ const AdminLayout = (props: any) => {
           <DashboardNav />
         </div>
         <div className="bottom-layout">
-          {tokenDetails && tokenDetails.info && tokenDetails.info.role === 2 && (
+          {tokenDetails && tokenDetails.info && tokenDetails.info.role === 2 ? (
             <div className="left-layout active">
               <SidebarView />
+            </div>
+          ) : (
+            <div className="left-layout active">
+              <UserSidebarView />
             </div>
           )}
           {props.children}

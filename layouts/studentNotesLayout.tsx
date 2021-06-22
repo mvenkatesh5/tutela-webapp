@@ -1,5 +1,6 @@
 // components
 import DashboardNav from "@components/dashboardnav";
+import UserSidebar from "@components/UserSidebar";
 
 const StudentNotesLayout = (props: any) => {
   return (
@@ -9,7 +10,12 @@ const StudentNotesLayout = (props: any) => {
           <div className="top-layout">
             <DashboardNav />
           </div>
-          <div className="bottom-layout">{props.children}</div>
+          <div className="bottom-layout">
+            <div className="bottom-left-layout active">
+              <UserSidebar />
+            </div>
+            <div className="bottom-right-layout">{props.children}</div>
+          </div>
         </div>
         <div
           className={`right-layout-wrapper notes-wrapper-layout ${

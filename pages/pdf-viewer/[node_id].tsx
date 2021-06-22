@@ -30,8 +30,6 @@ const PdfRender = () => {
     { refreshInterval: 0 }
   );
 
-  console.log(nodeDetail);
-
   return (
     <div>
       <Head>

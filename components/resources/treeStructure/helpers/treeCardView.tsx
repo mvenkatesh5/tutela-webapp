@@ -16,6 +16,8 @@ import { FileBlank } from "@styled-icons/boxicons-regular/FileBlank";
 import { FilePdf } from "@styled-icons/boxicons-solid/FilePdf";
 import { ClipboardNotes } from "@styled-icons/foundation/ClipboardNotes";
 import { BookReader } from "@styled-icons/boxicons-regular/BookReader";
+import { EyeFill } from "@styled-icons/bootstrap/EyeFill";
+import { EyeWithLine } from "@styled-icons/entypo/EyeWithLine";
 // react beautiful dnd
 import { Draggable } from "react-beautiful-dnd";
 // components
@@ -24,6 +26,7 @@ import TreeUploadView from "../upload";
 import TreeCreateView from "../create";
 import TreeEditView from "../edit";
 import TreeDeleteView from "../delete";
+import TreePermissionView from "../treePermission";
 import ResourceNotesView from "@components/notes/view";
 import { SlateEditor } from "@components/SlateEditor";
 
@@ -162,6 +165,14 @@ const TreeChildrenRenderView = ({
                   <TreeCreateView data={tree} root_node_id={root_node_id} add_to="children">
                     <FolderAdd />
                   </TreeCreateView>
+                </div>
+              )}
+
+              {tree.data.kind === "SECTION" && admin && (
+                <div className="flex-item folder-add">
+                  <TreePermissionView data={tree} root_node_id={root_node_id} add_to="children">
+                    {tree.data.visible ? <EyeFill /> : <EyeWithLine />}
+                  </TreePermissionView>
                 </div>
               )}
 

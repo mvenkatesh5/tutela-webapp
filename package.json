@@ -14,6 +14,7 @@
     "@agility/content-fetch": "1.0.0",
     "@agility/content-sync": "0.1.23",
     "@blueprintjs/core": "^3.44.0",
+    "@blueprintjs/datetime": "^3.23.4",
     "@blueprintjs/timezone": "^3.9.0",
     "@reach/skip-nav": "0.12.1",
     "@react-pdf-viewer/core": "2.5.0",
