@@ -87,7 +87,7 @@ const SessionEditView = (props: any) => {
             >
               {buttonLoader ? "Processing..." : `Delete this Event`}
             </Button>
-            {props.data.key && (
+            {props.data.key != "none" && (
               <Button
                 variant="outline-primary"
                 className="btn-sm"
