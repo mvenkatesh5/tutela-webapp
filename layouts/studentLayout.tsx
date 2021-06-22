@@ -1,5 +1,6 @@
 // components
 import DashboardNav from "@components/dashboardnav";
+import UserSidebar from "@components/UserSidebar";
 
 const StudentLayout = (props: any) => {
   return (
@@ -9,7 +10,12 @@ const StudentLayout = (props: any) => {
           <DashboardNav />
         </div>
         <div className="bottom-bar">
-          <div>{props.children}</div>
+          <div className="t-side-bar active">
+            <UserSidebar />
+          </div>
+          <div className="t-right-bar">
+            <div>{props.children}</div>
+          </div>
         </div>
       </div>
     </>

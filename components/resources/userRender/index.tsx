@@ -149,20 +149,24 @@ const TreeView = (props: any) => {
       <>
         {tree &&
           tree.length > 0 &&
-          tree.map((initialRoot: any, initialRootIndex: any) => (
-            <div
-              key={`tree-structure-level-${level}-${initialRootIndex}`}
-              className={`${children ? "children" : ""}`}
-            >
-              <TreeChildrenRenderView
-                tree={initialRoot}
-                level={`${level}-${initialRootIndex}`}
-                children={children}
-                root_node_id={root_node_id}
-                user={user}
-              />
-            </div>
-          ))}
+          tree.map((initialRoot: any, initialRootIndex: any) => {
+            if (initialRoot.data.visible) {
+              return (
+                <div
+                  key={`tree-structure-level-${level}-${initialRootIndex}`}
+                  className={`${children ? "children" : ""}`}
+                >
+                  <TreeChildrenRenderView
+                    tree={initialRoot}
+                    level={`${level}-${initialRootIndex}`}
+                    children={children}
+                    root_node_id={root_node_id}
+                    user={user}
+                  />
+                </div>
+              );
+            }
+          })}
       </>
     );
   };
