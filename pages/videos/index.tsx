@@ -7,6 +7,10 @@ import { Container, Table, Badge } from "react-bootstrap";
 import useSWR, { mutate } from "swr";
 // blueprint date range
 import { DateRangeInput } from "@blueprintjs/datetime";
+// blueprint css
+import "@blueprintjs/core/lib/css/blueprint.css";
+import "@blueprintjs/icons/lib/css/blueprint-icons.css";
+import "@blueprintjs/datetime/lib/css/blueprint-datetime.css";
 // components
 // layouts
 import StudentLayout from "@layouts/studentLayout";
@@ -106,7 +110,7 @@ const VideoView = () => {
             onChange={handleDateChange}
             parseDate={(str) => new Date(str)}
             shortcuts={false}
-            minDate={new Date()}
+            // minDate={new Date()}
             value={[startDate, endDate]}
           />
         </Container>
@@ -133,6 +137,7 @@ const VideoView = () => {
                     </tr>
                   </thead>
                   <tbody>
+                    {console.log(sessionList)}
                     {sessionList &&
                       sessionList.length > 0 &&
                       sessionList.map((session: any, index: any) => (
@@ -158,9 +163,13 @@ const VideoView = () => {
                             )}
                           </td>
                           <td>
-                            {session.link ? (
-                              <a href={session.link} target="_blank">
-                                {session.link}
+                            {session.recording_link ? (
+                              <a
+                                href={session.recording_link}
+                                target="_blank"
+                                className="btn btn-primary btn-sm"
+                              >
+                                Click here
                               </a>
                             ) : (
                               <Badge className="bg-warning">Not Available</Badge>

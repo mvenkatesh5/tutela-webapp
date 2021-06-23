@@ -8,6 +8,7 @@ import { Users } from "@styled-icons/fa-solid";
 import { User } from "@styled-icons/boxicons-regular";
 import { Readthedocs } from "@styled-icons/simple-icons";
 import { CheveronDown } from "@styled-icons/zondicons";
+import { Video } from "@styled-icons/boxicons-regular/Video";
 // components
 import ZoomSessions from "@components/zoomsessions";
 import IconRow from "@components/iconRow";
@@ -170,6 +171,21 @@ const SessionCard = (props: any) => {
                   {/* <div className=" mt-2 ms-2">Hello</div> */}
                 </div>
               )}
+            </div>
+
+            <div className="d-flex w-100 mb-3 align-items-center" style={{ marginRight: "10px" }}>
+              <div className="small-icon">
+                <Video className="text-muted" />
+              </div>
+              <div>
+                {props.data.recording_link ? (
+                  <a href={props.data.recording_link} target="_blank" className="description">
+                    {props.data.recording_link}
+                  </a>
+                ) : (
+                  <div className="description">No recording is available.</div>
+                )}
+              </div>
             </div>
 
             <div className="ms-auto">
