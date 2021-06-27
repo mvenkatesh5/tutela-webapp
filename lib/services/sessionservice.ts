@@ -7,6 +7,7 @@ import {
   SESSION_USER_ENDPOINT,
   ZOOM_MEETING_ENDPOINT,
   SESSION_USER_WITH_ID_ENDPOINT,
+  BULK_SESSION_DELETE_ENDPOINT,
 } from "@constants/routes";
 
 export const SessionBulkCreate = async (data: any) => {
@@ -39,6 +40,14 @@ export const SessionUpdate = async (data: any) => {
 export const SessionDelete = async (id: Number) => {
   try {
     const response = await axios.delete(SESSION_WITH_ID_ENDPOINT(id));
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+export const BulkSessionDelete = async (data: any) => {
+  try {
+    const response = await axios.post(BULK_SESSION_DELETE_ENDPOINT, data);
     return response.data;
   } catch (error) {
     throw error.response.data;

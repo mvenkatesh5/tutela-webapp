@@ -30,6 +30,7 @@ export const SESSION_ENDPOINT_TODAY = `/api/tutela-sessions/today/`;
 export const SESSION_ENDPOINT_UPCOMING = `/api/upcoming-sessions/`;
 export const SESSION_WITH_ID_ENDPOINT = (session_id: Number) =>
   `/api/tutela-sessions/${session_id}/`;
+export const BULK_SESSION_DELETE_ENDPOINT = `/api/bulk-delete-sessions/`;
 export const SESSION_USER_ENDPOINT = `/api/tutela-sessions-users/`;
 export const SESSION_USER_WITH_ID_ENDPOINT = (session_id: Number) =>
   `/api/tutela-sessions-users/${session_id}/`;
@@ -87,6 +88,7 @@ export const USER_RESOURCE_WITH_ID_ENDPOINT = (resource_id: any) =>
 
 // noes
 export const NOTES_ENDPOINT = `/api/notes/`;
+export const NOTES_WITH_USER_ID_ENDPOINT = (user_id: any) => `/api/notes/?user=${user_id}`;
 export const NOTES_WITH_ID_ENDPOINT = (notes_id: any) => `/api/notes/${notes_id}/`;
 export const USER_NOTES_ENDPOINT = (resource_id: any, node_id: any) =>
   `/api/attaches/?user_resource_id=${resource_id}&node_id=${node_id}`;

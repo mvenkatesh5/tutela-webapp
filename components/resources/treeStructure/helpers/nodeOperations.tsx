@@ -41,7 +41,7 @@ export const deleteNode = (node_id: any) => {
   return data;
 };
 
-export const addFileNodeAsChild = (node_id: any, name: any, url: any) => {
+export const addFileNodeAsChild = (node_id: any, name: any, url_content: any) => {
   const data = {
     node_id: node_id,
     operation: "add",
@@ -49,7 +49,7 @@ export const addFileNodeAsChild = (node_id: any, name: any, url: any) => {
     props: { data: true },
     kind: "FILE",
     description: "",
-    data: { url: url },
+    data: url_content,
   };
   return data;
 };

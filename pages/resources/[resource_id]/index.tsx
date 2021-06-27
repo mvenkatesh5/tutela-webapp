@@ -22,7 +22,7 @@ import { RESOURCE_WITH_NODE_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 // hoc
-import withAdminAuth from "@lib/hoc/withAdminAuth";
+import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 
 const ResourceTreeView = () => {
   const router = useRouter();
@@ -124,4 +124,4 @@ const ResourceTreeView = () => {
   );
 };
 
-export default withAdminAuth(ResourceTreeView);
+export default withGlobalAuth(ResourceTreeView);

@@ -41,10 +41,7 @@ function DashboardNav() {
             <div className="navbar-left">
               <Navbar.Collapse className="justify-content-start">
                 <Nav>
-                  {/* <Nav.Link className="fw-bold text-muted" href="/dashboard">
-                Dashboard
-              </Nav.Link> */}
-                  {tokenDetails && tokenDetails.user && tokenDetails.user.role === 0 && (
+                  {/* {tokenDetails && tokenDetails.user && tokenDetails.user.role === 0 && (
                     <PreFetchLink href="/student">
                       <div> Dashboard</div>
                     </PreFetchLink>
@@ -61,7 +58,12 @@ function DashboardNav() {
                   )}
                   {tokenDetails && tokenDetails.user && tokenDetails.user.role === 0 && (
                     <PreFetchLink href="/user-resources">
-                      <div> Resources</div>
+                      <div>My Resources</div>
+                    </PreFetchLink>
+                  )}
+                  {tokenDetails && tokenDetails.user && tokenDetails.user.role === 0 && (
+                    <PreFetchLink href="/notes">
+                      <div>My Notes</div>
                     </PreFetchLink>
                   )}
 
@@ -69,15 +71,19 @@ function DashboardNav() {
                     <PreFetchLink href="/calendar">
                       <div> My Calendar</div>
                     </PreFetchLink>
-                  )}
+                  )} */}
 
                   {/* teacher */}
                   {tokenDetails && tokenDetails.user && tokenDetails.user.role === 1 && (
-                    <PreFetchLink href="/teacher-profile">
-                      <div className="fw-bold text-muted nav-link    "> Profile</div>
+                    <PreFetchLink href="/dashboard">
+                      <div className="fw-bold text-muted nav-link">Dashboard</div>
                     </PreFetchLink>
                   )}
-                  {/* teacher */}
+                  {/* {tokenDetails && tokenDetails.user && tokenDetails.user.role === 1 && (
+                    <PreFetchLink href="/teacher-profile">
+                      <div className="fw-bold text-muted nav-link"> Profile</div>
+                    </PreFetchLink>
+                  )}
                   {tokenDetails && tokenDetails.user && tokenDetails.user.role === 1 && (
                     <PreFetchLink href="/users?t=1">
                       <div> Students</div>
@@ -92,7 +98,7 @@ function DashboardNav() {
                     <PreFetchLink href="/admin/messages">
                       <div> Messages</div>
                     </PreFetchLink>
-                  )}
+                  )} */}
                 </Nav>
               </Navbar.Collapse>
             </div>

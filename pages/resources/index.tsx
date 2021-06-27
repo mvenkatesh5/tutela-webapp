@@ -22,7 +22,7 @@ import { RESOURCE_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 // hoc
-import withAdminAuth from "@lib/hoc/withAdminAuth";
+import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 const Resources = () => {
   const router = useRouter();
   const { data: resources, error: resourcesError } = useSWR(RESOURCE_ENDPOINT, APIFetcher, {
@@ -99,4 +99,4 @@ const Resources = () => {
     </div>
   );
 };
-export default withAdminAuth(Resources);
+export default withGlobalAuth(Resources);

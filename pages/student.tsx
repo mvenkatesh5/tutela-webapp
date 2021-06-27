@@ -14,6 +14,7 @@ import Doubts from "@components/doubtscard";
 import TestScroreCard from "@components/testscorecard";
 import UpcomingTestsCard from "@components/uptestscard";
 import SessionCard from "@components/admin/sessions/sessionCard";
+import WarningPopup from "@components/warningpopup";
 // swr
 import useSWR from "swr";
 // layout
@@ -21,7 +22,12 @@ import StudentLayout from "@layouts/studentLayout";
 // cookie
 import { getAuthenticationToken } from "@lib/cookie";
 // api routes
-import { NEWS_ENDPOINT, ADVERTS_ENDPOINT, SESSION_ENDPOINT_UPCOMING } from "@constants/routes";
+import {
+  NEWS_ENDPOINT,
+  ADVERTS_ENDPOINT,
+  SESSION_ENDPOINT_UPCOMING,
+  USER_WITH_ID_ENDPOINT,
+} from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 // hoc
@@ -85,9 +91,14 @@ const StudentDetail = () => {
     if (role != "admin") {
       currentRoute = currentRoute + `?user_id=${user_id}`;
     }
-    console.log(currentRoute);
     setCurrentDateQuery(currentRoute);
   };
+
+  const { data: userDetailList, error: userDetailListError } = useSWR(
+    tokenDetails && tokenDetails.user ? USER_WITH_ID_ENDPOINT(tokenDetails.user.id) : null,
+    (url) => APIFetcher(url),
+    { refreshInterval: 0 }
+  );
 
   const { data: newsList, error: newsListError } = useSWR(NEWS_ENDPOINT, APIFetcher);
   const { data: advertsList, error: advertsListError } = useSWR(ADVERTS_ENDPOINT, APIFetcher);
@@ -111,7 +122,18 @@ const StudentDetail = () => {
   return (
     <Page meta={meta}>
       <StudentLayout>
-        <Container className="mt-5 container-lg">
+        <Container className="mt-3 container-lg">
+          <div className="mb-3">
+            {userDetailList &&
+              userDetailList.profile_data &&
+              Object.keys(userDetailList.profile_data).length <= 0 && (
+                <WarningPopup href={`/profile`}>
+                  Hello <strong>{userDetailList.username}</strong>, Click here to complete your
+                  profile.
+                </WarningPopup>
+              )}
+          </div>
+
           <Row>
             <h4 className="fw-bold text-dark mb-3">Upcoming Sessions</h4>
             <Col lg="8">
