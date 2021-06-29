@@ -33,6 +33,10 @@ import { USER_ENDPOINT, USER_CALENDAR_SESSION_ENDPOINT } from "@constants/routes
 import { APIFetcher } from "@lib/services";
 // hoc
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 const CalendarView = () => {
   const [calendarToggle, setCalendarToggle] = React.useState(false);
@@ -137,7 +141,13 @@ const CalendarView = () => {
 
   const { data: userList, error: userListError } = useSWR(USER_ENDPOINT, APIFetcher);
 
+  const meta = {
+    title: "Calendar",
+    description: META_DESCRIPTION,
+  };
+
   return (
+    <Page meta={meta}>
     <div>
       <AdminLayout>
         <div className="right-layout-calender">
@@ -252,6 +262,7 @@ const CalendarView = () => {
         </div>
       </AdminLayout>
     </div>
+    </Page>
   );
 };
 

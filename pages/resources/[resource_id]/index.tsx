@@ -23,6 +23,10 @@ import { RESOURCE_WITH_NODE_ENDPOINT } from "@constants/routes";
 import { APIFetcher } from "@lib/services";
 // hoc
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 const ResourceTreeView = () => {
   const router = useRouter();
@@ -41,7 +45,13 @@ const ResourceTreeView = () => {
     { refreshInterval: 0 }
   );
 
+  const meta = {
+    title: "Resources Details",
+    description: META_DESCRIPTION,
+  };
+
   return (
+    <Page meta={meta}>
     <div>
       <Head>
         <title>Resources</title>
@@ -121,6 +131,7 @@ const ResourceTreeView = () => {
         </PdfViewerLayout>
       </Worker>
     </div>
+    </Page>
   );
 };
 

@@ -17,6 +17,10 @@ import { USER_ENDPOINT, REQUEST_SESSION_ENDPOINT } from "@constants/routes";
 import { APIFetcher, APIUpdater } from "@lib/services";
 // hoc
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 const UserRequestSession = () => {
   const { data: requestSessions, error: requestSessionsError } = useSWR(
@@ -49,7 +53,13 @@ const UserRequestSession = () => {
     return new Date(currentDate);
   };
 
+  const meta = {
+    title: "Request Session",
+    description: META_DESCRIPTION,
+  };
+
   return (
+    <Page meta={meta}>
     <div>
       <AdminLayout>
         <div className="right-layout">
@@ -133,6 +143,7 @@ const UserRequestSession = () => {
         </div>
       </AdminLayout>
     </div>
+    </Page>
   );
 };
 

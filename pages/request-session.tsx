@@ -30,7 +30,7 @@ const RequestSession = () => {
   const router = useRouter();
 
   const meta = {
-    title: "Tutela",
+    title: "Request Session",
     description: META_DESCRIPTION,
   };
 

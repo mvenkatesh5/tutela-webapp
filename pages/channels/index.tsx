@@ -18,11 +18,21 @@ import { CHANNEL_ENDPOINT } from "@constants/routes";
 import { APIFetcher } from "@lib/services";
 // hoc
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 const Channel = () => {
   const { data: channelList, error: channelListError } = useSWR(CHANNEL_ENDPOINT, APIFetcher);
 
+  const meta = {
+    title: "Channels",
+    description: META_DESCRIPTION,
+  };
+
   return (
+    <Page meta={meta}>
     <div>
       <AdminLayout>
         <div className="right-layout">
@@ -63,6 +73,7 @@ const Channel = () => {
         </div>
       </AdminLayout>
     </div>
+    </Page>
   );
 };
 

@@ -24,6 +24,8 @@ import { UserUpdate } from "@lib/services/userService";
 import { getAuthenticationToken } from "@lib/cookie";
 // hoc
 import withStudentAuth from "@lib/hoc/withStudentAuth";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 const Profile = () => {
   const [tokenDetails, setTokenDetails] = React.useState<any>();
@@ -75,7 +77,13 @@ const Profile = () => {
     }
   }, [userDetailList]);
 
+  const meta = {
+    title: "Profile",
+    description: META_DESCRIPTION,
+  };
+
   return (
+    <Page meta={meta}>
     <div>
       <StudentLayout>
         {!userDetailList ? (
@@ -150,6 +158,7 @@ const Profile = () => {
         )}
       </StudentLayout>
     </div>
+    </Page>
   );
 };
 

@@ -26,6 +26,10 @@ import { getAuthenticationToken } from "@lib/cookie";
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 // global context provider
 import { globalContext } from "@contexts/global";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 const VideoView = () => {
   const [globalState, globalDispatch] = React.useContext(globalContext);
@@ -97,7 +101,13 @@ const VideoView = () => {
 
   console.log(sessionList);
 
+  const meta = {
+    title: "Video",
+    description: META_DESCRIPTION,
+  };
+
   return (
+    <Page meta={meta}>
     <div>
       <StudentLayout>
         <Container className="pt-3 pb-3">
@@ -187,6 +197,7 @@ const VideoView = () => {
         )}
       </StudentLayout>
     </div>
+    </Page>
   );
 };
 

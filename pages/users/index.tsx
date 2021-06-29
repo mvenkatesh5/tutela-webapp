@@ -21,6 +21,10 @@ import { USER_ENDPOINT, USER_WITH_ID_ENDPOINT } from "@constants/routes";
 import { APIFetcher, APIUpdater } from "@lib/services";
 // hoc
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 const UserDetails = () => {
   const router = useRouter();
@@ -78,7 +82,13 @@ const UserDetails = () => {
     }
   };
 
+  const meta = {
+    title: "Users",
+    description: META_DESCRIPTION,
+  };
+
   return (
+    <Page meta={meta}>
     <div>
       <AdminLayout>
         <div className="right-layout">
@@ -164,6 +174,7 @@ const UserDetails = () => {
         </div>
       </AdminLayout>
     </div>
+    </Page>
   );
 };
 

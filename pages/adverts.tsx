@@ -15,6 +15,10 @@ import { APIFetcher } from "@lib/services";
 import { AdvertsDelete } from "@lib/services/advertsservice";
 // hoc
 import withAdminAuth from "@lib/hoc/withAdminAuth";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 const AdvertsView = () => {
   const advertsDelete = (id: Number) => {
@@ -27,7 +31,13 @@ const AdvertsView = () => {
 
   const { data: advertsList, error: advertsListError } = useSWR(ADVERTS_ENDPOINT, APIFetcher);
 
+  const meta = {
+    title: "Adverts",
+    description: META_DESCRIPTION,
+  };
+
   return (
+    <Page meta={meta}>
     <div>
       <AdminLayout>
         <div className="right-layout">
@@ -55,6 +65,7 @@ const AdvertsView = () => {
         </div>
       </AdminLayout>
     </div>
+    </Page>
   );
 };
 
