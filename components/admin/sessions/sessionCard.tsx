@@ -100,8 +100,10 @@ const SessionCard = (props: any) => {
               </div>
               <div>
                 <div className="heading">{props.data.title}</div>
-                <div className="description">{datePreview(props.data.start_datetime)}</div>
-                {/* <div className="description">Weekly on weekdays</div> */}
+                <div className="description">
+                  Starts At: {datePreview(props.data.start_datetime)}
+                </div>
+                <div className="description">Ends At: {datePreview(props.data.end_datetime)}</div>
               </div>
               <div className="ms-auto text-end" onClick={handleSessionDetailView}>
                 <CheveronDown className="text-muted" width={20} />

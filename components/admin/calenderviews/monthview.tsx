@@ -160,6 +160,8 @@ const CalendarMonthView = (props: any) => {
               )}
               role={props.role}
               bulkPreview={props.bulkPreview}
+              users={props.users}
+              currentDateQuery={props.currentDateQuery}
             />
           )}
         </div>
