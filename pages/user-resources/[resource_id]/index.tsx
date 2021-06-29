@@ -89,6 +89,7 @@ const ResourceTreeView = () => {
   };
 
   return (
+    <Page meta={meta}>
     <div>
       <Head>
         <title>Resources</title>
@@ -171,6 +172,7 @@ const ResourceTreeView = () => {
         </StudentNotesLayout>
       </Worker>
     </div>
+    </Page>
   );
 };
 

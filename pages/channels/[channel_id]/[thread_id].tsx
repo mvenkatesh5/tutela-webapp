@@ -36,7 +36,7 @@ const ChannelDetail = () => {
   );
 
   const meta = {
-    title: "Channel Details ",
+    title: "Discussion Details ",
     description: META_DESCRIPTION,
   };
   return (

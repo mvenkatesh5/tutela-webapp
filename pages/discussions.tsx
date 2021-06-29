@@ -9,9 +9,17 @@ import { RightArrowAlt } from "@styled-icons/boxicons-regular";
 // components
 // import DiscussionFeaturedCard from "components/discussion/DiscussionFeaturedCard";
 // import DiscussionCard from "components/discussion/DiscussionCard";
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 function DiscussionsPage() {
+  const meta = {
+    title: "Discussion",
+    description: META_DESCRIPTION,
+  };
   return (
+    <Page meta={meta}>
     <TeacherLayout>
       <div className="container mt-5">
         {/* Heading  */}
@@ -67,6 +75,7 @@ function DiscussionsPage() {
         </div>
       </div>
     </TeacherLayout>
+    </Page>
   );
 }
 

@@ -24,6 +24,10 @@ import {
 import { APIFetcher } from "@lib/services";
 // hoc
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 const userDetailView = () => {
   const defaultImageUrl = "/default-image.png";
@@ -37,6 +41,7 @@ const userDetailView = () => {
   };
 
   const ProfileSchemaComponent = () => {
+   
     return (
       <Tab.Container id="profile-schema-component" defaultActiveKey={profileSchemaData[0].tab_key}>
         <Nav className="custom-nav-tabs-links profile-account-nav" variant="pills">
@@ -122,7 +127,13 @@ const userDetailView = () => {
     }
   }, [userDetailList]);
 
+  const meta = {
+    title: "User Details",
+    description: META_DESCRIPTION,
+  };
+  
   return (
+    <Page meta={meta}>
     <div>
       <AdminLayout>
         {!userDetailList ? (
@@ -209,6 +220,8 @@ const userDetailView = () => {
         )}
       </AdminLayout>
     </div>
+    </Page>
+
   );
 };
 

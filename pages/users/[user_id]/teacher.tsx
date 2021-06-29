@@ -17,6 +17,10 @@ import { USER_WITH_ID_ENDPOINT } from "@constants/routes";
 import { APIFetcher } from "@lib/services";
 // hoc
 import withAdminAuth from "@lib/hoc/withAdminAuth";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 const userDetailView = () => {
   const router = useRouter();
@@ -39,7 +43,13 @@ const userDetailView = () => {
     }
   }, [userDetailList]);
 
+  const meta = {
+    title: "Tutela",
+    description: META_DESCRIPTION,
+  };
+
   return (
+    <Page meta={meta}>
     <div>
       <AdminLayout>
         {!userDetailList ? (
@@ -100,6 +110,7 @@ const userDetailView = () => {
         )}
       </AdminLayout>
     </div>
+    </Page>
   );
 };
 
