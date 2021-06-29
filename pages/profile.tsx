@@ -10,6 +10,7 @@ import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 // components
 import FromBuilder from "@components/forms";
+import Page from "@components/page";
 // layouts
 import StudentLayout from "@layouts/studentLayout";
 // global imports

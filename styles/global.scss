@@ -202,6 +202,11 @@ a {
 }
 
 // global dropdown css
+.global-dropdown-toggle-white-space {
+  &.dropdown-toggle {
+    white-space: normal !important;
+  }
+}
 .global-dropdown {
   .dropdown-toggle::after {
     display: none;

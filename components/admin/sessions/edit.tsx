@@ -54,9 +54,10 @@ const SessionEditView = (props: any) => {
   const sessionUpdate = (event: any) => {
     event.preventDefault();
     setButtonLoader(true);
-    createSessionUsers();
     SessionUpdate(sessionData)
-      .then((response) => {})
+      .then((response) => {
+        createSessionUsers();
+      })
       .catch((errors) => {
         console.log(errors);
         setButtonLoader(false);
@@ -175,6 +176,7 @@ const SessionEditView = (props: any) => {
   };
 
   const mutateCurrentSession = () => {
+    console.log("coming here....");
     mutate(
       [USER_CALENDAR_SESSION_ENDPOINT(props.currentDateQuery), props.currentDateQuery],
       APIFetcher(USER_CALENDAR_SESSION_ENDPOINT(props.currentDateQuery)),

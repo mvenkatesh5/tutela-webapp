@@ -81,7 +81,12 @@ const CalenderWeekView = (props: any) => {
                   className={`item ` + (day.active ? "active" : "")}
                   key={`calender-days-${index}`}
                 >
-                  <CalendarWeekMonthCardDetailView data={day.data} role={props.role} />
+                  <CalendarWeekMonthCardDetailView
+                    data={day.data}
+                    users={props.users}
+                    role={props.role}
+                    currentDateQuery={props.currentDateQuery}
+                  />
                 </div>
               ))}
           </div>

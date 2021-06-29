@@ -127,9 +127,9 @@ const CalendarView = () => {
   const { data: sessionList, error: sessionListError } = useSWR(
     currentDateQuery && currentDateQuery
       ? [
-        USER_CALENDAR_SESSION_ENDPOINT(currentDateQuery && currentDateQuery),
-        currentDateQuery && currentDateQuery,
-      ]
+          USER_CALENDAR_SESSION_ENDPOINT(currentDateQuery && currentDateQuery),
+          currentDateQuery && currentDateQuery,
+        ]
       : null,
     (url) => APIFetcher(url),
     { refreshInterval: 5000 }
@@ -142,15 +142,15 @@ const CalendarView = () => {
       <AdminLayout>
         <div className="right-layout-calender">
           <div className="calender-root-wrapper">
-            <div className="left-wrapper">{
-              userRole && <CalenderView
-                renderView={currentRenderView}
-                currentDate={currentDate}
-                handleData={handleCurrentDate}
-                role={userRole}
-              />
-            }
-
+            <div className="left-wrapper">
+              {userRole && (
+                <CalenderView
+                  renderView={currentRenderView}
+                  currentDate={currentDate}
+                  handleData={handleCurrentDate}
+                  role={userRole}
+                />
+              )}
             </div>
             <div className="right-wrapper">
               <div className="border-bottom pb-2 calender-right-header">
@@ -158,15 +158,16 @@ const CalendarView = () => {
                   <div className="dropdown-icon" onClick={() => setCalendarToggle(!calendarToggle)}>
                     <Calendar />
                   </div>
-                  <div className={`dropdown-content ` + (calendarToggle ? `active` : ``)}>{
-                    userRole && <CalenderView
-                      clickOnDate={() => setCalendarToggle(!calendarToggle)}
-                      renderView={currentRenderView}
-                      currentDate={currentDate}
-                      handleData={handleCurrentDate}
-                      role={userRole}
-                    />
-                  }
+                  <div className={`dropdown-content ` + (calendarToggle ? `active` : ``)}>
+                    {userRole && (
+                      <CalenderView
+                        clickOnDate={() => setCalendarToggle(!calendarToggle)}
+                        renderView={currentRenderView}
+                        currentDate={currentDate}
+                        handleData={handleCurrentDate}
+                        role={userRole}
+                      />
+                    )}
                   </div>
                 </div>
                 <div style={{ marginRight: "auto" }} className="today-date">
