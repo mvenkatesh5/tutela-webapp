@@ -24,6 +24,9 @@ import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 
 const UserDetails = () => {
   const router = useRouter();
+
+  const [searchContent, setSearchContent] = React.useState<any>();
+
   const is_teacher: any = router.query.t;
   const { data: userList, error: userListError } = useSWR(USER_ENDPOINT, APIFetcher);
 
@@ -64,11 +67,35 @@ const UserDetails = () => {
     }
   };
 
+  const validateSearch = (user: any) => {
+    if (user && searchContent) {
+      if (user.username.includes(searchContent)) return true;
+      else if (user.first_name.includes(searchContent)) return true;
+      else if (user.email.includes(searchContent)) return true;
+      else return false;
+    } else {
+      return true;
+    }
+  };
+
   return (
     <div>
       <AdminLayout>
         <div className="right-layout">
           <Container>
+            <div className="d-flex align-items-center mt-2 mb-3">
+              <div>
+                <h5 className="m-0 p-0">Users</h5>
+              </div>
+              <div className="ms-auto">
+                <Form.Control
+                  type="text"
+                  placeholder="Search user"
+                  value={searchContent}
+                  onChange={(e: any) => setSearchContent(e.target.value)}
+                />
+              </div>
+            </div>
             <Table bordered>
               <thead>
                 <tr>
@@ -86,7 +113,7 @@ const UserDetails = () => {
                 {userList &&
                   userList.length > 0 &&
                   userList.map((users: any, i: any) => {
-                    if (validateIsTeacherRouter(users)) {
+                    if (validateIsTeacherRouter(users) && validateSearch(users)) {
                       return (
                         <tr key={i}>
                           {!is_teacher && <td className="text-center">{i + 1}</td>}
