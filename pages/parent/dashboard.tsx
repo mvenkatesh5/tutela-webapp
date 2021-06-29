@@ -17,6 +17,10 @@ import { APIFetcher } from "@lib/services";
 import { PRODUCTS_ENDPOINT } from "@constants/routes";
 // hoc
 import withParentAuth from "@lib/hoc/withParentAuth";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 const chartData = {
   labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
@@ -85,7 +89,13 @@ function ParentDashboard() {
     { name: "English" },
   ];
 
+  const meta = {
+    title: "Dashboard",
+    description: META_DESCRIPTION,
+  };
+
   return (
+    <Page meta={meta}>
     <ParentLayout>
       <div className="container mt-5">
         <div className="alert alert-light border" role="alert">
@@ -310,6 +320,7 @@ function ParentDashboard() {
         </div>
       </div>
     </ParentLayout>
+    </Page>
   );
 }
 

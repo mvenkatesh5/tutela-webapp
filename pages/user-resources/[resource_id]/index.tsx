@@ -29,6 +29,10 @@ import {
 import { APIFetcher } from "@lib/services";
 // hoc
 import withStudentAuth from "@lib/hoc/withStudentAuth";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 const ResourceTreeView = () => {
   const router = useRouter();
@@ -78,6 +82,11 @@ const ResourceTreeView = () => {
     (url) => APIFetcher(url),
     { refreshInterval: 0 }
   );
+
+  const meta = {
+    title: "User Resource Details",
+    description: META_DESCRIPTION,
+  };
 
   return (
     <div>

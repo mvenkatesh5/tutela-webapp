@@ -15,6 +15,10 @@ import { THREAD_WITH_COMMENT_ENDPOINT, THREAD_WITH_ID_ENDPOINT } from "@constant
 import { APIFetcher } from "@lib/services";
 // hoc
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 const ChannelDetail = () => {
   const router = useRouter();
@@ -31,7 +35,12 @@ const ChannelDetail = () => {
     (url) => APIFetcher(url)
   );
 
+  const meta = {
+    title: "Channel Details ",
+    description: META_DESCRIPTION,
+  };
   return (
+    <Page meta={meta}>
     <div>
       <AdminLayout>
         <div className="right-layout-comment container ps-5 pe-5">
@@ -45,6 +54,7 @@ const ChannelDetail = () => {
         </div>
       </AdminLayout>
     </div>
+    </Page>
   );
 };
 

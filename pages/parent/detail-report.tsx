@@ -7,6 +7,10 @@ import CustomNavTabs from "@components/navtabs/customNavtabs";
 import Sonnet from "@components/navtabs/Sonnet";
 // hoc
 import withParentAuth from "@lib/hoc/withParentAuth";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 function ParentDetailReport() {
   const navTabsData = [
@@ -16,8 +20,12 @@ function ParentDetailReport() {
     { title: "Attendance", component: <Sonnet /> },
     { title: "Syllabus Covered", component: <Sonnet /> },
   ];
-
+  const meta = {
+    title: "Detail Report",
+    description: META_DESCRIPTION,
+  };
   return (
+    <Page meta={meta}>
     <ParentLayout>
       <div className="parent-detail-wrapper">
         <div className="container h-100">
@@ -94,6 +102,7 @@ function ParentDetailReport() {
         <CustomNavTabs data={navTabsData} />
       </div>
     </ParentLayout>
+    </Page>
   );
 }
 

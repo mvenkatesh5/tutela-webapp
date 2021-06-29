@@ -19,6 +19,10 @@ import { RESOURCE_NODE_ENDPOINT } from "@constants/routes";
 import { APIFetcher } from "@lib/services";
 // hoc
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 const PdfRender = () => {
   const router = useRouter();
@@ -30,7 +34,13 @@ const PdfRender = () => {
     { refreshInterval: 0 }
   );
 
+  const meta = {
+    title: "PDF Viewer",
+    description: META_DESCRIPTION,
+  };
+
   return (
+    <Page meta={meta}>
     <div>
       <Head>
         <title>Pdf Render</title>
@@ -57,6 +67,7 @@ const PdfRender = () => {
         </div>
       </AdminLayout>
     </div>
+    </Page>
   );
 };
 
