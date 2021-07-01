@@ -19,12 +19,12 @@ const ResetPasswordPage = () => {
     description: META_DESCRIPTION,
   };
   const router = useRouter();
-  const token = router.query.token;
+  const token = router.query.reset_token;
 
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
   const [passwordMatch, setPasswordMatch] = React.useState<any>("");
   const [formData, setFormData] = React.useState({
-    email: "random@gmail.com",
+    email: "",
     passwordOne: "",
     passwordTwo: "",
   });
@@ -50,11 +50,23 @@ const ResetPasswordPage = () => {
         .catch((error) => {
           setButtonLoader(false);
           console.log(error);
+          if (error && error.message && error.message === "failed")
+            setPasswordMatch("Please check, Your token is expired.");
         });
     } else {
       setButtonLoader(false);
       setPasswordMatch("Please check the passwords you entered are not matching.");
     }
+  };
+
+  const clearFields = () => {
+    setFormData({
+      email: "",
+      passwordOne: "",
+      passwordTwo: "",
+    });
+    setButtonLoader(false);
+    setPasswordMatch("");
   };
 
   return (
@@ -85,7 +97,7 @@ const ResetPasswordPage = () => {
                     type="password"
                     placeholder="Enter new password"
                     value={formData.passwordOne}
-                    onChange={(value: any) => handleFormData("passwordOne", value)}
+                    onChange={(e: any) => handleFormData("passwordOne", e.target.value)}
                     required={true}
                   />
                   <Form.Label>Confirm new password</Form.Label>
@@ -94,14 +106,21 @@ const ResetPasswordPage = () => {
                     type="password"
                     placeholder="Re-type your password"
                     value={formData.passwordTwo}
-                    onChange={(value: any) => handleFormData("passwordTwo", value)}
+                    onChange={(e: any) => handleFormData("passwordTwo", e.target.value)}
                     required={true}
                   />
                 </div>
-                {passwordMatch && <small>{passwordMatch}</small>}
+                {passwordMatch && (
+                  <div className="mb-2 text-danger">
+                    <small>{passwordMatch}</small>
+                  </div>
+                )}
                 <div className="form-footer">
-                  <Button type="submit" className="btn-sm">
-                    Change password
+                  <Button type="submit" className="btn-sm" disabled={buttonLoader}>
+                    {buttonLoader ? "Processing..." : "Change password"}
+                  </Button>
+                  <Button variant="outline-secondary" className="btn-sm ms-2" onClick={clearFields}>
+                    Clear
                   </Button>
                 </div>
               </div>
