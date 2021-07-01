@@ -3,7 +3,9 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 // react bootstrap
-import { Container, Form, Button } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
+// material icons
+import { CheckCircle } from "@styled-icons/bootstrap/CheckCircle";
 // layouts
 import DefaultLayout from "@layouts/defaultLayout";
 // components
@@ -20,6 +22,7 @@ const ForgotPasswordView = () => {
   };
   const router = useRouter();
 
+  const [mailSuccess, setMailSuccess] = React.useState<any>(false);
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
   const [errorMessage, setErrorMessage] = React.useState<any>("");
   const [formData, setFormData] = React.useState({
@@ -32,15 +35,17 @@ const ForgotPasswordView = () => {
   const handleFormSubmit = (event: any) => {
     event.preventDefault();
     setButtonLoader(true);
+    setMailSuccess(false);
     ForgotPassword(formData)
       .then((res) => {
         console.log(res);
         setButtonLoader(false);
-        if (res && res.token) router.push(`/reset-password?token=${res.token}`);
+        if (res && res.message && res.message === "success") setMailSuccess(true);
+        // router.push(`/reset-password?token=${res.token}`);
       })
       .catch((error) => {
         setButtonLoader(false);
-        setErrorMessage("Please enter the registered email!");
+        setErrorMessage("Please provide a valid email address!");
         console.log(error);
       });
   };
@@ -49,7 +54,7 @@ const ForgotPasswordView = () => {
     <>
       <Page meta={meta}>
         <DefaultLayout>
-          <Container>
+          {!mailSuccess ? (
             <Form onSubmit={handleFormSubmit}>
               <div className="default-form-wrapper">
                 <div className="form-header">
@@ -82,7 +87,22 @@ const ForgotPasswordView = () => {
                 </div>
               </div>
             </Form>
-          </Container>
+          ) : (
+            <div className="default-form-wrapper">
+              <div className="form-header flex-container">
+                <div className="flex-icon">
+                  <CheckCircle />
+                </div>
+                <div className="ms-3 flex-text primary-heading">
+                  Email sent successfully to <strong>{formData.email}.</strong>
+                </div>
+              </div>
+              <div className="primary-description text-center">
+                An email has been sent to your email address. Follow the directions in the email to
+                reset your password.
+              </div>
+            </div>
+          )}
         </DefaultLayout>
       </Page>
     </>

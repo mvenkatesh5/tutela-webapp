@@ -21,6 +21,9 @@ const ResetPasswordPage = () => {
           <div className="default-form-wrapper">
             <div className="form-header">
               <div className="primary-heading">Email verification is restricted.</div>
+              <div className="primary-description">
+                Try using the same link that has been sent to your email.
+              </div>
             </div>
             <div className="form-footer text-center mt-4">
               <Link href="/forgot-password">

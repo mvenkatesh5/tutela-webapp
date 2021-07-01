@@ -51,11 +51,11 @@ const ResetPasswordPage = () => {
           setButtonLoader(false);
           console.log(error);
           if (error && error.message && error.message === "failed")
-            setPasswordMatch("Please check, Your token is expired.");
+            setPasswordMatch("Try using the same link that has been sent to your email.");
         });
     } else {
       setButtonLoader(false);
-      setPasswordMatch("Please check the passwords you entered are not matching.");
+      setPasswordMatch("Password doesn't match authentication failed.");
     }
   };
 
