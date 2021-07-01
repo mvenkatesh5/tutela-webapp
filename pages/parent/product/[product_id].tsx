@@ -16,6 +16,10 @@ import { APIFetcher } from "@lib/services";
 import { PRODUCTS_WITH_ID_ENDPOINT } from "@constants/routes";
 // hoc
 import withParentAuth from "@lib/hoc/withParentAuth";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 function ParentDetailReport() {
   const router = useRouter();
@@ -34,7 +38,13 @@ function ParentDetailReport() {
     (url) => APIFetcher(url)
   );
 
+  const meta = {
+    title: "Product",
+    description: META_DESCRIPTION,
+  };
+
   return (
+    <Page meta={meta}>
     <ParentLayout>
       {!productDetailError && !productDetail ? (
         <div className="text-center text-muted mt-5 mb-5">Loading...</div>
@@ -123,6 +133,7 @@ function ParentDetailReport() {
         </div>
       )}
     </ParentLayout>
+    </Page>
   );
 }
 

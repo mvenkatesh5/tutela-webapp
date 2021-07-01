@@ -17,11 +17,21 @@ import { PRODUCTS_ENDPOINT } from "@constants/routes";
 import { APIFetcher } from "@lib/services";
 // hoc
 import withAdminAuth from "@lib/hoc/withAdminAuth";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 const ProductView = () => {
   const { data: productsList, error: productsListError } = useSWR(PRODUCTS_ENDPOINT, APIFetcher);
 
+  const meta = {
+    title: "Products",
+    description: META_DESCRIPTION,
+  };
+
   return (
+    <Page meta={meta}>
     <AdminLayout>
       <div className="right-layout">
         <ProductCreateView />
@@ -64,6 +74,7 @@ const ProductView = () => {
         )}
       </div>
     </AdminLayout>
+    </Page>
   );
 };
 

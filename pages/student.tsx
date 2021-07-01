@@ -59,7 +59,7 @@ import Slider from "react-slick";
 
 const StudentDetail = () => {
   const meta = {
-    title: "Tutela",
+    title: "Student",
     description: META_DESCRIPTION,
   };
 

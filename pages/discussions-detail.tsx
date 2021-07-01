@@ -9,9 +9,20 @@ import { DotsHorizontal } from "@styled-icons/boxicons-regular";
 
 // components
 // import DiscussionFeedCard from "components/discussion/DiscussionFeedCard";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 function discussionsDetail() {
+
+  const meta = {
+    title: "Discussion Details",
+    description: META_DESCRIPTION,
+  };
+
   return (
+    <Page meta={meta}>
     <TeacherLayout>
       <div className="container-fluid">
         <div className="d-flex align-items-center mt-3 p-3 border">
@@ -60,6 +71,7 @@ function discussionsDetail() {
         </div>
       </div>
     </TeacherLayout>
+    </Page>
   );
 }
 

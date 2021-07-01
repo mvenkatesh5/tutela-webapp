@@ -18,6 +18,10 @@ import withAdminAuth from "@lib/hoc/withAdminAuth";
 import { ZOOM_ACCOUNT_STATUS_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 const ZoomView = () => {
   const { data: zoomUserList, error: zoomUserListError } = useSWR(
@@ -27,7 +31,13 @@ const ZoomView = () => {
 
   if (zoomUserListError) console.log(zoomUserListError);
 
+  const meta = {
+    title: "Zoom",
+    description: META_DESCRIPTION,
+  };
+
   return (
+    <Page meta={meta}>
     <AdminLayout>
       <div className="right-layout">
         {!zoomUserList && !zoomUserListError ? (
@@ -127,6 +137,7 @@ const ZoomView = () => {
         )}
       </div>
     </AdminLayout>
+    </Page>
   );
 };
 

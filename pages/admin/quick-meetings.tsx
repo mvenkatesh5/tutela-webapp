@@ -24,6 +24,10 @@ import { datePreview } from "@constants/global";
 import { getAuthenticationToken } from "@lib/cookie";
 // hoc
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 const QuickMeetingsView = () => {
   const [userRole, setUserRole] = React.useState<any>();
@@ -52,90 +56,97 @@ const QuickMeetingsView = () => {
     APIFetcher
   );
 
+  const meta = {
+    title: "Quick Meetings",
+    description: META_DESCRIPTION,
+  };
+
   return (
-    <div>
-      <AdminLayout>
-        <div className="right-layout">
-          <Container>
-            <Row className="align-items-center">
-              <Col>
-                <h5>Quick Meetings</h5>
-              </Col>
-              {userRole === "admin" && (
+    <Page meta={meta}>
+      <div>
+        <AdminLayout>
+          <div className="right-layout">
+            <Container>
+              <Row className="align-items-center">
                 <Col>
-                  <QuickMeetingCreateView />
+                  <h5>Quick Meetings</h5>
                 </Col>
-              )}
-            </Row>
-            <Row>
-              {quickMeetingsList &&
-                quickMeetingsList.length > 0 &&
-                quickMeetingsList.map((data: any, index: Number) => (
-                  <Col md={3} key={data.id} style={{ marginTop: "10px" }}>
-                    <Card style={{ height: "100%" }}>
-                      <Card.Body>
-                        <div className="quick-meeting-flex">
-                          <div className="image-container">
-                            <img src="/default-image.png" />
-                          </div>
-                          <div className="content">
-                            <h6 className="mb-2">{data.name}</h6>
-                          </div>
-                        </div>
-                        <div className="quick-meeting-flex">
-                          <div className="image-container">
-                            <TextLeft />
-                          </div>
-                          <div className="content">
-                            <small>{data.description}</small>
-                          </div>
-                        </div>
-                        <div className="quick-meeting-flex mb-0">
-                          <div className="image-container">
-                            <Calendar />
-                          </div>
-                          <div className="content">
-                            <small>
-                              Starts At : <strong>{datePreview(data.start_time)}</strong>
-                            </small>
-                          </div>
-                        </div>
-                        <div className="quick-meeting-flex">
-                          <div className="image-container">
-                            <Time />
-                          </div>
-                          <div className="content">
-                            <small>
-                              Ends At : <strong>{datePreview(data.end_date)}</strong>
-                            </small>
-                          </div>
-                        </div>
-                        <div className="quick-meeting-flex">
-                          <div className="image-container">
-                            <Link />
-                          </div>
-                          <div className="content">
-                            <small>
-                              {data.data && data.data.link ? (
-                                <a href={data.data.link} target="_blank">
-                                  {data.data.link}
-                                </a>
-                              ) : (
-                                "-"
-                              )}
-                            </small>
-                          </div>
-                        </div>
-                        {userRole === "admin" && <QuickMeetingEditView data={data} />}
-                      </Card.Body>
-                    </Card>
+                {userRole === "admin" && (
+                  <Col>
+                    <QuickMeetingCreateView />
                   </Col>
-                ))}
-            </Row>
-          </Container>
-        </div>
-      </AdminLayout>
-    </div>
+                )}
+              </Row>
+              <Row>
+                {quickMeetingsList &&
+                  quickMeetingsList.length > 0 &&
+                  quickMeetingsList.map((data: any, index: Number) => (
+                    <Col md={3} key={data.id} style={{ marginTop: "10px" }}>
+                      <Card style={{ height: "100%" }}>
+                        <Card.Body>
+                          <div className="quick-meeting-flex">
+                            <div className="image-container">
+                              <img src="/default-image.png" />
+                            </div>
+                            <div className="content">
+                              <h6 className="mb-2">{data.name}</h6>
+                            </div>
+                          </div>
+                          <div className="quick-meeting-flex">
+                            <div className="image-container">
+                              <TextLeft />
+                            </div>
+                            <div className="content">
+                              <small>{data.description}</small>
+                            </div>
+                          </div>
+                          <div className="quick-meeting-flex mb-0">
+                            <div className="image-container">
+                              <Calendar />
+                            </div>
+                            <div className="content">
+                              <small>
+                                Starts At : <strong>{datePreview(data.start_time)}</strong>
+                              </small>
+                            </div>
+                          </div>
+                          <div className="quick-meeting-flex">
+                            <div className="image-container">
+                              <Time />
+                            </div>
+                            <div className="content">
+                              <small>
+                                Ends At : <strong>{datePreview(data.end_date)}</strong>
+                              </small>
+                            </div>
+                          </div>
+                          <div className="quick-meeting-flex">
+                            <div className="image-container">
+                              <Link />
+                            </div>
+                            <div className="content">
+                              <small>
+                                {data.data && data.data.link ? (
+                                  <a href={data.data.link} target="_blank">
+                                    {data.data.link}
+                                  </a>
+                                ) : (
+                                  "-"
+                                )}
+                              </small>
+                            </div>
+                          </div>
+                          {userRole === "admin" && <QuickMeetingEditView data={data} />}
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  ))}
+              </Row>
+            </Container>
+          </div>
+        </AdminLayout>
+      </div>
+    </Page>
   );
 };
 

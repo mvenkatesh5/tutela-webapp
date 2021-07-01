@@ -6,9 +6,18 @@ import { Card, Accordion, Button } from "react-bootstrap";
 import { Phone, MailSend, LocationPlus } from "@styled-icons/boxicons-regular";
 // hoc
 import withParentAuth from "@lib/hoc/withParentAuth";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 function TeacherProfile() {
+  const meta = {
+    title: "Teacher Profile",
+    description: META_DESCRIPTION,
+  };
   return (
+    <Page meta={meta}>
     <ParentLayout>
       <div className="container">
         <div className="row mt-5">
@@ -106,6 +115,7 @@ function TeacherProfile() {
         </div>
       </div>
     </ParentLayout>
+    </Page>
   );
 }
 

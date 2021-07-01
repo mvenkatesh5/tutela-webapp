@@ -202,6 +202,11 @@ a {
 }
 
 // global dropdown css
+.global-dropdown-toggle-white-space {
+  &.dropdown-toggle {
+    white-space: normal !important;
+  }
+}
 .global-dropdown {
   .dropdown-toggle::after {
     display: none;
@@ -558,6 +563,131 @@ a {
           width: 100%;
         }
       }
+    }
+  }
+}
+
+// default layout content container styling
+.default-navbar-wrapper {
+  background-color: #f5f5f5;
+  height: 70px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  & .navbar-root-brand {
+    height: 40px;
+    img {
+      height: 100%;
+    }
+  }
+  & .navbar-root-item-container {
+    margin-left: auto;
+    & .navbar-root-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      color: #333;
+      & .icon {
+        margin-right: 4px;
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
+      & .text {
+        font-weight: 500;
+        font-size: 18px;
+      }
+      &:hover {
+        color: #666;
+      }
+    }
+  }
+}
+
+.default-layout-wrapper {
+  position: relative;
+  height: 100vh;
+  & .navbar-container {
+    background-color: #f5f5f5;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+  }
+  & .content-container {
+    margin-top: 80px;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 300px;
+    max-width: 550px;
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .primary-heading {
+    color: #333;
+    font-size: 24px;
+    font-weight: 500;
+  }
+  .secondary-heading {
+    color: #333;
+    font-size: 20px;
+  }
+
+  .primary-description {
+    color: #333;
+    font-size: 16px;
+    font-weight: 500;
+    opacity: 0.6;
+  }
+  .secondary-description {
+    color: #333;
+    font-size: 14px;
+    opacity: 0.7;
+  }
+}
+
+.default-form-wrapper {
+  padding: 10px 20px;
+  & .form-header {
+    padding: 6px 0px;
+    margin-bottom: 12px;
+  }
+  & .form-content {
+    padding: 6px 0px;
+    margin-bottom: 12px;
+    .form-label {
+      margin-top: 10px;
+      color: #888;
+      font-size: 14px;
+    }
+  }
+  & .form-content-sub-container {
+    padding: 6px 0px;
+    margin-bottom: 12px;
+    &.align-right {
+      text-align: right;
+    }
+  }
+  & .form-footer {
+    padding: 6px 0px;
+  }
+  & .flex-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    & .flex-icon {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      color: #4be116;
+      svg {
+        width: 40px;
+        height: 40px;
+      }
+    }
+    & .flex-text {
+      padding-left: 10px;
     }
   }
 }

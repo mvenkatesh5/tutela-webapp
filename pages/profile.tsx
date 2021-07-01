@@ -10,6 +10,7 @@ import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 // components
 import FromBuilder from "@components/forms";
+import Page from "@components/page";
 // layouts
 import StudentLayout from "@layouts/studentLayout";
 // global imports
@@ -23,6 +24,8 @@ import { UserUpdate } from "@lib/services/userService";
 import { getAuthenticationToken } from "@lib/cookie";
 // hoc
 import withStudentAuth from "@lib/hoc/withStudentAuth";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 const Profile = () => {
   const [tokenDetails, setTokenDetails] = React.useState<any>();
@@ -74,7 +77,13 @@ const Profile = () => {
     }
   }, [userDetailList]);
 
+  const meta = {
+    title: "Profile",
+    description: META_DESCRIPTION,
+  };
+
   return (
+    <Page meta={meta}>
     <div>
       <StudentLayout>
         {!userDetailList ? (
@@ -149,6 +158,7 @@ const Profile = () => {
         )}
       </StudentLayout>
     </div>
+    </Page>
   );
 };
 

@@ -20,6 +20,10 @@ import { NOTES_WITH_USER_ID_ENDPOINT } from "@constants/routes";
 import { APIFetcher } from "@lib/services";
 // hoc
 import withStudentAuth from "@lib/hoc/withStudentAuth";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 const NotesView = () => {
   const [currentUser, setCurrentUser] = React.useState<any>();
@@ -42,7 +46,13 @@ const NotesView = () => {
     }
   );
 
+  const meta = {
+    title: "Notes",
+    description: META_DESCRIPTION,
+  };
+
   return (
+    <Page meta={meta}>
     <div>
       <Head>
         <title>notes</title>
@@ -83,6 +93,7 @@ const NotesView = () => {
         </Container>
       </StudentLayout>
     </div>
+    </Page>
   );
 };
 

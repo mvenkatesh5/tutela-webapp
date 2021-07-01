@@ -18,6 +18,10 @@ import { APIFetcher } from "@lib/services";
 // hoc
 import withStudentAuth from "@lib/hoc/withStudentAuth";
 import BookCard from "@components/BookCard";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 const Resources = () => {
   const router = useRouter();
@@ -39,7 +43,13 @@ const Resources = () => {
     { refreshInterval: 0 }
   );
 
+  const meta = {
+    title: "User Resource",
+    description: META_DESCRIPTION,
+  };
+
   return (
+    <Page meta={meta}>
     <div>
       <Head>
         <title>Resources</title>
@@ -87,6 +97,7 @@ const Resources = () => {
         </Container>
       </StudentLayout>
     </div>
+    </Page>
   );
 };
 

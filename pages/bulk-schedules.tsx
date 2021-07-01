@@ -22,6 +22,10 @@ import { SessionBulkCreate } from "@lib/services/sessionservice";
 import { APIFetcher, APIUpdater } from "@lib/services";
 // hoc
 import withAdminAuth from "@lib/hoc/withAdminAuth";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
 
 const BulkSchedules = () => {
   const router = useRouter();
@@ -404,7 +408,13 @@ const BulkSchedules = () => {
 
   const { data: userList, error: userListError } = useSWR(USER_ENDPOINT, APIFetcher);
 
+  const meta = {
+    title: "Bulk Schedules",
+    description: META_DESCRIPTION,
+  };
+
   return (
+    <Page meta={meta}>
     <div>
       <AdminLayout>
         <div className="right-layout">
@@ -620,6 +630,7 @@ const BulkSchedules = () => {
         </div>
       </AdminLayout>
     </div>
+    </Page>
   );
 };
 

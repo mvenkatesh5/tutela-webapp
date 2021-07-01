@@ -24,7 +24,7 @@ const SignInView = () => {
   const [buttonLoader, setButtonLoader] = React.useState(false);
 
   const meta = {
-    title: "Tutela",
+    title: "Signin",
     description: META_DESCRIPTION,
   };
 
@@ -80,7 +80,7 @@ const SignInView = () => {
             />
           </Form.Group>
 
-          <Form.Group className="mb-3">
+          <Form.Group>
             <Form.Label className="mb-1 text-muted">Enter Password</Form.Label>
             <Form.Control
               value={password}
@@ -90,6 +90,13 @@ const SignInView = () => {
               required
             />
           </Form.Group>
+          <div className="mb-3" style={{ textAlign: "right" }}>
+            <Link href="/forgot-password">
+              <a>
+                <small>Forgot Password?</small>
+              </a>
+            </Link>
+          </div>
 
           <Button
             className="w-100 rounded-2 shadow-sm mb-3"

@@ -23,12 +23,24 @@ import { RESOURCE_ENDPOINT } from "@constants/routes";
 import { APIFetcher } from "@lib/services";
 // hoc
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
+// components
+import Page from "@components/page";
+// constants
+import { META_DESCRIPTION } from "@constants/page";
+
 const Resources = () => {
   const router = useRouter();
   const { data: resources, error: resourcesError } = useSWR(RESOURCE_ENDPOINT, APIFetcher, {
     refreshInterval: 0,
   });
+
+  const meta = {
+    title: "Resources",
+    description: META_DESCRIPTION,
+  };
+
   return (
+    <Page meta={meta}>
     <div>
       <Head>
         <title>Resources</title>
@@ -97,6 +109,7 @@ const Resources = () => {
         </div>
       </AdminLayout>
     </div>
+    </Page>
   );
 };
 export default withGlobalAuth(Resources);
