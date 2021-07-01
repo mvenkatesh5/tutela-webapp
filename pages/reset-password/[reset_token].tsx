@@ -38,7 +38,7 @@ const ResetPasswordPage = () => {
     setPasswordMatch("");
     if (token && formData.passwordOne === formData.passwordTwo) {
       const payload = {
-        token: "token",
+        token: token,
         password: formData.passwordOne,
       };
       ResetPassword(payload)
