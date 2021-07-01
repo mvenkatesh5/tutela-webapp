@@ -10,6 +10,8 @@ export const S3_ENDPOINT = `/api/files/`;
 // authentication
 export const AUTH_LOGIN = `/login/`;
 export const AUTH_SIGNUP = `/signup/`;
+export const FORGOT_PASSWORD = `/forgot-password/`;
+export const RESET_PASSWORD = `/reset-password/`;
 
 // users
 export const USER_ENDPOINT = `/api/users/`;
