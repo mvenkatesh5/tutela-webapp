@@ -51,10 +51,28 @@ const SessionEditView = (props: any) => {
     }
   }, [props.data]);
 
+  const handleDatetime = (date: any, time: any) => {
+    let currentDate = new Date(date);
+    let currentTime = new Date(time);
+    currentDate.setHours(currentTime.getHours());
+    currentDate.setMinutes(currentTime.getMinutes());
+    currentDate.setSeconds(currentTime.getSeconds());
+    return new Date(currentDate);
+  };
+
   const sessionUpdate = (event: any) => {
     event.preventDefault();
     setButtonLoader(true);
-    SessionUpdate(sessionData)
+    const payload = {
+      id: sessionData.id,
+      title: sessionData.title,
+      description: sessionData.description,
+      start_datetime: handleDatetime(sessionData.start_date, sessionData.start_time),
+      end_datetime: handleDatetime(sessionData.start_date, sessionData.end_time),
+      link: sessionData.link,
+      data: sessionData.data,
+    };
+    SessionUpdate(payload)
       .then((response) => {
         createSessionUsers();
       })
