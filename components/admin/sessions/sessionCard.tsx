@@ -1,4 +1,6 @@
 import React from "react";
+// next imports
+import Link from "next/link";
 // react bootstrap
 import { Card, Row, Col, Image, Button } from "react-bootstrap";
 // material icons
@@ -9,6 +11,7 @@ import { User } from "@styled-icons/boxicons-regular";
 import { Readthedocs } from "@styled-icons/simple-icons";
 import { CheveronDown } from "@styled-icons/zondicons";
 import { Video } from "@styled-icons/boxicons-regular/Video";
+import { EyeFill } from "@styled-icons/bootstrap/EyeFill";
 // components
 import ZoomSessions from "@components/zoomsessions";
 import IconRow from "@components/iconRow";
@@ -70,6 +73,14 @@ const SessionCard = (props: any) => {
               <div className="ms-auto">
                 <ZoomSessions data={props.data} role={props.role ? props.role : null} />
               </div>
+
+              <Link href={`/session-detail/${props.data.id}`}>
+                <a target="_blank">
+                  <div className="ms-2 session-detail-redirection">
+                    <EyeFill />
+                  </div>
+                </a>
+              </Link>
               {(props.role === "admin" || props.role === "teacher") && (
                 <div className="ms-2">
                   <SessionEdit

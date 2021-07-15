@@ -8,6 +8,7 @@ import {
   ZOOM_MEETING_ENDPOINT,
   SESSION_USER_WITH_ID_ENDPOINT,
   BULK_SESSION_DELETE_ENDPOINT,
+  SESSION_ASSET_ENDPOINT,
 } from "@constants/routes";
 
 export const SessionBulkCreate = async (data: any) => {
@@ -103,6 +104,15 @@ export const SessionBulkUserDelete = async (data: any) => {
 export const CreateZoomMeeting = async (data: any) => {
   try {
     const response = await axios.post(ZOOM_MEETING_ENDPOINT, data);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const SessionAssetCreate = async (data: any) => {
+  try {
+    const response = await axios.post(SESSION_ASSET_ENDPOINT, data);
     return response.data;
   } catch (error) {
     throw error.response.data;

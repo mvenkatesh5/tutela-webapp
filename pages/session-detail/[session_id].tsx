@@ -1,0 +1,347 @@
+import React from "react";
+// next imports
+import Link from "next/link";
+import { useRouter } from "next/router";
+// react bootstrap
+import { Image, Button, Modal, Form } from "react-bootstrap";
+// material icons
+import { LinkAlt } from "@styled-icons/boxicons-regular";
+import { TextLeft } from "@styled-icons/bootstrap";
+import { Users } from "@styled-icons/fa-solid";
+import { User } from "@styled-icons/boxicons-regular";
+import { Readthedocs } from "@styled-icons/simple-icons";
+import { CheveronDown } from "@styled-icons/zondicons";
+import { Video } from "@styled-icons/boxicons-regular/Video";
+import { EyeFill } from "@styled-icons/bootstrap/EyeFill";
+// swr
+import useSWR, { mutate } from "swr";
+// components
+import ZoomSessions from "@components/zoomsessions";
+import IconRow from "@components/iconRow";
+// api routes
+import { SESSION_ASSET_WITH_SESSION_ID_ENDPOINT } from "@constants/routes";
+// api services
+import { APIFetcher } from "@lib/services";
+import { SessionAssetCreate } from "@lib/services/sessionservice";
+// cookie
+import { getAuthenticationToken } from "@lib/cookie";
+// global imports
+import { datePreview } from "@constants/global";
+
+const SessionDetailView = () => {
+  const router = useRouter();
+  const session_id: any = router.query.session_id;
+
+  const [userRole, setUserRole] = React.useState<any>();
+  const [studentImages, setStudentImages] = React.useState<any>();
+  const [teacherImages, setTeacherImages] = React.useState<any>();
+
+  const [currentVideoRenderUrl, setCurrentVideoRenderUrl] = React.useState<any>();
+  const handleCurrentVideoRenderUrl = (value: any) => {
+    setCurrentVideoRenderUrl(value);
+  };
+
+  const [buttonLoader, setButtonLoader] = React.useState<boolean>(false);
+  const [modalData, setModalData] = React.useState<any>({
+    title: "New video session testing 3",
+    url:
+      "https://iframe.mediadelivery.net/embed/8356/bc0fe775-4b4e-404a-b011-ef0a7c5937ff?autoplay=true",
+    kind: "RECORDING",
+    thumbnail: "https://discountseries.com/wp-content/uploads/2017/09/default.jpg",
+    session: session_id,
+  });
+  const [modal, setModal] = React.useState(false);
+
+  const closeModal = () => {
+    setModal(false);
+    setModalData({
+      title: "",
+      url: "",
+      kind: "RECORDING",
+      thumbnail: "",
+      session: session_id,
+    });
+  };
+  const openModal = () => setModal(true);
+  const handleModalData = (key: any, value: any) => {
+    setModalData({ ...modalData, [key]: value });
+  };
+
+  const submitHandleData = (e: any) => {
+    e.preventDefault();
+    setButtonLoader(true);
+    const payload = {
+      title: modalData.title,
+      url: modalData.url,
+      kind: modalData.kind,
+      thumbnail: modalData.thumbnail,
+      session: session_id,
+    };
+
+    SessionAssetCreate(payload)
+      .then((response) => {
+        mutate([SESSION_ASSET_WITH_SESSION_ID_ENDPOINT(session_id), session_id], false);
+        closeModal();
+        setButtonLoader(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setButtonLoader(false);
+      });
+  };
+
+  const { data: sessionDetail, error: sessionDetailError } = useSWR(
+    session_id ? [SESSION_ASSET_WITH_SESSION_ID_ENDPOINT(session_id), session_id] : null,
+    (url) => APIFetcher(url),
+    { refreshInterval: 0 }
+  );
+
+  React.useEffect(() => {
+    if (sessionDetail && sessionDetail.session_users) {
+      let learners: any = [];
+      let teachers: any = [];
+      sessionDetail.session_users.map((data: any) => {
+        if (data.as_role === 0) {
+          learners.push({
+            name: data.user.first_name,
+            icon: "/bird.svg",
+          });
+        } else {
+          teachers.push({
+            name: data.user.first_name,
+            icon: "/bird.svg",
+          });
+        }
+      });
+      setStudentImages(learners);
+      setTeacherImages(teachers);
+    }
+  }, [sessionDetail]);
+
+  React.useEffect(() => {
+    if (getAuthenticationToken()) {
+      let details: any = getAuthenticationToken();
+      details = details ? JSON.parse(details) : null;
+      if (details) {
+        // setTokenDetails(details);
+        if (details.info.role === 2) setUserRole("admin");
+        else if (details.info.role === 1) setUserRole("teacher");
+        else setUserRole("student");
+      }
+    }
+  }, []);
+
+  return (
+    <div>
+      <div className="video-wrapper">
+        <div className="header-wrapper">
+          <Link href="/">
+            <a>
+              <Image src="/logo.svg" />
+            </a>
+          </Link>
+        </div>
+        {!sessionDetail && !sessionDetailError ? (
+          <div className="text-center text-secondary m-5">Loading...</div>
+        ) : (
+          <>
+            {sessionDetail && (
+              <div className="content-wrapper">
+                <div className="left-wrapper">
+                  <div className="session-title-container">
+                    <div className="icon">
+                      <Image className="img-fluid rounded" src="/bird.svg" />
+                    </div>
+                    <div className="content">
+                      <div className="title">{sessionDetail.title}</div>
+                      <div className="description">{sessionDetail.description}</div>
+                    </div>
+                  </div>
+                  <div className="video-primary-description">
+                    <div>Starts At: {datePreview(sessionDetail.start_datetime)}</div>
+                    <div>Ends At: {datePreview(sessionDetail.end_datetime)}</div>
+                  </div>
+
+                  <div className="video-section-detail">
+                    <div className="heading">
+                      <div className="icon">
+                        <Users className="text-muted" />
+                      </div>
+                      <div className="content">Students</div>
+                    </div>
+                    <div className="description">
+                      {studentImages && studentImages.length > 0 && (
+                        <IconRow data={studentImages} />
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="video-section-detail">
+                    <div className="heading">
+                      <div className="icon">
+                        <User className="text-muted" />
+                      </div>
+                      <div className="content">Teachers</div>
+                    </div>
+                    <div className="description">
+                      {teacherImages && teacherImages.length > 0 && (
+                        <IconRow data={teacherImages} />
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="video-section-detail">
+                    <div className="heading">
+                      <div className="icon">
+                        <LinkAlt className="text-muted" />
+                      </div>
+                      <div className="content">Zoom Recording</div>
+                    </div>
+                    <div className="description">
+                      {sessionDetail.recording_link ? (
+                        <a
+                          href={sessionDetail.recording_link}
+                          target="_blank"
+                          className="description"
+                        >
+                          {sessionDetail.recording_link}
+                        </a>
+                      ) : (
+                        <div className="description">No recording is available.</div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="video-section-detail">
+                    <div className="heading">
+                      <div className="icon">
+                        <Video className="text-muted" />
+                      </div>
+                      <div className="content">Zoom Session</div>
+                    </div>
+                    <div className="description">
+                      {userRole && (
+                        <ZoomSessions data={sessionDetail} role={userRole ? userRole : null} />
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div className="middle-wrapper">
+                  <div className="middle-top-wrapper">
+                    {currentVideoRenderUrl && (
+                      <div className="video-container">
+                        <div className="iframe-container">
+                          <iframe
+                            src={currentVideoRenderUrl.url}
+                            loading="lazy"
+                            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+                            allowFullScreen={true}
+                          ></iframe>
+                        </div>
+                        <div className="video-heading">
+                          <div className="title">{currentVideoRenderUrl.title}</div>
+                          <div className="kind">{currentVideoRenderUrl.kind}</div>
+                        </div>
+                        <div className="video-description">Video description</div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="middle-bottom-wrapper">
+                    <div className="d-flex justify-content-between align-items-center">
+                      <div>
+                        <h5 className="m-0 p-0">All Videos</h5>
+                      </div>
+                      <div>
+                        <Button className="btn-sm" onClick={openModal}>
+                          Upload Video
+                        </Button>
+                      </div>
+                    </div>
+                    {sessionDetail.session_assets && sessionDetail.session_assets.length > 0 ? (
+                      <>
+                        <div className="render-video-container">
+                          {sessionDetail.session_assets.map((item: any, index: any) => (
+                            <div
+                              key={`render-video-item-${index}`}
+                              className={`render-video-item ${
+                                currentVideoRenderUrl && currentVideoRenderUrl.id === item.id
+                                  ? "active"
+                                  : ""
+                              }`}
+                              onClick={() => handleCurrentVideoRenderUrl(item)}
+                            >
+                              <div className="image-container">
+                                <img src={item.thumbnail ? item.thumbnail : "/default-image.png"} />
+                              </div>
+                              <div className="title">{item.title}</div>
+                              <div className="description">Video description</div>
+                            </div>
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      <div className="text-center text-secondary pt-5">
+                        No Assets are available.
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="right-wrapper">No Chat is available.</div>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+      {/* modal */}
+      <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
+        <Modal.Body>
+          <h5>Upload New Video</h5>
+          <div>
+            <Form onSubmit={submitHandleData}>
+              <Form.Group className="mb-3" controlId="form-modal-title">
+                <Form.Label>Enter title</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={modalData.title}
+                  onChange={(e: any) => handleModalData("title", e.target.value)}
+                  required
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="form-modal-url">
+                <Form.Label>Enter Thumbnail</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  value={modalData.thumbnail}
+                  onChange={(e: any) => handleModalData("thumbnail", e.target.value)}
+                  required
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="form-modal-url">
+                <Form.Label>Enter Recording URL</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  value={modalData.url}
+                  onChange={(e: any) => handleModalData("url", e.target.value)}
+                  required
+                />
+              </Form.Group>
+              <div className="mb-3">
+                <Button variant="secondary" className="btn-sm me-2" onClick={closeModal}>
+                  Close
+                </Button>
+                <Button type="submit" className="btn-sm me-2">
+                  {buttonLoader ? "Processing.." : "Upload"}
+                </Button>
+              </div>
+            </Form>
+          </div>
+        </Modal.Body>
+      </Modal>
+    </div>
+  );
+};
+
+export default SessionDetailView;
