@@ -22,7 +22,7 @@ import IconRow from "@components/iconRow";
 import { SESSION_ASSET_WITH_SESSION_ID_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
-import { SessionAssetCreate } from "@lib/services/sessionservice";
+import { SessionAssetCreate, SessionAssetEdit } from "@lib/services/sessionservice";
 // cookie
 import { getAuthenticationToken } from "@lib/cookie";
 // global imports
@@ -31,6 +31,14 @@ import { datePreview } from "@constants/global";
 const SessionDetailView = () => {
   const router = useRouter();
   const session_id: any = router.query.session_id;
+
+  const initialModalData = {
+    id: null,
+    title: "",
+    url: "",
+    kind: "RECORDING",
+    thumbnail: "",
+  };
 
   const [userRole, setUserRole] = React.useState<any>();
   const [studentImages, setStudentImages] = React.useState<any>();
@@ -42,27 +50,17 @@ const SessionDetailView = () => {
   };
 
   const [buttonLoader, setButtonLoader] = React.useState<boolean>(false);
-  const [modalData, setModalData] = React.useState<any>({
-    title: "New video session testing 3",
-    url:
-      "https://iframe.mediadelivery.net/embed/8356/bc0fe775-4b4e-404a-b011-ef0a7c5937ff?autoplay=true",
-    kind: "RECORDING",
-    thumbnail: "https://discountseries.com/wp-content/uploads/2017/09/default.jpg",
-    session: session_id,
-  });
+  const [modalData, setModalData] = React.useState<any>({});
   const [modal, setModal] = React.useState(false);
 
   const closeModal = () => {
     setModal(false);
-    setModalData({
-      title: "",
-      url: "",
-      kind: "RECORDING",
-      thumbnail: "",
-      session: session_id,
-    });
+    setModalData({});
   };
-  const openModal = () => setModal(true);
+  const openModal = (data: any) => {
+    setModal(true);
+    setModalData(data);
+  };
   const handleModalData = (key: any, value: any) => {
     setModalData({ ...modalData, [key]: value });
   };
@@ -70,24 +68,42 @@ const SessionDetailView = () => {
   const submitHandleData = (e: any) => {
     e.preventDefault();
     setButtonLoader(true);
-    const payload = {
-      title: modalData.title,
-      url: modalData.url,
-      kind: modalData.kind,
-      thumbnail: modalData.thumbnail,
-      session: session_id,
-    };
-
-    SessionAssetCreate(payload)
-      .then((response) => {
-        mutate([SESSION_ASSET_WITH_SESSION_ID_ENDPOINT(session_id), session_id], false);
-        closeModal();
-        setButtonLoader(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setButtonLoader(false);
-      });
+    if (modalData && modalData.id === null) {
+      const payload = {
+        title: modalData.title,
+        url: modalData.url,
+        kind: modalData.kind,
+        thumbnail: modalData.thumbnail,
+        session: session_id,
+      };
+      SessionAssetCreate(payload)
+        .then((response) => {
+          mutate([SESSION_ASSET_WITH_SESSION_ID_ENDPOINT(session_id), session_id], false);
+          closeModal();
+          setButtonLoader(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setButtonLoader(false);
+        });
+    } else {
+      const payload = {
+        id: modalData.id,
+        title: modalData.title,
+        url: modalData.url,
+        thumbnail: modalData.thumbnail,
+      };
+      SessionAssetEdit(payload)
+        .then((response) => {
+          mutate([SESSION_ASSET_WITH_SESSION_ID_ENDPOINT(session_id), session_id], false);
+          closeModal();
+          setButtonLoader(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setButtonLoader(false);
+        });
+    }
   };
 
   const { data: sessionDetail, error: sessionDetailError } = useSWR(
@@ -253,7 +269,7 @@ const SessionDetailView = () => {
                         <h5 className="m-0 p-0">All Videos</h5>
                       </div>
                       <div>
-                        <Button className="btn-sm" onClick={openModal}>
+                        <Button className="btn-sm" onClick={() => openModal(initialModalData)}>
                           Upload Video
                         </Button>
                       </div>
@@ -269,13 +285,34 @@ const SessionDetailView = () => {
                                   ? "active"
                                   : ""
                               }`}
-                              onClick={() => handleCurrentVideoRenderUrl(item)}
                             >
-                              <div className="image-container">
+                              <div
+                                className="image-container"
+                                onClick={() => handleCurrentVideoRenderUrl(item)}
+                              >
                                 <img src={item.thumbnail ? item.thumbnail : "/default-image.png"} />
                               </div>
-                              <div className="title">{item.title}</div>
-                              <div className="description">Video description</div>
+                              <div
+                                className="title"
+                                onClick={() => handleCurrentVideoRenderUrl(item)}
+                              >
+                                {item.title}
+                              </div>
+                              <div
+                                className="description"
+                                onClick={() => handleCurrentVideoRenderUrl(item)}
+                              >
+                                Video description
+                              </div>
+                              <div className="button-container">
+                                <Button
+                                  variant="outline-secondary"
+                                  className="btn-sm edit-button"
+                                  onClick={() => openModal(item)}
+                                >
+                                  Edit
+                                </Button>
+                              </div>
                             </div>
                           ))}
                         </div>
@@ -298,45 +335,47 @@ const SessionDetailView = () => {
         <Modal.Body>
           <h5>Upload New Video</h5>
           <div>
-            <Form onSubmit={submitHandleData}>
-              <Form.Group className="mb-3" controlId="form-modal-title">
-                <Form.Label>Enter title</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={modalData.title}
-                  onChange={(e: any) => handleModalData("title", e.target.value)}
-                  required
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="form-modal-url">
-                <Form.Label>Enter Thumbnail</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  value={modalData.thumbnail}
-                  onChange={(e: any) => handleModalData("thumbnail", e.target.value)}
-                  required
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="form-modal-url">
-                <Form.Label>Enter Recording URL</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  value={modalData.url}
-                  onChange={(e: any) => handleModalData("url", e.target.value)}
-                  required
-                />
-              </Form.Group>
-              <div className="mb-3">
-                <Button variant="secondary" className="btn-sm me-2" onClick={closeModal}>
-                  Close
-                </Button>
-                <Button type="submit" className="btn-sm me-2">
-                  {buttonLoader ? "Processing.." : "Upload"}
-                </Button>
-              </div>
-            </Form>
+            {modalData && (
+              <Form onSubmit={submitHandleData}>
+                <Form.Group className="mb-3" controlId="form-modal-title">
+                  <Form.Label>Enter title</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={modalData.title}
+                    onChange={(e: any) => handleModalData("title", e.target.value)}
+                    required
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="form-modal-url">
+                  <Form.Label>Enter Thumbnail</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    value={modalData.thumbnail}
+                    onChange={(e: any) => handleModalData("thumbnail", e.target.value)}
+                    required
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="form-modal-url">
+                  <Form.Label>Enter Recording URL</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    value={modalData.url}
+                    onChange={(e: any) => handleModalData("url", e.target.value)}
+                    required
+                  />
+                </Form.Group>
+                <div className="mb-3">
+                  <Button variant="secondary" className="btn-sm me-2" onClick={closeModal}>
+                    Close
+                  </Button>
+                  <Button type="submit" className="btn-sm me-2">
+                    {buttonLoader ? "Processing.." : "Upload"}
+                  </Button>
+                </div>
+              </Form>
+            )}
           </div>
         </Modal.Body>
       </Modal>

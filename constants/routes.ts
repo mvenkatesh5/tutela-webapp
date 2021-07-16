@@ -42,6 +42,7 @@ export const ZOOM_ACCOUNT_STATUS_ENDPOINT = `/api/zoom/users-status/`;
 export const SESSION_ASSET_WITH_SESSION_ID_ENDPOINT = (session_id: any) =>
   `/api/sessions/${session_id}/details/`;
 export const SESSION_ASSET_ENDPOINT = `/api/session-assets/`;
+export const SESSION_ASSET_WITH_ID_ENDPOINT = (asset_id: any) => `/api/session-assets/${asset_id}/`;
 
 // calendar sessions
 export const USER_CALENDAR_SESSION_ENDPOINT = (date_query: any) =>

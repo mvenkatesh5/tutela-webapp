@@ -74,13 +74,15 @@ const SessionCard = (props: any) => {
                 <ZoomSessions data={props.data} role={props.role ? props.role : null} />
               </div>
 
-              <Link href={`/session-detail/${props.data.id}`}>
-                <a target="_blank">
-                  <div className="ms-2 session-detail-redirection">
-                    <EyeFill />
-                  </div>
-                </a>
-              </Link>
+              {(props.role === "admin" || props.role === "teacher") && (
+                <Link href={`/session-detail/${props.data.id}`}>
+                  <a target="_blank">
+                    <div className="ms-2 session-detail-redirection">
+                      <EyeFill />
+                    </div>
+                  </a>
+                </Link>
+              )}
               {(props.role === "admin" || props.role === "teacher") && (
                 <div className="ms-2">
                   <SessionEdit

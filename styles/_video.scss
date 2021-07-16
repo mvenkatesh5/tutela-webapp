@@ -235,6 +235,12 @@
         &.active {
           border: 1px solid #1089ff;
         }
+        .button-container {
+          padding: 4px 10px;
+          .edit-button {
+            padding: 2px 8px;
+          }
+        }
       }
     }
   }
