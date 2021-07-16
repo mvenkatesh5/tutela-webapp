@@ -6,13 +6,10 @@ import { useRouter } from "next/router";
 import { Image, Button, Modal, Form } from "react-bootstrap";
 // material icons
 import { LinkAlt } from "@styled-icons/boxicons-regular";
-import { TextLeft } from "@styled-icons/bootstrap";
 import { Users } from "@styled-icons/fa-solid";
 import { User } from "@styled-icons/boxicons-regular";
-import { Readthedocs } from "@styled-icons/simple-icons";
-import { CheveronDown } from "@styled-icons/zondicons";
 import { Video } from "@styled-icons/boxicons-regular/Video";
-import { EyeFill } from "@styled-icons/bootstrap/EyeFill";
+import { HelpWithCircle } from "@styled-icons/entypo/HelpWithCircle";
 // swr
 import useSWR, { mutate } from "swr";
 // components
@@ -147,15 +144,31 @@ const SessionDetailView = () => {
     }
   }, []);
 
+  const crispOpen = () => {
+    if (window) {
+      window.$crisp.push(["do", "chat:show"]);
+      window.$crisp.push(["do", "chat:open"]);
+      window.$crisp.push(["on", "chat:closed", crispClose]);
+    }
+  };
+  const crispClose = () => {
+    if (window) {
+      window.$crisp.push(["do", "chat:hide"]);
+    }
+  };
+
   return (
     <div>
       <div className="video-wrapper">
         <div className="header-wrapper">
-          <Link href="/">
+          <Link href="/calendar">
             <a>
               <Image src="/logo.svg" />
             </a>
           </Link>
+          <div className="chat-icon" onClick={crispOpen}>
+            <HelpWithCircle />
+          </div>
         </div>
         {!sessionDetail && !sessionDetailError ? (
           <div className="text-center text-secondary m-5">Loading...</div>

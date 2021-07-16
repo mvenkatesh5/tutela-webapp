@@ -1,6 +1,7 @@
 import React from "react";
 // react bootstrap
 import { Navbar, Nav, Container, Image, Form } from "react-bootstrap";
+// material icons
 import {
   NotificationsActive,
   QuestionAnswer,
@@ -9,6 +10,7 @@ import {
   Login,
 } from "@styled-icons/material-rounded/";
 import { CircleFill } from "@styled-icons/bootstrap";
+import { HelpWithCircle } from "@styled-icons/entypo/HelpWithCircle";
 // cookie
 import { logout, getAuthenticationToken } from "@lib/cookie";
 import PreFetchLink from "@components/PreFetchLink";
@@ -27,6 +29,19 @@ function DashboardNav() {
 
   const signOut = () => {
     logout();
+  };
+
+  const crispOpen = () => {
+    if (window) {
+      window.$crisp.push(["do", "chat:show"]);
+      window.$crisp.push(["do", "chat:open"]);
+      window.$crisp.push(["on", "chat:closed", crispClose]);
+    }
+  };
+  const crispClose = () => {
+    if (window) {
+      window.$crisp.push(["do", "chat:hide"]);
+    }
   };
 
   return (
@@ -138,6 +153,11 @@ function DashboardNav() {
                         : " learning!"}
                     </Nav.Link>
                   )}
+
+                  <Nav.Link className="mt-1" onClick={crispOpen}>
+                    <HelpWithCircle width="18" />
+                  </Nav.Link>
+
                   {/* <Nav.Link>
                 <Form.Control size="sm" className="border" type="text" placeholder="Search" />
               </Nav.Link>

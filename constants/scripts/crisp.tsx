@@ -29,8 +29,10 @@ const Crisp = () => {
         s.async = true;
         d.getElementsByTagName("head")[0].appendChild(s);
         // defining email when logged in
-        if (validateCurrentUser())
+        if (validateCurrentUser()) {
           window.$crisp.push(["set", "user:email", [validateCurrentUser()]]);
+          window.$crisp.push(["do", "chat:hide"]);
+        }
       })();
     }
   }, []);
