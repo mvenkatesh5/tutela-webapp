@@ -188,20 +188,22 @@ const SessionCard = (props: any) => {
               )}
             </div>
 
-            <div className="d-flex w-100 mb-3 align-items-center" style={{ marginRight: "10px" }}>
-              <div className="small-icon">
-                <Video className="text-muted" />
+            {props.data.recording_link  && (
+              <div className="d-flex w-100 mb-3 align-items-center" style={{ marginRight: "10px" }}>
+                <div className="small-icon">
+                  <Video className="text-muted" />
+                </div>
+                <div>
+                  {props.data.recording_link ? (
+                    <a href={props.data.recording_link} target="_blank" className="description">
+                      {props.data.recording_link}
+                    </a>
+                  ) : (
+                    <div className="description">No recording is available.</div>
+                  )}
+                </div>
               </div>
-              <div>
-                {props.data.recording_link ? (
-                  <a href={props.data.recording_link} target="_blank" className="description">
-                    {props.data.recording_link}
-                  </a>
-                ) : (
-                  <div className="description">No recording is available.</div>
-                )}
-              </div>
-            </div>
+            )}
 
             <div className="ms-auto">
               <ZoomSessions data={props.data} role={props.role ? props.role : null} />

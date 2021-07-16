@@ -219,27 +219,29 @@ const SessionDetailView = () => {
                     </div>
                   </div>
 
-                  <div className="video-section-detail">
-                    <div className="heading">
-                      <div className="icon">
-                        <LinkAlt className="text-muted" />
+                  {sessionDetail.recording_link && (
+                    <div className="video-section-detail">
+                      <div className="heading">
+                        <div className="icon">
+                          <LinkAlt className="text-muted" />
+                        </div>
+                        <div className="content">Zoom Recording</div>
                       </div>
-                      <div className="content">Zoom Recording</div>
+                      <div className="description">
+                        {sessionDetail.recording_link ? (
+                          <a
+                            href={sessionDetail.recording_link}
+                            target="_blank"
+                            className="description"
+                          >
+                            {sessionDetail.recording_link}
+                          </a>
+                        ) : (
+                          <div className="description">No recording is available.</div>
+                        )}
+                      </div>
                     </div>
-                    <div className="description">
-                      {sessionDetail.recording_link ? (
-                        <a
-                          href={sessionDetail.recording_link}
-                          target="_blank"
-                          className="description"
-                        >
-                          {sessionDetail.recording_link}
-                        </a>
-                      ) : (
-                        <div className="description">No recording is available.</div>
-                      )}
-                    </div>
-                  </div>
+                  )}
 
                   <div className="video-section-detail">
                     <div className="heading">
