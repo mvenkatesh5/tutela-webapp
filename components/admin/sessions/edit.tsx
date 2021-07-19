@@ -166,7 +166,7 @@ const SessionEditView = (props: any) => {
                   disabled={buttonLoader}
                   onClick={(e: any) => sessionUpdate("single")}
                 >
-                  {buttonLoader ? "Processing..." : `Update Session`}
+                  {buttonLoader ? "Processing..." : `Update this event`}
                 </Button>
 
                 {props.data.key != "none" && (
