@@ -20,7 +20,6 @@ const SessionEditView = (props: any) => {
   const sessionDelete = (event: any, bulk_delete: any) => {
     event.preventDefault();
     setButtonLoader(true);
-    console.log(bulk_delete);
     if (bulk_delete != "bulk") {
       SessionDelete(props.data.id)
         .then((res) => {
@@ -62,8 +61,6 @@ const SessionEditView = (props: any) => {
         });
     }
   };
-
-  console.log(props.data);
 
   return (
     <div>
