@@ -85,7 +85,6 @@ const SessionEditView = (props: any) => {
       });
 
     if (eventKey === "single") {
-      console.log("coming to single update");
       const SessionIdPayload = {
         session_id: sessionData.id,
         title: sessionData.title,
@@ -106,7 +105,6 @@ const SessionEditView = (props: any) => {
           setButtonLoader(false);
         });
     } else {
-      console.log("coming to multiple update");
       const SessionKeyPayload = {
         key: props.data.key,
         session_id: sessionData.id,
