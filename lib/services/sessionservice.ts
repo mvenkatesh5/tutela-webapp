@@ -4,6 +4,8 @@ import {
   BULK_SESSION_ENDPOINT,
   SESSION_ENDPOINT,
   SESSION_WITH_ID_ENDPOINT,
+  SESSION_UPDATE_ENDPOINT,
+  SESSION_BULK_UPDATE_ENDPOINT,
   SESSION_USER_ENDPOINT,
   ZOOM_MEETING_ENDPOINT,
   SESSION_USER_WITH_ID_ENDPOINT,
@@ -33,6 +35,24 @@ export const SessionCreate = async (data: any) => {
 export const SessionUpdate = async (data: any) => {
   try {
     const response = await axios.put(SESSION_WITH_ID_ENDPOINT(data.id), data);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const SessionWithoutIdUpdate = async (data: any) => {
+  try {
+    const response = await axios.post(SESSION_UPDATE_ENDPOINT, data);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const SessionBulkUpdate = async (data: any) => {
+  try {
+    const response = await axios.post(SESSION_BULK_UPDATE_ENDPOINT, data);
     return response.data;
   } catch (error) {
     throw error.response.data;

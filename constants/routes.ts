@@ -32,6 +32,8 @@ export const SESSION_ENDPOINT_TODAY = `/api/tutela-sessions/today/`;
 export const SESSION_ENDPOINT_UPCOMING = `/api/upcoming-sessions/`;
 export const SESSION_WITH_ID_ENDPOINT = (session_id: Number) =>
   `/api/tutela-sessions/${session_id}/`;
+export const SESSION_UPDATE_ENDPOINT = `/api/sessions/update/`;
+export const SESSION_BULK_UPDATE_ENDPOINT = `/api/sessions/update/`;
 export const BULK_SESSION_DELETE_ENDPOINT = `/api/bulk-delete-sessions/`;
 export const SESSION_USER_ENDPOINT = `/api/tutela-sessions-users/`;
 export const SESSION_USER_WITH_ID_ENDPOINT = (session_id: Number) =>

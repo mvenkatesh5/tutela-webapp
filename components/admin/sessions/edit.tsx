@@ -13,7 +13,8 @@ import { USER_CALENDAR_SESSION_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 import {
-  SessionUpdate,
+  SessionWithoutIdUpdate,
+  SessionBulkUpdate,
   SessionBulkUserCreate,
   SessionBulkUserDelete,
 } from "@lib/services/sessionservice";
@@ -60,141 +61,73 @@ const SessionEditView = (props: any) => {
     return new Date(currentDate);
   };
 
-  const sessionUpdate = (event: any) => {
-    event.preventDefault();
+  const sessionUpdate = (eventKey: any) => {
     setButtonLoader(true);
-    const payload = {
-      id: sessionData.id,
-      title: sessionData.title,
-      description: sessionData.description,
-      start_datetime: handleDatetime(sessionData.start_date, sessionData.start_time),
-      end_datetime: handleDatetime(sessionData.start_date, sessionData.end_time),
-      link: sessionData.link,
-      data: sessionData.data,
-    };
-    SessionUpdate(payload)
-      .then((response) => {
-        createSessionUsers();
-      })
-      .catch((errors) => {
-        console.log(errors);
-        setButtonLoader(false);
+
+    let users: any = [];
+
+    if (sessionData.listeners && sessionData.listeners.length > 0)
+      sessionData.listeners.map((userData: any) => {
+        const payload = {
+          as_role: 0,
+          user: parseInt(userData),
+        };
+        users.push(payload);
       });
-  };
 
-  const createSessionUsers = () => {
-    let listeners: any = sessionData.listeners;
-    let existingListeners: any = [];
-    let teachers: any = sessionData.teachers;
-    let existingTeachers: any = [];
-    let createUsers: any = [];
-    let createTeachers: any = [];
-    let deleteUsers: any = [];
-
-    let usersData: any = [];
-
-    if (props.data.session_users && props.data.session_users.length > 0) {
-      props.data.session_users.map((data: any) => {
-        // users
-        if (data.as_role === 0) {
-          existingListeners.push(data);
-        }
-        // teachers
-        if (data.as_role === 1) {
-          existingTeachers.push(data);
-        }
+    if (sessionData.teachers && sessionData.teachers.length > 0)
+      sessionData.teachers.map((userData: any) => {
+        const payload = {
+          as_role: 1,
+          user: parseInt(userData),
+        };
+        users.push(payload);
       });
-    }
 
-    if (listeners && listeners.length > 0) {
-      listeners.map((data: any) => {
-        let index: any = existingListeners.findIndex(
-          (element: any, i: any) => parseInt(element.user.id) === parseInt(data)
-        );
-        if (index < 0) {
-          createUsers.push(data);
-        }
-      });
-    }
-
-    if (teachers && teachers.length > 0) {
-      teachers.map((data: any) => {
-        let index: any = existingTeachers.findIndex(
-          (element: any, i: any) => parseInt(element.user.id) === parseInt(data)
-        );
-        if (index < 0) {
-          createTeachers.push(data);
-        }
-      });
-    }
-
-    if (existingListeners && existingListeners.length > 0 && listeners && listeners.length > 0) {
-      existingListeners.map((data: any) => {
-        if (!listeners.includes(data.user.id.toString())) {
-          deleteUsers.push(data.id);
-        }
-      });
-    }
-
-    if (existingTeachers && existingTeachers.length > 0 && teachers && teachers.length > 0) {
-      existingTeachers.map((data: any) => {
-        if (!teachers.includes(data.user.id.toString())) {
-          deleteUsers.push(data.id);
-        }
-      });
-    }
-
-    createUsers.map((data: any) => {
-      const payload = {
-        as_role: 0,
-        session: props.data.id,
-        user: parseInt(data),
+    if (props.data && props.data.key === "none" && eventKey === "single") {
+      const SessionIdPayload = {
+        session_id: sessionData.id,
+        title: sessionData.title,
+        description: sessionData.description,
+        populate: "single",
+        start_datetime: handleDatetime(sessionData.start_date, sessionData.start_time),
+        end_datetime: handleDatetime(sessionData.start_date, sessionData.end_time),
+        users: users,
       };
-      usersData.push(payload);
-    });
 
-    createTeachers.map((data: any) => {
-      const payload = {
-        as_role: 1,
-        session: props.data.id,
-        user: parseInt(data),
-      };
-      usersData.push(payload);
-    });
-
-    createRequiredUsers(usersData, deleteUsers);
-  };
-
-  const createRequiredUsers = (createUsers: any, deleteUsers: any) => {
-    if (createUsers && createUsers.length > 0) {
-      SessionBulkUserCreate(createUsers)
-        .then((response) => {
-          deleteRequiredUsers(deleteUsers);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      deleteRequiredUsers(deleteUsers);
-    }
-  };
-
-  const deleteRequiredUsers = (deleteUsers: any) => {
-    if (deleteUsers && deleteUsers.length > 0) {
-      SessionBulkUserDelete(deleteUsers)
+      SessionWithoutIdUpdate(SessionIdPayload)
         .then((response) => {
           mutateCurrentSession();
+          setButtonLoader(false);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((errors) => {
+          console.log(errors);
+          setButtonLoader(false);
         });
     } else {
-      mutateCurrentSession();
+      const SessionKeyPayload = {
+        key: props.data.key,
+        title: sessionData.title,
+        description: sessionData.description,
+        start_datetime: handleDatetime(sessionData.start_date, sessionData.start_time),
+        end_datetime: handleDatetime(sessionData.start_date, sessionData.end_time),
+        populate: "multiple",
+        users: users,
+      };
+
+      SessionBulkUpdate(SessionKeyPayload)
+        .then((response) => {
+          mutateCurrentSession();
+          setButtonLoader(false);
+        })
+        .catch((errors) => {
+          console.log(errors);
+          setButtonLoader(false);
+        });
     }
   };
 
   const mutateCurrentSession = () => {
-    console.log("coming here....");
     mutate(
       [USER_CALENDAR_SESSION_ENDPOINT(props.currentDateQuery), props.currentDateQuery],
       APIFetcher(USER_CALENDAR_SESSION_ENDPOINT(props.currentDateQuery)),
@@ -213,7 +146,7 @@ const SessionEditView = (props: any) => {
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>
           <h5>Session Edit</h5>
-          <Form onSubmit={sessionUpdate}>
+          <Form>
             {sessionData && (
               <div>
                 <SessionForm data={sessionData} handleData={handleSessionData} role={props.role} />
@@ -225,15 +158,29 @@ const SessionEditView = (props: any) => {
                     handleSessionData={setSessionData}
                   />
                 )}
+
                 <Button
                   variant="outline-primary"
                   className="btn-sm"
-                  type="submit"
                   style={{ marginRight: "10px" }}
                   disabled={buttonLoader}
+                  onClick={(e: any) => sessionUpdate("single")}
                 >
-                  {buttonLoader ? "Updating Session..." : "Update Session"}
+                  {buttonLoader ? "Processing..." : `Update Session`}
                 </Button>
+
+                {props.data.key != "none" && (
+                  <Button
+                    variant="outline-primary"
+                    className="btn-sm"
+                    style={{ marginRight: "10px" }}
+                    disabled={buttonLoader}
+                    onClick={(e: any) => sessionUpdate("bulk")}
+                  >
+                    {buttonLoader ? "Processing..." : "Update all recurring events"}
+                  </Button>
+                )}
+
                 <Button variant="outline-secondary" className="btn-sm" onClick={closeModal}>
                   Close
                 </Button>
