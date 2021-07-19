@@ -89,9 +89,9 @@ const SessionEditView = (props: any) => {
         session_id: sessionData.id,
         title: sessionData.title,
         description: sessionData.description,
-        populate: "single",
         start_datetime: handleDatetime(sessionData.start_date, sessionData.start_time),
         end_datetime: handleDatetime(sessionData.start_date, sessionData.end_time),
+        populate: "single",
         users: users,
       };
 
@@ -107,6 +107,7 @@ const SessionEditView = (props: any) => {
     } else {
       const SessionKeyPayload = {
         key: props.data.key,
+        session_id: sessionData.id,
         title: sessionData.title,
         description: sessionData.description,
         start_datetime: handleDatetime(sessionData.start_date, sessionData.start_time),
