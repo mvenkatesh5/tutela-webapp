@@ -9,7 +9,10 @@ import { META_DESCRIPTION } from "@constants/page";
 import AuthWrapper from "layouts/authpagelayout";
 import { LogIn } from "@lib/services/authenticationservice";
 // react bootstrap
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, InputGroup } from "react-bootstrap";
+// material icons
+import { EyeFill } from "@styled-icons/bootstrap/EyeFill";
+import { EyeSlashFill } from "@styled-icons/bootstrap/EyeSlashFill";
 // cookie
 import { setAuthenticationToken } from "@lib/cookie";
 // global context provider
@@ -20,6 +23,8 @@ import withoutAuth from "@lib/hoc/withoutAuth";
 const SignInView = () => {
   const [globalState, globalDispatch] = React.useContext(globalContext);
   const router = useRouter();
+
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const [buttonLoader, setButtonLoader] = React.useState(false);
 
@@ -82,13 +87,22 @@ const SignInView = () => {
 
           <Form.Group>
             <Form.Label className="mb-1 text-muted">Enter Password</Form.Label>
-            <Form.Control
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              type="password"
-              placeholder="Password"
-              required
-            />
+            <InputGroup className="mb-3">
+              <Form.Control
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                required
+              />
+              <InputGroup.Text
+                style={{ cursor: "pointer" }}
+                id="form-sign-in-password"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <EyeFill width="18" /> : <EyeSlashFill width="18" />}
+              </InputGroup.Text>
+            </InputGroup>
           </Form.Group>
           <div className="mb-3" style={{ textAlign: "right" }}>
             <Link href="/forgot-password">
