@@ -32,6 +32,7 @@ const Crisp = () => {
         if (validateCurrentUser()) {
           window.$crisp.push(["set", "user:email", [validateCurrentUser()]]);
           window.$crisp.push(["do", "chat:hide"]);
+          window.$crisp.push(["do", "chat:close"]);
         }
       })();
     }

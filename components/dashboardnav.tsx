@@ -41,6 +41,7 @@ function DashboardNav() {
   const crispClose = () => {
     if (window) {
       window.$crisp.push(["do", "chat:hide"]);
+      window.$crisp.push(["do", "chat:close"]);
     }
   };
 
