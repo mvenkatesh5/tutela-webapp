@@ -24,6 +24,8 @@ import { SessionAssetCreate, SessionAssetEdit } from "@lib/services/sessionservi
 import { getAuthenticationToken } from "@lib/cookie";
 // global imports
 import { datePreview } from "@constants/global";
+// hoc
+import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 
 const SessionDetailView = () => {
   const router = useRouter();
@@ -283,11 +285,13 @@ const SessionDetailView = () => {
                       <div>
                         <h5 className="m-0 p-0">All Videos</h5>
                       </div>
-                      <div>
-                        <Button className="btn-sm" onClick={() => openModal(initialModalData)}>
-                          Upload Video
-                        </Button>
-                      </div>
+                      {userRole != "student" && (
+                        <div>
+                          <Button className="btn-sm" onClick={() => openModal(initialModalData)}>
+                            Upload Video
+                          </Button>
+                        </div>
+                      )}
                     </div>
                     {sessionDetail.session_assets && sessionDetail.session_assets.length > 0 ? (
                       <>
@@ -319,15 +323,17 @@ const SessionDetailView = () => {
                               >
                                 Video description
                               </div>
-                              <div className="button-container">
-                                <Button
-                                  variant="outline-secondary"
-                                  className="btn-sm edit-button"
-                                  onClick={() => openModal(item)}
-                                >
-                                  Edit
-                                </Button>
-                              </div>
+                              {userRole != "student" && (
+                                <div className="button-container">
+                                  <Button
+                                    variant="outline-secondary"
+                                    className="btn-sm edit-button"
+                                    onClick={() => openModal(item)}
+                                  >
+                                    Edit
+                                  </Button>
+                                </div>
+                              )}
                             </div>
                           ))}
                         </div>
@@ -398,4 +404,4 @@ const SessionDetailView = () => {
   );
 };
 
-export default SessionDetailView;
+export default withGlobalAuth(SessionDetailView);

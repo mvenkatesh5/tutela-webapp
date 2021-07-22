@@ -74,15 +74,15 @@ const SessionCard = (props: any) => {
                 <ZoomSessions data={props.data} role={props.role ? props.role : null} />
               </div>
 
-              {(props.role === "admin" || props.role === "teacher") && (
-                <Link href={`/session-detail/${props.data.id}`}>
-                  <a target="_blank">
-                    <div className="ms-2 session-detail-redirection">
-                      <EyeFill />
-                    </div>
-                  </a>
-                </Link>
-              )}
+              {/* {(props.role === "admin" || props.role === "teacher") && ( */}
+              <Link href={`/session-detail/${props.data.id}`}>
+                <a target="_blank">
+                  <div className="ms-2 session-detail-redirection">
+                    <EyeFill />
+                  </div>
+                </a>
+              </Link>
+              {/* )} */}
               {(props.role === "admin" || props.role === "teacher") && (
                 <div className="ms-2">
                   <SessionEdit
@@ -188,7 +188,7 @@ const SessionCard = (props: any) => {
               )}
             </div>
 
-            {props.data.recording_link  && (
+            {props.data.recording_link && (
               <div className="d-flex w-100 mb-3 align-items-center" style={{ marginRight: "10px" }}>
                 <div className="small-icon">
                   <Video className="text-muted" />
