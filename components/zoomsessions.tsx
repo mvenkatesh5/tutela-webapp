@@ -136,6 +136,8 @@ const ZoomSession = (props: any) => {
     );
   };
 
+  console.log("zoomData", zoomData);
+
   return (
     <div>
       {disablePreviousDate(props.data.end_datetime) ? (
@@ -184,7 +186,11 @@ const ZoomSession = (props: any) => {
         </div>
       ) : (
         <small>
-          <Badge className="bg-warning">Completed!</Badge>
+          {zoomData && zoomData.host_id ? (
+            <Badge className="bg-success">Conducted!</Badge>
+          ) : (
+            <Badge className="bg-warning">Not conducted!</Badge>
+          )}
         </small>
       )}
     </div>
