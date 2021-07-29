@@ -1,6 +1,8 @@
 import React from "react";
+// next imports
+import Link from "next/link";
 // react bootstrap
-import { Dropdown, Image } from "react-bootstrap";
+import { OverlayTrigger, Tooltip, Dropdown, Image } from "react-bootstrap";
 // material icons
 import { LinkAlt } from "@styled-icons/boxicons-regular";
 import { TextLeft } from "@styled-icons/bootstrap";
@@ -9,11 +11,14 @@ import { User } from "@styled-icons/boxicons-regular";
 import { Readthedocs } from "@styled-icons/simple-icons";
 import { CheveronDown } from "@styled-icons/zondicons";
 import { Video } from "@styled-icons/boxicons-regular/Video";
+import { EyeFill } from "@styled-icons/bootstrap/EyeFill";
 // components
 import ZoomSessions from "@components/zoomsessions";
 import IconRow from "@components/iconRow";
 import SessionEdit from "@components/admin/sessions/edit";
 import SessionDelete from "@components/admin/sessions/delete";
+import SessionSuspend from "@components/admin/sessions/SessionSuspend";
+import SessionReschedule from "@components/admin/sessions/SessionReschedule";
 // global imports
 import { datePreview } from "@constants/global";
 
@@ -58,7 +63,7 @@ const CalendarWeekMonthCardDetailView = (props: any) => {
 
         <Dropdown.Menu className="month-week-dropdown-content-wrapper">
           <div>
-            <div className="d-flex mb-3">
+            <div className="d-flex mb-2">
               <div className="icon">
                 <Image className="img-fluid rounded me-3" src="/bird.svg" />
               </div>
@@ -73,43 +78,42 @@ const CalendarWeekMonthCardDetailView = (props: any) => {
               </div>
             </div>
 
-            <div className="d-flex mb-3">
-              <div className="d-flex w-100" style={{ marginRight: "10px" }}>
-                <div className="small-icon">
-                  <TextLeft className="text-muted" />
-                </div>
-                <div>
-                  <div className="description">{props.data.description}</div>
-                </div>
+            <div className="d-flex w-100 mb-2">
+              <div className="small-icon">
+                <TextLeft width={20} className="text-muted" />
               </div>
-              <div className="d-flex w-100" style={{ marginLeft: "10px" }}>
-                <div className="small-icon">
-                  <LinkAlt className="text-muted" />
-                </div>
-                <div>
-                  <div className="description">
-                    {props.data && props.data.data && props.data.data.zoom ? (
-                      <div>
-                        {props.role === "student" ? (
-                          <a href={props.data.data.zoom.join_url} target="_blank">
-                            Join Session
-                          </a>
-                        ) : (
-                          <a href={props.data.data.zoom.start_url} target="_blank">
-                            Start Session
-                          </a>
-                        )}
-                      </div>
-                    ) : (
-                      <div>{props.role === "student" && <div>Session is yet to start!</div>}</div>
-                    )}
-                  </div>
+              <div className="ms-2">
+                <div className="description">{props.data.description}</div>
+              </div>
+            </div>
+
+            <div className="d-flex w-100 mb-2">
+              <div className="small-icon">
+                <LinkAlt width={20} className="text-muted" />
+              </div>
+              <div className="ms-2">
+                <div className="description">
+                  {props.data && props.data.data && props.data.data.zoom ? (
+                    <div>
+                      {props.role === "student" ? (
+                        <a href={props.data.data.zoom.join_url} target="_blank">
+                          Join Session
+                        </a>
+                      ) : (
+                        <a href={props.data.data.zoom.start_url} target="_blank">
+                          Start Session
+                        </a>
+                      )}
+                    </div>
+                  ) : (
+                    <div>{props.role === "student" && <div>Session is yet to start!</div>}</div>
+                  )}
                 </div>
               </div>
             </div>
 
             {studentImages && studentImages.length > 0 && (
-              <div className="d-flex mb-3 w-100">
+              <div className="d-flex mb-2 w-100">
                 <div className="small-icon">
                   <Users className="text-muted" width={20} />
                 </div>
@@ -128,7 +132,7 @@ const CalendarWeekMonthCardDetailView = (props: any) => {
             )}
 
             {teacherImages && teacherImages.length > 0 && (
-              <div className="d-flex mb-3 w-100">
+              <div className="d-flex mb-2 w-100">
                 <div className="small-icon">
                   <User className="text-muted" width={20} />
                 </div>
@@ -139,11 +143,11 @@ const CalendarWeekMonthCardDetailView = (props: any) => {
               </div>
             )}
 
-            <div className="d-flex w-100 mb-3 align-items-center">
+            <div className="d-flex w-100 mb-2 align-items-center">
               <div className="small-icon">
-                <Video className="text-muted" />
+                <Video width={20} className="text-muted" />
               </div>
-              <div>
+              <div className="ms-2">
                 {props.data.recording_link ? (
                   <a href={props.data.recording_link} target="_blank" className="description">
                     {props.data.recording_link}
@@ -154,9 +158,52 @@ const CalendarWeekMonthCardDetailView = (props: any) => {
               </div>
             </div>
 
-            <div className="ms-auto">
+            <div className="mb-2">
               <ZoomSessions data={props.data} role={props.role ? props.role : null} />
             </div>
+          </div>
+
+          <div className="d-flex align-items-center w-100">
+            <div className="ms-auto">
+              <Link href={`/session-detail/${props.data.id}`}>
+                <a target="_blank">
+                  <OverlayTrigger
+                    key={`bottom`}
+                    placement={`bottom`}
+                    overlay={<Tooltip id={`tooltip-bottom`}>Session Detail</Tooltip>}
+                  >
+                    <div className="ms-2 session-detail-redirection">
+                      <EyeFill />
+                    </div>
+                  </OverlayTrigger>
+                </a>
+              </Link>
+            </div>
+            {(props.role === "admin" || props.role === "teacher") && (
+              <div className="ms-2">
+                <SessionEdit
+                  data={props.data}
+                  users={props.users}
+                  role={props.role ? props.role : null}
+                  currentDateQuery={props.currentDateQuery}
+                />
+              </div>
+            )}
+            {props.role === "admin" && (
+              <div className="ms-2">
+                <SessionDelete data={props.data} currentDateQuery={props.currentDateQuery} />
+              </div>
+            )}
+            {(props.role === "admin" || props.role === "teacher") && (
+              <div className="ms-2">
+                <SessionSuspend data={props.data} currentDateQuery={props.currentDateQuery} />
+              </div>
+            )}
+            {(props.role === "admin" || props.role === "teacher") && (
+              <div className="ms-2">
+                <SessionReschedule data={props.data} currentDateQuery={props.currentDateQuery} />
+              </div>
+            )}
           </div>
         </Dropdown.Menu>
       </Dropdown>

@@ -1,6 +1,6 @@
 import React from "react";
 // react bootstrap
-import { Button, Form, Modal } from "react-bootstrap";
+import { OverlayTrigger, Tooltip, Button, Form, Modal } from "react-bootstrap";
 // material icons
 import { Delete } from "@styled-icons/material/Delete";
 // swr
@@ -64,9 +64,15 @@ const SessionEditView = (props: any) => {
 
   return (
     <div>
-      <Button variant="outline-danger" className="btn-sm" onClick={openModal}>
-        <Delete width="20" />
-      </Button>
+      <OverlayTrigger
+        key={`bottom`}
+        placement={`bottom`}
+        overlay={<Tooltip id={`tooltip-bottom`}>Delete Session</Tooltip>}
+      >
+        <div className="session-detail-redirection" onClick={openModal}>
+          <Delete width="18" />
+        </div>
+      </OverlayTrigger>
 
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>

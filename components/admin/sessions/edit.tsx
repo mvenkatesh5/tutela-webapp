@@ -1,6 +1,6 @@
 import React from "react";
 // react bootstrap
-import { Button, Form, Modal } from "react-bootstrap";
+import { OverlayTrigger, Tooltip, Button, Form, Modal } from "react-bootstrap";
 // material icons
 import { Edit } from "@styled-icons/entypo/Edit";
 // swr
@@ -140,9 +140,15 @@ const SessionEditView = (props: any) => {
 
   return (
     <div>
-      <Button variant="outline-secondary" className="btn-sm" onClick={openModal}>
-        <Edit width="20" />
-      </Button>
+      <OverlayTrigger
+        key={`bottom`}
+        placement={`bottom`}
+        overlay={<Tooltip id={`tooltip-bottom`}>Edit Session</Tooltip>}
+      >
+        <div className="session-detail-redirection" onClick={openModal}>
+          <Edit width="18" />
+        </div>
+      </OverlayTrigger>
 
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>

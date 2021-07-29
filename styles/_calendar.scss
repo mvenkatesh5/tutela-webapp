@@ -195,7 +195,6 @@
   position: relative;
   background-color: #f7f7f7;
   border-radius: 4px;
-  // overflow: hidden;
   font-size: 14px;
   padding: 6px 8px;
   margin-bottom: 10px;
@@ -206,7 +205,6 @@
     background: #dfe1e6;
     padding: 2px 8px;
     border-radius: 4px;
-    // overflow: hidden;
     display: inline;
     font-size: 12px;
     font-weight: 600;
@@ -247,5 +245,59 @@
     & .content {
       padding: 6px 10px;
     }
+  }
+}
+
+// TODO: Validate this css
+.calendar-month-card {
+  position: relative;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 10px;
+  .month-detail {
+    background: #f5f5f5;
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+    gap: 4px;
+    .month-icon {
+      color: #ed6368;
+      svg {
+        width: 12px;
+        height: 12px;
+      }
+    }
+    .month-content {
+      .month-time {
+        background-color: #eee;
+        font-size: 10px;
+        border-radius: 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 2px;
+      }
+      .month-title {
+        font-size: 14px;
+        font-weight: 600;
+      }
+    }
+  }
+
+  // card dropdown view
+  .month-week-dropdown-content-wrapper {
+    padding: 10px;
+    padding-left: 20px;
+    width: 300px;
+  }
+}
+.month-card-extra {
+  color: #108fff;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  &:hover {
+    text-decoration: underline;
+    color: #0366bd;
   }
 }

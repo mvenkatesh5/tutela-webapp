@@ -2,7 +2,7 @@ import React from "react";
 // next imports
 import Link from "next/link";
 // react bootstrap
-import { Card, Row, Col, Image, Button } from "react-bootstrap";
+import { OverlayTrigger, Tooltip, Card, Row, Col, Image, Button } from "react-bootstrap";
 // material icons
 import { LinkAlt } from "@styled-icons/boxicons-regular";
 import { TextLeft } from "@styled-icons/bootstrap";
@@ -75,9 +75,15 @@ const SessionCard = (props: any) => {
 
               <Link href={`/session-detail/${props.data.id}`}>
                 <a target="_blank">
-                  <div className="ms-2 session-detail-redirection">
-                    <EyeFill />
-                  </div>
+                  <OverlayTrigger
+                    key={`bottom`}
+                    placement={`bottom`}
+                    overlay={<Tooltip id={`tooltip-bottom`}>Session Detail</Tooltip>}
+                  >
+                    <div className="ms-2 session-detail-redirection">
+                      <EyeFill />
+                    </div>
+                  </OverlayTrigger>
                 </a>
               </Link>
               {(props.role === "admin" || props.role === "teacher") && (
@@ -95,12 +101,12 @@ const SessionCard = (props: any) => {
                   <SessionDelete data={props.data} currentDateQuery={props.currentDateQuery} />
                 </div>
               )}
-              {props.role === "admin" && (
+              {(props.role === "admin" || props.role === "teacher") && (
                 <div className="ms-2">
                   <SessionSuspend data={props.data} currentDateQuery={props.currentDateQuery} />
                 </div>
               )}
-              {props.role === "admin" && (
+              {(props.role === "admin" || props.role === "teacher") && (
                 <div className="ms-2">
                   <SessionReschedule data={props.data} currentDateQuery={props.currentDateQuery} />
                 </div>
@@ -128,9 +134,15 @@ const SessionCard = (props: any) => {
               <div className="ms-auto">
                 <Link href={`/session-detail/${props.data.id}`}>
                   <a target="_blank">
-                    <div className="ms-2 session-detail-redirection">
-                      <EyeFill />
-                    </div>
+                    <OverlayTrigger
+                      key={`bottom`}
+                      placement={`bottom`}
+                      overlay={<Tooltip id={`tooltip-bottom`}>Session Detail</Tooltip>}
+                    >
+                      <div className="ms-2 session-detail-redirection">
+                        <EyeFill />
+                      </div>
+                    </OverlayTrigger>
                   </a>
                 </Link>
               </div>
@@ -149,12 +161,12 @@ const SessionCard = (props: any) => {
                   <SessionDelete data={props.data} currentDateQuery={props.currentDateQuery} />
                 </div>
               )}
-              {props.role === "admin" && (
+              {(props.role === "admin" || props.role === "teacher") && (
                 <div className="ms-2">
                   <SessionSuspend data={props.data} currentDateQuery={props.currentDateQuery} />
                 </div>
               )}
-              {props.role === "admin" && (
+              {(props.role === "admin" || props.role === "teacher") && (
                 <div className="ms-2">
                   <SessionReschedule data={props.data} currentDateQuery={props.currentDateQuery} />
                 </div>
