@@ -101,13 +101,13 @@ const TreeChildrenRenderView = ({
               ) : (
                 <div className="flex-item">
                   {imageFileNameSplitRender(tree.data.data.url) === "PNG" ? (
-                    <FilePng />
+                    <FilePng style={{ color: "#28B446" }} />
                   ) : imageFileNameSplitRender(tree.data.data.url) === "JSON" ? (
-                    <FileJson />
+                    <FileJson style={{ color: "#b6b0ff" }} />
                   ) : imageFileNameSplitRender(tree.data.data.url) === "PDF" ? (
-                    <FilePdf />
+                    <FilePdf style={{ color: "#E2574C" }} />
                   ) : (
-                    <FileBlank />
+                    <FileBlank style={{ color: "#518EF8" }} />
                   )}
                 </div>
               )}

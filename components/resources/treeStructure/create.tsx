@@ -1,6 +1,8 @@
 import React from "react";
 // react bootstrap
 import { Form, Button, Modal } from "react-bootstrap";
+// material icons
+import { CloseOutline } from "@styled-icons/evaicons-outline/CloseOutline";
 // swr
 import { mutate } from "swr";
 // node operations
@@ -61,9 +63,14 @@ const TreeCreate = (props: any) => {
     <>
       <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
         <Modal.Body>
-          <h5 className="m-0">Tree Node Create</h5>
-          <hr />
-          <div>
+          <div className="d-flex">
+            <h5 className="m-0">Resource Create</h5>
+            <div className="ms-auto" onClick={handleClose}>
+              <CloseOutline width="20px" />
+            </div>
+          </div>
+
+          <div className="mt-3">
             <Form onSubmit={formSubmit}>
               {/* <Form.Group controlId="tree-form-create.storeType" className="mb-2">
                 <Form.Label>Add to</Form.Label>
@@ -86,9 +93,6 @@ const TreeCreate = (props: any) => {
                   onChange={(e) => handleFormData("name", e.target.value)}
                 />
               </Form.Group>
-              <Button variant="outline-secondary" onClick={handleClose} className="btn-sm  me-2">
-                Close
-              </Button>
               <Button
                 variant="outline-primary"
                 type="submit"

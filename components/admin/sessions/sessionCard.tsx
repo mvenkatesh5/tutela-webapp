@@ -2,7 +2,7 @@ import React from "react";
 // next imports
 import Link from "next/link";
 // react bootstrap
-import { Card, Row, Col, Image, Button } from "react-bootstrap";
+import { OverlayTrigger, Tooltip, Badge, Card, Row, Col, Image, Button } from "react-bootstrap";
 // material icons
 import { LinkAlt } from "@styled-icons/boxicons-regular";
 import { TextLeft } from "@styled-icons/bootstrap";
@@ -15,9 +15,10 @@ import { EyeFill } from "@styled-icons/bootstrap/EyeFill";
 // components
 import ZoomSessions from "@components/zoomsessions";
 import IconRow from "@components/iconRow";
-
 import SessionEdit from "@components/admin/sessions/edit";
 import SessionDelete from "@components/admin/sessions/delete";
+import SessionSuspend from "@components/admin/sessions/SessionSuspend";
+import SessionReschedule from "@components/admin/sessions/SessionReschedule";
 // global imports
 import { datePreview } from "@constants/global";
 
@@ -52,56 +53,123 @@ const SessionCard = (props: any) => {
     }
   }, [props.data]);
 
+  const validateSessionReschedule = (details: any) => {
+    if (details && details.sessionReschedule) {
+      if (details.sessionReschedule.toggle) {
+        return details.sessionReschedule.scheduledOn;
+      }
+      return false;
+    }
+    return false;
+  };
+
+  // detailed validations
+  const disablePreviousDate = (date: any) => {
+    var currentDate = new Date();
+    var endDate = new Date(date);
+    if (endDate >= currentDate) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   return (
     <div>
       {!sessionDetailView ? (
         <div>
           <div className="session-card-root-container">
-            <div className="d-flex flex-wrap align-items-center">
-              <div className="icon">
-                <Image className="img-fluid rounded me-3" src="/bird.svg" />
-              </div>
-              <div>
-                <div className="heading">{props.data.title}</div>
-              </div>
-              <div>
-                <div className="badge border bg-light text-dark ms-3">
-                  {datePreview(props.data.start_datetime)}
-                </div>
-              </div>
-
-              <div className="ms-auto">
-                <ZoomSessions data={props.data} role={props.role ? props.role : null} />
-              </div>
-
-              {/* {(props.role === "admin" || props.role === "teacher") && ( */}
-              <Link href={`/session-detail/${props.data.id}`}>
-                <a target="_blank">
-                  <div className="ms-2 session-detail-redirection">
-                    <EyeFill />
+            {validateSessionReschedule(props.data.details) ? (
+              <>
+                <div className="d-flex flex-wrap align-items-center">
+                  <div className="icon">
+                    <Image className="img-fluid rounded me-3" src="/bird.svg" />
                   </div>
-                </a>
-              </Link>
-              {/* )} */}
-              {(props.role === "admin" || props.role === "teacher") && (
-                <div className="ms-2">
-                  <SessionEdit
-                    data={props.data}
-                    users={props.users}
-                    role={props.role ? props.role : null}
-                    currentDateQuery={props.currentDateQuery}
-                  />
+                  <div>
+                    <div className="heading">{props.data.title}</div>
+                    <div className="badge border bg-light text-dark">
+                      {datePreview(props.data.start_datetime)}
+                    </div>
+                  </div>
+                  <div className="ms-auto">
+                    <small>
+                      <Badge className="bg-info">
+                        Session Rescheduled on
+                        {` ${datePreview(
+                          validateSessionReschedule(props.data.details).start_datetime
+                        )}`}
+                      </Badge>
+                    </small>
+                  </div>
                 </div>
-              )}
-              {props.role === "admin" && (
-                <div className="ms-2">
-                  <SessionDelete data={props.data} currentDateQuery={props.currentDateQuery} />
+              </>
+            ) : (
+              <>
+                <div className="d-flex flex-wrap align-items-center">
+                  <div className="icon">
+                    <Image className="img-fluid rounded me-3" src="/bird.svg" />
+                  </div>
+                  <div>
+                    <div className="heading">{props.data.title}</div>
+                    <div className="badge border bg-light text-dark">
+                      {datePreview(props.data.start_datetime)}
+                    </div>
+                  </div>
+                  <div className="ms-auto">
+                    <ZoomSessions data={props.data} role={props.role ? props.role : null} />
+                  </div>
+                  <Link href={`/session-detail/${props.data.id}`}>
+                    <a target="_blank">
+                      <OverlayTrigger
+                        key={`bottom`}
+                        placement={`bottom`}
+                        overlay={<Tooltip id={`tooltip-bottom`}>Session Detail</Tooltip>}
+                      >
+                        <div className="ms-2 session-detail-redirection">
+                          <EyeFill />
+                        </div>
+                      </OverlayTrigger>
+                    </a>
+                  </Link>
+                  {(props.role === "admin" || props.role === "teacher") && (
+                    <div className="ms-2">
+                      <SessionEdit
+                        data={props.data}
+                        users={props.users}
+                        role={props.role ? props.role : null}
+                        currentDateQuery={props.currentDateQuery}
+                      />
+                    </div>
+                  )}
+                  {props.role === "admin" && (
+                    <div className="ms-2">
+                      <SessionDelete data={props.data} currentDateQuery={props.currentDateQuery} />
+                    </div>
+                  )}
+                  {(props.role === "admin" || props.role === "teacher") &&
+                    disablePreviousDate(props.data.start_datetime) && (
+                      <div className="ms-2">
+                        <SessionSuspend
+                          data={props.data}
+                          currentDateQuery={props.currentDateQuery}
+                        />
+                      </div>
+                    )}
+                  {(props.role === "admin" || props.role === "teacher") &&
+                    disablePreviousDate(props.data.start_datetime) && (
+                      <div className="ms-2">
+                        <SessionReschedule
+                          data={props.data}
+                          currentDateQuery={props.currentDateQuery}
+                        />
+                      </div>
+                    )}
+                  <div className="text-end ms-2" onClick={handleSessionDetailView}>
+                    <CheveronDown className="text-muted" width={20} />
+                  </div>
                 </div>
-              )}
-              <div className="text-end ms-2" onClick={handleSessionDetailView}>
-                <CheveronDown className="text-muted" width={20} />
-              </div>
-            </div>
+              </>
+            )}
           </div>
         </div>
       ) : (
@@ -118,7 +186,47 @@ const SessionCard = (props: any) => {
                 </div>
                 <div className="description">Ends At: {datePreview(props.data.end_datetime)}</div>
               </div>
-              <div className="ms-auto text-end" onClick={handleSessionDetailView}>
+              <div className="ms-auto">
+                <Link href={`/session-detail/${props.data.id}`}>
+                  <a target="_blank">
+                    <OverlayTrigger
+                      key={`bottom`}
+                      placement={`bottom`}
+                      overlay={<Tooltip id={`tooltip-bottom`}>Session Detail</Tooltip>}
+                    >
+                      <div className="ms-2 session-detail-redirection">
+                        <EyeFill />
+                      </div>
+                    </OverlayTrigger>
+                  </a>
+                </Link>
+              </div>
+              {(props.role === "admin" || props.role === "teacher") && (
+                <div className="ms-2">
+                  <SessionEdit
+                    data={props.data}
+                    users={props.users}
+                    role={props.role ? props.role : null}
+                    currentDateQuery={props.currentDateQuery}
+                  />
+                </div>
+              )}
+              {props.role === "admin" && (
+                <div className="ms-2">
+                  <SessionDelete data={props.data} currentDateQuery={props.currentDateQuery} />
+                </div>
+              )}
+              {(props.role === "admin" || props.role === "teacher") && (
+                <div className="ms-2">
+                  <SessionSuspend data={props.data} currentDateQuery={props.currentDateQuery} />
+                </div>
+              )}
+              {(props.role === "admin" || props.role === "teacher") && (
+                <div className="ms-2">
+                  <SessionReschedule data={props.data} currentDateQuery={props.currentDateQuery} />
+                </div>
+              )}
+              <div className="text-end ms-2" onClick={handleSessionDetailView}>
                 <CheveronDown className="text-muted" width={20} />
               </div>
             </div>

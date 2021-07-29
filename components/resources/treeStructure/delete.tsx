@@ -1,6 +1,8 @@
 import React from "react";
 // react bootstrap
 import { Form, Button, Modal } from "react-bootstrap";
+// material icons
+import { CloseOutline } from "@styled-icons/evaicons-outline/CloseOutline";
 // swr
 import { mutate } from "swr";
 // node operations
@@ -46,27 +48,31 @@ const ResourceDelete = (props: any) => {
 
   return (
     <>
-      <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
+      <Modal centered show={show} onHide={handleClose} backdrop="static" keyboard={false}>
         <Modal.Body>
-          <h5 className="m-0">Resource Delete</h5>
-          <hr />
+          <div className="d-flex">
+            <h5 className="m-0">Resource Delete</h5>
+            <div className="ms-auto" onClick={handleClose}>
+              <CloseOutline width="20px" />
+            </div>
+          </div>
+
           <div className="mt-3 mb-4">
-            Are you sure to delete this{" "}
-            <strong>{props.data && props.data.data && props.data.data.title}</strong>
+            Are you sure to delete this
+            <strong> {props.data && props.data.data && props.data.data.title}</strong>
           </div>
           <div>
             <Form onSubmit={formSubmit}>
-              <Button variant="outline-secondary" onClick={handleClose} className="btn-sm me-2">
-                Close
-              </Button>
-              <Button
-                variant="outline-danger"
-                type="submit"
-                className="btn-sm"
-                disabled={buttonLoader}
-              >
-                {buttonLoader ? "Deleting..." : "Delete"}
-              </Button>
+              <div className="d-flex">
+                <Button
+                  variant="danger"
+                  type="submit"
+                  className="btn-sm ms-auto"
+                  disabled={buttonLoader}
+                >
+                  {buttonLoader ? "Deleting..." : "Delete"}
+                </Button>
+              </div>
             </Form>
           </div>
         </Modal.Body>

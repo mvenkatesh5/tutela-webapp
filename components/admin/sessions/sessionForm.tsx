@@ -79,6 +79,7 @@ const SessionFormView = (props: any) => {
                           formPayload.start_date ? new Date(formPayload.start_date) : new Date()
                         }
                         onChange={(date: any) => handleFormPayload("start_date", date)}
+                        disabled={props.disabled ? props.disabled : false}
                       />
                     </div>
                   </Form.Group>
@@ -99,6 +100,7 @@ const SessionFormView = (props: any) => {
                             formPayload.end_date ? new Date(formPayload.end_date) : new Date()
                           }
                           onChange={(date: any) => handleFormPayload("end_date", date)}
+                          disabled={props.disabled ? props.disabled : false}
                         />
                       </div>
                     </Form.Group>
@@ -125,6 +127,7 @@ const SessionFormView = (props: any) => {
                         timeIntervals={5}
                         timeCaption="Time"
                         dateFormat="h:mm aa"
+                        disabled={props.disabled ? props.disabled : false}
                       />
                     </div>
                   </Form.Group>
@@ -147,11 +150,23 @@ const SessionFormView = (props: any) => {
                         timeIntervals={5}
                         timeCaption="Time"
                         dateFormat="h:mm aa"
+                        disabled={props.disabled ? props.disabled : false}
                       />
                     </div>
                   </Form.Group>
                 </Col>
               </Row>
+              <div className="mb-2">
+                {props.disabled && (
+                  <Form.Text className="text-info">
+                    Click the{" "}
+                    <strong>
+                      reschedule session <Time width="16" />
+                    </strong>{" "}
+                    to update new date and time of this event.
+                  </Form.Text>
+                )}
+              </div>
             </div>
           )}
         </div>

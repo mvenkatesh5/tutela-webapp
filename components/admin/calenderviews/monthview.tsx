@@ -2,7 +2,8 @@ import React from "react";
 // material icons
 import { ChevronLeft, ChevronRight } from "@styled-icons/boxicons-regular/";
 // components
-import CalendarWeekMonthCardDetailView from "./monthWeekCardView";
+import CalendarWeekMonthCardDetailView from "./MonthCardView";
+// import CalendarWeekMonthCardDetailView from "./monthWeekCardView";
 // global imports
 import { calendarMonths, calendarDays, returnDate, bindZero } from "@constants/global";
 

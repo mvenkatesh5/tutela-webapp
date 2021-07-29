@@ -168,11 +168,11 @@ const StudentDetail = () => {
             </Col>
 
             <Col lg="4">
-              <TestScroreCard />
-              <UpcomingTestsCard />
+              {/* <TestScroreCard /> */}
+              {/* <UpcomingTestsCard /> */}
 
               {advertsList && advertsList.length > 0 && (
-                <Card className="py-5 px-3 mt-4 mb-5 border-0 shadow">
+                <Card className="pt-3 pb-5 px-3 border-0 shadow">
                   <Slider {...settingsSlider}>
                     {advertsList.map((item: any, index: any) => {
                       return (
