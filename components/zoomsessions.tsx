@@ -136,62 +136,78 @@ const ZoomSession = (props: any) => {
     );
   };
 
-  console.log("zoomData", zoomData);
+  const validateSessionSuspend = (details: any) => {
+    if (details) {
+      if (details.sessionSuspend) return false;
+      return true;
+    }
+    return true;
+  };
 
   return (
     <div>
-      {disablePreviousDate(props.data.end_datetime) ? (
-        <div>
-          {zoomData ? (
+      {validateSessionSuspend(props.data.details) ? (
+        <>
+          {disablePreviousDate(props.data.end_datetime) ? (
             <div>
-              {props.role === "student" ? (
-                <SessionTimer
-                  date={props.data.start_datetime}
-                  time={convertTimeToSeconds(props.data.start_datetime)}
-                >
-                  <a href={zoomData.join_url} target="_blank">
-                    <Badge className="bg-success hover-cursor">Join Meeting</Badge>
-                  </a>
-                </SessionTimer>
+              {zoomData ? (
+                <div>
+                  {props.role === "student" ? (
+                    <SessionTimer
+                      date={props.data.start_datetime}
+                      time={convertTimeToSeconds(props.data.start_datetime)}
+                    >
+                      <a href={zoomData.join_url} target="_blank">
+                        <Badge className="bg-success hover-cursor">Join Meeting</Badge>
+                      </a>
+                    </SessionTimer>
+                  ) : (
+                    <SessionTimer
+                      date={props.data.start_datetime}
+                      time={convertTimeToSeconds(props.data.start_datetime)}
+                    >
+                      <a href={zoomData.start_url} target="_blank">
+                        <Badge className="bg-success hover-cursor">Join Meeting</Badge>
+                      </a>
+                    </SessionTimer>
+                  )}
+                </div>
               ) : (
-                <SessionTimer
-                  date={props.data.start_datetime}
-                  time={convertTimeToSeconds(props.data.start_datetime)}
-                >
-                  <a href={zoomData.start_url} target="_blank">
-                    <Badge className="bg-success hover-cursor">Join Meeting</Badge>
-                  </a>
-                </SessionTimer>
+                <div>
+                  {props.role === "student" ? (
+                    <SessionTimer
+                      date={props.data.start_datetime}
+                      time={convertTimeToSeconds(props.data.start_datetime)}
+                    >
+                      <Badge className="bg-info hover-cursor">Session is yet to start!</Badge>
+                    </SessionTimer>
+                  ) : (
+                    <SessionTimer
+                      date={props.data.start_datetime}
+                      time={convertTimeToSeconds(props.data.start_datetime)}
+                    >
+                      <SessionDetailModal data={props.data} />
+                    </SessionTimer>
+                  )}
+                </div>
               )}
             </div>
           ) : (
-            <div>
-              {props.role === "student" ? (
-                <SessionTimer
-                  date={props.data.start_datetime}
-                  time={convertTimeToSeconds(props.data.start_datetime)}
-                >
-                  <Badge className="bg-info hover-cursor">Session is yet to start!</Badge>
-                </SessionTimer>
+            <small>
+              {zoomData && zoomData.host_id ? (
+                <Badge className="bg-success">Conducted!</Badge>
               ) : (
-                <SessionTimer
-                  date={props.data.start_datetime}
-                  time={convertTimeToSeconds(props.data.start_datetime)}
-                >
-                  <SessionDetailModal data={props.data} />
-                </SessionTimer>
+                <Badge className="bg-warning">Not conducted!</Badge>
               )}
-            </div>
+            </small>
           )}
-        </div>
+        </>
       ) : (
-        <small>
-          {zoomData && zoomData.host_id ? (
-            <Badge className="bg-success">Conducted!</Badge>
-          ) : (
-            <Badge className="bg-warning">Not conducted!</Badge>
-          )}
-        </small>
+        <>
+          <small>
+            <Badge className="bg-danger">Session Suspended</Badge>
+          </small>
+        </>
       )}
     </div>
   );

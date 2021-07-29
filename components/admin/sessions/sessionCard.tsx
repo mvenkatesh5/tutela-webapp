@@ -15,9 +15,10 @@ import { EyeFill } from "@styled-icons/bootstrap/EyeFill";
 // components
 import ZoomSessions from "@components/zoomsessions";
 import IconRow from "@components/iconRow";
-
 import SessionEdit from "@components/admin/sessions/edit";
 import SessionDelete from "@components/admin/sessions/delete";
+import SessionSuspend from "@components/admin/sessions/SessionSuspend";
+import SessionReschedule from "@components/admin/sessions/SessionReschedule";
 // global imports
 import { datePreview } from "@constants/global";
 
@@ -63,9 +64,7 @@ const SessionCard = (props: any) => {
               </div>
               <div>
                 <div className="heading">{props.data.title}</div>
-              </div>
-              <div>
-                <div className="badge border bg-light text-dark ms-3">
+                <div className="badge border bg-light text-dark">
                   {datePreview(props.data.start_datetime)}
                 </div>
               </div>
@@ -74,7 +73,6 @@ const SessionCard = (props: any) => {
                 <ZoomSessions data={props.data} role={props.role ? props.role : null} />
               </div>
 
-              {/* {(props.role === "admin" || props.role === "teacher") && ( */}
               <Link href={`/session-detail/${props.data.id}`}>
                 <a target="_blank">
                   <div className="ms-2 session-detail-redirection">
@@ -82,7 +80,6 @@ const SessionCard = (props: any) => {
                   </div>
                 </a>
               </Link>
-              {/* )} */}
               {(props.role === "admin" || props.role === "teacher") && (
                 <div className="ms-2">
                   <SessionEdit
@@ -96,6 +93,16 @@ const SessionCard = (props: any) => {
               {props.role === "admin" && (
                 <div className="ms-2">
                   <SessionDelete data={props.data} currentDateQuery={props.currentDateQuery} />
+                </div>
+              )}
+              {props.role === "admin" && (
+                <div className="ms-2">
+                  <SessionSuspend data={props.data} currentDateQuery={props.currentDateQuery} />
+                </div>
+              )}
+              {props.role === "admin" && (
+                <div className="ms-2">
+                  <SessionReschedule data={props.data} currentDateQuery={props.currentDateQuery} />
                 </div>
               )}
               <div className="text-end ms-2" onClick={handleSessionDetailView}>
@@ -118,7 +125,41 @@ const SessionCard = (props: any) => {
                 </div>
                 <div className="description">Ends At: {datePreview(props.data.end_datetime)}</div>
               </div>
-              <div className="ms-auto text-end" onClick={handleSessionDetailView}>
+              <div className="ms-auto">
+                <Link href={`/session-detail/${props.data.id}`}>
+                  <a target="_blank">
+                    <div className="ms-2 session-detail-redirection">
+                      <EyeFill />
+                    </div>
+                  </a>
+                </Link>
+              </div>
+              {(props.role === "admin" || props.role === "teacher") && (
+                <div className="ms-2">
+                  <SessionEdit
+                    data={props.data}
+                    users={props.users}
+                    role={props.role ? props.role : null}
+                    currentDateQuery={props.currentDateQuery}
+                  />
+                </div>
+              )}
+              {props.role === "admin" && (
+                <div className="ms-2">
+                  <SessionDelete data={props.data} currentDateQuery={props.currentDateQuery} />
+                </div>
+              )}
+              {props.role === "admin" && (
+                <div className="ms-2">
+                  <SessionSuspend data={props.data} currentDateQuery={props.currentDateQuery} />
+                </div>
+              )}
+              {props.role === "admin" && (
+                <div className="ms-2">
+                  <SessionReschedule data={props.data} currentDateQuery={props.currentDateQuery} />
+                </div>
+              )}
+              <div className="text-end ms-2" onClick={handleSessionDetailView}>
                 <CheveronDown className="text-muted" width={20} />
               </div>
             </div>
