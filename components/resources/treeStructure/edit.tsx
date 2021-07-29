@@ -1,6 +1,8 @@
 import React from "react";
 // react bootstrap
 import { Form, Button, Modal } from "react-bootstrap";
+// material icons
+import { CloseOutline } from "@styled-icons/evaicons-outline/CloseOutline";
 // swr
 import { mutate } from "swr";
 // api routes
@@ -55,11 +57,16 @@ const ResourceEdit = (props: any) => {
 
   return (
     <>
-      <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
+      <Modal centered show={show} onHide={handleClose} backdrop="static" keyboard={false}>
         <Modal.Body>
-          <h5 className="m-0">Tree Node Edit</h5>
-          <hr />
-          <div>
+          <div className="d-flex">
+            <h5 className="m-0">Resource Edit</h5>
+            <div className="ms-auto" onClick={handleClose}>
+              <CloseOutline width="20px" />
+            </div>
+          </div>
+
+          <div className="mt-3">
             <Form onSubmit={formSubmit}>
               <Form.Group controlId="tree-form-create.name" className="mb-2">
                 <Form.Label>Category Name</Form.Label>
@@ -71,9 +78,6 @@ const ResourceEdit = (props: any) => {
                   onChange={(e) => handleFormData("title", e.target.value)}
                 />
               </Form.Group>
-              <Button variant="outline-secondary" onClick={handleClose} className="btn-sm me-2">
-                Close
-              </Button>
               <Button
                 variant="outline-primary"
                 type="submit"
