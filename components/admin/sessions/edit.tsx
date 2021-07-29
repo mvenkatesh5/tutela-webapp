@@ -156,7 +156,12 @@ const SessionEditView = (props: any) => {
           <Form>
             {sessionData && (
               <div>
-                <SessionForm data={sessionData} handleData={handleSessionData} role={props.role} />
+                <SessionForm
+                  data={sessionData}
+                  handleData={handleSessionData}
+                  role={props.role}
+                  disabled={true}
+                />
                 {props.role === "admin" && (
                   <SessionUser
                     data={sessionData}

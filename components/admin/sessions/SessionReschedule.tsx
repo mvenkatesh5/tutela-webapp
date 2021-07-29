@@ -13,7 +13,8 @@ import { mutate } from "swr";
 // api routes
 import { USER_CALENDAR_SESSION_ENDPOINT } from "@constants/routes";
 // api services
-import { SessionUpdate } from "@lib/services/sessionservice";
+import { SessionCreate, SessionUpdate, SessionBulkUserCreate } from "@lib/services/sessionservice";
+import { APIFetcher } from "@lib/services";
 
 const SessionRescheduleView = (props: any) => {
   const [modal, setModal] = React.useState(false);
@@ -35,10 +36,7 @@ const SessionRescheduleView = (props: any) => {
       setSessionData({
         ...sessionData,
         id: props.data.id,
-        start_date:
-          props.data.details && props.data.start_datetime
-            ? new Date(props.data.start_datetime)
-            : new Date(),
+        start_date: props.data.start_datetime ? new Date(props.data.start_datetime) : new Date(),
         end_date: props.data.end_datetime ? new Date(props.data.end_datetime) : new Date(),
         start_time: props.data.start_datetime ? new Date(props.data.start_datetime) : new Date(),
         end_time: props.data.end_datetime ? new Date(props.data.end_datetime) : new Date(),
@@ -61,28 +59,93 @@ const SessionRescheduleView = (props: any) => {
 
     const payload = {
       id: sessionData.id,
-
-      start_datetime: handleDatetime(sessionData.start_date, sessionData.start_time),
-      end_datetime: handleDatetime(sessionData.start_date, sessionData.end_time),
+      details: {
+        sessionSuspend:
+          props.data.details && props.data.details.sessionSuspend
+            ? props.data.details.sessionSuspend
+            : false,
+        sessionReschedule: {
+          toggle: true,
+          scheduledOn: {
+            start_datetime: handleDatetime(sessionData.start_date, sessionData.start_time),
+            end_datetime: handleDatetime(sessionData.start_date, sessionData.end_time),
+          },
+        },
+      },
     };
 
     SessionUpdate(payload)
       .then((res) => {
-        mutate(
-          [USER_CALENDAR_SESSION_ENDPOINT(props.currentDateQuery), props.currentDateQuery],
-          async (elements: any) => {
-            let index = elements.findIndex((mutateData: any) => mutateData.id === props.data.id);
-            return elements.filter((oldElement: any, i: any) => i != index);
-          },
-          false
-        );
-        closeModal();
+        sessionCreate();
+      })
+      .catch((errors) => {
+        console.log(errors);
+        setButtonLoader(false);
+      });
+  };
+
+  const sessionCreate = () => {
+    setButtonLoader(true);
+
+    const payload = {
+      title: props.data.title,
+      description: props.data.description,
+      start_datetime: handleDatetime(sessionData.start_date, sessionData.start_time),
+      end_datetime: handleDatetime(sessionData.start_date, sessionData.end_time),
+    };
+
+    SessionCreate(payload)
+      .then((res) => {
+        createSessionUsers(res);
         setButtonLoader(false);
       })
       .catch((errors) => {
         console.log(errors);
         setButtonLoader(false);
       });
+  };
+
+  const createSessionUsers = (session: any) => {
+    setButtonLoader(true);
+    let currentUsers: any = [];
+
+    if (props.data && props.data.session_users && props.data.session_users.length > 0) {
+      props.data.session_users.map((users: any) => {
+        const data = {
+          as_role: users.as_role,
+          session: session.id,
+          user: parseInt(users.user.id),
+        };
+        currentUsers.push(data);
+      });
+    }
+
+    if (currentUsers && currentUsers.length > 0) {
+      SessionBulkUserCreate(currentUsers)
+        .then((res) => {
+          mutate(
+            [USER_CALENDAR_SESSION_ENDPOINT(props.currentDateQuery), props.currentDateQuery],
+            APIFetcher(USER_CALENDAR_SESSION_ENDPOINT(props.currentDateQuery)),
+            false
+          );
+          closeModal();
+          setButtonLoader(false);
+        })
+        .catch((errors) => {
+          console.log(errors);
+          setButtonLoader(false);
+        });
+    } else {
+      mutate(
+        [USER_CALENDAR_SESSION_ENDPOINT(props.currentDateQuery), props.currentDateQuery],
+        async (elements: any) => {
+          return [...elements, session];
+        },
+        false
+      );
+      closeModal();
+      setButtonLoader(false);
+    }
   };
 
   return (
@@ -99,7 +162,7 @@ const SessionRescheduleView = (props: any) => {
 
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>
-          <h5>Session Reschedule</h5>
+          <h5 className="mb-3">Session Reschedule</h5>
           {sessionData && (
             <Form>
               <Row>
