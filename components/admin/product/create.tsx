@@ -5,12 +5,14 @@ import { Button, Form, Modal } from "react-bootstrap";
 import { mutate } from "swr";
 // components
 import ProductsForm from "./productsForm";
+// components
+import SearchCheckboxView from "components/admin/sessions/SearchCheckbox";
 // api routes
 import { PRODUCTS_ENDPOINT } from "@constants/routes";
 // api services
 import { ProductsCreate } from "@lib/services/productsService";
 
-const ProductsCreateView = () => {
+const ProductsCreateView = (props: any) => {
   const [modal, setModal] = React.useState(false);
   const closeModal = () => {
     setModal(false);
@@ -35,6 +37,15 @@ const ProductsCreateView = () => {
   });
   const handleFormData = (value: any) => {
     setFormData(value);
+  };
+
+  const [sessionTeachers, setSessionTeachers] = React.useState<any>();
+  const handleSessionTeachers = (value: any) => {
+    setSessionTeachers(value);
+  };
+  const [sessionStudents, setSessionStudents] = React.useState<any>();
+  const handleSessionStudents = (value: any) => {
+    setSessionStudents(value);
   };
 
   const productsCreate = (event: any) => {
@@ -69,6 +80,27 @@ const ProductsCreateView = () => {
           <h5>Product Create</h5>
           <Form onSubmit={productsCreate}>
             <ProductsForm data={formData} handleData={handleFormData} />
+            {props.users && props.users.length > 0 && (
+              <>
+                <div className="mb-3 mt-3">
+                  <Form.Label>Teachers</Form.Label>
+                  <SearchCheckboxView
+                    users={props.users}
+                    data={sessionTeachers}
+                    handleData={handleSessionTeachers}
+                    role={1}
+                  />
+                </div>
+                <div className="mb-3">
+                  <SearchCheckboxView
+                    users={props.users}
+                    data={sessionStudents}
+                    handleData={handleSessionStudents}
+                    role={0}
+                  />
+                </div>
+              </>
+            )}
             <Button
               variant="outline-primary"
               className="btn-sm"

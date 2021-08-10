@@ -78,6 +78,12 @@ export const USER_MESSAGE_WITH_STUDENT_ENDPOINT = (student_id: any) =>
 export const PRODUCTS_ENDPOINT = `/api/products/`;
 export const PRODUCTS_WITH_ID_ENDPOINT = (product_id: any) => `/api/products/${product_id}/`;
 export const USER_WITH_PRODUCT_ENDPOINT = ``;
+// product users, resources binding
+export const PRODUCT_USER_ENDPOINT = (product_id: any) => `/api/products/${product_id}/users/`;
+export const PRODUCT_USER_DELETE_ENDPOINT = (user_bridge_id: any) =>
+  `/api/products-users/${user_bridge_id}/`;
+export const PRODUCT_RESOURCES_ENDPOINT = (product_id: any) =>
+  `/api/products/${product_id}/resources/`;
 
 // quick meetings
 export const QUICK_MEETINGS_ENDPOINT = `/api/quick-meetings`;

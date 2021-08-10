@@ -12,7 +12,7 @@ import ProductDeleteView from "@components/admin/product/delete";
 // layouts
 import AdminLayout from "@layouts/adminLayout";
 // api routes
-import { PRODUCTS_ENDPOINT } from "@constants/routes";
+import { USER_ENDPOINT, RESOURCE_ENDPOINT, PRODUCTS_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 // hoc
@@ -23,7 +23,13 @@ import Page from "@components/page";
 import { META_DESCRIPTION } from "@constants/page";
 
 const ProductView = () => {
+  const { data: usersList, error: usersListError } = useSWR(USER_ENDPOINT, APIFetcher);
+  const { data: resourcesList, error: resourcesListError } = useSWR(RESOURCE_ENDPOINT, APIFetcher);
   const { data: productsList, error: productsListError } = useSWR(PRODUCTS_ENDPOINT, APIFetcher);
+
+  console.log("usersList-->-->", usersList);
+  console.log("resourcesList-->-->", resourcesList);
+  console.log("productsList-->-->", productsList);
 
   const meta = {
     title: "Products",
@@ -32,48 +38,48 @@ const ProductView = () => {
 
   return (
     <Page meta={meta}>
-    <AdminLayout>
-      <div className="right-layout">
-        <ProductCreateView />
-        {!productsListError && !productsList ? (
-          <div className="text-center text-muted mt-5 mb-5">Loading...</div>
-        ) : (
-          <Row className="mt-2 mb-2">
-            {productsList &&
-              productsList.length > 0 &&
-              productsList.map((product: any, index: any) => (
-                <Col md={3} key={product.id}>
-                  <div className="product-card-wrapper">
-                    <div
-                      className="header"
-                      style={{ backgroundColor: product.color ? product.color : "#ccc" }}
-                    >
-                      <div className="left">{product.name}</div>
-                      <div className="right">
-                        <div className="dropdown-wrapper global-dropdown">
-                          <Dropdown>
-                            <Dropdown.Toggle as="div" className="icon">
-                              <DotsHorizontalRounded />
-                            </Dropdown.Toggle>
+      <AdminLayout>
+        <div className="right-layout">
+          <ProductCreateView users={usersList} resources={resourcesList} />
+          {!productsListError && !productsList ? (
+            <div className="text-center text-muted mt-5 mb-5">Loading...</div>
+          ) : (
+            <Row className="mt-2 mb-2">
+              {productsList &&
+                productsList.length > 0 &&
+                productsList.map((product: any, index: any) => (
+                  <Col md={3} key={product.id}>
+                    <div className="product-card-wrapper">
+                      <div
+                        className="header"
+                        style={{ backgroundColor: product.color ? product.color : "#ccc" }}
+                      >
+                        <div className="left">{product.name}</div>
+                        <div className="right">
+                          <div className="dropdown-wrapper global-dropdown">
+                            <Dropdown>
+                              <Dropdown.Toggle as="div" className="icon">
+                                <DotsHorizontalRounded />
+                              </Dropdown.Toggle>
 
-                            <Dropdown.Menu className="content-wrapper p-0">
-                              <ProductEditView data={product} />
-                              <ProductDeleteView data={product} />
-                            </Dropdown.Menu>
-                          </Dropdown>
+                              <Dropdown.Menu className="content-wrapper p-0">
+                                <ProductEditView data={product} />
+                                <ProductDeleteView data={product} />
+                              </Dropdown.Menu>
+                            </Dropdown>
+                          </div>
                         </div>
                       </div>
+                      <div className="content">
+                        <div className="description">{product.description}</div>
+                      </div>
                     </div>
-                    <div className="content">
-                      <div className="description">{product.description}</div>
-                    </div>
-                  </div>
-                </Col>
-              ))}
-          </Row>
-        )}
-      </div>
-    </AdminLayout>
+                  </Col>
+                ))}
+            </Row>
+          )}
+        </div>
+      </AdminLayout>
     </Page>
   );
 };
