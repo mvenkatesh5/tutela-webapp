@@ -35,6 +35,11 @@ const SearchCheckbox = (props: any) => {
       validateUserOptions(null);
     }
   }, [props.users]);
+  React.useEffect(() => {
+    if (focusToggle && props.users && props.users.length > 0) {
+      validateUserOptions(null);
+    }
+  }, [focusToggle]);
 
   React.useEffect(() => {
     if (props.data && props.data.length > 0) {

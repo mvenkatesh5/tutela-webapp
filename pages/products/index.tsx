@@ -27,10 +27,6 @@ const ProductView = () => {
   const { data: resourcesList, error: resourcesListError } = useSWR(RESOURCE_ENDPOINT, APIFetcher);
   const { data: productsList, error: productsListError } = useSWR(PRODUCTS_ENDPOINT, APIFetcher);
 
-  console.log("usersList-->-->", usersList);
-  console.log("resourcesList-->-->", resourcesList);
-  console.log("productsList-->-->", productsList);
-
   const meta = {
     title: "Products",
     description: META_DESCRIPTION,

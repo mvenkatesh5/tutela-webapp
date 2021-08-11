@@ -99,8 +99,6 @@ const VideoView = () => {
 
   if (sessionListError) console.log(sessionListError);
 
-  console.log(sessionList);
-
   const meta = {
     title: "Video",
     description: META_DESCRIPTION,
@@ -108,95 +106,94 @@ const VideoView = () => {
 
   return (
     <Page meta={meta}>
-    <div>
-      <StudentLayout>
-        <Container className="pt-3 pb-3">
-          <h5 className="mb-3">My Videos</h5>
-          <div>
-            <small className="text-secondary">Select Date Range</small>
-          </div>
-          <DateRangeInput
-            formatDate={(date) => date.toLocaleString()}
-            onChange={handleDateChange}
-            parseDate={(str) => new Date(str)}
-            shortcuts={false}
-            // minDate={new Date()}
-            value={[startDate, endDate]}
-          />
-        </Container>
-        {startDate && endDate ? (
-          <>
-            {!sessionList && !sessionListError ? (
-              <div className="text-center tex-secondary mt- 5 mb-5">Loading.....</div>
-            ) : (
-              <Container>
-                <Table className="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th>S.No</th>
-                      <th>
-                        <div>Title</div>
-                        <div>Description</div>
-                      </th>
-                      <th>
-                        <div>Start Date</div>
-                        <div>End Date</div>
-                      </th>
-                      <th>Status</th>
-                      <th>Link</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {console.log(sessionList)}
-                    {sessionList &&
-                      sessionList.length > 0 &&
-                      sessionList.map((session: any, index: any) => (
-                        <tr key={`session-table-${index}`}>
-                          <td>{index + 1}</td>
-                          <td>
-                            <div>{session.title}</div>
-                            <small className="text-secondary">{session.description}</small>
-                          </td>
-                          <td>
-                            <div className="text-secondary">
-                              {dateTimeFormat(session.start_datetime)}
-                            </div>
-                            <div className="text-secondary">
-                              {dateTimeFormat(session.end_datetime)}
-                            </div>
-                          </td>
-                          <td>
-                            {disablePreviousDate(session.end_datetime) ? (
-                              <Badge className="bg-info">Not yet started!</Badge>
-                            ) : (
-                              <Badge className="bg-warning">Completed!</Badge>
-                            )}
-                          </td>
-                          <td>
-                            {session.recording_link ? (
-                              <a
-                                href={session.recording_link}
-                                target="_blank"
-                                className="btn btn-primary btn-sm"
-                              >
-                                Click here
-                              </a>
-                            ) : (
-                              <Badge className="bg-warning">Not Available</Badge>
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </Table>
-              </Container>
-            )}
-          </>
-        ) : (
-          <div className="text-secondary text-center">Please select start date and end date</div>
-        )}
-      </StudentLayout>
-    </div>
+      <div>
+        <StudentLayout>
+          <Container className="pt-3 pb-3">
+            <h5 className="mb-3">My Videos</h5>
+            <div>
+              <small className="text-secondary">Select Date Range</small>
+            </div>
+            <DateRangeInput
+              formatDate={(date) => date.toLocaleString()}
+              onChange={handleDateChange}
+              parseDate={(str) => new Date(str)}
+              shortcuts={false}
+              // minDate={new Date()}
+              value={[startDate, endDate]}
+            />
+          </Container>
+          {startDate && endDate ? (
+            <>
+              {!sessionList && !sessionListError ? (
+                <div className="text-center tex-secondary mt- 5 mb-5">Loading.....</div>
+              ) : (
+                <Container>
+                  <Table className="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>S.No</th>
+                        <th>
+                          <div>Title</div>
+                          <div>Description</div>
+                        </th>
+                        <th>
+                          <div>Start Date</div>
+                          <div>End Date</div>
+                        </th>
+                        <th>Status</th>
+                        <th>Link</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {sessionList &&
+                        sessionList.length > 0 &&
+                        sessionList.map((session: any, index: any) => (
+                          <tr key={`session-table-${index}`}>
+                            <td>{index + 1}</td>
+                            <td>
+                              <div>{session.title}</div>
+                              <small className="text-secondary">{session.description}</small>
+                            </td>
+                            <td>
+                              <div className="text-secondary">
+                                {dateTimeFormat(session.start_datetime)}
+                              </div>
+                              <div className="text-secondary">
+                                {dateTimeFormat(session.end_datetime)}
+                              </div>
+                            </td>
+                            <td>
+                              {disablePreviousDate(session.end_datetime) ? (
+                                <Badge className="bg-info">Not yet started!</Badge>
+                              ) : (
+                                <Badge className="bg-warning">Completed!</Badge>
+                              )}
+                            </td>
+                            <td>
+                              {session.recording_link ? (
+                                <a
+                                  href={session.recording_link}
+                                  target="_blank"
+                                  className="btn btn-primary btn-sm"
+                                >
+                                  Click here
+                                </a>
+                              ) : (
+                                <Badge className="bg-warning">Not Available</Badge>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </Table>
+                </Container>
+              )}
+            </>
+          ) : (
+            <div className="text-secondary text-center">Please select start date and end date</div>
+          )}
+        </StudentLayout>
+      </div>
     </Page>
   );
 };

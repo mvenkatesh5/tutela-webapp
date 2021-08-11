@@ -7,6 +7,8 @@ import { MessageSquareEdit } from "@styled-icons/boxicons-regular/";
 import { mutate } from "swr";
 // components
 import ProductsForm from "./productsForm";
+import SearchCheckboxView from "components/admin/sessions/SearchCheckbox";
+import ResourceSearchCheckboxView from "components/resources/ResourceCheckbox";
 // api routes
 import { PRODUCTS_ENDPOINT } from "@constants/routes";
 // api services
@@ -24,6 +26,19 @@ const ProductsEditView = (props: any) => {
     setFormData(value);
   };
 
+  const [sessionTeachers, setSessionTeachers] = React.useState<any>();
+  const handleSessionTeachers = (value: any) => {
+    setSessionTeachers(value);
+  };
+  const [sessionStudents, setSessionStudents] = React.useState<any>();
+  const handleSessionStudents = (value: any) => {
+    setSessionStudents(value);
+  };
+  const [productResources, setProductResources] = React.useState<any>();
+  const handleProductResources = (value: any) => {
+    setProductResources(value);
+  };
+
   React.useEffect(() => {
     if (props.data) {
       setFormData(props.data);
@@ -35,22 +50,45 @@ const ProductsEditView = (props: any) => {
     setButtonLoader(true);
     ProductsUpdate(formData)
       .then((res) => {
-        mutate(
-          PRODUCTS_ENDPOINT,
-          async (elements: any) => {
-            let index = elements.findIndex((mutateData: any) => mutateData.id === res.id);
-            return elements.map((oldElement: any, i: Number) => (i === index ? res : oldElement));
-            // return elements.filter((oldElement: any, i) => i != index);
-          },
-          false
-        );
-        closeModal();
+        // mutate(
+        //   PRODUCTS_ENDPOINT,
+        //   async (elements: any) => {
+        //     let index = elements.findIndex((mutateData: any) => mutateData.id === res.id);
+        //     return elements.map((oldElement: any, i: Number) => (i === index ? res : oldElement));
+        //     // return elements.filter((oldElement: any, i) => i != index);
+        //   },
+        //   false
+        // );
+        // closeModal();
+        handleUsers(res);
         setButtonLoader(false);
       })
       .catch((errors) => {
         console.log(errors);
         setButtonLoader(false);
       });
+  };
+
+  const handleUsers = (product: any) => {
+    setButtonLoader(true);
+    console.log("sessionTeachers-->", sessionTeachers);
+    console.log("sessionStudents-->", sessionStudents);
+    console.log("productResources-->", productResources);
+    // mutateProducts(product);
+    setButtonLoader(false);
+  };
+
+  const mutateProducts = (product: any) => {
+    mutate(
+      PRODUCTS_ENDPOINT,
+      async (elements: any) => {
+        let index = elements.findIndex((mutateData: any) => mutateData.id === product.id);
+        return elements.map((oldElement: any, i: Number) => (i === index ? product : oldElement));
+        // return elements.filter((oldElement: any, i) => i != index);
+      },
+      false
+    );
+    closeModal();
   };
 
   return (

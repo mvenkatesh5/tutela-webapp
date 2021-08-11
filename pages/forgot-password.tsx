@@ -38,7 +38,6 @@ const ForgotPasswordView = () => {
     setMailSuccess(false);
     ForgotPassword(formData)
       .then((res) => {
-        console.log(res);
         setButtonLoader(false);
         if (res && res.message && res.message === "success") setMailSuccess(true);
         // router.push(`/reset-password?token=${res.token}`);

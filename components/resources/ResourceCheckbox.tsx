@@ -12,17 +12,16 @@ const ResourceSearchCheckbox = (props: any) => {
   const [resourceOptions, SetResourceOptions] = React.useState<any>([]);
 
   const validateResourceOptions = (search: any) => {
-    console.log(search);
-    let currentUsers: any = [];
+    let currentResources: any = [];
     props.resources.map((data: any, index: any) => {
       if (search) {
         if (data && data.title.toLowerCase().includes(search.toLowerCase()))
-          if (!resourceOptions.includes(data.id)) currentUsers.push(data);
+          if (!resourceOptions.includes(data.id)) currentResources.push(data);
       } else {
-        if (!resourceOptions.includes(data.id)) currentUsers.push(data);
+        if (!resourceOptions.includes(data.id)) currentResources.push(data);
       }
     });
-    SetSearchOptions(currentUsers);
+    SetSearchOptions(currentResources);
   };
 
   React.useEffect(() => {
@@ -30,6 +29,11 @@ const ResourceSearchCheckbox = (props: any) => {
       validateResourceOptions(null);
     }
   }, [props.resources]);
+  React.useEffect(() => {
+    if (focusToggle && props.resources && props.resources.length > 0) {
+      validateResourceOptions(null);
+    }
+  }, [focusToggle]);
 
   React.useEffect(() => {
     if (props.data && props.data.length > 0) {
@@ -127,7 +131,6 @@ const ResourceSearchCheckbox = (props: any) => {
           <div>
             {resourceOptions.map((resource: any, index: any) => (
               <div key={`resource-options-${index}`} className="user-option-card">
-                {console.log(resource)}
                 <div className="content">{getCurrentResourceName(resource)}</div>
                 <div
                   className="icon"

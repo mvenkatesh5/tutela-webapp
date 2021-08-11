@@ -5,13 +5,20 @@ import { Button, Form, Modal } from "react-bootstrap";
 import { mutate } from "swr";
 // components
 import ProductsForm from "./productsForm";
-// components
 import SearchCheckboxView from "components/admin/sessions/SearchCheckbox";
 import ResourceSearchCheckboxView from "components/resources/ResourceCheckbox";
 // api routes
-import { PRODUCTS_ENDPOINT } from "@constants/routes";
+import {
+  PRODUCTS_ENDPOINT,
+  PRODUCT_USER_ENDPOINT,
+  PRODUCT_RESOURCES_ENDPOINT,
+} from "@constants/routes";
 // api services
-import { ProductsCreate } from "@lib/services/productsService";
+import {
+  ProductsCreate,
+  AddUserUnderProductPromise,
+  AddResourceUnderProductPromise,
+} from "@lib/services/productsService";
 
 const ProductsCreateView = (props: any) => {
   const [modal, setModal] = React.useState(false);
@@ -24,6 +31,9 @@ const ProductsCreateView = (props: any) => {
       data: {},
       subjects: [],
     });
+    setSessionTeachers("");
+    setSessionStudents("");
+    setProductResources("");
   };
   const openModal = () => setModal(true);
 
@@ -55,18 +65,11 @@ const ProductsCreateView = (props: any) => {
 
   const productsCreate = (event: any) => {
     event.preventDefault();
-    handleUsers();
+    handleUsers(null);
     // setButtonLoader(true);
     // ProductsCreate(formData)
     //   .then((res) => {
-    //     mutate(
-    //       PRODUCTS_ENDPOINT,
-    //       async (elements: any) => {
-    //         return [...elements, res];
-    //       },
-    //       false
-    //     );
-    //     closeModal();
+    //     handleUsers(res);
     //     setButtonLoader(false);
     //   })
     //   .catch((errors) => {
@@ -75,10 +78,53 @@ const ProductsCreateView = (props: any) => {
     //   });
   };
 
-  const handleUsers = () => {
+  const handleUsers = (product: any) => {
+    setButtonLoader(true);
+    let users: any = [];
+    if (sessionTeachers && sessionTeachers.length > 0) {
+      sessionTeachers.map((data: any) => {});
+    }
+    if (sessionStudents && sessionStudents.length > 0) {
+    }
+
+    if (users && users.length > 0) {
+      console.log(users);
+    } else {
+    }
     console.log("sessionTeachers-->", sessionTeachers);
     console.log("sessionStudents-->", sessionStudents);
     console.log("productResources-->", productResources);
+    // mutateProducts(product);
+    setButtonLoader(false);
+  };
+
+  const handleResources = (product: any) => {
+    if (productResources && productResources.length > 0) {
+      let resources: any = [];
+      productResources.map((data: any) => {
+        const payload = { resource: data };
+        resources.push(payload);
+      });
+      AddResourceUnderProductPromise(PRODUCT_RESOURCES_ENDPOINT(product.id), resources)
+        .then((response) => {
+          console.log(response);
+          mutateProducts(product);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else mutateProducts(product);
+  };
+
+  const mutateProducts = (product: any) => {
+    mutate(
+      PRODUCTS_ENDPOINT,
+      async (elements: any) => {
+        return [...elements, product];
+      },
+      false
+    );
+    closeModal();
   };
 
   return (
