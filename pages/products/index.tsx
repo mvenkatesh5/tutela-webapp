@@ -32,6 +32,27 @@ const ProductView = () => {
     description: META_DESCRIPTION,
   };
 
+  console.log("productsList", productsList);
+
+  const getCurrentUserName = (user_id: any) => {
+    if (usersList && usersList.length > 0) {
+      const currentData: any = usersList.find(
+        (element: any, i: any) => element.id === parseInt(user_id)
+      );
+      if (currentData) return `${currentData.first_name} ${currentData.last_name}`;
+      // if (currentData) return `${currentData.first_name} (${currentData.email})`;
+    }
+  };
+
+  const getCurrentResourceName = (resource_id: any) => {
+    if (resourcesList && resourcesList.length > 0) {
+      const currentData: any = resourcesList.find(
+        (element: any, i: any) => element.id === parseInt(resource_id)
+      );
+      if (currentData) return `${currentData.title}`;
+    }
+  };
+
   return (
     <Page meta={meta}>
       <AdminLayout>
@@ -44,7 +65,7 @@ const ProductView = () => {
               {productsList &&
                 productsList.length > 0 &&
                 productsList.map((product: any, index: any) => (
-                  <Col md={3} key={product.id}>
+                  <Col md={3} key={product.id} className="mb-2">
                     <div className="product-card-wrapper">
                       <div
                         className="header"
@@ -59,7 +80,11 @@ const ProductView = () => {
                               </Dropdown.Toggle>
 
                               <Dropdown.Menu className="content-wrapper p-0">
-                                <ProductEditView data={product} />
+                                <ProductEditView
+                                  data={product}
+                                  users={usersList}
+                                  resources={resourcesList}
+                                />
                                 <ProductDeleteView data={product} />
                               </Dropdown.Menu>
                             </Dropdown>
@@ -68,6 +93,44 @@ const ProductView = () => {
                       </div>
                       <div className="content">
                         <div className="description">{product.description}</div>
+                        <div className="description mt-2 mb-2">Users: ({product.users.length})</div>
+                        {product.users && product.users.length > 0 && (
+                          <div className="d-flex flex-wrap" style={{ gap: "10px" }}>
+                            {product.users.map((data: any) => (
+                              <div
+                                key={`user-${data}`}
+                                style={{
+                                  fontSize: "12px",
+                                  backgroundColor: "#ccc",
+                                  borderRadius: "4px",
+                                }}
+                                className="p-1"
+                              >
+                                {getCurrentUserName(data)}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        <div className="description mt-2 mb-2">
+                          Resources: ({product.resources.length})
+                        </div>
+                        {product.resources && product.resources.length > 0 && (
+                          <div className="d-flex flex-wrap" style={{ gap: "10px" }}>
+                            {product.resources.map((data: any) => (
+                              <div
+                                key={`user-${data}`}
+                                style={{
+                                  fontSize: "12px",
+                                  backgroundColor: "#ccc",
+                                  borderRadius: "4px",
+                                }}
+                                className="p-1"
+                              >
+                                {getCurrentResourceName(data)}
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </div>
                   </Col>

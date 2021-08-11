@@ -53,10 +53,10 @@ export const AddResourceUnderProduct = async (data: any) => {
   }
 };
 
-export const AddUserUnderProductPromise = async (data: any) => {
+export const AddUserUnderProductPromise = async (url: any, data: any) => {
   const promiseData = [];
   for (let i = 0; i < data.length; i++) {
-    promiseData.push(axios.post(PRODUCT_USER_ENDPOINT(data.product), data[i]));
+    promiseData.push(axios.post(url, data[i]));
   }
   return await Promise.all(promiseData)
     .then((response) => {
@@ -70,7 +70,7 @@ export const AddUserUnderProductPromise = async (data: any) => {
 export const AddResourceUnderProductPromise = async (url: any, data: any) => {
   const promiseData = [];
   for (let i = 0; i < data.length; i++) {
-    promiseData.push(axios.post(PRODUCT_USER_ENDPOINT(data.product), data[i]));
+    promiseData.push(axios.post(url, data[i]));
   }
   return await Promise.all(promiseData)
     .then((response) => {

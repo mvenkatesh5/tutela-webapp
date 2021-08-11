@@ -42,6 +42,27 @@ const ProductsEditView = (props: any) => {
   React.useEffect(() => {
     if (props.data) {
       setFormData(props.data);
+      if (props.data.users.length > 0) {
+        let teachers: any = [];
+        let students: any = [];
+        props.data.users.map((data: any) => {
+          let currentUser = props.users.find((element: any) => element.id === data);
+          console.log(currentUser);
+          if (currentUser) {
+            if (currentUser.role === 1) {
+              teachers.push(data);
+            }
+            if (currentUser.role === 0) {
+              students.push(data);
+            }
+          }
+        });
+        if (teachers.length > 0) setSessionTeachers(teachers);
+        if (students.length > 0) setSessionStudents(students);
+      }
+      if (props.data.resources.length > 0) {
+        setProductResources(props.data.resources);
+      }
     }
   }, [props.data]);
 
@@ -50,17 +71,17 @@ const ProductsEditView = (props: any) => {
     setButtonLoader(true);
     ProductsUpdate(formData)
       .then((res) => {
-        // mutate(
-        //   PRODUCTS_ENDPOINT,
-        //   async (elements: any) => {
-        //     let index = elements.findIndex((mutateData: any) => mutateData.id === res.id);
-        //     return elements.map((oldElement: any, i: Number) => (i === index ? res : oldElement));
-        //     // return elements.filter((oldElement: any, i) => i != index);
-        //   },
-        //   false
-        // );
-        // closeModal();
-        handleUsers(res);
+        mutate(
+          PRODUCTS_ENDPOINT,
+          async (elements: any) => {
+            let index = elements.findIndex((mutateData: any) => mutateData.id === res.id);
+            return elements.map((oldElement: any, i: Number) => (i === index ? res : oldElement));
+            // return elements.filter((oldElement: any, i) => i != index);
+          },
+          false
+        );
+        closeModal();
+        // handleUsers(res);
         setButtonLoader(false);
       })
       .catch((errors) => {
@@ -71,9 +92,6 @@ const ProductsEditView = (props: any) => {
 
   const handleUsers = (product: any) => {
     setButtonLoader(true);
-    console.log("sessionTeachers-->", sessionTeachers);
-    console.log("sessionStudents-->", sessionStudents);
-    console.log("productResources-->", productResources);
     // mutateProducts(product);
     setButtonLoader(false);
   };
@@ -107,6 +125,36 @@ const ProductsEditView = (props: any) => {
             {formData && (
               <div>
                 <ProductsForm data={formData} handleData={handleFormData} />
+                {props.users && props.users.length > 0 && (
+                  <>
+                    <div className="mb-3 mt-3">
+                      <Form.Label>Teachers</Form.Label>
+                      <SearchCheckboxView
+                        users={props.users}
+                        data={sessionTeachers}
+                        handleData={handleSessionTeachers}
+                        role={1}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <Form.Label>Users</Form.Label>
+                      <SearchCheckboxView
+                        users={props.users}
+                        data={sessionStudents}
+                        handleData={handleSessionStudents}
+                        role={0}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <Form.Label>Resources</Form.Label>
+                      <ResourceSearchCheckboxView
+                        resources={props.resources}
+                        data={productResources}
+                        handleData={handleProductResources}
+                      />
+                    </div>
+                  </>
+                )}
                 <Button
                   variant="outline-primary"
                   className="btn-sm"

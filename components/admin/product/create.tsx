@@ -65,55 +65,74 @@ const ProductsCreateView = (props: any) => {
 
   const productsCreate = (event: any) => {
     event.preventDefault();
-    handleUsers(null);
-    // setButtonLoader(true);
-    // ProductsCreate(formData)
-    //   .then((res) => {
-    //     handleUsers(res);
-    //     setButtonLoader(false);
-    //   })
-    //   .catch((errors) => {
-    //     console.log(errors);
-    //     setButtonLoader(false);
-    //   });
+    setButtonLoader(true);
+    ProductsCreate(formData)
+      .then((res) => {
+        handleUsers(res);
+      })
+      .catch((errors) => {
+        console.log(errors);
+        setButtonLoader(false);
+      });
   };
 
   const handleUsers = (product: any) => {
     setButtonLoader(true);
     let users: any = [];
+
     if (sessionTeachers && sessionTeachers.length > 0) {
-      sessionTeachers.map((data: any) => {});
+      sessionTeachers.map((data: any) => {
+        const payload = { user: data, as_user: "TEACHER" };
+        users.push(payload);
+      });
     }
+
     if (sessionStudents && sessionStudents.length > 0) {
+      sessionStudents.map((data: any) => {
+        const payload = { user: data, as_user: "STUDENT" };
+        users.push(payload);
+      });
     }
 
     if (users && users.length > 0) {
-      console.log(users);
+      AddUserUnderProductPromise(PRODUCT_USER_ENDPOINT(product.id), users)
+        .then((response) => {
+          console.log(response);
+          handleResources(product);
+        })
+        .catch((error) => {
+          setButtonLoader(false);
+          console.log(error);
+        });
     } else {
+      handleResources(product);
+      setButtonLoader(false);
     }
-    console.log("sessionTeachers-->", sessionTeachers);
-    console.log("sessionStudents-->", sessionStudents);
-    console.log("productResources-->", productResources);
-    // mutateProducts(product);
-    setButtonLoader(false);
   };
 
   const handleResources = (product: any) => {
+    setButtonLoader(true);
     if (productResources && productResources.length > 0) {
       let resources: any = [];
       productResources.map((data: any) => {
         const payload = { resource: data };
         resources.push(payload);
       });
+
       AddResourceUnderProductPromise(PRODUCT_RESOURCES_ENDPOINT(product.id), resources)
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           mutateProducts(product);
+          setButtonLoader(false);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
+          setButtonLoader(false);
         });
-    } else mutateProducts(product);
+    } else {
+      mutateProducts(product);
+      setButtonLoader(false);
+    }
   };
 
   const mutateProducts = (product: any) => {
