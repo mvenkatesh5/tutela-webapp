@@ -7,6 +7,7 @@ import { mutate } from "swr";
 import ProductsForm from "./productsForm";
 // components
 import SearchCheckboxView from "components/admin/sessions/SearchCheckbox";
+import ResourceSearchCheckboxView from "components/resources/ResourceCheckbox";
 // api routes
 import { PRODUCTS_ENDPOINT } from "@constants/routes";
 // api services
@@ -47,26 +48,37 @@ const ProductsCreateView = (props: any) => {
   const handleSessionStudents = (value: any) => {
     setSessionStudents(value);
   };
+  const [productResources, setProductResources] = React.useState<any>();
+  const handleProductResources = (value: any) => {
+    setProductResources(value);
+  };
 
   const productsCreate = (event: any) => {
     event.preventDefault();
-    setButtonLoader(true);
-    ProductsCreate(formData)
-      .then((res) => {
-        mutate(
-          PRODUCTS_ENDPOINT,
-          async (elements: any) => {
-            return [...elements, res];
-          },
-          false
-        );
-        closeModal();
-        setButtonLoader(false);
-      })
-      .catch((errors) => {
-        console.log(errors);
-        setButtonLoader(false);
-      });
+    handleUsers();
+    // setButtonLoader(true);
+    // ProductsCreate(formData)
+    //   .then((res) => {
+    //     mutate(
+    //       PRODUCTS_ENDPOINT,
+    //       async (elements: any) => {
+    //         return [...elements, res];
+    //       },
+    //       false
+    //     );
+    //     closeModal();
+    //     setButtonLoader(false);
+    //   })
+    //   .catch((errors) => {
+    //     console.log(errors);
+    //     setButtonLoader(false);
+    //   });
+  };
+
+  const handleUsers = () => {
+    console.log("sessionTeachers-->", sessionTeachers);
+    console.log("sessionStudents-->", sessionStudents);
+    console.log("productResources-->", productResources);
   };
 
   return (
@@ -92,11 +104,20 @@ const ProductsCreateView = (props: any) => {
                   />
                 </div>
                 <div className="mb-3">
+                  <Form.Label>Users</Form.Label>
                   <SearchCheckboxView
                     users={props.users}
                     data={sessionStudents}
                     handleData={handleSessionStudents}
                     role={0}
+                  />
+                </div>
+                <div className="mb-3">
+                  <Form.Label>Resources</Form.Label>
+                  <ResourceSearchCheckboxView
+                    resources={props.resources}
+                    data={productResources}
+                    handleData={handleProductResources}
                   />
                 </div>
               </>
