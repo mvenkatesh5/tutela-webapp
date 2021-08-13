@@ -63,6 +63,15 @@ export const AddProductUnderUser = async (data: any) => {
   }
 };
 
+export const RemoveProductUnderUser = async (product_id: any) => {
+  try {
+    const response = await axios.delete(PRODUCT_USER_DELETE_ENDPOINT(product_id));
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
 export const AddUserUnderProductPromise = async (url: any, data: any) => {
   const promiseData = [];
   for (let i = 0; i < data.length; i++) {

@@ -178,15 +178,15 @@ const userDetailView = () => {
                           <div className="details-text">{userDetailList.email}</div>
                         </div>
                       </div>
-                      {/* resource binding */}
-                      <UserResourceView
-                        userResourceList={userProductResourceList}
-                        resources={resources}
-                        userId={user_id}
-                      />
                       <UserProductsView
                         userProductList={userProductResourceList}
                         products={products}
+                        resources={resources}
+                        userId={user_id}
+                      />
+                      {/* resource binding */}
+                      <UserResourceView
+                        userResourceList={userProductResourceList}
                         resources={resources}
                         userId={user_id}
                       />

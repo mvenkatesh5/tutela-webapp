@@ -13,7 +13,7 @@ import {
   USER_PRODUCT_RESOURCE_VIEW_ENDPOINT,
 } from "@constants/routes";
 // api services
-import { AddProductUnderUser } from "@lib/services/productsService";
+import { AddProductUnderUser, RemoveProductUnderUser } from "@lib/services/productsService";
 import { AttachResourceToUserPromise } from "@lib/services/resource.service";
 import { APIFetcher } from "@lib/services";
 
@@ -28,6 +28,17 @@ const UserProductView = (props: any) => {
     clearText();
   };
   const openModal = () => setModal(true);
+
+  const [deleteProduct, setDeleteProduct] = React.useState<any>();
+  const [deleteModal, setDeleteModal] = React.useState(false);
+  const closeDeleteModal = () => {
+    setDeleteModal(false);
+    setDeleteProduct("");
+  };
+  const openDeleteModal = (product_id: any) => {
+    setDeleteProduct(product_id);
+    setDeleteModal(true);
+  };
 
   const [previewToggle, setPreviewToggle] = React.useState<any>(true);
 
@@ -79,11 +90,7 @@ const UserProductView = (props: any) => {
   };
 
   const attachProductToUser = (product: any) => {
-    if (
-      props.userProductList &&
-      props.userProductList.user_resources &&
-      props.userProductList.user_resources.length > 0
-    ) {
+    if (product.resources && product.resources.length > 0) {
       setModalProductResources(product);
       openModal();
     } else {
@@ -152,19 +159,22 @@ const UserProductView = (props: any) => {
       });
   };
 
-  const removeProductUnderUser = (product_bridge_id: any) => {
-    alert("currently in development get back to you as soon as possible. Thank you!");
-    // RemoveResourceFromUser(product_bridge_id)
-    //   .then((response) => {
-    //     mutate(
-    //       USER_PRODUCT_RESOURCE_VIEW_ENDPOINT(props.userId),
-    //       APIFetcher(USER_PRODUCT_RESOURCE_VIEW_ENDPOINT(props.userId)),
-    //       false
-    //     );
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+  const removeProductUnderUser = () => {
+    setButtonLoader(true);
+    RemoveProductUnderUser(deleteProduct)
+      .then((response) => {
+        mutate(
+          USER_PRODUCT_RESOURCE_VIEW_ENDPOINT(props.userId),
+          APIFetcher(USER_PRODUCT_RESOURCE_VIEW_ENDPOINT(props.userId)),
+          false
+        );
+        closeDeleteModal();
+        setButtonLoader(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setButtonLoader(false);
+      });
   };
 
   const renderModalResourceBinding = () => {
@@ -246,9 +256,9 @@ const UserProductView = (props: any) => {
                   className="user-resource-content-list-view"
                 >
                   <div className="title">{data.product.name}</div>
-                  {/* <div className="icon" onClick={() => removeProductUnderUser(data.id)}>
+                  <div className="icon" onClick={() => openDeleteModal(data.id)}>
                     <Times />
-                  </div> */}
+                  </div>
                 </div>
               ))}
           </div>
@@ -276,6 +286,29 @@ const UserProductView = (props: any) => {
             className="btn-sm"
             onClick={cancelProductResourcesAttachToUser}
             disabled={buttonLoader}
+          >
+            Close
+          </Button>
+        </Modal.Body>
+      </Modal>
+
+      <Modal show={deleteModal} onHide={closeDeleteModal} centered backdrop={"static"}>
+        <Modal.Body>
+          <h5 className="mb-3">Do you want to delete the product.</h5>
+          <Button
+            variant="outline-primary"
+            className="btn-sm"
+            style={{ marginRight: "10px" }}
+            disabled={buttonLoader}
+            onClick={removeProductUnderUser}
+          >
+            {buttonLoader ? "Processing..." : "Confirm"}
+          </Button>
+          <Button
+            variant="outline-secondary"
+            className="btn-sm"
+            disabled={buttonLoader}
+            onClick={closeDeleteModal}
           >
             Close
           </Button>
