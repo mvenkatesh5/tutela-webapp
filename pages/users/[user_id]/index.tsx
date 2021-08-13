@@ -9,6 +9,7 @@ import useSWR from "swr";
 import FromBuilder from "@components/forms";
 import MessageView from "@components/comments/view";
 import UserResourceView from "@components/resources/userResources/view";
+import UserProductsView from "@components/admin/product/userProducts/View";
 // layouts
 import AdminLayout from "@layouts/adminLayout";
 // global imports
@@ -19,6 +20,8 @@ import {
   USER_WITH_ID_ENDPOINT,
   USER_RESOURCE_VIEW_ENDPOINT,
   RESOURCE_ENDPOINT,
+  USER_PRODUCT_RESOURCE_VIEW_ENDPOINT,
+  PRODUCTS_ENDPOINT,
 } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
@@ -120,6 +123,15 @@ const userDetailView = () => {
     refreshInterval: 0,
   });
 
+  const { data: userProductResourceList, error: userProductListError } = useSWR(
+    user_id ? USER_PRODUCT_RESOURCE_VIEW_ENDPOINT(user_id) : null,
+    (url) => APIFetcher(url),
+    { refreshInterval: 0 }
+  );
+  const { data: products, error: productsError } = useSWR(PRODUCTS_ENDPOINT, APIFetcher, {
+    refreshInterval: 0,
+  });
+
   React.useEffect(() => {
     if (userDetailList && userDetailList.profile_data) {
       setProfile(userDetailList.profile_data);
@@ -168,7 +180,13 @@ const userDetailView = () => {
                       </div>
                       {/* resource binding */}
                       <UserResourceView
-                        userResourceList={userResourceList}
+                        userResourceList={userProductResourceList}
+                        resources={resources}
+                        userId={user_id}
+                      />
+                      <UserProductsView
+                        userProductList={userProductResourceList}
+                        products={products}
                         resources={resources}
                         userId={user_id}
                       />

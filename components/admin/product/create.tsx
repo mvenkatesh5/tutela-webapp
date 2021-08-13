@@ -97,7 +97,6 @@ const ProductsCreateView = (props: any) => {
     if (users && users.length > 0) {
       AddUserUnderProductPromise(PRODUCT_USER_ENDPOINT(product.id), users)
         .then((response) => {
-          console.log(response);
           handleResources(product);
         })
         .catch((error) => {

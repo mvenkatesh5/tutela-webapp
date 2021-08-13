@@ -8,7 +8,7 @@ import { Times } from "@styled-icons/fa-solid/Times";
 // swr
 import { mutate } from "swr";
 // api routes
-import { USER_RESOURCE_VIEW_ENDPOINT } from "@constants/routes";
+import { USER_PRODUCT_RESOURCE_VIEW_ENDPOINT } from "@constants/routes";
 // api services
 import { AttachResourceToUser, RemoveResourceFromUser } from "@lib/services/resource.service";
 import { APIFetcher } from "@lib/services";
@@ -32,11 +32,14 @@ const UserResourceView = (props: any) => {
         props.resources.map((resourceData: any) => {
           if (resourceData.title.toLowerCase().includes(value.toLowerCase())) {
             let toggle: any = false;
-            props.userResourceList.map((propResource: any) => {
-              if (propResource.resource_node.id === resourceData.id) {
-                toggle = true;
-              }
-            });
+            props.userResourceList &&
+              props.userResourceList.user_resources &&
+              props.userResourceList.user_resources.length > 0 &&
+              props.userResourceList.user_resources.map((propResource: any) => {
+                if (propResource.resource_node.id === resourceData.id) {
+                  toggle = true;
+                }
+              });
             if (!toggle) newResourceData.push(resourceData);
           }
         });
@@ -69,8 +72,8 @@ const UserResourceView = (props: any) => {
     AttachResourceToUser(payload)
       .then((response) => {
         mutate(
-          USER_RESOURCE_VIEW_ENDPOINT(props.userId),
-          APIFetcher(USER_RESOURCE_VIEW_ENDPOINT(props.userId)),
+          USER_PRODUCT_RESOURCE_VIEW_ENDPOINT(props.userId),
+          APIFetcher(USER_PRODUCT_RESOURCE_VIEW_ENDPOINT(props.userId)),
           false
         );
         clearText();
@@ -84,8 +87,8 @@ const UserResourceView = (props: any) => {
     RemoveResourceFromUser(resourceId)
       .then((response) => {
         mutate(
-          USER_RESOURCE_VIEW_ENDPOINT(props.userId),
-          APIFetcher(USER_RESOURCE_VIEW_ENDPOINT(props.userId)),
+          USER_PRODUCT_RESOURCE_VIEW_ENDPOINT(props.userId),
+          APIFetcher(USER_PRODUCT_RESOURCE_VIEW_ENDPOINT(props.userId)),
           false
         );
       })
@@ -140,12 +143,12 @@ const UserResourceView = (props: any) => {
 
           <div>
             {props.userResourceList &&
-              props.userResourceList.length > 0 &&
-              props.userResourceList.map((data: any, index: any) => (
+              props.userResourceList.user_resources &&
+              props.userResourceList.user_resources.length > 0 &&
+              props.userResourceList.user_resources.map((data: any, index: any) => (
                 <div
                   key={`user-resource-content-list-view-${index}`}
                   className="user-resource-content-list-view"
-                  onClick={() => attachResourceToUser(data.id)}
                 >
                   <div className="title">{data.resource_node.title}</div>
                   <div className="icon" onClick={() => removeResourceFromUser(data.id)}>

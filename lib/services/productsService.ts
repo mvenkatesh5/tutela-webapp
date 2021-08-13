@@ -53,6 +53,16 @@ export const AddResourceUnderProduct = async (data: any) => {
   }
 };
 
+// uses in the user view
+export const AddProductUnderUser = async (data: any) => {
+  try {
+    const response = await axios.post(PRODUCT_USER_ENDPOINT(data.product), data);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
 export const AddUserUnderProductPromise = async (url: any, data: any) => {
   const promiseData = [];
   for (let i = 0; i < data.length; i++) {

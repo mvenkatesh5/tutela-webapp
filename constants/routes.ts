@@ -16,6 +16,8 @@ export const RESET_PASSWORD = `/reset-password/`;
 // users
 export const USER_ENDPOINT = `/api/users/`;
 export const USER_WITH_ID_ENDPOINT = (user_id: Number) => `/api/users/${user_id}/`;
+export const USER_PRODUCT_RESOURCE_VIEW_ENDPOINT = (user_id: any) =>
+  `/api/users/${user_id}/detail/`;
 
 // news
 export const NEWS_ENDPOINT = `/api/news/`;
