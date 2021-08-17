@@ -1,8 +1,11 @@
 import React from "react";
 // next imports
+import Link from "next/link";
 import { useRouter } from "next/router";
 // react bootstrap
 import { Container, Card, Tab, Nav, Row, Col } from "react-bootstrap";
+// material
+import { ArrowRightShort } from "@styled-icons/bootstrap/ArrowRightShort";
 // swr
 import useSWR from "swr";
 // components
@@ -42,6 +45,8 @@ const userDetailView = () => {
   const handleProfile = (key: any, value: any) => {
     setProfile({ ...profile, [key]: value });
   };
+
+  const [userResources, setUserResources] = React.useState<any>();
 
   const ProfileSchemaComponent = () => {
     return (
@@ -95,6 +100,44 @@ const userDetailView = () => {
     );
   };
 
+  const ProfileTabComponent = () => {
+    return (
+      <>
+        <div className="user-reports-root-wrapper">
+          {userResources &&
+          userResources.product_users &&
+          userResources.product_users.length > 0 ? (
+            <div className="report-card-wrapper">
+              {userResources.product_users.map((resource: any, index: any) => (
+                <div key={`report-card-container-${resource.id}`} className="report-card-container">
+                  <Link
+                    href={`/users/${user_id}/${resource.product.id}/reports?product=${resource.product.name}`}
+                  >
+                    <a target="_blank">
+                      <div
+                        className="report-card"
+                        style={{
+                          backgroundColor: resource.product.color ? resource.product.color : "#000",
+                        }}
+                      >
+                        <div className="text">{resource.product.name}</div>
+                        <div className="icon">
+                          <ArrowRightShort />
+                        </div>
+                      </div>
+                    </a>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center mt-5 mb-5 text-secondary">No Products are available.</div>
+          )}
+        </div>
+      </>
+    );
+  };
+
   const profileTabContent = [
     {
       tab_name: "Discussion",
@@ -105,6 +148,11 @@ const userDetailView = () => {
       tab_name: "Details",
       tab_key: "profile_details",
       tab_component: <ProfileSchemaComponent />,
+    },
+    {
+      tab_name: "Reports",
+      tab_key: "profile_reports",
+      tab_component: <ProfileTabComponent />,
     },
   ];
 
@@ -133,10 +181,12 @@ const userDetailView = () => {
   });
 
   React.useEffect(() => {
-    if (userDetailList && userDetailList.profile_data) {
-      setProfile(userDetailList.profile_data);
-    }
+    if (userDetailList && userDetailList.profile_data) setProfile(userDetailList.profile_data);
   }, [userDetailList]);
+
+  React.useEffect(() => {
+    if (userProductResourceList) setUserResources(userProductResourceList);
+  }, [userProductResourceList]);
 
   const meta = {
     title: "User Details",
