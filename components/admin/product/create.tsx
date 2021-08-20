@@ -50,6 +50,10 @@ const ProductsCreateView = (props: any) => {
     setFormData(value);
   };
 
+  const [sessionMentors, setSessionMentors] = React.useState<any>();
+  const handleSessionMentors = (value: any) => {
+    setSessionMentors(value);
+  };
   const [sessionTeachers, setSessionTeachers] = React.useState<any>();
   const handleSessionTeachers = (value: any) => {
     setSessionTeachers(value);
@@ -66,7 +70,9 @@ const ProductsCreateView = (props: any) => {
   const productsCreate = (event: any) => {
     event.preventDefault();
     setButtonLoader(true);
-    ProductsCreate(formData)
+    let payload: any = formData;
+    // payload["mentor"] = sessionMentors[0];
+    ProductsCreate(payload)
       .then((res) => {
         handleUsers(res);
       })
@@ -158,6 +164,16 @@ const ProductsCreateView = (props: any) => {
             <ProductsForm data={formData} handleData={handleFormData} />
             {props.users && props.users.length > 0 && (
               <>
+                {/* <div className="mb-3 mt-3">
+                  <Form.Label>Mentors</Form.Label>
+                  <SearchCheckboxView
+                    users={props.users}
+                    data={sessionMentors}
+                    handleData={handleSessionMentors}
+                    role={1}
+                    validInput={1}
+                  />
+                </div>
                 <div className="mb-3 mt-3">
                   <Form.Label>Teachers</Form.Label>
                   <SearchCheckboxView
@@ -165,6 +181,7 @@ const ProductsCreateView = (props: any) => {
                     data={sessionTeachers}
                     handleData={handleSessionTeachers}
                     role={1}
+                    validInput={props.users.length}
                   />
                 </div>
                 <div className="mb-3">
@@ -174,8 +191,9 @@ const ProductsCreateView = (props: any) => {
                     data={sessionStudents}
                     handleData={handleSessionStudents}
                     role={0}
+                    validInput={props.users.length}
                   />
-                </div>
+                </div> */}
                 <div className="mb-3">
                   <Form.Label>Resources</Form.Label>
                   <ResourceSearchCheckboxView

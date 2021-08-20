@@ -12,12 +12,13 @@ import Page from "@components/page";
 import ReportCreateView from "@components/reports/create";
 import ReportEditView from "@components/reports/edit";
 import ReportDeleteView from "@components/reports/delete";
+import ReportStatusView from "@components/reports/status";
 // constants
 import { META_DESCRIPTION } from "@constants/page";
 // api services
 import { APIFetcher } from "@lib/services";
 // api routes
-import { USER_REPORTS_WITH_USER_ID_ENDPOINT } from "@constants/routes";
+import { USER_REPORTS_WITH_USER_ID_ENDPOINT, PRODUCTS_WITH_ID_ENDPOINT } from "@constants/routes";
 // hoc
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 
@@ -55,14 +56,34 @@ const userAdminReportsView = () => {
             {currentReports.map((report: any, reportIndex: any) => (
               <div
                 className="report-detail-card-container mb-2"
-                style={{ border: "1px solid #ccc", borderRadius: "4px", padding: "8px 16px" }}
+                style={{
+                  border: "1px solid #e2e2e2",
+                  borderRadius: "4px",
+                  padding: "10px 18px",
+                }}
               >
-                <div className="mb-2" style={{ fontSize: "16px" }}>
-                  {report.report.content}
+                <div className="d-flex align-item-center" style={{ gap: "10px" }}>
+                  <div style={{ fontSize: "16px" }}>{report.report.content}</div>
+                  <div
+                    className="d-flex align-items-center"
+                    style={{ gap: "10px", marginLeft: "auto" }}
+                  >
+                    <ReportEditView
+                      data={report}
+                      product={product_id}
+                      user={user_id}
+                      view={tabKey}
+                    />
+                    <ReportDeleteView
+                      data={report}
+                      product={product_id}
+                      user={user_id}
+                      view={tabKey}
+                    />
+                  </div>
                 </div>
-                <div className="d-flex align-items-center flex-wrap" style={{ gap: "4px" }}>
-                  <ReportEditView data={report} product={product_id} user={user_id} view={tabKey} />
-                  <ReportDeleteView
+                <div className="w-100 mt-2">
+                  <ReportStatusView
                     data={report}
                     product={product_id}
                     user={user_id}
@@ -84,6 +105,14 @@ const userAdminReportsView = () => {
     description: META_DESCRIPTION,
   };
 
+  const { data: productDetail, error: productDetailError } = useSWR(
+    product_id ? PRODUCTS_WITH_ID_ENDPOINT(product_id) : null,
+    APIFetcher,
+    { refreshInterval: 0 }
+  );
+
+  console.log("productDetail", productDetail);
+
   const { data: reportList, error: reportListError } = useSWR(
     user_id ? USER_REPORTS_WITH_USER_ID_ENDPOINT(user_id) : null,
     APIFetcher,
@@ -98,9 +127,22 @@ const userAdminReportsView = () => {
     <Page meta={meta}>
       <AdminLayout>
         <div className="right-layout">
-          <h3 className="mb-3">{product && product}</h3>
-          <div style={{ borderBottom: "1px solid red" }}></div>
-          <div className="report-detail-wrapper">
+          {productDetail && (
+            <div
+              style={{
+                padding: "40px 32px",
+                backgroundColor: productDetail.color ? productDetail.color : "#000",
+                color: "#fff",
+                borderRadius: "6px",
+                overflow: "hidden",
+              }}
+            >
+              <h3>{productDetail.name}</h3>
+              <p>{productDetail.description}</p>
+            </div>
+          )}
+
+          <div className="report-detail-wrapper mt-3">
             <Tab.Container
               id="profile-schema-component"
               defaultActiveKey={tabKey}

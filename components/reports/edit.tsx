@@ -64,7 +64,7 @@ const ReportEditView = (props: any) => {
 
   return (
     <>
-      <Button variant="primary" className="btn-sm" onClick={openModal}>
+      <Button variant="outline-secondary" className="btn-sm" onClick={openModal}>
         Edit
       </Button>
 

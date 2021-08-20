@@ -41,7 +41,7 @@ const ReportDeleteView = (props: any) => {
 
   return (
     <>
-      <Button variant="primary" className="btn-sm" onClick={openModal}>
+      <Button variant="outline-danger" className="btn-sm" onClick={openModal}>
         Delete
       </Button>
 

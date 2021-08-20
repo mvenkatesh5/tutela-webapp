@@ -7,6 +7,8 @@ import { ChevronUp } from "@styled-icons/boxicons-regular/ChevronUp";
 import { Times } from "@styled-icons/fa-solid/Times";
 // swr
 import { mutate } from "swr";
+// components
+import SearchCheckboxView from "components/admin/sessions/SearchCheckbox";
 // api routes
 import {
   USER_RESOURCE_VIEW_ENDPOINT,
@@ -20,11 +22,18 @@ import { APIFetcher } from "@lib/services";
 const UserProductView = (props: any) => {
   const [modalProductResources, setModalProductResources] = React.useState<any>();
 
+  const [mentorToggle, setMentorToggle] = React.useState<boolean>(false);
+  const [sessionMentors, setSessionMentors] = React.useState<any>();
+  const handleSessionMentors = (value: any) => {
+    setSessionMentors(value);
+  };
+
   const [buttonLoader, setButtonLoader] = React.useState(false);
   const [modal, setModal] = React.useState(false);
   const closeModal = () => {
     setModal(false);
     setModalProductResources("");
+    handleSessionMentors("");
     clearText();
   };
   const openModal = () => setModal(true);
@@ -90,12 +99,12 @@ const UserProductView = (props: any) => {
   };
 
   const attachProductToUser = (product: any) => {
-    if (product.resources && product.resources.length > 0) {
-      setModalProductResources(product);
-      openModal();
-    } else {
-      attachProductToUserRequest(product);
-    }
+    // if (product.resources && product.resources.length > 0) {
+    setModalProductResources(product);
+    openModal();
+    // } else {
+    //   attachProductToUserRequest(product);
+    // }
   };
 
   const confirmProductResourcesAttachToUser = () => {
@@ -140,6 +149,7 @@ const UserProductView = (props: any) => {
     const payload: any = {
       product: product.id,
       user: props.userId,
+      mentor: sessionMentors[0],
     };
     setButtonLoader(true);
 
@@ -198,6 +208,8 @@ const UserProductView = (props: any) => {
             })}
           </>
         );
+      else
+        return <div className="text-secondary text-center">No resources under this product.</div>;
     }
     return "";
   };
@@ -255,7 +267,24 @@ const UserProductView = (props: any) => {
                   key={`user-resource-content-list-view-${index}`}
                   className="user-resource-content-list-view"
                 >
-                  <div className="title">{data.product.name}</div>
+                  <div
+                    className="title d-flex align-content-center flex-wrap"
+                    style={{ gap: "6px" }}
+                  >
+                    <div>{data.product.name}</div>
+                    {data.mentor && (
+                      <div
+                        className="d-flex align-content-center justify-content-center p-0 m-0 ps-2 pe-2"
+                        style={{
+                          fontSize: "14px",
+                          background: "#ccc",
+                          borderRadius: "4px",
+                        }}
+                      >
+                        {` ${data.mentor.username} `}
+                      </div>
+                    )}
+                  </div>
                   <div className="icon" onClick={() => openDeleteModal(data.id)}>
                     <Times />
                   </div>
@@ -270,6 +299,19 @@ const UserProductView = (props: any) => {
           <h5 className="mb-3">
             Do you want to add product resources that are displayed below to the user.
           </h5>
+          <div className="mb-3 mt-3">
+            <Form.Label>Add Mentors</Form.Label>
+            <SearchCheckboxView
+              users={props.users}
+              data={sessionMentors}
+              handleData={handleSessionMentors}
+              role={1}
+              validInput={1}
+            />
+            {mentorToggle && (
+              <Form.Text className="text-danger">Mentor selection mandatory.</Form.Text>
+            )}
+          </div>
           <h6>Resources:</h6>
           <ol>{modalProductResources && renderModalResourceBinding()}</ol>
           <Button

@@ -20,6 +20,7 @@ import { profileSchemaData } from "@constants/profileSchema";
 import { datePreview } from "@constants/global";
 // api routes
 import {
+  USER_ENDPOINT,
   USER_WITH_ID_ENDPOINT,
   USER_RESOURCE_VIEW_ENDPOINT,
   RESOURCE_ENDPOINT,
@@ -47,6 +48,7 @@ const userDetailView = () => {
   };
 
   const [userResources, setUserResources] = React.useState<any>();
+  const [users, setUsers] = React.useState<any>();
 
   const ProfileSchemaComponent = () => {
     return (
@@ -156,6 +158,8 @@ const userDetailView = () => {
     },
   ];
 
+  const { data: usersList, error: usersListError } = useSWR(USER_ENDPOINT, APIFetcher);
+
   const { data: userDetailList, error: userDetailListError } = useSWR(
     user_id ? USER_WITH_ID_ENDPOINT(user_id) : null,
     (url) => APIFetcher(url),
@@ -187,6 +191,10 @@ const userDetailView = () => {
   React.useEffect(() => {
     if (userProductResourceList) setUserResources(userProductResourceList);
   }, [userProductResourceList]);
+
+  React.useEffect(() => {
+    if (usersList) setUsers(usersList);
+  }, [usersList]);
 
   const meta = {
     title: "User Details",
@@ -233,6 +241,7 @@ const userDetailView = () => {
                         products={products}
                         resources={resources}
                         userId={user_id}
+                        users={users}
                       />
                       {/* resource binding */}
                       <UserResourceView
