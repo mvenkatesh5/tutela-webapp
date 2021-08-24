@@ -47,7 +47,7 @@ const ProductsEditView = (props: any) => {
         let students: any = [];
         props.data.users.map((data: any) => {
           let currentUser = props.users.find((element: any) => element.id === data);
-          console.log(currentUser);
+
           if (currentUser) {
             if (currentUser.role === 1) {
               teachers.push(data);

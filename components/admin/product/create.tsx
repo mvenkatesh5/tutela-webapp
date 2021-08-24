@@ -126,7 +126,6 @@ const ProductsCreateView = (props: any) => {
 
       AddResourceUnderProductPromise(PRODUCT_RESOURCES_ENDPOINT(product.id), resources)
         .then((response) => {
-          // console.log(response);
           mutateProducts(product);
           setButtonLoader(false);
         })

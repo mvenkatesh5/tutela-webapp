@@ -11,6 +11,7 @@ import useSWR from "swr";
 // components
 import FromBuilder from "@components/forms";
 import MessageView from "@components/comments/view";
+import SearchCheckboxView from "components/admin/sessions/SearchCheckbox";
 import UserResourceView from "@components/resources/userResources/view";
 import UserProductsView from "@components/admin/product/userProducts/View";
 // layouts
@@ -45,6 +46,11 @@ const userDetailView = () => {
   const [profile, setProfile] = React.useState<any>({});
   const handleProfile = (key: any, value: any) => {
     setProfile({ ...profile, [key]: value });
+  };
+
+  const [sessionParents, setSessionParents] = React.useState<any>([48]);
+  const handleSessionParents = (value: any) => {
+    setSessionParents(value);
   };
 
   const [userResources, setUserResources] = React.useState<any>();
@@ -112,9 +118,7 @@ const userDetailView = () => {
             <div className="report-card-wrapper">
               {userResources.product_users.map((resource: any, index: any) => (
                 <div key={`report-card-container-${resource.id}`} className="report-card-container">
-                  <Link
-                    href={`/users/${user_id}/${resource.product.id}/reports?product=${resource.product.name}`}
-                  >
+                  <Link href={`/user-report/${user_id}/${resource.product.id}/reports`}>
                     <a target="_blank">
                       <div
                         className="report-card"
@@ -236,6 +240,21 @@ const userDetailView = () => {
                           <div className="details-text">{userDetailList.email}</div>
                         </div>
                       </div>
+                      <div className="user-resource-detail">
+                        <div className="user-resource-header">
+                          <div className="title">Add Parents</div>
+                        </div>
+                        {users && (
+                          <SearchCheckboxView
+                            users={users}
+                            data={sessionParents}
+                            handleData={handleSessionParents}
+                            role={3}
+                            validInput={users.length}
+                          />
+                        )}
+                      </div>
+
                       <UserProductsView
                         userProductList={userProductResourceList}
                         products={products}

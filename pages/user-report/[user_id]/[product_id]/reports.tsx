@@ -13,6 +13,8 @@ import ReportCreateView from "@components/reports/create";
 import ReportEditView from "@components/reports/edit";
 import ReportDeleteView from "@components/reports/delete";
 import ReportStatusView from "@components/reports/status";
+// cookie
+import { getAuthenticationToken } from "@lib/cookie";
 // constants
 import { META_DESCRIPTION } from "@constants/page";
 // api services
@@ -24,6 +26,23 @@ import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 
 const userAdminReportsView = () => {
   const router = useRouter();
+
+  const [currentUser, setCurrentUser] = React.useState<any>();
+  const [userRole, setUserRole] = React.useState<any>();
+
+  React.useEffect(() => {
+    if (getAuthenticationToken()) {
+      let details: any = getAuthenticationToken();
+      details = details ? JSON.parse(details) : null;
+      if (details) {
+        setCurrentUser(details);
+        if (details.info.role === 2) setUserRole("admin");
+        else if (details.info.role === 1) setUserRole("teacher");
+        else if (details.info.role === 3) setUserRole("parent");
+        else setUserRole("student");
+      }
+    }
+  }, []);
 
   const user_id = router.query.user_id;
   const product_id = router.query.product_id;
@@ -64,32 +83,36 @@ const userAdminReportsView = () => {
               >
                 <div className="d-flex align-item-center" style={{ gap: "10px" }}>
                   <div style={{ fontSize: "16px" }}>{report.report.content}</div>
-                  <div
-                    className="d-flex align-items-center"
-                    style={{ gap: "10px", marginLeft: "auto" }}
-                  >
-                    <ReportEditView
-                      data={report}
-                      product={product_id}
-                      user={user_id}
-                      view={tabKey}
-                    />
-                    <ReportDeleteView
+                  {userRole && userRole === "admin" && (
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ gap: "10px", marginLeft: "auto" }}
+                    >
+                      <ReportEditView
+                        data={report}
+                        product={product_id}
+                        user={user_id}
+                        view={tabKey}
+                      />
+                      <ReportDeleteView
+                        data={report}
+                        product={product_id}
+                        user={user_id}
+                        view={tabKey}
+                      />
+                    </div>
+                  )}
+                </div>
+                {userRole && userRole === "admin" && (
+                  <div className="w-100 mt-2">
+                    <ReportStatusView
                       data={report}
                       product={product_id}
                       user={user_id}
                       view={tabKey}
                     />
                   </div>
-                </div>
-                <div className="w-100 mt-2">
-                  <ReportStatusView
-                    data={report}
-                    product={product_id}
-                    user={user_id}
-                    view={tabKey}
-                  />
-                </div>
+                )}
               </div>
             ))}
           </>
@@ -110,8 +133,6 @@ const userAdminReportsView = () => {
     APIFetcher,
     { refreshInterval: 0 }
   );
-
-  console.log("productDetail", productDetail);
 
   const { data: reportList, error: reportListError } = useSWR(
     user_id ? USER_REPORTS_WITH_USER_ID_ENDPOINT(user_id) : null,
@@ -163,11 +184,13 @@ const userAdminReportsView = () => {
                   <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
                 ) : (
                   <>
-                    <div className="d-flex mb-2 justify-content-end">
-                      <div>
-                        <ReportCreateView product={product_id} user={user_id} view={tabKey} />
+                    {userRole && userRole === "admin" && (
+                      <div className="d-flex mb-2 justify-content-end">
+                        <div>
+                          <ReportCreateView product={product_id} user={user_id} view={tabKey} />
+                        </div>
                       </div>
-                    </div>
+                    )}
                     {report_tab_data.map((item: any, index: any) => (
                       <Tab.Pane key={`tab-pane-${item.tab_key}`} eventKey={item.tab_key}>
                         <RenderTabContent view={item.tab_key} />

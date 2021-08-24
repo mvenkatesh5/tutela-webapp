@@ -89,91 +89,93 @@ const UserDetails = () => {
 
   return (
     <Page meta={meta}>
-    <div>
-      <AdminLayout>
-        <div className="right-layout">
-          <Container>
-            <div className="d-flex align-items-center mt-2 mb-3">
-              <div>
-                <h5 className="m-0 p-0">Users</h5>
+      <div>
+        <AdminLayout>
+          <div className="right-layout">
+            <Container>
+              <div className="d-flex align-items-center mt-2 mb-3">
+                <div>
+                  <h5 className="m-0 p-0">Users</h5>
+                </div>
+                <div className="ms-auto">
+                  <Form.Control
+                    type="text"
+                    placeholder="Search user"
+                    value={searchContent}
+                    onChange={(e: any) => setSearchContent(e.target.value)}
+                  />
+                </div>
               </div>
-              <div className="ms-auto">
-                <Form.Control
-                  type="text"
-                  placeholder="Search user"
-                  value={searchContent}
-                  onChange={(e: any) => setSearchContent(e.target.value)}
-                />
-              </div>
-            </div>
-            <Table bordered>
-              <thead>
-                <tr>
-                  {!is_teacher && <th className="text-center">#</th>}
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Username</th>
-                  <th>Email</th>
-                  <th>Last Login</th>
-                  <th>Role</th>
-                  <th>TimeZone</th>
-                </tr>
-              </thead>
-              <tbody>
-                {userList &&
-                  userList.length > 0 &&
-                  userList.map((users: any, i: any) => {
-                    if (validateIsTeacherRouter(users) && validateSearch(users)) {
-                      return (
-                        <tr key={i}>
-                          {!is_teacher && <td className="text-center">{i + 1}</td>}
-                          <td className="heading">
-                            <Link
-                              href={`/users/${users.role === 1 ? `${users.id}/teacher` : users.id}`}
-                            >
-                              <a target="_blank">{users.first_name}</a>
-                            </Link>
-                          </td>
-                          <td className="heading">{users.last_name}</td>
-                          <td className="heading">{users.username}</td>
-                          <td className="description">{users.email}</td>
-                          <td className="description text-center">
-                            {users.last_login ? dateTimeFormat(users.last_login) : "-"}
-                          </td>
-                          <td>
-                            <Form.Group controlId="exampleForm.ControlSelect1">
-                              <Form.Control
-                                as="select"
-                                value={users.role}
-                                onChange={(e) => handleUserRole(users, e.target.value)}
+              <Table bordered>
+                <thead>
+                  <tr>
+                    {!is_teacher && <th className="text-center">#</th>}
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Last Login</th>
+                    <th>Role</th>
+                    <th>TimeZone</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {userList &&
+                    userList.length > 0 &&
+                    userList.map((users: any, i: any) => {
+                      if (validateIsTeacherRouter(users) && validateSearch(users)) {
+                        return (
+                          <tr key={i}>
+                            {!is_teacher && <td className="text-center">{i + 1}</td>}
+                            <td className="heading">
+                              <Link
+                                href={`/users/${
+                                  users.role === 1 ? `${users.id}/teacher` : users.id
+                                }`}
                               >
-                                <option value="0">Learner</option>
-                                <option value="1">Teacher</option>
-                                <option value="2">Admin</option>
-                                <option value="3">Parent</option>
-                              </Form.Control>
-                            </Form.Group>
-                          </td>
-                          <td className="description">
-                            <TimezonePicker
-                              className="timezone-root"
-                              valueDisplayFormat="composite"
-                              value={users.timezone}
-                              onChange={(value) => {
-                                handleUserTimezone(users, value);
-                              }}
-                            />
-                          </td>
-                        </tr>
-                      );
-                    }
-                  })}
-              </tbody>
-            </Table>
-          </Container>
-        </div>
-      </AdminLayout>
-    </div>
+                                <a target="_blank">{users.first_name}</a>
+                              </Link>
+                            </td>
+                            <td className="heading">{users.last_name}</td>
+                            <td className="heading">{users.username}</td>
+                            <td className="description">{users.email}</td>
+                            <td className="description text-center">
+                              {users.last_login ? dateTimeFormat(users.last_login) : "-"}
+                            </td>
+                            <td>
+                              <Form.Group controlId="exampleForm.ControlSelect1">
+                                <Form.Control
+                                  as="select"
+                                  value={users.role}
+                                  onChange={(e) => handleUserRole(users, e.target.value)}
+                                >
+                                  <option value="0">Learner</option>
+                                  <option value="1">Teacher</option>
+                                  <option value="2">Admin</option>
+                                  <option value="3">Parent</option>
+                                </Form.Control>
+                              </Form.Group>
+                            </td>
+                            <td className="description">
+                              <TimezonePicker
+                                className="timezone-root"
+                                valueDisplayFormat="composite"
+                                value={users.timezone}
+                                onChange={(value) => {
+                                  handleUserTimezone(users, value);
+                                }}
+                              />
+                            </td>
+                          </tr>
+                        );
+                      }
+                    })}
+                </tbody>
+              </Table>
+            </Container>
+          </div>
+        </AdminLayout>
+      </div>
     </Page>
   );
 };
