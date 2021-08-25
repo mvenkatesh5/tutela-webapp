@@ -19,9 +19,7 @@ const UserParentModal = (props: any) => {
 
   React.useEffect(() => {
     if (props.users && props.users.length > 0) {
-      console.log(props.user_id);
       let details: any = props.users.find((element: any) => element.id === parseInt(props.user_id));
-      console.log("details-->", details);
       if (details) {
         setCurrentUser(details);
         if (details.role === 2) setUserRole("admin");
@@ -66,7 +64,6 @@ const UserParentModal = (props: any) => {
       if (props.users && props.users.length > 0) {
         let newUserData: any = [];
         props.users.map((currentUser: any) => {
-          // console.log(currentUser);
           if (currentUser.email.toLowerCase().includes(value.toLowerCase())) {
             if (currentUser.role === 3) {
               let toggle: any = false;
@@ -83,7 +80,6 @@ const UserParentModal = (props: any) => {
           }
         });
         if (newUserData && newUserData.length > 0) {
-          console.log("newUserData", newUserData);
           setDropdownToggle(true);
           setDropdownList(newUserData);
         } else {
@@ -117,8 +113,6 @@ const UserParentModal = (props: any) => {
       user_id: props.user_id,
       email: searchText,
     };
-
-    console.log("payload -->", payload);
 
     UserParentLinking(payload)
       .then((response) => {

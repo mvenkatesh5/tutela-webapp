@@ -73,7 +73,6 @@ function ParentDashboard() {
         currentUser.user.linked_items.students &&
         currentUser.user.linked_items.students.length > 0
       ) {
-        console.log("polokolo");
         let uniqueUsers = generateUniqueList(currentUser.user.linked_items.students);
         if (uniqueUsers && uniqueUsers.length > 0) {
           let uniqueUserDetails: any = [];
