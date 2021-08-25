@@ -18,6 +18,7 @@ export const USER_ENDPOINT = `/api/users/`;
 export const USER_WITH_ID_ENDPOINT = (user_id: Number) => `/api/users/${user_id}/`;
 export const USER_PRODUCT_RESOURCE_VIEW_ENDPOINT = (user_id: any) =>
   `/api/users/${user_id}/detail/`;
+export const USER_PARENT_LINKING_ENDPOINT = `/api/user-linking/`;
 
 // news
 export const NEWS_ENDPOINT = `/api/news/`;

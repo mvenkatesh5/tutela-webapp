@@ -14,6 +14,7 @@ import MessageView from "@components/comments/view";
 import SearchCheckboxView from "components/admin/sessions/SearchCheckbox";
 import UserResourceView from "@components/resources/userResources/view";
 import UserProductsView from "@components/admin/product/userProducts/View";
+import UserParentModal from "@components/admin/UserParentModal";
 // layouts
 import AdminLayout from "@layouts/adminLayout";
 // global imports
@@ -240,20 +241,8 @@ const userDetailView = () => {
                           <div className="details-text">{userDetailList.email}</div>
                         </div>
                       </div>
-                      <div className="user-resource-detail">
-                        <div className="user-resource-header">
-                          <div className="title">Add Parents</div>
-                        </div>
-                        {users && (
-                          <SearchCheckboxView
-                            users={users}
-                            data={sessionParents}
-                            handleData={handleSessionParents}
-                            role={3}
-                            validInput={users.length}
-                          />
-                        )}
-                      </div>
+
+                      <UserParentModal user_id={user_id} users={users} />
 
                       <UserProductsView
                         userProductList={userProductResourceList}
