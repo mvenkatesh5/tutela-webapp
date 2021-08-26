@@ -68,9 +68,9 @@ const ReportEditView = (props: any) => {
         Edit
       </Button>
 
-      <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
+      <Modal show={modal} size="lg" onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>
-          <h5>Update Delete</h5>
+          <h5>Update Report</h5>
           <Form onSubmit={reportUpdate}>
             {reportData && (
               <div>

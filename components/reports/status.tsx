@@ -51,7 +51,7 @@ const ReportStatusView = (props: any) => {
         <Form.Check
           type="checkbox"
           id="report-status-check"
-          label={reportData ? ` Un Publish` : ` Publish`}
+          label={reportData ? ` Un Publish` : ` Waiting to Publish`}
           value={reportData}
           checked={reportData}
           onChange={() => handleReportData(!reportData)}

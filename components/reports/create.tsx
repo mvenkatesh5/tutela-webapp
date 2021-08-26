@@ -65,7 +65,7 @@ const ReportsCreateView = (props: any) => {
         Add Report
       </Button>
 
-      <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
+      <Modal show={modal} size="lg" onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>
           <Form onSubmit={reportCreate}>
             <h5>

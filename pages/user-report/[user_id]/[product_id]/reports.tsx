@@ -13,6 +13,7 @@ import ReportCreateView from "@components/reports/create";
 import ReportEditView from "@components/reports/edit";
 import ReportDeleteView from "@components/reports/delete";
 import ReportStatusView from "@components/reports/status";
+import { SlateEditor } from "@components/SlateEditor";
 // cookie
 import { getAuthenticationToken } from "@lib/cookie";
 // constants
@@ -68,6 +69,19 @@ const userAdminReportsView = () => {
       }
     }, [view, userReports]);
 
+    const renderSlateContent = (value: any) => {
+      if (value.length > 0 && Array.isArray(value)) {
+        return value;
+      } else {
+        return [
+          {
+            type: "paragraph",
+            children: [{ text: value.length > 0 ? value : "" }],
+          },
+        ];
+      }
+    };
+
     return (
       <div>
         {currentReports && currentReports.length > 0 ? (
@@ -82,7 +96,14 @@ const userAdminReportsView = () => {
                 }}
               >
                 <div className="d-flex align-item-center" style={{ gap: "10px" }}>
-                  <div style={{ fontSize: "16px" }}>{report.report.content}</div>
+                  <div>
+                    {renderSlateContent(report.report.content) && (
+                      <SlateEditor
+                        readOnly={true}
+                        initialValue={renderSlateContent(report.report.content)}
+                      />
+                    )}
+                  </div>
                   {userRole && userRole === "admin" && (
                     <div
                       className="d-flex align-items-center"
