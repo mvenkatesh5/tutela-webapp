@@ -152,6 +152,7 @@ a {
       overflow-y: auto;
       padding-left: 10px;
       padding-right: 10px;
+      position: relative;
     }
   }
 }
@@ -689,5 +690,30 @@ a {
     & .flex-text {
       padding-left: 10px;
     }
+  }
+}
+
+// teacher report
+.teacher-user-report-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+
+  margin: 10px 0px;
+  .report-left-wrapper {
+    width: 100%;
+  }
+  .report-right-wrapper {
+    width: 100%;
+  }
+  .report-header {
+    background-color: #e5e5e5;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 4px 0px;
+    text-align: center;
+  }
+  .report-content {
   }
 }

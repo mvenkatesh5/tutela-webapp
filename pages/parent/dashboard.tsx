@@ -105,8 +105,8 @@ function ParentDashboard() {
           <h5 className="fw-bold mt-4 mb-2">Progress Report</h5>
 
           {parentUsers && parentUsers.length > 0 ? (
-            <div className="mt-3 mb-3">
-              <div className="mb-2">Users</div>
+            <div className="mt-4 mb-3">
+              <h5 className="mb-2">Users</h5>
               <Row>
                 <Col md={4}>
                   <Form.Control
@@ -133,8 +133,8 @@ function ParentDashboard() {
               {!productsListError && !productsList ? (
                 <div className="text-center text-muted mt-5 mb-5">Loading...</div>
               ) : (
-                <div className="mt-3 mb-3">
-                  <div className="mb-2">Products</div>
+                <div className="mt-4 mb-3">
+                  <h5 className="mb-2">Products</h5>
                   <Row>
                     {productsList &&
                       productsList.product_users &&
