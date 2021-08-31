@@ -2,7 +2,7 @@ import React from "react";
 // next imports
 import { useRouter } from "next/router";
 // react bootstrap
-import { Container, Card, Tab, Nav, Row, Col } from "react-bootstrap";
+import { Container, Badge, Card, Tab, Nav, Row, Col } from "react-bootstrap";
 // swr
 import useSWR from "swr";
 // layouts
@@ -64,7 +64,14 @@ const userAdminReportsView = () => {
 
     React.useEffect(() => {
       if (userReports && userReports.length > 0) {
-        const currentElements: any = userReports.filter((element: any) => element.flags === view);
+        let currentElements: any;
+        if (view === "overview") {
+          currentElements = userReports.filter((element: any) =>
+            ["performance", "syllabus", "behavior"].includes(element.flags)
+          );
+        } else {
+          currentElements = userReports.filter((element: any) => element.flags === view);
+        }
         if (currentElements && currentElements.length > 0) setCurrentReports(currentElements);
       }
     }, [view, userReports]);
@@ -124,6 +131,7 @@ const userAdminReportsView = () => {
                     </div>
                   )}
                 </div>
+                {view === "overview" && <Badge className="bg-secondary mt-2">{report.flags}</Badge>}
                 {userRole && userRole === "admin" && (
                   <div className="w-100 mt-2">
                     <ReportStatusView
@@ -191,13 +199,17 @@ const userAdminReportsView = () => {
               onSelect={(k) => setTabKey(k)}
             >
               <Nav className="custom-nav-tabs-links profile-account-nav" variant="pills">
-                {report_tab_data.map((item: any, index: any) => (
-                  <Nav.Item className="profile-account-nav-item">
-                    <Nav.Link key={`nav-item-${item.tab_key}`} eventKey={item.tab_key}>
-                      {item.tab_name}
-                    </Nav.Link>
-                  </Nav.Item>
-                ))}
+                {report_tab_data.map((item: any, index: any) => {
+                  if (true)
+                    // if (userRole === "admin" && item.tab_key != "overview")
+                    return (
+                      <Nav.Item className="profile-account-nav-item">
+                        <Nav.Link key={`nav-item-${item.tab_key}`} eventKey={item.tab_key}>
+                          {item.tab_name}
+                        </Nav.Link>
+                      </Nav.Item>
+                    );
+                })}
               </Nav>
 
               <Tab.Content className="pt-3 pb-3">
@@ -205,7 +217,7 @@ const userAdminReportsView = () => {
                   <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
                 ) : (
                   <>
-                    {userRole && userRole === "admin" && (
+                    {userRole && userRole === "admin" && tabKey != "overview" && (
                       <div className="d-flex mb-2 justify-content-end">
                         <div>
                           <ReportCreateView product={product_id} user={user_id} view={tabKey} />

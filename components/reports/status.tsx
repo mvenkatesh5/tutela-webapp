@@ -11,6 +11,7 @@ import { USER_REPORTS_WITH_USER_ID_ENDPOINT } from "@constants/routes";
 import { ReportEdit } from "@lib/services/report.service";
 
 const ReportStatusView = (props: any) => {
+  const [buttonLoader, setButtonLoader] = React.useState<boolean>(false);
   const [reportData, setReportData] = React.useState<any>();
   const handleReportData = (value: any) => {
     setReportData(value);
@@ -28,6 +29,7 @@ const ReportStatusView = (props: any) => {
       id: props.data.id,
       is_approved: approved,
     };
+    setButtonLoader(true);
 
     ReportEdit(payload)
       .then((res) => {
@@ -39,24 +41,23 @@ const ReportStatusView = (props: any) => {
           },
           false
         );
+        setButtonLoader(false);
       })
       .catch((error) => {
         console.log(error);
+        setButtonLoader(false);
       });
   };
 
   return (
     <>
-      <Form.Group controlId="report-status">
-        <Form.Check
-          type="checkbox"
-          id="report-status-check"
-          label={reportData ? ` Un Publish` : ` Waiting to Publish`}
-          value={reportData}
-          checked={reportData}
-          onChange={() => handleReportData(!reportData)}
-        />
-      </Form.Group>
+      <Button
+        className="btn-sm"
+        onClick={() => handleReportData(!reportData)}
+        disabled={buttonLoader}
+      >
+        {buttonLoader ? `Processing...` : `Click to ${reportData ? "UnPublish" : "Publish"}`}
+      </Button>
     </>
   );
 };
