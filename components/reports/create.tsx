@@ -16,6 +16,9 @@ const ReportsCreateView = (props: any) => {
     setModal(false);
     setReportData({
       content: "",
+      test_name: "",
+      test_date: "",
+      test_score: "",
     });
   };
   const openModal = () => setModal(true);
@@ -24,6 +27,9 @@ const ReportsCreateView = (props: any) => {
 
   const [reportData, setReportData] = React.useState({
     content: "",
+    test_name: "",
+    test_date: "",
+    test_score: "",
   });
   const handleReportData = (value: any) => {
     setReportData(value);
@@ -37,6 +43,11 @@ const ReportsCreateView = (props: any) => {
       user: props.user,
       report: {
         content: reportData.content,
+        test_details: {
+          name: reportData.test_name,
+          date: reportData.test_date,
+          score: reportData.test_score,
+        },
       },
       flags: props.view,
     };

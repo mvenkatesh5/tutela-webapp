@@ -21,7 +21,11 @@ import { META_DESCRIPTION } from "@constants/page";
 // api services
 import { APIFetcher } from "@lib/services";
 // api routes
-import { USER_REPORTS_WITH_USER_ID_ENDPOINT, PRODUCTS_WITH_ID_ENDPOINT } from "@constants/routes";
+import {
+  USER_REPORTS_WITH_USER_ID_ENDPOINT,
+  PRODUCTS_WITH_ID_ENDPOINT,
+  USER_ENDPOINT,
+} from "@constants/routes";
 // hoc
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 
@@ -102,6 +106,19 @@ const userAdminReportsView = () => {
                   padding: "10px 18px",
                 }}
               >
+                {report.report.test_details && (
+                  <div className="d-flex align-items-center mb-3" style={{ gap: "10px" }}>
+                    <h5 className="m-0 p-0">
+                      {report.report.test_details.name ? report.report.test_details.name : ""}
+                    </h5>
+                    <Badge className="bg-info">
+                      {report.report.test_details.date ? report.report.test_details.date : ""}
+                    </Badge>
+                    <Badge className="bg-info">
+                      {report.report.test_details.score ? report.report.test_details.score : ""}
+                    </Badge>
+                  </div>
+                )}
                 <div className="d-flex align-item-center" style={{ gap: "10px" }}>
                   <div>
                     {renderSlateContent(report.report.content) && (
@@ -131,7 +148,7 @@ const userAdminReportsView = () => {
                     </div>
                   )}
                 </div>
-                {view === "overview" && <Badge className="bg-secondary mt-2">{report.flags}</Badge>}
+                {view === "overview" && <Badge className="bg-secondary mt-3">{report.flags}</Badge>}
                 {userRole && userRole === "admin" && (
                   <div className="w-100 mt-2">
                     <ReportStatusView
@@ -185,10 +202,21 @@ const userAdminReportsView = () => {
                 color: "#fff",
                 borderRadius: "6px",
                 overflow: "hidden",
+                gap: "10px",
               }}
+              className="d-flex align-items-center"
             >
-              <h3>{productDetail.name}</h3>
-              <p>{productDetail.description}</p>
+              <div>
+                <h3>{productDetail.name}</h3>
+                <p>{productDetail.description}</p>
+              </div>
+              <div className="ms-auto">
+                <div className="mb-3" style={{ fontWeight: 500 }}>
+                  Mentor Details:
+                </div>
+                <h5 className="m-0 p-0">user1</h5>
+                <div className="text-small">user1@sample.com</div>
+              </div>
             </div>
           )}
 
