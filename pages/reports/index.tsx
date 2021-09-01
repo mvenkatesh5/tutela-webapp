@@ -1,11 +1,8 @@
 import React from "react";
 // react bootstrap
-import { Container, Badge, Row, Col, Form } from "react-bootstrap";
-// styled icons
-import { Square } from "@styled-icons/boxicons-regular/Square";
-import { CheckSquareFill } from "@styled-icons/bootstrap/CheckSquareFill";
+import { Container, Button, Badge, Row, Col, Form, Tab, Nav } from "react-bootstrap";
 // swr
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 // components
 import Page from "@components/page";
 import { SlateEditor } from "@components/SlateEditor";
@@ -14,13 +11,9 @@ import StudentLayout from "@layouts/studentLayout";
 // cookie
 import { getAuthenticationToken } from "@lib/cookie";
 // api routes
-import {
-  USER_REPORTS_WITH_USER_ID_ENDPOINT,
-  USER_PRODUCT_RESOURCE_VIEW_ENDPOINT,
-  USER_ENDPOINT,
-} from "@constants/routes";
+import { MENTOR_REPORT_ENDPOINT } from "@constants/routes";
 // api services
-import { APIFetcher } from "@lib/services";
+import { APIFetcher, APIPusherWithData } from "@lib/services";
 import { ReportEdit } from "@lib/services/report.service";
 // hoc
 import withTeacherAuth from "@lib/hoc/withTeacherAuth";
@@ -32,6 +25,15 @@ const TeacherReport = () => {
     title: "User Reports",
     description: META_DESCRIPTION,
   };
+
+  const defaultImageUrl = "/default-image.png";
+
+  const report_tab_data = [
+    { tab_key: "unpublished", tab_name: "Un Published" },
+    { tab_key: "published", tab_name: "Published" },
+  ];
+
+  const [tabKey, setTabKey] = React.useState<any>(report_tab_data[0].tab_key);
 
   const [currentUser, setCurrentUser] = React.useState<any>();
   const [userRole, setUserRole] = React.useState<any>();
@@ -50,76 +52,22 @@ const TeacherReport = () => {
     }
   }, []);
 
-  const [currentMentorUser, setCurrentMentorUser] = React.useState<any>();
-  const [mentorUsers, setMentorUsers] = React.useState<any>();
-
-  const { data: users, error: usersError } = useSWR(USER_ENDPOINT, APIFetcher);
-
-  const { data: userProductResourceList, error: userProductListError } = useSWR(
-    users && currentUser && currentUser.user && currentUser.user.id
-      ? USER_PRODUCT_RESOURCE_VIEW_ENDPOINT(currentUser.user.id)
+  const { data: mentorReportsList, error: mentorReportsListError } = useSWR(
+    tabKey && currentUser && currentUser.user && currentUser.user.id
+      ? [MENTOR_REPORT_ENDPOINT, tabKey]
       : null,
-    (url) => APIFetcher(url),
+    (url) =>
+      APIPusherWithData(url, {
+        mentor_id: currentUser.user.id,
+        publish: tabKey === "published" ? true : false,
+      }),
     { refreshInterval: 0 }
   );
 
-  React.useEffect(() => {
-    if (userProductResourceList) {
-      if (userProductResourceList && userProductResourceList.product_users.length > 0) {
-        let _users: any = [];
-        userProductResourceList.product_users.map((user_products: any) => {
-          if (
-            user_products.product &&
-            user_products.product.users &&
-            user_products.product.users.length > 0
-          ) {
-            user_products.product.users.map((userElement: any) => {
-              if (!_users.includes(userElement)) {
-                let currentUser = users.find(
-                  (element: any) => element.id === parseInt(userElement)
-                );
-                if (currentUser && currentUser.role === 0) _users.push(currentUser);
-              }
-            });
-          }
-        });
+  console.log("mentorReportsList", mentorReportsList);
 
-        if (_users && _users.length > 0) {
-          setMentorUsers(_users);
-          setCurrentMentorUser(_users[0].id);
-        }
-      }
-    }
-  }, [userProductResourceList]);
-
-  const { data: reportList, error: reportListError } = useSWR(
-    currentMentorUser
-      ? [USER_REPORTS_WITH_USER_ID_ENDPOINT(currentMentorUser), currentMentorUser]
-      : null,
-    APIFetcher,
-    { refreshInterval: 0 }
-  );
-
-  React.useEffect(() => {
-    if (reportList && reportList.length > 0) {
-    }
-  }, [reportList]);
-
-  const RenderUserReports = ({ reports }: any) => {
-    const [userReports, setUserReports] = React.useState<any>();
-    const handleUserReports = (id: any, value: any) => {
-      let reportArray = [...userReports];
-      let index = reportArray.findIndex((element: any) => element.id === id);
-      if (index >= 0) {
-        reportArray[index].is_approved = value;
-        setUserReports(reportArray);
-        reportUpdate(id, value);
-      }
-    };
-
-    React.useEffect(() => {
-      if (reports) setUserReports(reports);
-    }, [reports]);
+  const RenderTabItem = ({ content, type }: any) => {
+    const [buttonLoader, setButtonLoader] = React.useState<any>(false);
 
     const reportUpdate = (id: any, approved: any) => {
       const payload = {
@@ -127,10 +75,16 @@ const TeacherReport = () => {
         is_approved: approved,
       };
 
+      setButtonLoader(id);
+
       ReportEdit(payload)
-        .then((res) => {})
+        .then((res) => {
+          setButtonLoader(null);
+          mutate([MENTOR_REPORT_ENDPOINT, tabKey]);
+        })
         .catch((error) => {
           console.log(error);
+          setButtonLoader(null);
         });
     };
 
@@ -148,124 +102,85 @@ const TeacherReport = () => {
     };
 
     return (
-      <div className="teacher-user-report-wrapper mt-3">
-        <div className="report-left-wrapper">
-          <div className="report-header mb-2">Un Published Reports</div>
-          <div className="report-content">
-            {userReports &&
-              userReports.length > 0 &&
-              userReports.map((report: any) => (
-                <>
-                  {!report.is_approved && (
-                    <div
-                      className="report-detail-card-container mb-2"
+      <div>
+        {content.map((element: any, index: any) => (
+          <div className="border-bottom pt-3 pb-3">
+            {element.user && (
+              <div className="d-flex align-items-center mb-2" style={{ gap: "10px" }}>
+                <div
+                  style={{
+                    border: "1px solid #ccc",
+                    backgroundColor: "#ccc",
+                    width: "25px",
+                    height: "25px",
+                    borderRadius: "50px",
+                  }}
+                >
+                  <img className="rounded-circle img-fluid" src={defaultImageUrl} />
+                </div>
+                <h6 className="m-0" style={{ fontSize: "14px" }}>
+                  {element.user.username} ({element.user.email})
+                </h6>
+                <div>
+                  <Badge className="bg-success">{element.product.name}</Badge>
+                </div>
+                <div>
+                  <Badge className="bg-secondary">{element.flags}</Badge>
+                </div>
+                <div className="ms-auto">
+                  <Button
+                    className="btn-sm"
+                    onClick={() => reportUpdate(element.id, type == "published" ? false : true)}
+                    disabled={buttonLoader === element.id}
+                  >
+                    {buttonLoader === element.id
+                      ? "Processing..."
+                      : type == "published"
+                      ? "Unpublish"
+                      : "Publish"}
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            {element.report.test_details && element.report.test_details.length > 0 && (
+              <div style={{ padding: "10px 10px" }}>
+                <Row style={{ gap: "20px" }}>
+                  {element.report.test_details.map((element: any, index: any) => (
+                    <Col
+                      key={`report-test-details-${index}`}
+                      md={4}
                       style={{
                         border: "1px solid #e2e2e2",
+                        padding: "10px 12px",
                         borderRadius: "4px",
-                        padding: "10px 18px",
                       }}
                     >
-                      <div className="d-flex align-item-center" style={{ gap: "10px" }}>
-                        <div
-                          style={{ cursor: "pointer" }}
-                          onClick={() => handleUserReports(report.id, true)}
-                        >
-                          <Square width="16px" />
-                        </div>
+                      <div style={{ gap: "10px" }}>
+                        <h5 className="m-0 p-0 mb-2">{element.name ? element.name : ""}</h5>
                         <div>
-                          {report.report.test_details && (
-                            <div className="d-flex align-items-center mb-3" style={{ gap: "10px" }}>
-                              <h5 className="m-0 p-0">
-                                {report.report.test_details.name
-                                  ? report.report.test_details.name
-                                  : ""}
-                              </h5>
-                              <Badge className="bg-info">
-                                {report.report.test_details.date
-                                  ? report.report.test_details.date
-                                  : ""}
-                              </Badge>
-                              <Badge className="bg-info">
-                                {report.report.test_details.score
-                                  ? report.report.test_details.score
-                                  : ""}
-                              </Badge>
-                            </div>
-                          )}
-                          {renderSlateContent(report.report.content) && (
-                            <SlateEditor
-                              readOnly={true}
-                              initialValue={renderSlateContent(report.report.content)}
-                            />
-                          )}
-                          <Badge className="bg-secondary mt-3">{report.flags}</Badge>
+                          <Badge className="bg-info">{element.date ? element.date : ""}</Badge>
+                          <Badge className="bg-info ms-2">
+                            {element.score ? element.score : ""}
+                          </Badge>
                         </div>
                       </div>
-                    </div>
-                  )}
-                </>
-              ))}
+                    </Col>
+                  ))}
+                </Row>
+              </div>
+            )}
+
+            <div>
+              {renderSlateContent(element.report.content) && (
+                <SlateEditor
+                  readOnly={true}
+                  initialValue={renderSlateContent(element.report.content)}
+                />
+              )}
+            </div>
           </div>
-        </div>
-        <div className="report-right-wrapper">
-          <div className="report-header mb-2">Published Reports</div>
-          <div className="report-content">
-            {userReports &&
-              userReports.length > 0 &&
-              userReports.map((report: any) => (
-                <>
-                  {report.is_approved && (
-                    <div
-                      className="report-detail-card-container mb-2"
-                      style={{
-                        border: "1px solid #e2e2e2",
-                        borderRadius: "4px",
-                        padding: "10px 18px",
-                      }}
-                    >
-                      <div className="d-flex align-item-center" style={{ gap: "10px" }}>
-                        <div
-                          className="text-primary"
-                          style={{ cursor: "pointer" }}
-                          onClick={() => handleUserReports(report.id, false)}
-                        >
-                          <CheckSquareFill width="16px" />
-                        </div>
-                        <div>
-                          {report.report.test_details && (
-                            <div className="d-flex align-items-center mb-3" style={{ gap: "10px" }}>
-                              <h5 className="m-0 p-0">
-                                {report.report.test_details.name
-                                  ? report.report.test_details.name
-                                  : ""}
-                              </h5>
-                              <Badge className="bg-info">
-                                {report.report.test_details.date
-                                  ? report.report.test_details.date
-                                  : ""}
-                              </Badge>
-                              <Badge className="bg-info">
-                                {report.report.test_details.score
-                                  ? report.report.test_details.score
-                                  : ""}
-                              </Badge>
-                            </div>
-                          )}
-                          {renderSlateContent(report.report.content) && (
-                            <SlateEditor
-                              readOnly={true}
-                              initialValue={renderSlateContent(report.report.content)}
-                            />
-                          )}
-                          <Badge className="bg-secondary mt-3">{report.flags}</Badge>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </>
-              ))}
-          </div>
-        </div>
+        ))}
       </div>
     );
   };
@@ -276,40 +191,56 @@ const TeacherReport = () => {
         <>
           <StudentLayout>
             <Container>
-              <h5 className="mt-4 mb-2">Mentor user Reports</h5>
+              <h5 className="mt-4 mb-3">Student Reports</h5>
 
-              {mentorUsers && mentorUsers.length > 0 ? (
-                <div className="mt-4 mb-3">
-                  <div className="mb-2 text-secondary">Select Users</div>
-                  <Row>
-                    <Col md={4}>
-                      <Form.Control
-                        as="select"
-                        value={currentMentorUser}
-                        onChange={(e: any) => setCurrentMentorUser(e.target.value)}
-                      >
-                        {mentorUsers &&
-                          mentorUsers.length > 0 &&
-                          mentorUsers.map((user: any, index: any) => (
-                            <option key={`${user.id}`} value={user.id}>
-                              {user.username} ({user.email})
-                            </option>
-                          ))}
-                      </Form.Control>
-                    </Col>
-                  </Row>
+              <Tab.Container
+                id="profile-schema-component"
+                defaultActiveKey={tabKey}
+                onSelect={(k) => setTabKey(k)}
+              >
+                <Nav className="custom-nav-tabs-links profile-account-nav" variant="pills">
+                  {report_tab_data.map((item: any, index: any) => {
+                    if (true)
+                      return (
+                        <Nav.Item
+                          key={`nav-item-${item.tab_key}`}
+                          className="profile-account-nav-item"
+                        >
+                          <Nav.Link key={`nav-item-${item.tab_key}`} eventKey={item.tab_key}>
+                            {item.tab_name}
+                          </Nav.Link>
+                        </Nav.Item>
+                      );
+                  })}
+                </Nav>
 
-                  {reportList && reportList.length > 0 ? (
-                    <RenderUserReports reports={reportList} />
+                <Tab.Content className="pt-3 pb-3">
+                  {!mentorReportsList && !mentorReportsListError ? (
+                    <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
                   ) : (
-                    <div className="text-center text-secondary mt-5 mb-5">
-                      No reports are available.
-                    </div>
+                    <>
+                      <Tab.Pane eventKey={`published`}>
+                        {mentorReportsList && mentorReportsList.length > 0 ? (
+                          <div>
+                            <RenderTabItem content={mentorReportsList} type={`published`} />
+                          </div>
+                        ) : (
+                          <div>No published reports</div>
+                        )}
+                      </Tab.Pane>
+                      <Tab.Pane eventKey={`unpublished`}>
+                        {mentorReportsList && mentorReportsList.length > 0 ? (
+                          <div>
+                            <RenderTabItem content={mentorReportsList} type={`unpublished`} />
+                          </div>
+                        ) : (
+                          <div>No un-published reports</div>
+                        )}
+                      </Tab.Pane>
+                    </>
                   )}
-                </div>
-              ) : (
-                <div className="text-center">No students Available.</div>
-              )}
+                </Tab.Content>
+              </Tab.Container>
             </Container>
           </StudentLayout>
         </>

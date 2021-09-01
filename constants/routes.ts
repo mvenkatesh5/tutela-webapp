@@ -116,3 +116,4 @@ export const USER_REPORTS_WITH_USER_ID_ENDPOINT = (user_id: any) =>
   `/api/users/reports/?user=${user_id}`;
 export const USER_REPORTS_ENDPOINT = `/api/users/reports/`;
 export const USER_REPORTS_WITH_ID_ENDPOINT = (report_id: any) => `/api/users/reports/${report_id}/`;
+export const MENTOR_REPORT_ENDPOINT = `/api/users/reports/mentors/`;

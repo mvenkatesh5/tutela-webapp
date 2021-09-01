@@ -10,6 +10,16 @@ export const APIFetcher = async (url: any) => {
   }
 };
 
+export const APIPusherWithData = async (url: any, data: any) => {
+  try {
+    const response = await axios.post(url, data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error.response.data;
+  }
+};
+
 export const APIUpdater = async (url: any, data: any) => {
   try {
     const response = await axios.put(url, data);
