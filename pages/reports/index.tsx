@@ -1,6 +1,6 @@
 import React from "react";
 // react bootstrap
-import { Container, Row, Col, Form } from "react-bootstrap";
+import { Container, Badge, Row, Col, Form } from "react-bootstrap";
 // styled icons
 import { Square } from "@styled-icons/boxicons-regular/Square";
 import { CheckSquareFill } from "@styled-icons/bootstrap/CheckSquareFill";
@@ -173,12 +173,32 @@ const TeacherReport = () => {
                           <Square width="16px" />
                         </div>
                         <div>
+                          {report.report.test_details && (
+                            <div className="d-flex align-items-center mb-3" style={{ gap: "10px" }}>
+                              <h5 className="m-0 p-0">
+                                {report.report.test_details.name
+                                  ? report.report.test_details.name
+                                  : ""}
+                              </h5>
+                              <Badge className="bg-info">
+                                {report.report.test_details.date
+                                  ? report.report.test_details.date
+                                  : ""}
+                              </Badge>
+                              <Badge className="bg-info">
+                                {report.report.test_details.score
+                                  ? report.report.test_details.score
+                                  : ""}
+                              </Badge>
+                            </div>
+                          )}
                           {renderSlateContent(report.report.content) && (
                             <SlateEditor
                               readOnly={true}
                               initialValue={renderSlateContent(report.report.content)}
                             />
                           )}
+                          <Badge className="bg-secondary mt-3">{report.flags}</Badge>
                         </div>
                       </div>
                     </div>
@@ -212,12 +232,32 @@ const TeacherReport = () => {
                           <CheckSquareFill width="16px" />
                         </div>
                         <div>
+                          {report.report.test_details && (
+                            <div className="d-flex align-items-center mb-3" style={{ gap: "10px" }}>
+                              <h5 className="m-0 p-0">
+                                {report.report.test_details.name
+                                  ? report.report.test_details.name
+                                  : ""}
+                              </h5>
+                              <Badge className="bg-info">
+                                {report.report.test_details.date
+                                  ? report.report.test_details.date
+                                  : ""}
+                              </Badge>
+                              <Badge className="bg-info">
+                                {report.report.test_details.score
+                                  ? report.report.test_details.score
+                                  : ""}
+                              </Badge>
+                            </div>
+                          )}
                           {renderSlateContent(report.report.content) && (
                             <SlateEditor
                               readOnly={true}
                               initialValue={renderSlateContent(report.report.content)}
                             />
                           )}
+                          <Badge className="bg-secondary mt-3">{report.flags}</Badge>
                         </div>
                       </div>
                     </div>
@@ -236,7 +276,7 @@ const TeacherReport = () => {
         <>
           <StudentLayout>
             <Container>
-              <h5 className="mt-4 mb-3">User Reports</h5>
+              <h5 className="mt-4 mb-2">Mentor user Reports</h5>
 
               {mentorUsers && mentorUsers.length > 0 ? (
                 <div className="mt-4 mb-3">

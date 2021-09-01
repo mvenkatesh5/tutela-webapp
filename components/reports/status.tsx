@@ -56,7 +56,7 @@ const ReportStatusView = (props: any) => {
         onClick={() => handleReportData(!reportData)}
         disabled={buttonLoader}
       >
-        {buttonLoader ? `Processing...` : `Click to ${reportData ? "UnPublish" : "Publish"}`}
+        {buttonLoader ? `Processing...` : `Click to ${reportData ? "Unpublish" : "Publish"}`}
       </Button>
     </>
   );

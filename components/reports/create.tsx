@@ -16,9 +16,7 @@ const ReportsCreateView = (props: any) => {
     setModal(false);
     setReportData({
       content: "",
-      test_name: "",
-      test_date: "",
-      test_score: "",
+      test_details: [],
     });
   };
   const openModal = () => setModal(true);
@@ -27,13 +25,13 @@ const ReportsCreateView = (props: any) => {
 
   const [reportData, setReportData] = React.useState({
     content: "",
-    test_name: "",
-    test_date: "",
-    test_score: "",
+    test_details: [],
   });
   const handleReportData = (value: any) => {
     setReportData(value);
   };
+
+  console.log(reportData.test_details);
 
   const reportCreate = (event: any) => {
     event.preventDefault();
@@ -43,14 +41,12 @@ const ReportsCreateView = (props: any) => {
       user: props.user,
       report: {
         content: reportData.content,
-        test_details: {
-          name: reportData.test_name,
-          date: reportData.test_date,
-          score: reportData.test_score,
-        },
+        test_details: reportData.test_details,
       },
       flags: props.view,
     };
+
+    console.log(payload);
 
     ReportCreate(payload)
       .then((res) => {
@@ -76,7 +72,7 @@ const ReportsCreateView = (props: any) => {
         Add Report
       </Button>
 
-      <Modal show={modal} size="lg" onHide={closeModal} centered backdrop={"static"}>
+      <Modal show={modal} size="xl" onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>
           <Form onSubmit={reportCreate}>
             <h5>

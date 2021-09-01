@@ -1,6 +1,6 @@
 import React from "react";
 // react bootstrap
-import { Form } from "react-bootstrap";
+import { Form, Card, Row, Col, Button } from "react-bootstrap";
 // components
 import { SlateEditor } from "@components/SlateEditor";
 
@@ -9,6 +9,29 @@ const AdvertsFormView = (props: any) => {
   const handleFormPayload = (key: any, value: any) => {
     setFormPayload({ ...formPayload, [key]: value });
     props.handleData({ ...formPayload, [key]: value });
+  };
+  const removeTestDetails = (index: any) => {
+    handleFormPayload(
+      "test_details",
+      formPayload.test_details.filter((oldElement: any, i: any) => i != index)
+    );
+  };
+
+  const [testPayload, setTestPayload] = React.useState({
+    name: "",
+    date: "",
+    score: "",
+  });
+  const handleTestPayload = (key: any, value: any) => {
+    setTestPayload({ ...testPayload, [key]: value });
+  };
+  const testSubmit = (e: any) => {
+    handleFormPayload("test_details", [...formPayload.test_details, testPayload]);
+    setTestPayload({
+      name: "",
+      date: "",
+      score: "",
+    });
   };
 
   React.useEffect(() => {
@@ -19,9 +42,12 @@ const AdvertsFormView = (props: any) => {
     if (props.data && props.data.content.length > 0 && Array.isArray(props.data.content)) {
       setFormPayload({
         content: props.data.content,
-        test_name: props.data.test_name ? props.data.test_name : "",
-        test_date: props.data.test_date ? props.data.test_date : "",
-        test_score: props.data.test_score ? props.data.test_score : "",
+        test_details:
+          props.data.test_details &&
+          props.data.test_details.length > 0 &&
+          Array.isArray(props.data.test_details)
+            ? props.data.test_details
+            : [],
       });
     } else {
       setFormPayload({
@@ -31,9 +57,12 @@ const AdvertsFormView = (props: any) => {
             children: [{ text: props.data.content.length > 0 ? props.data.content : "" }],
           },
         ],
-        test_name: props.data.test_name ? props.data.test_name : "",
-        test_date: props.data.test_date ? props.data.test_date : "",
-        test_score: props.data.test_score ? props.data.test_score : "",
+        test_details:
+          props.data.test_details &&
+          props.data.test_details.length > 0 &&
+          Array.isArray(props.data.test_details)
+            ? props.data.test_details
+            : [],
       });
     }
   }, [props.data]);
@@ -50,34 +79,98 @@ const AdvertsFormView = (props: any) => {
           />
         )}
       </Form.Group>
-      <Form.Group className="mb-3 mt-3">
-        <Form.Label className="mb-1 text-muted">Test Name</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Enter test name"
-          value={formPayload.test_name}
-          onChange={(e: any) => handleFormPayload("test_name", e.target.value)}
-        />
-      </Form.Group>
-      <Form.Group className="mb-3 mt-3">
-        <Form.Label className="mb-1 text-muted">Test Date</Form.Label>
-        <Form.Control
-          type="date"
-          placeholder="Enter test date"
-          value={formPayload.test_date}
-          onChange={(e: any) => handleFormPayload("test_date", e.target.value)}
-        />
-      </Form.Group>
-      <Form.Group className="mb-3 mt-3">
-        <Form.Label className="mb-1 text-muted">Test Score</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Enter test score ex.80/100"
-          value={formPayload.test_score}
-          onChange={(e: any) => handleFormPayload("test_score", e.target.value)}
-        />
-        <Form.Text className="text-muted">(Ex. 80/100)</Form.Text>
-      </Form.Group>
+
+      <h5>Test Details</h5>
+      <Card className="p-2 mb-2">
+        <Row>
+          <Col>
+            <h6 className="m-0 p-0">Name</h6>
+          </Col>
+          <Col>
+            <h6 className="m-0 p-0">Date</h6>
+          </Col>
+          <Col>
+            <h6 className="m-0 p-0">Score</h6>
+          </Col>
+          <Col md={2}>
+            <h6 className="m-0 p-0">Delete</h6>
+          </Col>
+        </Row>
+      </Card>
+
+      {formPayload && formPayload.test_details && formPayload.test_details.length > 0 && (
+        <>
+          {formPayload.test_details.map((element: any, index: any) => (
+            <Card className="p-2 mb-2">
+              <Row>
+                <Col>
+                  <div className="m-0 p-0">{element.name}</div>
+                </Col>
+                <Col>
+                  <div className="m-0 p-0">{element.date}</div>
+                </Col>
+                <Col>
+                  <div className="m-0 p-0">{element.score}</div>
+                </Col>
+                <Col md={2}>
+                  <Button
+                    variant="outline-danger"
+                    className="btn-sm"
+                    onClick={() => removeTestDetails(index)}
+                  >
+                    Remove
+                  </Button>
+                </Col>
+              </Row>
+            </Card>
+          ))}
+        </>
+      )}
+
+      <Card className="ps-2 pe-2 mb-3">
+        <Form>
+          <Row>
+            <Col>
+              <Form.Group className="mb-3 mt-3">
+                <Form.Control
+                  type="text"
+                  placeholder="Enter test name"
+                  value={testPayload.name}
+                  onChange={(e: any) => handleTestPayload("name", e.target.value)}
+                  required
+                />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="mb-3 mt-3">
+                <Form.Control
+                  type="date"
+                  placeholder="Enter test date"
+                  value={testPayload.date}
+                  onChange={(e: any) => handleTestPayload("date", e.target.value)}
+                  required
+                />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="mb-3 mt-3">
+                <Form.Control
+                  type="text"
+                  placeholder="Enter test score ex.80/100"
+                  value={testPayload.score}
+                  onChange={(e: any) => handleTestPayload("score", e.target.value)}
+                  required
+                />
+              </Form.Group>
+            </Col>
+            <Col md={12} className="mb-2 ">
+              <Button className="btn-sm" onClick={testSubmit}>
+                Add New Test
+              </Button>
+            </Col>
+          </Row>
+        </Form>
+      </Card>
     </div>
   );
 };

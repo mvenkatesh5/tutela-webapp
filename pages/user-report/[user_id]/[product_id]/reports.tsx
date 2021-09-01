@@ -25,6 +25,7 @@ import {
   USER_REPORTS_WITH_USER_ID_ENDPOINT,
   PRODUCTS_WITH_ID_ENDPOINT,
   USER_ENDPOINT,
+  USER_PRODUCT_RESOURCE_VIEW_ENDPOINT,
 } from "@constants/routes";
 // hoc
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
@@ -99,26 +100,43 @@ const userAdminReportsView = () => {
           <>
             {currentReports.map((report: any, reportIndex: any) => (
               <div
+                key={`reports-${report.id}`}
                 className="report-detail-card-container mb-2"
                 style={{
-                  border: "1px solid #e2e2e2",
-                  borderRadius: "4px",
-                  padding: "10px 18px",
+                  borderBottom: "1px solid #e2e2e2",
+                  padding: "12px 0px",
                 }}
               >
-                {report.report.test_details && (
-                  <div className="d-flex align-items-center mb-3" style={{ gap: "10px" }}>
-                    <h5 className="m-0 p-0">
-                      {report.report.test_details.name ? report.report.test_details.name : ""}
-                    </h5>
-                    <Badge className="bg-info">
-                      {report.report.test_details.date ? report.report.test_details.date : ""}
-                    </Badge>
-                    <Badge className="bg-info">
-                      {report.report.test_details.score ? report.report.test_details.score : ""}
-                    </Badge>
+                {view === "overview" && <Badge className="bg-secondary mb-2">{report.flags}</Badge>}
+
+                {report.report.test_details && report.report.test_details.length > 0 && (
+                  <div style={{ padding: "10px 10px" }}>
+                    <Row style={{ gap: "20px" }}>
+                      {report.report.test_details.map((element: any, index: any) => (
+                        <Col
+                          key={`report-test-details-${index}`}
+                          md={4}
+                          style={{
+                            border: "1px solid #e2e2e2",
+                            padding: "10px 12px",
+                            borderRadius: "4px",
+                          }}
+                        >
+                          <div style={{ gap: "10px" }}>
+                            <h5 className="m-0 p-0 mb-2">{element.name ? element.name : ""}</h5>
+                            <div>
+                              <Badge className="bg-info">{element.date ? element.date : ""}</Badge>
+                              <Badge className="bg-info ms-2">
+                                {element.score ? element.score : ""}
+                              </Badge>
+                            </div>
+                          </div>
+                        </Col>
+                      ))}
+                    </Row>
                   </div>
                 )}
+
                 <div className="d-flex align-item-center" style={{ gap: "10px" }}>
                   <div>
                     {renderSlateContent(report.report.content) && (
@@ -148,7 +166,6 @@ const userAdminReportsView = () => {
                     </div>
                   )}
                 </div>
-                {view === "overview" && <Badge className="bg-secondary mt-3">{report.flags}</Badge>}
                 {userRole && userRole === "admin" && (
                   <div className="w-100 mt-2">
                     <ReportStatusView
@@ -174,6 +191,12 @@ const userAdminReportsView = () => {
     description: META_DESCRIPTION,
   };
 
+  const { data: userProductResourceList, error: userProductListError } = useSWR(
+    user_id ? USER_PRODUCT_RESOURCE_VIEW_ENDPOINT(user_id) : null,
+    (url) => APIFetcher(url),
+    { refreshInterval: 0 }
+  );
+
   const { data: productDetail, error: productDetailError } = useSWR(
     product_id ? PRODUCTS_WITH_ID_ENDPOINT(product_id) : null,
     APIFetcher,
@@ -189,6 +212,28 @@ const userAdminReportsView = () => {
   React.useEffect(() => {
     if (reportList) setUserReports(reportList);
   }, [reportList]);
+
+  const getCurrentMentorDetails = () => {
+    if (
+      userProductResourceList &&
+      userProductResourceList.product_users &&
+      userProductResourceList.product_users.length > 0
+    ) {
+      const currentMentor = userProductResourceList.product_users.filter(
+        (element: any) => element.product.id == product_id
+      );
+
+      if (currentMentor && currentMentor.length == 1)
+        return {
+          name: currentMentor[0].mentor.username,
+          email: currentMentor[0].mentor.email,
+        };
+    }
+    return {
+      name: "",
+      email: "",
+    };
+  };
 
   return (
     <Page meta={meta}>
@@ -210,13 +255,15 @@ const userAdminReportsView = () => {
                 <h3>{productDetail.name}</h3>
                 <p>{productDetail.description}</p>
               </div>
-              <div className="ms-auto">
-                <div className="mb-3" style={{ fontWeight: 500 }}>
-                  Mentor Details:
+              {userProductResourceList && (
+                <div className="ms-auto">
+                  <div className="mb-3" style={{ fontWeight: 500 }}>
+                    Mentor Details:
+                  </div>
+                  <h5 className="m-0 p-0">{getCurrentMentorDetails().name}</h5>
+                  <div className="text-small">{getCurrentMentorDetails().email}</div>
                 </div>
-                <h5 className="m-0 p-0">user1</h5>
-                <div className="text-small">user1@sample.com</div>
-              </div>
+              )}
             </div>
           )}
 
@@ -231,7 +278,10 @@ const userAdminReportsView = () => {
                   if (true)
                     // if (userRole === "admin" && item.tab_key != "overview")
                     return (
-                      <Nav.Item className="profile-account-nav-item">
+                      <Nav.Item
+                        key={`nav-item-${item.tab_key}`}
+                        className="profile-account-nav-item"
+                      >
                         <Nav.Link key={`nav-item-${item.tab_key}`} eventKey={item.tab_key}>
                           {item.tab_name}
                         </Nav.Link>
