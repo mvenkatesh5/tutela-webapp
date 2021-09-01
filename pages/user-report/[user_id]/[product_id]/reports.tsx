@@ -3,6 +3,8 @@ import React from "react";
 import { useRouter } from "next/router";
 // react bootstrap
 import { Container, Badge, Card, Tab, Nav, Row, Col } from "react-bootstrap";
+// material icons
+import { ArrowLeftShort } from "@styled-icons/bootstrap/ArrowLeftShort";
 // swr
 import useSWR from "swr";
 // layouts
@@ -25,6 +27,7 @@ import {
   USER_REPORTS_WITH_USER_ID_ENDPOINT,
   PRODUCTS_WITH_ID_ENDPOINT,
   USER_ENDPOINT,
+  USER_WITH_ID_ENDPOINT,
   USER_PRODUCT_RESOURCE_VIEW_ENDPOINT,
 } from "@constants/routes";
 // hoc
@@ -32,6 +35,8 @@ import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 
 const userAdminReportsView = () => {
   const router = useRouter();
+
+  const defaultImageUrl = "/default-image.png";
 
   const [currentUser, setCurrentUser] = React.useState<any>();
   const [userRole, setUserRole] = React.useState<any>();
@@ -191,6 +196,12 @@ const userAdminReportsView = () => {
     description: META_DESCRIPTION,
   };
 
+  const { data: userDetailList, error: userDetailListError } = useSWR(
+    user_id ? USER_WITH_ID_ENDPOINT(user_id) : null,
+    (url) => APIFetcher(url),
+    { refreshInterval: 0 }
+  );
+
   const { data: userProductResourceList, error: userProductListError } = useSWR(
     user_id ? USER_PRODUCT_RESOURCE_VIEW_ENDPOINT(user_id) : null,
     (url) => APIFetcher(url),
@@ -252,6 +263,28 @@ const userAdminReportsView = () => {
               className="d-flex align-items-center"
             >
               <div>
+                {/* user details */}
+                {userDetailList && (
+                  <div className="d-flex align-items-center mb-3" style={{ gap: "10px" }}>
+                    <div>
+                      <ArrowLeftShort width="24" />
+                    </div>
+                    <div
+                      style={{
+                        border: "1px solid #ccc",
+                        backgroundColor: "#ccc",
+                        width: "34px",
+                        height: "34px",
+                        borderRadius: "50px",
+                      }}
+                    >
+                      <img className="rounded-circle img-fluid" src={defaultImageUrl} />
+                    </div>
+                    <h6 className="m-0">
+                      {userDetailList.username} ({userDetailList.email})
+                    </h6>
+                  </div>
+                )}
                 <h3>{productDetail.name}</h3>
                 <p>{productDetail.description}</p>
               </div>
