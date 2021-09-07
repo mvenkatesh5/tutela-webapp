@@ -27,21 +27,8 @@ const ReportEditView = (props: any) => {
       setReportData({
         ...reportData,
         content: props.data.report.content ? props.data.report.content : "",
-        test_name: props.data.report.test_details
-          ? props.data.report.test_details.name
-            ? props.data.report.test_details.name
-            : ""
-          : "",
-        test_date: props.data.report.test_details
-          ? props.data.report.test_details.date
-            ? props.data.report.test_details.date
-            : ""
-          : "",
-        test_score: props.data.report.test_details
-          ? props.data.report.test_details.score
-            ? props.data.report.test_details.score
-            : ""
-          : "",
+        test_details:
+          props.data.report && props.data.report.test_details ? props.data.report.test_details : [],
       });
     }
   }, [props.data]);
