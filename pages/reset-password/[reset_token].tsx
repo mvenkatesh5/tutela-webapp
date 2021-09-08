@@ -43,7 +43,6 @@ const ResetPasswordPage = () => {
       };
       ResetPassword(payload)
         .then((res) => {
-          console.log(res);
           setButtonLoader(false);
           router.push("/confirm-password");
         })

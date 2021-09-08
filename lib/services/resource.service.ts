@@ -54,6 +54,20 @@ export const AttachResourceToUser = async (data: any) => {
   }
 };
 
+export const AttachResourceToUserPromise = async (data: any) => {
+  const promiseData = [];
+  for (let i = 0; i < data.length; i++) {
+    promiseData.push(axios.post(USER_RESOURCE_ENDPOINT, data[i]));
+  }
+  return await Promise.all(promiseData)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      throw error.response.data;
+    });
+};
+
 export const RemoveResourceFromUser = async (id: any) => {
   try {
     const response = await axios.delete(USER_RESOURCE_WITH_ID_ENDPOINT(id));

@@ -1,14 +1,20 @@
 import React from "react";
 // next imports
+import Link from "next/link";
 import { useRouter } from "next/router";
 // react bootstrap
 import { Container, Card, Tab, Nav, Row, Col } from "react-bootstrap";
+// material
+import { ArrowRightShort } from "@styled-icons/bootstrap/ArrowRightShort";
 // swr
 import useSWR from "swr";
 // components
 import FromBuilder from "@components/forms";
 import MessageView from "@components/comments/view";
+import SearchCheckboxView from "components/admin/sessions/SearchCheckbox";
 import UserResourceView from "@components/resources/userResources/view";
+import UserProductsView from "@components/admin/product/userProducts/View";
+import UserParentModal from "@components/admin/UserParentModal";
 // layouts
 import AdminLayout from "@layouts/adminLayout";
 // global imports
@@ -16,9 +22,12 @@ import { profileSchemaData } from "@constants/profileSchema";
 import { datePreview } from "@constants/global";
 // api routes
 import {
+  USER_ENDPOINT,
   USER_WITH_ID_ENDPOINT,
   USER_RESOURCE_VIEW_ENDPOINT,
   RESOURCE_ENDPOINT,
+  USER_PRODUCT_RESOURCE_VIEW_ENDPOINT,
+  PRODUCTS_ENDPOINT,
 } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
@@ -39,6 +48,14 @@ const userDetailView = () => {
   const handleProfile = (key: any, value: any) => {
     setProfile({ ...profile, [key]: value });
   };
+
+  const [sessionParents, setSessionParents] = React.useState<any>([48]);
+  const handleSessionParents = (value: any) => {
+    setSessionParents(value);
+  };
+
+  const [userResources, setUserResources] = React.useState<any>();
+  const [users, setUsers] = React.useState<any>();
 
   const ProfileSchemaComponent = () => {
     return (
@@ -92,6 +109,42 @@ const userDetailView = () => {
     );
   };
 
+  const ProfileTabComponent = () => {
+    return (
+      <>
+        <div className="user-reports-root-wrapper">
+          {userResources &&
+          userResources.product_users &&
+          userResources.product_users.length > 0 ? (
+            <div className="report-card-wrapper">
+              {userResources.product_users.map((resource: any, index: any) => (
+                <div key={`report-card-container-${resource.id}`} className="report-card-container">
+                  <Link href={`/user-report/${user_id}/${resource.product.id}/reports`}>
+                    <a target="_blank">
+                      <div
+                        className="report-card"
+                        style={{
+                          backgroundColor: resource.product.color ? resource.product.color : "#000",
+                        }}
+                      >
+                        <div className="text">{resource.product.name}</div>
+                        <div className="icon">
+                          <ArrowRightShort />
+                        </div>
+                      </div>
+                    </a>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center mt-5 mb-5 text-secondary">No Products are available.</div>
+          )}
+        </div>
+      </>
+    );
+  };
+
   const profileTabContent = [
     {
       tab_name: "Discussion",
@@ -103,7 +156,14 @@ const userDetailView = () => {
       tab_key: "profile_details",
       tab_component: <ProfileSchemaComponent />,
     },
+    {
+      tab_name: "Reports",
+      tab_key: "profile_reports",
+      tab_component: <ProfileTabComponent />,
+    },
   ];
+
+  const { data: usersList, error: usersListError } = useSWR(USER_ENDPOINT, APIFetcher);
 
   const { data: userDetailList, error: userDetailListError } = useSWR(
     user_id ? USER_WITH_ID_ENDPOINT(user_id) : null,
@@ -120,11 +180,26 @@ const userDetailView = () => {
     refreshInterval: 0,
   });
 
+  const { data: userProductResourceList, error: userProductListError } = useSWR(
+    user_id ? USER_PRODUCT_RESOURCE_VIEW_ENDPOINT(user_id) : null,
+    (url) => APIFetcher(url),
+    { refreshInterval: 0 }
+  );
+  const { data: products, error: productsError } = useSWR(PRODUCTS_ENDPOINT, APIFetcher, {
+    refreshInterval: 0,
+  });
+
   React.useEffect(() => {
-    if (userDetailList && userDetailList.profile_data) {
-      setProfile(userDetailList.profile_data);
-    }
+    if (userDetailList && userDetailList.profile_data) setProfile(userDetailList.profile_data);
   }, [userDetailList]);
+
+  React.useEffect(() => {
+    if (userProductResourceList) setUserResources(userProductResourceList);
+  }, [userProductResourceList]);
+
+  React.useEffect(() => {
+    if (usersList) setUsers(usersList);
+  }, [usersList]);
 
   const meta = {
     title: "User Details",
@@ -166,9 +241,19 @@ const userDetailView = () => {
                           <div className="details-text">{userDetailList.email}</div>
                         </div>
                       </div>
+
+                      <UserParentModal user_id={user_id} users={users} />
+
+                      <UserProductsView
+                        userProductList={userProductResourceList}
+                        products={products}
+                        resources={resources}
+                        userId={user_id}
+                        users={users}
+                      />
                       {/* resource binding */}
                       <UserResourceView
-                        userResourceList={userResourceList}
+                        userResourceList={userProductResourceList}
                         resources={resources}
                         userId={user_id}
                       />

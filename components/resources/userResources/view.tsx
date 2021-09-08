@@ -1,6 +1,6 @@
 import React from "react";
 // react bootstrap
-import { Form } from "react-bootstrap";
+import { Form, Modal, Button } from "react-bootstrap";
 // material icons
 import { ChevronDown } from "@styled-icons/boxicons-regular/ChevronDown";
 import { ChevronUp } from "@styled-icons/boxicons-regular/ChevronUp";
@@ -8,12 +8,24 @@ import { Times } from "@styled-icons/fa-solid/Times";
 // swr
 import { mutate } from "swr";
 // api routes
-import { USER_RESOURCE_VIEW_ENDPOINT } from "@constants/routes";
+import { USER_PRODUCT_RESOURCE_VIEW_ENDPOINT } from "@constants/routes";
 // api services
 import { AttachResourceToUser, RemoveResourceFromUser } from "@lib/services/resource.service";
 import { APIFetcher } from "@lib/services";
 
 const UserResourceView = (props: any) => {
+  const [buttonLoader, setButtonLoader] = React.useState(false);
+  const [deleteResource, setDeleteResource] = React.useState<any>();
+  const [deleteModal, setDeleteModal] = React.useState(false);
+  const closeDeleteModal = () => {
+    setDeleteModal(false);
+    setDeleteResource("");
+  };
+  const openDeleteModal = (resource_id: any) => {
+    setDeleteResource(resource_id);
+    setDeleteModal(true);
+  };
+
   const [previewToggle, setPreviewToggle] = React.useState<any>(true);
 
   const [dropdownToggle, setDropdownToggle] = React.useState<any>(false);
@@ -32,11 +44,14 @@ const UserResourceView = (props: any) => {
         props.resources.map((resourceData: any) => {
           if (resourceData.title.toLowerCase().includes(value.toLowerCase())) {
             let toggle: any = false;
-            props.userResourceList.map((propResource: any) => {
-              if (propResource.resource_node.id === resourceData.id) {
-                toggle = true;
-              }
-            });
+            props.userResourceList &&
+              props.userResourceList.user_resources &&
+              props.userResourceList.user_resources.length > 0 &&
+              props.userResourceList.user_resources.map((propResource: any) => {
+                if (propResource.resource_node.id === resourceData.id) {
+                  toggle = true;
+                }
+              });
             if (!toggle) newResourceData.push(resourceData);
           }
         });
@@ -69,8 +84,8 @@ const UserResourceView = (props: any) => {
     AttachResourceToUser(payload)
       .then((response) => {
         mutate(
-          USER_RESOURCE_VIEW_ENDPOINT(props.userId),
-          APIFetcher(USER_RESOURCE_VIEW_ENDPOINT(props.userId)),
+          USER_PRODUCT_RESOURCE_VIEW_ENDPOINT(props.userId),
+          APIFetcher(USER_PRODUCT_RESOURCE_VIEW_ENDPOINT(props.userId)),
           false
         );
         clearText();
@@ -80,17 +95,21 @@ const UserResourceView = (props: any) => {
       });
   };
 
-  const removeResourceFromUser = (resourceId: any) => {
-    RemoveResourceFromUser(resourceId)
+  const removeResourceFromUser = () => {
+    setButtonLoader(true);
+    RemoveResourceFromUser(deleteResource)
       .then((response) => {
         mutate(
-          USER_RESOURCE_VIEW_ENDPOINT(props.userId),
-          APIFetcher(USER_RESOURCE_VIEW_ENDPOINT(props.userId)),
+          USER_PRODUCT_RESOURCE_VIEW_ENDPOINT(props.userId),
+          APIFetcher(USER_PRODUCT_RESOURCE_VIEW_ENDPOINT(props.userId)),
           false
         );
+        closeDeleteModal();
+        setButtonLoader(false);
       })
       .catch((error) => {
         console.log(error);
+        setButtonLoader(false);
       });
   };
 
@@ -140,15 +159,15 @@ const UserResourceView = (props: any) => {
 
           <div>
             {props.userResourceList &&
-              props.userResourceList.length > 0 &&
-              props.userResourceList.map((data: any, index: any) => (
+              props.userResourceList.user_resources &&
+              props.userResourceList.user_resources.length > 0 &&
+              props.userResourceList.user_resources.map((data: any, index: any) => (
                 <div
                   key={`user-resource-content-list-view-${index}`}
                   className="user-resource-content-list-view"
-                  onClick={() => attachResourceToUser(data.id)}
                 >
                   <div className="title">{data.resource_node.title}</div>
-                  <div className="icon" onClick={() => removeResourceFromUser(data.id)}>
+                  <div className="icon" onClick={() => openDeleteModal(data.id)}>
                     <Times />
                   </div>
                 </div>
@@ -156,6 +175,29 @@ const UserResourceView = (props: any) => {
           </div>
         </>
       )}
+
+      <Modal show={deleteModal} onHide={closeDeleteModal} centered backdrop={"static"}>
+        <Modal.Body>
+          <h5 className="mb-3">Do you want to delete the resource.</h5>
+          <Button
+            variant="outline-primary"
+            className="btn-sm"
+            style={{ marginRight: "10px" }}
+            disabled={buttonLoader}
+            onClick={removeResourceFromUser}
+          >
+            {buttonLoader ? "Processing..." : "Confirm"}
+          </Button>
+          <Button
+            variant="outline-secondary"
+            className="btn-sm"
+            disabled={buttonLoader}
+            onClick={closeDeleteModal}
+          >
+            Close
+          </Button>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

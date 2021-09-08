@@ -198,7 +198,6 @@ const ResourceFormUpload = (props: any) => {
       ) : (
         <div
           onClick={() => {
-            console.log(props.data.data.data);
             openModal(props.data.data.data.kind ? props.data.data.data.kind : "document");
             setFormData({
               kind: props.data.data.data.kind ? props.data.data.data.kind : "document",
@@ -251,7 +250,6 @@ const ResourceFormUpload = (props: any) => {
                     required={true}
                     style={{ display: "none" }}
                   />
-                  {console.log(formData)}
                   {formData && formData.url && formData.url.length > 0 ? (
                     <>
                       <div className="d-flex align-items-center">

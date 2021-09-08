@@ -49,7 +49,6 @@ const NotesEditView = (props: any) => {
             false
           );
         } else {
-          console.log("Hello polo");
           mutate(
             NOTES_WITH_USER_ID_ENDPOINT(props.user.id),
             async (elements: any) => {

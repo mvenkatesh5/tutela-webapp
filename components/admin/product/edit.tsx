@@ -7,6 +7,8 @@ import { MessageSquareEdit } from "@styled-icons/boxicons-regular/";
 import { mutate } from "swr";
 // components
 import ProductsForm from "./productsForm";
+import SearchCheckboxView from "components/admin/sessions/SearchCheckbox";
+import ResourceSearchCheckboxView from "components/resources/ResourceCheckbox";
 // api routes
 import { PRODUCTS_ENDPOINT } from "@constants/routes";
 // api services
@@ -24,9 +26,43 @@ const ProductsEditView = (props: any) => {
     setFormData(value);
   };
 
+  const [sessionTeachers, setSessionTeachers] = React.useState<any>();
+  const handleSessionTeachers = (value: any) => {
+    setSessionTeachers(value);
+  };
+  const [sessionStudents, setSessionStudents] = React.useState<any>();
+  const handleSessionStudents = (value: any) => {
+    setSessionStudents(value);
+  };
+  const [productResources, setProductResources] = React.useState<any>();
+  const handleProductResources = (value: any) => {
+    setProductResources(value);
+  };
+
   React.useEffect(() => {
     if (props.data) {
       setFormData(props.data);
+      if (props.data.users.length > 0) {
+        let teachers: any = [];
+        let students: any = [];
+        props.data.users.map((data: any) => {
+          let currentUser = props.users.find((element: any) => element.id === data);
+
+          if (currentUser) {
+            if (currentUser.role === 1) {
+              teachers.push(data);
+            }
+            if (currentUser.role === 0) {
+              students.push(data);
+            }
+          }
+        });
+        if (teachers.length > 0) setSessionTeachers(teachers);
+        if (students.length > 0) setSessionStudents(students);
+      }
+      if (props.data.resources.length > 0) {
+        setProductResources(props.data.resources);
+      }
     }
   }, [props.data]);
 
@@ -45,12 +81,32 @@ const ProductsEditView = (props: any) => {
           false
         );
         closeModal();
+        // handleUsers(res);
         setButtonLoader(false);
       })
       .catch((errors) => {
         console.log(errors);
         setButtonLoader(false);
       });
+  };
+
+  const handleUsers = (product: any) => {
+    setButtonLoader(true);
+    // mutateProducts(product);
+    setButtonLoader(false);
+  };
+
+  const mutateProducts = (product: any) => {
+    mutate(
+      PRODUCTS_ENDPOINT,
+      async (elements: any) => {
+        let index = elements.findIndex((mutateData: any) => mutateData.id === product.id);
+        return elements.map((oldElement: any, i: Number) => (i === index ? product : oldElement));
+        // return elements.filter((oldElement: any, i) => i != index);
+      },
+      false
+    );
+    closeModal();
   };
 
   return (
@@ -69,6 +125,38 @@ const ProductsEditView = (props: any) => {
             {formData && (
               <div>
                 <ProductsForm data={formData} handleData={handleFormData} />
+                {props.users && props.users.length > 0 && (
+                  <>
+                    {/* <div className="mb-3 mt-3">
+                      <Form.Label>Teachers</Form.Label>
+                      <SearchCheckboxView
+                        users={props.users}
+                        data={sessionTeachers}
+                        handleData={handleSessionTeachers}
+                        role={1}
+                        validInput={props.users.length}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <Form.Label>Users</Form.Label>
+                      <SearchCheckboxView
+                        users={props.users}
+                        data={sessionStudents}
+                        handleData={handleSessionStudents}
+                        role={0}
+                        validInput={props.users.length}
+                      />
+                    </div> */}
+                    <div className="mb-3">
+                      <Form.Label>Resources</Form.Label>
+                      <ResourceSearchCheckboxView
+                        resources={props.resources}
+                        data={productResources}
+                        handleData={handleProductResources}
+                      />
+                    </div>
+                  </>
+                )}
                 <Button
                   variant="outline-primary"
                   className="btn-sm"

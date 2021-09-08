@@ -15,6 +15,7 @@ import { MarkChatRead } from "@styled-icons/material/MarkChatRead";
 import { Users } from "@styled-icons/entypo/Users";
 import { VideoRecording } from "@styled-icons/boxicons-regular/VideoRecording";
 import { Announcement } from "@styled-icons/zondicons/Announcement";
+import { DocumentReport } from "@styled-icons/heroicons-outline/DocumentReport";
 // cookie
 import { getAuthenticationToken } from "@lib/cookie";
 
@@ -247,6 +248,29 @@ const UserSidebar = () => {
         )}
 
         {/* teacher */}
+        {tokenDetails && tokenDetails.user && tokenDetails.user.role === 1 && (
+          <Link href="/reports">
+            <a>
+              <OverlayTrigger
+                key={`right`}
+                placement={`right`}
+                overlay={<Tooltip id={`tooltip-right`}>Reports</Tooltip>}
+              >
+                <div
+                  className={
+                    "sidebar-item-container " +
+                    (router.pathname.includes("/reports") ? "active" : "")
+                  }
+                >
+                  <div className="sidebar-icon">
+                    <DocumentReport />
+                  </div>
+                  <div className="sidebar-label">Reports</div>
+                </div>
+              </OverlayTrigger>
+            </a>
+          </Link>
+        )}
         {tokenDetails && tokenDetails.user && tokenDetails.user.role === 1 && (
           <Link href="/adverts">
             <a>

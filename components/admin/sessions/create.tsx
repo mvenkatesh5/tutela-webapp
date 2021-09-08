@@ -5,12 +5,16 @@ import { Button, Form } from "react-bootstrap";
 import { CalendarPlus } from "@styled-icons/boxicons-regular";
 import { Times } from "@styled-icons/fa-solid";
 // swr
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
 // components
 import SessionForm from "./sessionForm";
 import SessionUser from "./sessionUser";
 // api routes
-import { USER_CALENDAR_SESSION_ENDPOINT } from "@constants/routes";
+import {
+  USER_CALENDAR_SESSION_ENDPOINT,
+  PRODUCTS_ENDPOINT,
+  PRODUCT_USER_ENDPOINT,
+} from "@constants/routes";
 // api services
 import {
   SessionCreate,
@@ -35,6 +39,7 @@ const SessionCreateView = (props: any) => {
       data: {},
       listeners: [],
       teachers: [],
+      product_selected: "",
     });
   };
   const openModal = () => setModal(true);
@@ -50,12 +55,16 @@ const SessionCreateView = (props: any) => {
     data: {},
     listeners: [],
     teachers: [],
+    product_selected: "",
   });
   const handleSessionData = (value: any) => {
     setSessionData(value);
   };
   const handleSessionListeners = (key: any, value: any) => {
     setSessionData({ ...sessionData, [key]: value });
+  };
+  const handleProductListeners = (key: any, value: any) => {
+    setSessionData({ ...sessionData, product_selected: value });
   };
   const handleDatetime = (date: any, time: any) => {
     let currentDate = new Date(date);
@@ -138,6 +147,23 @@ const SessionCreateView = (props: any) => {
     }
   };
 
+  const { data: productsList, error: productsListError } = useSWR(
+    modal ? PRODUCTS_ENDPOINT : null,
+    APIFetcher,
+    { refreshInterval: 0 }
+  );
+
+  const { data: productUserList, error: productUserListError } = useSWR(
+    sessionData && sessionData.product_selected
+      ? [PRODUCT_USER_ENDPOINT(sessionData.product_selected), sessionData.product_selected]
+      : null,
+    APIFetcher,
+    { refreshInterval: 0 }
+  );
+
+  // console.log("productsList-->-->", productsList);
+  // console.log("productUserList-->-->", productUserList);
+
   return (
     <div>
       <Button variant="primary" className="btn-sm" onClick={openModal}>
@@ -204,9 +230,35 @@ const SessionCreateView = (props: any) => {
                 view_end_date={false}
                 role={props.role}
               />
+
+              {productsList && productsList.length > 0 && (
+                <Form.Group className="mb-3" controlId={`form-control-product-session-create`}>
+                  <Form.Label>Select Product</Form.Label>
+                  <Form.Control
+                    as="select"
+                    required
+                    size="sm"
+                    className="mb-2"
+                    value={sessionData.product_selected}
+                    onChange={(e) => handleProductListeners("product_selected", e.target.value)}
+                  >
+                    <option value="">No Product Selected</option>
+                    {productsList &&
+                      productsList.length > 0 &&
+                      productsList.map((product: any, index: any) => (
+                        <option key={product.id} value={product.id}>
+                          {product.name}
+                        </option>
+                      ))}
+                  </Form.Control>
+                </Form.Group>
+              )}
+
               <SessionUser
                 data={sessionData}
-                users={props.users}
+                users={
+                  productUserList && productUserList.length > 0 ? productUserList : props.users
+                }
                 handleData={handleSessionListeners}
                 role={props.role}
               />
@@ -249,7 +301,7 @@ const SessionCreateView = (props: any) => {
             <SessionForm data={sessionData} handleData={handleSessionData} />
             <SessionUser
               data={sessionData}
-              users={props.users}
+              users={productUserList && productUserList.length>0 ?productUserList:}
               handleData={handleSessionListeners}
             />
             <Button

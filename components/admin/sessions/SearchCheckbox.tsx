@@ -35,6 +35,11 @@ const SearchCheckbox = (props: any) => {
       validateUserOptions(null);
     }
   }, [props.users]);
+  React.useEffect(() => {
+    if (focusToggle && props.users && props.users.length > 0) {
+      validateUserOptions(null);
+    }
+  }, [focusToggle]);
 
   React.useEffect(() => {
     if (props.data && props.data.length > 0) {
@@ -83,17 +88,18 @@ const SearchCheckbox = (props: any) => {
           <Form.Group controlId="bulk-search-input">
             <Form.Control
               type="text"
-              placeholder={`Search ${props.role === 0 ? `User's` : `Teacher's`}`}
+              placeholder={`Search ${props.role === 0 ? `User's` : `Mentor's`}`}
               value={searchInput}
               onChange={(e) => handleSearchInput(e.target.value)}
               onFocus={() => setFocusToggle(true)}
+              disabled={props.validInput === userOptions.length}
             />
           </Form.Group>
         </div>
         {focusToggle && (
           <div className="search-dropdown">
             <div className="search-dropdown-Header">
-              <div className="content">{props.role === 0 ? `User's` : `Teacher's`}</div>
+              <div className="content">{props.role === 0 ? `User's` : `Mentor's`}</div>
               <div
                 className="icon"
                 onClick={() => {
@@ -120,7 +126,7 @@ const SearchCheckbox = (props: any) => {
                 </div>
               ) : (
                 <div className="text-muted text-center">
-                  <small>No {props.role === 0 ? `User's` : `Teacher's`} are found.</small>
+                  <small>No {props.role === 0 ? `User's` : `Mentor's`} are found.</small>
                 </div>
               )}
             </div>
@@ -142,7 +148,7 @@ const SearchCheckbox = (props: any) => {
           </div>
         ) : (
           <div className="text-muted text-center">
-            <small>No {props.role === 0 ? `User's` : `Teacher's`} are assigned.</small>
+            <small>No {props.role === 0 ? `User's` : `Mentor's`} are assigned.</small>
           </div>
         )}
       </div>

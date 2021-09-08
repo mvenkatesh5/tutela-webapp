@@ -15,7 +15,10 @@ export const RESET_PASSWORD = `/reset-password/`;
 
 // users
 export const USER_ENDPOINT = `/api/users/`;
-export const USER_WITH_ID_ENDPOINT = (user_id: Number) => `/api/users/${user_id}/`;
+export const USER_WITH_ID_ENDPOINT = (user_id: any) => `/api/users/${user_id}/`;
+export const USER_PRODUCT_RESOURCE_VIEW_ENDPOINT = (user_id: any) =>
+  `/api/users/${user_id}/detail/`;
+export const USER_PARENT_LINKING_ENDPOINT = `/api/user-linking/`;
 
 // news
 export const NEWS_ENDPOINT = `/api/news/`;
@@ -78,6 +81,12 @@ export const USER_MESSAGE_WITH_STUDENT_ENDPOINT = (student_id: any) =>
 export const PRODUCTS_ENDPOINT = `/api/products/`;
 export const PRODUCTS_WITH_ID_ENDPOINT = (product_id: any) => `/api/products/${product_id}/`;
 export const USER_WITH_PRODUCT_ENDPOINT = ``;
+// product users, resources binding
+export const PRODUCT_USER_ENDPOINT = (product_id: any) => `/api/products/${product_id}/users/`;
+export const PRODUCT_USER_DELETE_ENDPOINT = (user_bridge_id: any) =>
+  `/api/products-users/${user_bridge_id}/`;
+export const PRODUCT_RESOURCES_ENDPOINT = (product_id: any) =>
+  `/api/products/${product_id}/resources/`;
 
 // quick meetings
 export const QUICK_MEETINGS_ENDPOINT = `/api/quick-meetings`;
@@ -95,9 +104,16 @@ export const USER_RESOURCE_ENDPOINT = `/api/resources-users/`;
 export const USER_RESOURCE_WITH_ID_ENDPOINT = (resource_id: any) =>
   `/api/resources-users/${resource_id}/`;
 
-// noes
+// notes
 export const NOTES_ENDPOINT = `/api/notes/`;
 export const NOTES_WITH_USER_ID_ENDPOINT = (user_id: any) => `/api/notes/?user=${user_id}`;
 export const NOTES_WITH_ID_ENDPOINT = (notes_id: any) => `/api/notes/${notes_id}/`;
 export const USER_NOTES_ENDPOINT = (resource_id: any, node_id: any) =>
   `/api/attaches/?user_resource_id=${resource_id}&node_id=${node_id}`;
+
+// reports
+export const USER_REPORTS_WITH_USER_ID_ENDPOINT = (user_id: any) =>
+  `/api/users/reports/?user=${user_id}`;
+export const USER_REPORTS_ENDPOINT = `/api/users/reports/`;
+export const USER_REPORTS_WITH_ID_ENDPOINT = (report_id: any) => `/api/users/reports/${report_id}/`;
+export const MENTOR_REPORT_ENDPOINT = `/api/users/reports/mentors/`;

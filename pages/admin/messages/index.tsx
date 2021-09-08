@@ -95,42 +95,41 @@ const Messages = () => {
 
   return (
     <Page meta={meta}>
-    <div>
+      <div>
+        <AdminLayout>
+          <div className="right-layout">
+            {!messages ? (
+              <div className="text-center mt- 5 mb-5">Loading.....</div>
+            ) : (
+              <Container>
+                <h5>User Messages.</h5>
 
-      <AdminLayout>
-        <div className="right-layout">
-          {!messages ? (
-            <div className="text-center mt- 5 mb-5">Loading.....</div>
-          ) : (
-            <Container>
-              <h5>User Messages.</h5>
+                <div>
+                  <Tab.Container defaultActiveKey={messageTab[0].tab_key}>
+                    <Nav className="custom-nav-tabs-links profile-account-nav" variant="pills">
+                      {messageTab.map((item: any, index: any) => (
+                        <Nav.Item className="profile-account-nav-item">
+                          <Nav.Link key={`nav-item-${item.tab_key}`} eventKey={item.tab_key}>
+                            {item.tab_label}
+                          </Nav.Link>
+                        </Nav.Item>
+                      ))}
+                    </Nav>
 
-              <div>
-                <Tab.Container defaultActiveKey={messageTab[0].tab_key}>
-                  <Nav className="custom-nav-tabs-links profile-account-nav" variant="pills">
-                    {messageTab.map((item: any, index: any) => (
-                      <Nav.Item className="profile-account-nav-item">
-                        <Nav.Link key={`nav-item-${item.tab_key}`} eventKey={item.tab_key}>
-                          {item.tab_label}
-                        </Nav.Link>
-                      </Nav.Item>
-                    ))}
-                  </Nav>
-
-                  <Tab.Content className="mt-2">
-                    {messageTab.map((item: any, index: any) => (
-                      <Tab.Pane key={`tab-pane-${item.tab_key}`} eventKey={item.tab_key}>
-                        {item.component}
-                      </Tab.Pane>
-                    ))}
-                  </Tab.Content>
-                </Tab.Container>
-              </div>
-            </Container>
-          )}
-        </div>
-      </AdminLayout>
-    </div>
+                    <Tab.Content className="mt-2">
+                      {messageTab.map((item: any, index: any) => (
+                        <Tab.Pane key={`tab-pane-${item.tab_key}`} eventKey={item.tab_key}>
+                          {item.component}
+                        </Tab.Pane>
+                      ))}
+                    </Tab.Content>
+                  </Tab.Container>
+                </div>
+              </Container>
+            )}
+          </div>
+        </AdminLayout>
+      </div>
     </Page>
   );
 };
