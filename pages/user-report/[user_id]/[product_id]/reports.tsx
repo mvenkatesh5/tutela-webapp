@@ -236,8 +236,14 @@ const userAdminReportsView = () => {
 
       if (currentMentor && currentMentor.length == 1)
         return {
-          name: currentMentor[0].mentor.username,
-          email: currentMentor[0].mentor.email,
+          name:
+            currentMentor[0].mentor && currentMentor[0].mentor.username
+              ? currentMentor[0].mentor.username
+              : "",
+          email:
+            currentMentor[0].mentor && currentMentor[0].mentor.email
+              ? currentMentor[0].mentor.email
+              : "",
         };
     }
     return {
@@ -328,13 +334,15 @@ const userAdminReportsView = () => {
                   <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
                 ) : (
                   <>
-                    {userRole && userRole === "admin" && tabKey != "overview" && (
-                      <div className="d-flex mb-2 justify-content-end">
-                        <div>
-                          <ReportCreateView product={product_id} user={user_id} view={tabKey} />
+                    {userRole &&
+                      (userRole === "admin" || userRole === "teacher") &&
+                      tabKey != "overview" && (
+                        <div className="d-flex mb-2 justify-content-end">
+                          <div>
+                            <ReportCreateView product={product_id} user={user_id} view={tabKey} />
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
                     {report_tab_data.map((item: any, index: any) => (
                       <Tab.Pane key={`tab-pane-${item.tab_key}`} eventKey={item.tab_key}>
                         <RenderTabContent view={item.tab_key} />
