@@ -41,11 +41,7 @@ const ReportEditView = (props: any) => {
       id: props.data.id,
       report: {
         content: reportData.content,
-        test_details: {
-          name: reportData.test_name,
-          date: reportData.test_date,
-          score: reportData.test_score,
-        },
+        test_details: reportData.test_details,
       },
     };
 
