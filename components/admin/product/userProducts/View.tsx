@@ -140,7 +140,7 @@ const UserProductView = (props: any) => {
   };
 
   const cancelProductResourcesAttachToUser = () => {
-    if (modalProductResources) {
+    if (modalProductResources && sessionMentors) {
       attachProductToUserRequest(modalProductResources);
     }
   };

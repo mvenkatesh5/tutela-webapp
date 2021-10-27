@@ -56,6 +56,8 @@ const QuickMeetingsView = () => {
     APIFetcher
   );
 
+  console.log("quickMeetingsList-->-->", quickMeetingsList);
+
   const meta = {
     title: "Quick Meetings",
     description: META_DESCRIPTION,

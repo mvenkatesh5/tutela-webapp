@@ -106,7 +106,7 @@ function DashboardNav() {
                     </PreFetchLink>
                   )}
                   {tokenDetails && tokenDetails.user && tokenDetails.user.role === 1 && (
-                    <PreFetchLink href="/admin/quick-meetings">
+                    <PreFetchLink href="/quick-meetings">
                       <div> Quick Meetings</div>
                     </PreFetchLink>
                   )}

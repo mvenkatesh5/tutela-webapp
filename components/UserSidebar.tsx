@@ -318,7 +318,7 @@ const UserSidebar = () => {
           </Link>
         )}
         {tokenDetails && tokenDetails.user && tokenDetails.user.role === 1 && (
-          <Link href="/admin/quick-meetings">
+          <Link href="/quick-meetings">
             <a>
               <OverlayTrigger
                 key={`right`}
@@ -328,7 +328,7 @@ const UserSidebar = () => {
                 <div
                   className={
                     "sidebar-item-container " +
-                    (router.pathname.includes("/admin/quick-meetings") ? "active" : "")
+                    (router.pathname.includes("/quick-meetings") ? "active" : "")
                   }
                 >
                   <div className="sidebar-icon">

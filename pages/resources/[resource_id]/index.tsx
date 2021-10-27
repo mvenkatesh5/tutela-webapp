@@ -52,85 +52,85 @@ const ResourceTreeView = () => {
 
   return (
     <Page meta={meta}>
-    <div>
-      <Head>
-        <title>Resources</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
-        <PdfViewerLayout
-          pdfToggle={pdfToggle}
-          right={
-            <>
-              {pdfToggle && pdfToggle.data && pdfToggle.data.data && (
-                <div className="pdf-wrapper">
-                  <div className="pdf-header">
-                    <div className="pdf-title">
-                      PDF READER{" "}
-                      <small className="text-secondary">( {pdfToggle.data.title} )</small>
+      <div>
+        <Head>
+          <title>Resources</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
+          <PdfViewerLayout
+            pdfToggle={pdfToggle}
+            right={
+              <>
+                {pdfToggle && pdfToggle.data && pdfToggle.data.data && (
+                  <div className="pdf-wrapper">
+                    <div className="pdf-header">
+                      <div className="pdf-title">
+                        PDF READER{" "}
+                        <small className="text-secondary">( {pdfToggle.data.title} )</small>
+                      </div>
+                      <div className="toggle-icon" onClick={() => handlePdfToggle(pdfToggle)}>
+                        <Times />
+                      </div>
                     </div>
-                    <div className="toggle-icon" onClick={() => handlePdfToggle(pdfToggle)}>
-                      <Times />
+                    <div className="pdf-content">
+                      <PDFRenderView
+                        pdf_url={pdfToggle.data.data.url}
+                        pdfToggle={pdfToggle}
+                        handlePdfToggle={handlePdfToggle}
+                      />
                     </div>
-                  </div>
-                  <div className="pdf-content">
-                    <PDFRenderView
-                      pdf_url={pdfToggle.data.data.url}
-                      pdfToggle={pdfToggle}
-                      handlePdfToggle={handlePdfToggle}
-                    />
-                  </div>
-                </div>
-              )}
-            </>
-          }
-        >
-          {!productCategory ? (
-            <div className="text-center mt- 5 mb-5">Loading.....</div>
-          ) : (
-            <div className="right-layout">
-              <Container>
-                {productCategory &&
-                productCategory.tree &&
-                productCategory.tree.length > 0 &&
-                productCategory.tree[0] &&
-                productCategory.tree[0].children ? (
-                  <>
-                    <h5>Resource {productCategory.tree[0].data.title}</h5>
-                    <ResourceView
-                      data={productCategory.tree[0].children}
-                      admin={true}
-                      check={false}
-                      isDrag={true}
-                      root_node_id={resource_id}
-                      currentProduct={productCategory}
-                      pdfToggle={pdfToggle}
-                      handlePdfToggle={handlePdfToggle}
-                    />
-                  </>
-                ) : (
-                  <div className="mt-4 mb-4 text-center text-secondary">
-                    No Resources are available.
                   </div>
                 )}
-                <ResourceCreateView
-                  data={{ id: resource_id }}
-                  root_node_id={resource_id}
-                  add_to="children"
-                >
-                  <Button
-                    variant="outline-secondary"
-                    className="mb-2 btn-sm resource-tree-create-button"
+              </>
+            }
+          >
+            {!productCategory ? (
+              <div className="text-center mt- 5 mb-5">Loading.....</div>
+            ) : (
+              <div className="right-layout">
+                <Container>
+                  {productCategory &&
+                  productCategory.tree &&
+                  productCategory.tree.length > 0 &&
+                  productCategory.tree[0] &&
+                  productCategory.tree[0].children ? (
+                    <>
+                      <h5>Resource {productCategory.tree[0].data.title}</h5>
+                      <ResourceView
+                        data={productCategory.tree[0].children}
+                        admin={true}
+                        check={false}
+                        isDrag={true}
+                        root_node_id={resource_id}
+                        currentProduct={productCategory}
+                        pdfToggle={pdfToggle}
+                        handlePdfToggle={handlePdfToggle}
+                      />
+                    </>
+                  ) : (
+                    <div className="mt-4 mb-4 text-center text-secondary">
+                      No Resources are available.
+                    </div>
+                  )}
+                  <ResourceCreateView
+                    data={{ id: resource_id }}
+                    root_node_id={resource_id}
+                    add_to="children"
                   >
-                    New Folder
-                  </Button>
-                </ResourceCreateView>
-              </Container>
-            </div>
-          )}
-        </PdfViewerLayout>
-      </Worker>
-    </div>
+                    <Button
+                      variant="outline-secondary"
+                      className="mb-2 btn-sm resource-tree-create-button"
+                    >
+                      New Folder
+                    </Button>
+                  </ResourceCreateView>
+                </Container>
+              </div>
+            )}
+          </PdfViewerLayout>
+        </Worker>
+      </div>
     </Page>
   );
 };

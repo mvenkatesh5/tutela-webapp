@@ -17,8 +17,10 @@ const SearchCheckbox = (props: any) => {
       if (data.role === props.role) {
         if (search) {
           if (
-            data.first_name.toLowerCase().includes(search.toLowerCase()) ||
-            data.last_name.toLowerCase().includes(search.toLowerCase())
+            (data.first_name && data.first_name.toLowerCase().includes(search.toLowerCase())) ||
+            (data.last_name && data.last_name.toLowerCase().includes(search.toLowerCase())) ||
+            (data.email && data.email.toLowerCase().includes(search.toLowerCase())) ||
+            (data.username && data.username.toLowerCase().includes(search.toLowerCase()))
           ) {
             if (!userOptions.includes(data.id)) currentUsers.push(data);
           }

@@ -106,28 +106,38 @@ const userAdminReportsView = () => {
             {currentReports.map((report: any, reportIndex: any) => (
               <div
                 key={`reports-${report.id}`}
-                className="report-detail-card-container mb-2"
+                className="mb-3"
                 style={{
-                  borderBottom: "1px solid #e2e2e2",
-                  padding: "12px 0px",
+                  border: "1px solid #e2e2e2",
+                  padding: "16px",
+                  borderRadius: "4px",
                 }}
               >
-                {view === "overview" && <Badge className="bg-secondary mb-2">{report.flags}</Badge>}
+                {view === "overview" && <Badge className="bg-secondary mb-3">{report.flags}</Badge>}
+
+                {renderSlateContent(report.report.content) && (
+                  <div className="mb-3">
+                    <SlateEditor
+                      readOnly={true}
+                      initialValue={renderSlateContent(report.report.content)}
+                    />
+                  </div>
+                )}
 
                 {report.report.test_details && report.report.test_details.length > 0 && (
-                  <div style={{ padding: "10px 10px" }}>
-                    <Row style={{ gap: "20px" }}>
+                  <div className="mb-3">
+                    <h6>Test Details</h6>
+                    <Row className="ms-1 me-1">
                       {report.report.test_details.map((element: any, index: any) => (
-                        <Col
-                          key={`report-test-details-${index}`}
-                          md={4}
-                          style={{
-                            border: "1px solid #e2e2e2",
-                            padding: "10px 12px",
-                            borderRadius: "4px",
-                          }}
-                        >
-                          <div style={{ gap: "10px" }}>
+                        <Col key={`report-test-details-${index}`} md={3} className="ps-0">
+                          <div
+                            style={{
+                              border: "1px solid #e2e2e2",
+                              marginBottom: "10px",
+                              padding: "10px 12px",
+                              borderRadius: "4px",
+                            }}
+                          >
                             <h5 className="m-0 p-0 mb-2">{element.name ? element.name : ""}</h5>
                             <div>
                               <Badge className="bg-info">{element.date ? element.date : ""}</Badge>
@@ -142,26 +152,25 @@ const userAdminReportsView = () => {
                   </div>
                 )}
 
-                <div className="d-flex align-item-center" style={{ gap: "10px" }}>
-                  <div>
-                    {renderSlateContent(report.report.content) && (
-                      <SlateEditor
-                        readOnly={true}
-                        initialValue={renderSlateContent(report.report.content)}
+                {userRole && userRole === "admin" && (
+                  <div className="d-flex align-items-center" style={{ gap: "10px" }}>
+                    <div>
+                      <ReportStatusView
+                        data={report}
+                        product={product_id}
+                        user={user_id}
+                        view={tabKey}
                       />
-                    )}
-                  </div>
-                  {userRole && userRole === "admin" && (
-                    <div
-                      className="d-flex align-items-center"
-                      style={{ gap: "10px", marginLeft: "auto" }}
-                    >
+                    </div>
+                    <div>
                       <ReportEditView
                         data={report}
                         product={product_id}
                         user={user_id}
                         view={tabKey}
                       />
+                    </div>
+                    <div>
                       <ReportDeleteView
                         data={report}
                         product={product_id}
@@ -169,16 +178,6 @@ const userAdminReportsView = () => {
                         view={tabKey}
                       />
                     </div>
-                  )}
-                </div>
-                {userRole && userRole === "admin" && (
-                  <div className="w-100 mt-2">
-                    <ReportStatusView
-                      data={report}
-                      product={product_id}
-                      user={user_id}
-                      view={tabKey}
-                    />
                   </div>
                 )}
               </div>
@@ -286,9 +285,7 @@ const userAdminReportsView = () => {
                     >
                       <img className="rounded-circle img-fluid" src={defaultImageUrl} />
                     </div>
-                    <h6 className="m-0">
-                      {userDetailList.username} ({userDetailList.email})
-                    </h6>
+                    <h6 className="m-0">{userDetailList.username}</h6>
                   </div>
                 )}
                 <h3>{productDetail.name}</h3>
@@ -300,7 +297,6 @@ const userAdminReportsView = () => {
                     Mentor Details:
                   </div>
                   <h5 className="m-0 p-0">{getCurrentMentorDetails().name}</h5>
-                  <div className="text-small">{getCurrentMentorDetails().email}</div>
                 </div>
               )}
             </div>
@@ -329,20 +325,19 @@ const userAdminReportsView = () => {
                 })}
               </Nav>
 
+              {userRole && (userRole === "admin" || userRole === "teacher") && (
+                <div className="d-flex mt-3 justify-content-end">
+                  <div>
+                    <ReportCreateView product={product_id} user={user_id} view={tabKey} />
+                  </div>
+                </div>
+              )}
+
               <Tab.Content className="pt-3 pb-3">
                 {!reportList && !reportListError ? (
                   <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
                 ) : (
                   <>
-                    {userRole &&
-                      (userRole === "admin" || userRole === "teacher") &&
-                      tabKey != "overview" && (
-                        <div className="d-flex mb-2 justify-content-end">
-                          <div>
-                            <ReportCreateView product={product_id} user={user_id} view={tabKey} />
-                          </div>
-                        </div>
-                      )}
                     {report_tab_data.map((item: any, index: any) => (
                       <Tab.Pane key={`tab-pane-${item.tab_key}`} eventKey={item.tab_key}>
                         <RenderTabContent view={item.tab_key} />

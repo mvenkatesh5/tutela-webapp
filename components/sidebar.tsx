@@ -47,7 +47,7 @@ const Sidebar = () => {
     {
       label: "Quick Meetings",
       icon: <MeetingRoom />,
-      href: "/admin/quick-meetings",
+      href: "/quick-meetings",
     },
     {
       label: "Zoom Integrations",

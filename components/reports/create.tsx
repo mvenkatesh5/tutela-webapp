@@ -23,6 +23,14 @@ const ReportsCreateView = (props: any) => {
 
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
 
+  const [reportView, setReportView] = React.useState<any>("performance");
+  React.useEffect(() => {
+    if (props.view) {
+      if (props.view === "overview") setReportView("performance");
+      else setReportView(props.view);
+    }
+  }, [props.view]);
+
   const [reportData, setReportData] = React.useState({
     content: "",
     test_details: [],
@@ -30,8 +38,6 @@ const ReportsCreateView = (props: any) => {
   const handleReportData = (value: any) => {
     setReportData(value);
   };
-
-  console.log(reportData.test_details);
 
   const reportCreate = (event: any) => {
     event.preventDefault();
@@ -43,10 +49,8 @@ const ReportsCreateView = (props: any) => {
         content: reportData.content,
         test_details: reportData.test_details,
       },
-      flags: props.view,
+      flags: reportView,
     };
-
-    console.log(payload);
 
     ReportCreate(payload)
       .then((res) => {
@@ -61,7 +65,6 @@ const ReportsCreateView = (props: any) => {
         setButtonLoader(false);
       })
       .catch((errors) => {
-        console.log(errors);
         setButtonLoader(false);
       });
   };
@@ -75,9 +78,27 @@ const ReportsCreateView = (props: any) => {
       <Modal show={modal} size="xl" onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>
           <Form onSubmit={reportCreate}>
-            <h5>
-              Create Report in <strong className="text-primary">{props.view}</strong>.
+            <h5 className="mb-3">
+              Create Report in <strong className="text-primary">{reportView}</strong>.
             </h5>
+
+            {/* report view  */}
+            <Form.Group className="mb-3" controlId={`form-control-report-create`}>
+              <Form.Label>Report view</Form.Label>
+              <Form.Control
+                as="select"
+                required
+                size="sm"
+                className="mb-2"
+                value={reportView}
+                onChange={(e: any) => setReportView(e.target.value)}
+              >
+                <option value="performance">Performance</option>
+                <option value="syllabus">Syllabus</option>
+                <option value="behavior">Behavior</option>
+              </Form.Control>
+            </Form.Group>
+
             <ReportsForm data={reportData} handleData={handleReportData} />
             <Button
               variant="outline-primary"

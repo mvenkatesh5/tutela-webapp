@@ -18,7 +18,7 @@ axios.defaults.baseURL = BASE_PROD;
 
 export function setAxiosHeader(token: string) {
   if (token) {
-    axios.defaults.headers.common["Authorization"] = "Token " + token;
+    axios.defaults.headers.common["Authorization"] = "JWT " + token;
   } else {
     axios.defaults.headers.common["Authorization"] = "";
   }

@@ -41,74 +41,74 @@ const Resources = () => {
 
   return (
     <Page meta={meta}>
-    <div>
-      <Head>
-        <title>Resources</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <AdminLayout>
-        <div className="right-layout">
-          <Container>
-            <ResourceCreateView>
-              <div className="d-flex ms-auto">
-                <Button variant="outline-primary" className="mb-2 btn-sm ms-auto">
-                  Create Resource
-                </Button>
-              </div>
-            </ResourceCreateView>
-            {!resources && !resourcesError ? (
-              <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
-            ) : (
-              <div>
-                {resources && resources.length === 0 ? (
-                  <div className="text-secondary mt-5 mb-5 text-center">
-                    No resources are available.
-                  </div>
-                ) : (
-                  <Row>
-                    {resources.map((resource: any, resourceIndex: number) => (
-                      <Col md={3} key={`resource-title-${resourceIndex}`} className="mb-2 h-100">
-                        <div className="resource-home-card-book-view">
-                          <Link href={`/resources/${resource.id}`}>
-                            <div className="book-root-container">
-                              <BookCard data={resource} />
-                            </div>
-                          </Link>
-                          <div className="book-content-container">
-                            <div className="flex">
-                              <div className="flex-item title">
-                                <div className="resource-title">
-                                  <Link href={`/resources/${resource.id}`}>
-                                    <a>{resource.title}</a>
-                                  </Link>
+      <div>
+        <Head>
+          <title>Resources</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <AdminLayout>
+          <div className="right-layout">
+            <Container>
+              <ResourceCreateView>
+                <div className="d-flex ms-auto">
+                  <Button variant="outline-primary" className="mb-2 btn-sm ms-auto">
+                    Create Resource
+                  </Button>
+                </div>
+              </ResourceCreateView>
+              {!resources && !resourcesError ? (
+                <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
+              ) : (
+                <div>
+                  {resources && resources.length === 0 ? (
+                    <div className="text-secondary mt-5 mb-5 text-center">
+                      No resources are available.
+                    </div>
+                  ) : (
+                    <Row>
+                      {resources.map((resource: any, resourceIndex: number) => (
+                        <Col md={3} key={`resource-title-${resourceIndex}`} className="mb-2 h-100">
+                          <div className="resource-home-card-book-view">
+                            <Link href={`/resources/${resource.id}`}>
+                              <div className="book-root-container">
+                                <BookCard data={resource} />
+                              </div>
+                            </Link>
+                            <div className="book-content-container">
+                              <div className="flex">
+                                <div className="flex-item title">
+                                  <div className="resource-title">
+                                    <Link href={`/resources/${resource.id}`}>
+                                      <a>{resource.title}</a>
+                                    </Link>
+                                  </div>
                                 </div>
-                              </div>
-                              <div className="flex-item delete">
-                                <RenderEditView
-                                  data={{ id: resource.id, data: resource }}
-                                  root_node_id={null}
-                                >
-                                  <Edit />
-                                </RenderEditView>
-                              </div>
-                              <div className="flex-item delete">
-                                <ResourceDeleteView data={resource} root_node_id={null}>
-                                  <Delete />
-                                </ResourceDeleteView>
+                                <div className="flex-item delete">
+                                  <RenderEditView
+                                    data={{ id: resource.id, data: resource }}
+                                    root_node_id={null}
+                                  >
+                                    <Edit />
+                                  </RenderEditView>
+                                </div>
+                                <div className="flex-item delete">
+                                  <ResourceDeleteView data={resource} root_node_id={null}>
+                                    <Delete />
+                                  </ResourceDeleteView>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </Col>
-                    ))}
-                  </Row>
-                )}
-              </div>
-            )}
-          </Container>
-        </div>
-      </AdminLayout>
-    </div>
+                        </Col>
+                      ))}
+                    </Row>
+                  )}
+                </div>
+              )}
+            </Container>
+          </div>
+        </AdminLayout>
+      </div>
     </Page>
   );
 };

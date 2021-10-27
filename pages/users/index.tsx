@@ -75,6 +75,7 @@ const UserDetails = () => {
     if (user && searchContent) {
       if (user.username.includes(searchContent)) return true;
       else if (user.first_name.includes(searchContent)) return true;
+      else if (user.last_name.includes(searchContent)) return true;
       else if (user.email.includes(searchContent)) return true;
       else return false;
     } else {

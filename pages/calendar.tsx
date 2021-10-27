@@ -148,120 +148,123 @@ const CalendarView = () => {
 
   return (
     <Page meta={meta}>
-    <div>
-      <AdminLayout>
-        <div className="right-layout-calender">
-          <div className="calender-root-wrapper">
-            <div className="left-wrapper">
-              {userRole && (
-                <CalenderView
-                  renderView={currentRenderView}
-                  currentDate={currentDate}
-                  handleData={handleCurrentDate}
-                  role={userRole}
-                />
-              )}
-            </div>
-            <div className="right-wrapper">
-              <div className="border-bottom pb-2 calender-right-header">
-                <div className="user-view-calender dropdown-wrapper p-0 calendar">
-                  <div className="dropdown-icon" onClick={() => setCalendarToggle(!calendarToggle)}>
-                    <Calendar />
+      <div>
+        <AdminLayout>
+          <div className="right-layout-calender">
+            <div className="calender-root-wrapper">
+              <div className="left-wrapper">
+                {userRole && (
+                  <CalenderView
+                    renderView={currentRenderView}
+                    currentDate={currentDate}
+                    handleData={handleCurrentDate}
+                    role={userRole}
+                  />
+                )}
+              </div>
+              <div className="right-wrapper">
+                <div className="border-bottom pb-2 calender-right-header">
+                  <div className="user-view-calender dropdown-wrapper p-0 calendar">
+                    <div
+                      className="dropdown-icon"
+                      onClick={() => setCalendarToggle(!calendarToggle)}
+                    >
+                      <Calendar />
+                    </div>
+                    <div className={`dropdown-content ` + (calendarToggle ? `active` : ``)}>
+                      {userRole && (
+                        <CalenderView
+                          clickOnDate={() => setCalendarToggle(!calendarToggle)}
+                          renderView={currentRenderView}
+                          currentDate={currentDate}
+                          handleData={handleCurrentDate}
+                          role={userRole}
+                        />
+                      )}
+                    </div>
                   </div>
-                  <div className={`dropdown-content ` + (calendarToggle ? `active` : ``)}>
-                    {userRole && (
-                      <CalenderView
-                        clickOnDate={() => setCalendarToggle(!calendarToggle)}
-                        renderView={currentRenderView}
+                  <div style={{ marginRight: "auto" }} className="today-date">
+                    {currentDate && <div className="description">{renderDay()}</div>}
+                    {currentDate && <div className="giant-heading">{renderDate()}</div>}
+                  </div>
+                  <div className="calendar-type">
+                    <div className="d-flex flex-row align-items-center calender-render-view">
+                      {renderViews.map((data, index) => (
+                        <div
+                          key={data}
+                          className={data === currentRenderView ? "active " : ""}
+                          onClick={() => handleCurrentRenderView(data)}
+                        >
+                          {data}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="divider"></div>
+                  {userRole != "student" && (
+                    <div style={{ marginLeft: "10px" }} className="calendar-session-create">
+                      <SessionCreateView
+                        users={userList}
+                        currentDateQuery={currentDateQuery}
                         currentDate={currentDate}
-                        handleData={handleCurrentDate}
                         role={userRole}
                       />
-                    )}
-                  </div>
-                </div>
-                <div style={{ marginRight: "auto" }} className="today-date">
-                  {currentDate && <div className="description">{renderDay()}</div>}
-                  {currentDate && <div className="giant-heading">{renderDate()}</div>}
-                </div>
-                <div className="calendar-type">
-                  <div className="d-flex flex-row align-items-center calender-render-view">
-                    {renderViews.map((data, index) => (
-                      <div
-                        key={data}
-                        className={data === currentRenderView ? "active " : ""}
-                        onClick={() => handleCurrentRenderView(data)}
-                      >
-                        {data}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="divider"></div>
-                {userRole != "student" && (
-                  <div style={{ marginLeft: "10px" }} className="calendar-session-create">
-                    <SessionCreateView
-                      users={userList}
-                      currentDateQuery={currentDateQuery}
-                      currentDate={currentDate}
-                      role={userRole}
-                    />
-                  </div>
-                )}
-                {userRole === "admin" && (
-                  <div style={{ marginLeft: "10px" }} className="calendar-bulk-session">
-                    {/* <SessionBulkCreateView
+                    </div>
+                  )}
+                  {userRole === "admin" && (
+                    <div style={{ marginLeft: "10px" }} className="calendar-bulk-session">
+                      {/* <SessionBulkCreateView
                       users={userList}
                       currentDateQuery={currentDateQuery}
                       currentDate={currentDate}
                     /> */}
-                    <Link href="/bulk-schedules">
-                      <a>
-                        <Button className="btn-sm">Schedule recurring sessions</Button>
-                      </a>
-                    </Link>
-                  </div>
-                )}
-              </div>
+                      <Link href="/bulk-schedules">
+                        <a>
+                          <Button className="btn-sm">Schedule recurring sessions</Button>
+                        </a>
+                      </Link>
+                    </div>
+                  )}
+                </div>
 
-              <div style={{ marginTop: "10px" }}>
-                {currentRenderView === "day" ? (
-                  <CalenderDayView
-                    sessionList={sessionList}
-                    users={userList}
-                    role={userRole}
-                    currentDateQuery={currentDateQuery}
-                    sessionListError={sessionListError}
-                  />
-                ) : currentRenderView === "week" ? (
-                  <CalenderWeekView
-                    users={userList}
-                    currentDate={currentDate}
-                    sessionList={sessionList}
-                    startDate={startDate}
-                    endDate={endDate}
-                    role={userRole}
-                    currentDateQuery={currentDateQuery}
-                    sessionListError={sessionListError}
-                  />
-                ) : (
-                  <CalenderMonthView
-                    users={userList}
-                    currentDate={currentDate}
-                    sessionList={sessionList}
-                    startDate={startDate}
-                    endDate={endDate}
-                    role={userRole}
-                    currentDateQuery={currentDateQuery}
-                    sessionListError={sessionListError}
-                  />
-                )}
+                <div style={{ marginTop: "10px" }}>
+                  {currentRenderView === "day" ? (
+                    <CalenderDayView
+                      sessionList={sessionList}
+                      users={userList}
+                      role={userRole}
+                      currentDateQuery={currentDateQuery}
+                      sessionListError={sessionListError}
+                    />
+                  ) : currentRenderView === "week" ? (
+                    <CalenderWeekView
+                      users={userList}
+                      currentDate={currentDate}
+                      sessionList={sessionList}
+                      startDate={startDate}
+                      endDate={endDate}
+                      role={userRole}
+                      currentDateQuery={currentDateQuery}
+                      sessionListError={sessionListError}
+                    />
+                  ) : (
+                    <CalenderMonthView
+                      users={userList}
+                      currentDate={currentDate}
+                      sessionList={sessionList}
+                      startDate={startDate}
+                      endDate={endDate}
+                      role={userRole}
+                      currentDateQuery={currentDateQuery}
+                      sessionListError={sessionListError}
+                    />
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </AdminLayout>
-    </div>
+        </AdminLayout>
+      </div>
     </Page>
   );
 };
