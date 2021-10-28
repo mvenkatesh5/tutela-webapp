@@ -260,7 +260,11 @@ const SessionDetailView = () => {
                     </div>
                     <div className="description">
                       {userRole && (
-                        <ZoomSessions data={sessionDetail} role={userRole ? userRole : null} />
+                        <ZoomSessions
+                          data={sessionDetail}
+                          role={userRole ? userRole : null}
+                          sessionUsers={studentImages}
+                        />
                       )}
                     </div>
                   </div>

@@ -324,7 +324,11 @@ const SessionCard = (props: any) => {
             )}
 
             <div className="ms-auto">
-              <ZoomSessions data={props.data} role={props.role ? props.role : null} />
+              <ZoomSessions
+                data={props.data}
+                role={props.role ? props.role : null}
+                sessionUsers={studentImages}
+              />
             </div>
 
             {/* <div className="d-flex mb-3">
