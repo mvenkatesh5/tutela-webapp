@@ -122,7 +122,11 @@ const SessionCard = (props: any) => {
                     </div>
                   </div>
                   <div className="ms-auto">
-                    <ZoomSessions data={props.data} role={props.role ? props.role : null} />
+                    <ZoomSessions
+                      data={props.data}
+                      role={props.role ? props.role : null}
+                      sessionUsers={studentImages}
+                    />
                   </div>
                   <Link href={`/session-detail/${props.data.id}`}>
                     <a target="_blank">

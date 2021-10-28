@@ -118,11 +118,17 @@ const SessionDetailView = () => {
       sessionDetail.session_users.map((data: any) => {
         if (data.as_role === 0) {
           learners.push({
+            id: data.id,
+            coins: data.coins,
+            going: data.going,
             name: data.user.first_name,
             icon: "/bird.svg",
           });
         } else {
           teachers.push({
+            id: data.id,
+            coins: data.coins,
+            going: data.going,
             name: data.user.first_name,
             icon: "/bird.svg",
           });
