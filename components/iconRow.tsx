@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { CheveronDown } from "@styled-icons/zondicons";
 import { CheveronUp } from "@styled-icons/zondicons/CheveronUp";
+import { CheckCircleFill } from "@styled-icons/bootstrap/CheckCircleFill";
+import { ExclamationCircleFill } from "@styled-icons/bootstrap/ExclamationCircleFill";
 
 const IconRow = (props: any) => {
   const defaultImageUrl = `/bird.svg`;
@@ -8,6 +10,9 @@ const IconRow = (props: any) => {
   const handle = () => {
     setToggle(!toggle);
   };
+
+  console.log(props.data);
+
   return (
     <div>
       <div className="row-icons-root-alter">
@@ -17,8 +22,23 @@ const IconRow = (props: any) => {
               <div className="row-icons-alter-wrapper">
                 <div className="row-icons-alter" title={item.name} key={i.toString()}>
                   {item ? <img src={item.icon} /> : <img src={defaultImageUrl} />}
+                  <div className="row-attendance">
+                    {props.data.going ? (
+                      <CheckCircleFill className="text-success" />
+                    ) : (
+                      <ExclamationCircleFill className="text-danger" />
+                    )}
+                  </div>
                 </div>
                 <div className="row-name">{item.name} </div>
+                <div className="row-coins">
+                  <div className="row-coin-icon">
+                    <img src={"/tutela-coin.png"} />
+                  </div>
+                  <div className="row-coin-count">
+                    {props.data.coins > 0 ? props.data.coins : "0"}
+                  </div>
+                </div>
               </div>
             );
           }
