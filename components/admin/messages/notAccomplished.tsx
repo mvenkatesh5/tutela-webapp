@@ -1,6 +1,6 @@
 import React from "react";
 // react bootstrap
-import { Table, Row, Col, Form, Card } from "react-bootstrap";
+import { Table, Row, Col, Form, Card, Image } from "react-bootstrap";
 // global imports
 import { datePreview } from "@constants/global";
 
@@ -80,9 +80,10 @@ const NotAccomplished = (props: any) => {
                               marginRight: "10px",
                             }}
                           >
-                            <img
+                            <Image
                               style={{ width: "100%", height: "100%", objectFit: "cover" }}
                               src="/default-image.png"
+                              alt=""
                             />
                           </div>
                           <div>{validateUserName(message.student)}</div>
@@ -100,9 +101,10 @@ const NotAccomplished = (props: any) => {
                               marginRight: "10px",
                             }}
                           >
-                            <img
+                            <Image
                               style={{ width: "100%", height: "100%", objectFit: "cover" }}
                               src="/default-image.png"
+                              alt=""
                             />
                           </div>
                           <div>{validateUserName(message.assigned)}</div>

@@ -41,19 +41,19 @@ const ChannelDetail = () => {
   };
   return (
     <Page meta={meta}>
-    <div>
-      <AdminLayout>
-        <div className="right-layout-comment container ps-5 pe-5">
-          <CommentDetailView
-            threadDetail={threadDetail}
-            data={channelDetailList}
-            dataError={channelDetailListError}
-            channel_id={channel_id}
-            thread_id={thread_id}
-          />
-        </div>
-      </AdminLayout>
-    </div>
+      <div>
+        <AdminLayout>
+          <div className="right-layout-comment container ps-5 pe-5">
+            <CommentDetailView
+              threadDetail={threadDetail}
+              data={channelDetailList}
+              dataError={channelDetailListError}
+              channel_id={channel_id}
+              thread_id={thread_id}
+            />
+          </div>
+        </AdminLayout>
+      </div>
     </Page>
   );
 };

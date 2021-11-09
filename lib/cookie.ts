@@ -19,7 +19,8 @@ export const getServerAuthenticationCookie = (context: any) => {
 // setting authentication tokens
 export const setAuthenticationToken = (token_details: any) => {
   if (token_details) {
-    cookie.set("token_details", token_details);
+    const token = token_details ? JSON.stringify(token_details) : "";
+    cookie.set("token_details", token);
     setAxiosHeader(token_details.access_token);
   }
 };

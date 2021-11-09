@@ -6,7 +6,7 @@ export const NewsCreate = async (data: any) => {
   try {
     const response = await axios.post(NEWS_ENDPOINT, data);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };
@@ -15,7 +15,7 @@ export const NewsUpdate = async (data: any) => {
   try {
     const response = await axios.put(NEWS_WITH_ID_ENDPOINT(data.id), data);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };
@@ -24,7 +24,7 @@ export const NewsDelete = async (id: Number) => {
   try {
     const response = await axios.delete(NEWS_WITH_ID_ENDPOINT(id));
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };

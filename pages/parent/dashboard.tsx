@@ -212,21 +212,19 @@ function ParentDashboard() {
               {advertsList && advertsList.length > 0 && (
                 <Card className="pt-3 pb-5 px-3 border-0 shadow mt-4">
                   <Slider {...settingsSlider}>
-                    {advertsList.map((item: any, index: any) => {
-                      return (
-                        <div>
-                          <Link href={item.link}>
-                            <a target="_blank">
-                              <Image
-                                className="img-fluid mx-auto d-block"
-                                src={item.image}
-                                width="300"
-                              />
-                            </a>
-                          </Link>
-                        </div>
-                      );
-                    })}
+                    {advertsList.map((item: any, index: any) => (
+                      <div key={`adverts-${index}`}>
+                        <Link href={item.link}>
+                          <a target="_blank">
+                            <Image
+                              className="img-fluid mx-auto d-block"
+                              src={item.image}
+                              width="300"
+                            />
+                          </a>
+                        </Link>
+                      </div>
+                    ))}
                   </Slider>
                 </Card>
               )}

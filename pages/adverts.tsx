@@ -1,6 +1,6 @@
 import React from "react";
 // react bootstrap
-import { Row, Col, Card } from "react-bootstrap";
+import { Row, Col, Card, Image } from "react-bootstrap";
 // swr
 import useSWR from "swr";
 // layouts
@@ -50,7 +50,8 @@ const AdvertsView = () => {
                     <Card>
                       <Card.Body>
                         <div style={{ height: "175px" }}>
-                          <img
+                          <Image
+                            alt=""
                             src={data.image}
                             style={{ width: "100%", height: "100%", objectFit: "contain" }}
                           />

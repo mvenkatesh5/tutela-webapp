@@ -92,7 +92,7 @@ const CalendarWeekMonthCardDetailView = (props: any) => {
           <div>
             <div className="d-flex mb-2">
               <div className="icon">
-                <Image className="img-fluid rounded me-3" src="/bird.svg" />
+                <Image className="img-fluid rounded me-3" src="/bird.svg" alt="" />
               </div>
               <div>
                 <div className="heading">{props.data.title}</div>
@@ -123,11 +123,11 @@ const CalendarWeekMonthCardDetailView = (props: any) => {
                   {props.data && props.data.data && props.data.data.zoom ? (
                     <div>
                       {props.role === "student" ? (
-                        <a href={props.data.data.zoom.join_url} target="_blank">
+                        <a href={props.data.data.zoom.join_url} target="_blank" rel="noreferrer">
                           Join Session
                         </a>
                       ) : (
-                        <a href={props.data.data.zoom.start_url} target="_blank">
+                        <a href={props.data.data.zoom.start_url} target="_blank" rel="noreferrer">
                           Start Session
                         </a>
                       )}
@@ -152,7 +152,7 @@ const CalendarWeekMonthCardDetailView = (props: any) => {
                     {/* <div className="description ms-2">- 18 yes, 2 awaiting</div> */}
                   </div>
                   <div className="mt-1">
-                    <IconRow data={studentImages} />
+                    <IconRow data={studentImages} session={props.data} role="user" />
                   </div>
                 </div>
               </div>
@@ -164,7 +164,7 @@ const CalendarWeekMonthCardDetailView = (props: any) => {
                   <User className="text-muted" width={20} />
                 </div>
                 <div className="">
-                  <IconRow data={teacherImages} />
+                  <IconRow data={teacherImages} session={props.data} role="teacher" />
                 </div>
                 {/* <div className=" mt-2 ms-2">Hello</div> */}
               </div>
@@ -176,7 +176,12 @@ const CalendarWeekMonthCardDetailView = (props: any) => {
               </div>
               <div className="ms-2">
                 {props.data.recording_link ? (
-                  <a href={props.data.recording_link} target="_blank" className="description">
+                  <a
+                    href={props.data.recording_link}
+                    target="_blank"
+                    className="description"
+                    rel="noreferrer"
+                  >
                     {props.data.recording_link}
                   </a>
                 ) : (

@@ -50,7 +50,7 @@ function DashboardNav() {
       <Navbar className="shadow-sm t-navbar-root h-100" collapseOnSelect expand="xl">
         <Container fluid>
           <Navbar.Brand className="navbar-brand-image">
-            <Image src="/logo.svg" />
+            <Image src="/logo.svg" alt="" />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <div className="navbar-collapse-wrapper w-100">

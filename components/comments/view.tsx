@@ -1,4 +1,6 @@
 import React from "react";
+// react bootstrap
+import { Image } from "react-bootstrap";
 // swr
 import useSWR from "swr";
 // components
@@ -51,7 +53,7 @@ const CommentView = (props: any) => {
                 {commentDetail.map((comment: any, index: any) => (
                   <div className="message-item" key={`user-comment-${comment.id}`}>
                     <div className="icon">
-                      <img className="rounded-circle img-fluid" src={defaultImageUrl} />
+                      <Image className="rounded-circle img-fluid" src={defaultImageUrl} alt="" />
                     </div>
                     <div className="content">
                       {/* <div className="content-user">{renderUserName(comment.user)}</div> */}

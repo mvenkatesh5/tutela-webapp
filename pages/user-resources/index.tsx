@@ -50,53 +50,53 @@ const Resources = () => {
 
   return (
     <Page meta={meta}>
-    <div>
-      <Head>
-        <title>Resources</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <StudentLayout>
-        <Container className="pt-3 pb-3">
-          <h3 className="mb-4">Resources</h3>
-          {!resources && !resourcesError ? (
-            <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
-          ) : (
-            <div>
-              {resources && resources.length === 0 ? (
-                <div className="text-secondary mt-5 mb-5 text-center">
-                  No resources are available.
-                </div>
-              ) : (
-                <Row>
-                  {resources.map((resource: any, resourceIndex: number) => (
-                    <Col md={3} key={`resource-title-${resourceIndex}`} className="mb-2 h-100">
-                      <div className="resource-home-card-book-view">
-                        <Link href={`/user-resources/${resource.id}`}>
-                          <div className="book-root-container">
-                            <BookCard data={resource.resource_node} />
-                          </div>
-                        </Link>
-                        <div className="book-content-container">
-                          <div className="flex">
-                            <div className="flex-item title">
-                              <div className="resource-title">
-                                <Link href={`/user-resources/${resource.id}`}>
-                                  <a>{resource.resource_node.title}</a>
-                                </Link>
+      <div>
+        <Head>
+          <title>Resources</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <StudentLayout>
+          <Container className="pt-3 pb-3">
+            <h3 className="mb-4">Resources</h3>
+            {!resources && !resourcesError ? (
+              <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
+            ) : (
+              <div>
+                {resources && resources.length === 0 ? (
+                  <div className="text-secondary mt-5 mb-5 text-center">
+                    No resources are available.
+                  </div>
+                ) : (
+                  <Row>
+                    {resources.map((resource: any, resourceIndex: number) => (
+                      <Col md={3} key={`resource-title-${resourceIndex}`} className="mb-2 h-100">
+                        <div className="resource-home-card-book-view">
+                          <Link href={`/user-resources/${resource.id}`} passHref>
+                            <div className="book-root-container">
+                              <BookCard data={resource.resource_node} />
+                            </div>
+                          </Link>
+                          <div className="book-content-container">
+                            <div className="flex">
+                              <div className="flex-item title">
+                                <div className="resource-title">
+                                  <Link href={`/user-resources/${resource.id}`}>
+                                    <a>{resource.resource_node.title}</a>
+                                  </Link>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </Col>
-                  ))}
-                </Row>
-              )}
-            </div>
-          )}
-        </Container>
-      </StudentLayout>
-    </div>
+                      </Col>
+                    ))}
+                  </Row>
+                )}
+              </div>
+            )}
+          </Container>
+        </StudentLayout>
+      </div>
     </Page>
   );
 };

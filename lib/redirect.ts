@@ -1,6 +1,6 @@
 import Router from "next/router";
 
-export default (context: any, target: any) => {
+const redirect = (context: any, target: any) => {
   if (context.res) {
     // server
     // 303: "See other"
@@ -11,3 +11,4 @@ export default (context: any, target: any) => {
     Router.push(target);
   }
 };
+export default redirect;

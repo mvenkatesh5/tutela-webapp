@@ -17,7 +17,7 @@ const DefaultLayout = (props: Props) => {
               <div className="navbar-root-brand">
                 <Link href="/">
                   <a>
-                    <Image src="/logo.svg" />
+                    <Image src="/logo.svg" alt="" />
                   </a>
                 </Link>
               </div>

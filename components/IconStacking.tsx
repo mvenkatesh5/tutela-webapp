@@ -1,4 +1,5 @@
 import React from "react";
+import { Image } from "react-bootstrap";
 
 const IconStacking = (props: any) => {
   const defaultImageUrl = `/bird.svg`;
@@ -11,7 +12,7 @@ const IconStacking = (props: any) => {
             if (i < 5) {
               return (
                 <div className="stack-icons" title={item.name} key={i.toString()}>
-                  {item ? <img src={item.icon} /> : <img src={defaultImageUrl} />}
+                  {item ? <Image alt="" src={item.icon} /> : <Image alt="" src={defaultImageUrl} />}
                 </div>
               );
             }
@@ -23,7 +24,11 @@ const IconStacking = (props: any) => {
       ) : (
         <div className="stack-icons-root">
           <div className="stack-icons">
-            {props.data ? <img src={props.data} /> : <img src={defaultImageUrl} />}
+            {props.data ? (
+              <Image alt="" src={props.data} />
+            ) : (
+              <Image alt="" src={defaultImageUrl} />
+            )}
           </div>
         </div>
       )}

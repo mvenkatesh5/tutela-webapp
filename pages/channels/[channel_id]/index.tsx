@@ -55,84 +55,84 @@ const ChannelDetail = () => {
 
   return (
     <Page meta={meta}>
-    <div>
-      <AdminLayout>
-        <div className="right-layout-comment container ps-5 pe-5">
-          <div className="thread-default-wrapper collapse-view">
-            {!channelThreadList && !channelThreadListError ? (
-              <div className="text-center mt- 5 mb-5">Loading.....</div>
-            ) : (
-              <div className="thread-content">
-                {channelDetail && (
-                  <div className="header-wrapper">
-                    <div className="icon">{channelDetail.name.substring(0, 1)}</div>
-                    <div className="content">
-                      <div className="content-heading">{channelDetail.name}</div>
-                      <div className="content-description">{channelDetail.description}</div>
+      <div>
+        <AdminLayout>
+          <div className="right-layout-comment container ps-5 pe-5">
+            <div className="thread-default-wrapper collapse-view">
+              {!channelThreadList && !channelThreadListError ? (
+                <div className="text-center mt- 5 mb-5">Loading.....</div>
+              ) : (
+                <div className="thread-content">
+                  {channelDetail && (
+                    <div className="header-wrapper">
+                      <div className="icon">{channelDetail.name.substring(0, 1)}</div>
+                      <div className="content">
+                        <div className="content-heading">{channelDetail.name}</div>
+                        <div className="content-description">{channelDetail.description}</div>
+                      </div>
                     </div>
-                  </div>
-                )}
-                <div className="content-wrapper">
-                  {channelThreadList && channelThreadList.length > 0 ? (
-                    <div>
-                      {channelThreadList.map((data: any, index: any) => (
-                        <div key={`channels-view-list-${data.id}`} className="mb-3">
-                          <ChannelCardView
-                            data={data}
-                            channel_id={channel_id}
-                            threadView={threadView}
-                          >
-                            <div className="item left">
-                              <ThreadDeleteView
-                                data={data}
-                                channel_id={channel_id}
-                                threadView={threadView}
-                              />
-                            </div>
-                            <div className="item">
-                              <ThreadEditView
-                                data={data}
-                                channel_id={channel_id}
-                                threadView={threadView}
-                              />
-                            </div>
-                          </ChannelCardView>
-                          {threadView === "collapse" && (
-                            <>
-                              <div className="channel-thread-card">
-                                <CommentView
-                                  data={data.thread_comments}
+                  )}
+                  <div className="content-wrapper">
+                    {channelThreadList && channelThreadList.length > 0 ? (
+                      <div>
+                        {channelThreadList.map((data: any, index: any) => (
+                          <div key={`channels-view-list-${data.id}`} className="mb-3">
+                            <ChannelCardView
+                              data={data}
+                              channel_id={channel_id}
+                              threadView={threadView}
+                            >
+                              <div className="item left">
+                                <ThreadDeleteView
+                                  data={data}
                                   channel_id={channel_id}
-                                  thread_id={data.id}
-                                  collapse={true}
                                   threadView={threadView}
                                 />
                               </div>
-                            </>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="text-center mt-5 mb-5">No Threads are available.</div>
-                  )}
-                  {threadView != "collapse" && (
-                    <div className="mt-3">
-                      <ThreadModalCreateView channel_id={channel_id} threadView={threadView} />
-                    </div>
-                  )}
+                              <div className="item">
+                                <ThreadEditView
+                                  data={data}
+                                  channel_id={channel_id}
+                                  threadView={threadView}
+                                />
+                              </div>
+                            </ChannelCardView>
+                            {threadView === "collapse" && (
+                              <>
+                                <div className="channel-thread-card">
+                                  <CommentView
+                                    data={data.thread_comments}
+                                    channel_id={channel_id}
+                                    thread_id={data.id}
+                                    collapse={true}
+                                    threadView={threadView}
+                                  />
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center mt-5 mb-5">No Threads are available.</div>
+                    )}
+                    {threadView != "collapse" && (
+                      <div className="mt-3">
+                        <ThreadModalCreateView channel_id={channel_id} threadView={threadView} />
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
-
-            <div className={threadView === "collapse" ? `thread-footer` : ""}>
-              {threadView === "collapse" && (
-                <ThreadCreateView channel_id={channel_id} threadView={threadView} />
               )}
-            </div>
-          </div>
 
-          {/* <div className="channel-root-wrapper flex-container">
+              <div className={threadView === "collapse" ? `thread-footer` : ""}>
+                {threadView === "collapse" && (
+                  <ThreadCreateView channel_id={channel_id} threadView={threadView} />
+                )}
+              </div>
+            </div>
+
+            {/* <div className="channel-root-wrapper flex-container">
             <div className="channel-top-bar">
               {!channelThreadList && !channelThreadListError ? (
                 <div className="text-center mt- 5 mb-5">Loading.....</div>
@@ -202,9 +202,9 @@ const ChannelDetail = () => {
               )}
             </div>
           </div> */}
-        </div>
-      </AdminLayout>
-    </div>
+          </div>
+        </AdminLayout>
+      </div>
     </Page>
   );
 };

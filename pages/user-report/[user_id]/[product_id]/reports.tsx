@@ -33,7 +33,7 @@ import {
 // hoc
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 
-const userAdminReportsView = () => {
+const UserAdminReportsView = () => {
   const router = useRouter();
 
   const defaultImageUrl = "/default-image.png";
@@ -354,4 +354,4 @@ const userAdminReportsView = () => {
   );
 };
 
-export default withGlobalAuth(userAdminReportsView);
+export default withGlobalAuth(UserAdminReportsView);

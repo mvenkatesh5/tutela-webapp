@@ -100,6 +100,8 @@ const ProductsCreateView = (props: any) => {
       });
     }
 
+    console.log("users", users);
+
     if (users && users.length > 0) {
       AddUserUnderProductPromise(PRODUCT_USER_ENDPOINT(product.id), users)
         .then((response) => {
@@ -167,7 +169,7 @@ const ProductsCreateView = (props: any) => {
             <ProductsForm data={formData} handleData={handleFormData} />
             {props.users && props.users.length > 0 && (
               <>
-                <div className="mb-3 mt-3">
+                {/* <div className="mb-3 mt-3">
                   <Form.Label>Mentors</Form.Label>
                   <SearchCheckboxView
                     users={props.users}
@@ -176,8 +178,8 @@ const ProductsCreateView = (props: any) => {
                     role={1}
                     validInput={1}
                   />
-                </div>
-                {/* <div className="mb-3 mt-3">
+                </div> */}
+                <div className="mb-3 mt-3">
                   <Form.Label>Teachers</Form.Label>
                   <SearchCheckboxView
                     users={props.users}
@@ -186,8 +188,8 @@ const ProductsCreateView = (props: any) => {
                     role={1}
                     validInput={props.users.length}
                   />
-                </div> */}
-                {/* <div className="mb-3">
+                </div>
+                <div className="mb-3">
                   <Form.Label>Users</Form.Label>
                   <SearchCheckboxView
                     users={props.users}
@@ -196,7 +198,7 @@ const ProductsCreateView = (props: any) => {
                     role={0}
                     validInput={props.users.length}
                   />
-                </div> */}
+                </div>
                 <div className="mb-3">
                   <Form.Label>Resources</Form.Label>
                   <ResourceSearchCheckboxView

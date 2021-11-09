@@ -13,11 +13,12 @@ import SessionTimer from "./sessionTimer";
 // global imports
 import { datePreview } from "@constants/global";
 // api service
-import { CreateZoomMeeting, SessionUpdate } from "@lib/services/sessionservice";
+import { CreateZoomMeeting, SessionUpdate, SessionUserUpdate } from "@lib/services/sessionservice";
 // api routes
 import { SESSION_ENDPOINT } from "@constants/routes";
 
 const ZoomSession = (props: any) => {
+  // const router = useRouter();
   const [zoomData, setZoomData] = React.useState<any>();
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
   const [dropdownToggle, setDropdownToggle] = React.useState<any>(false);
@@ -144,6 +145,23 @@ const ZoomSession = (props: any) => {
     return true;
   };
 
+  const userAttendanceRedirection = (url: any) => {
+    // if (props.sessionUsers && props.sessionUsers.length > 0) {
+    //   const payload = {};
+    //   SessionUserUpdate(payload)
+    //     .then((response) => {
+    //       console.log(response);
+    //       if (url) window.open(url, "_blank");
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // } else {
+    //   if (url) window.open(url, "_blank");
+    // }
+    if (url) window.open(url, "_blank");
+  };
+
   return (
     <div>
       {validateSessionSuspend(props.data.details) ? (
@@ -157,16 +175,19 @@ const ZoomSession = (props: any) => {
                       date={props.data.start_datetime}
                       time={convertTimeToSeconds(props.data.start_datetime)}
                     >
-                      <a href={zoomData.join_url} target="_blank">
+                      <div onClick={() => userAttendanceRedirection(zoomData.join_url)}>
                         <Badge className="bg-success hover-cursor">Join Meeting</Badge>
-                      </a>
+                      </div>
+                      {/* <a href={zoomData.join_url} target="_blank">
+                        <Badge className="bg-success hover-cursor">Join Meeting</Badge>
+                      </a> */}
                     </SessionTimer>
                   ) : (
                     <SessionTimer
                       date={props.data.start_datetime}
                       time={convertTimeToSeconds(props.data.start_datetime)}
                     >
-                      <a href={zoomData.start_url} target="_blank">
+                      <a href={zoomData.start_url} target="_blank" rel="noreferrer">
                         <Badge className="bg-success hover-cursor">Join Meeting</Badge>
                       </a>
                     </SessionTimer>

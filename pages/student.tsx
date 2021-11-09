@@ -176,16 +176,15 @@ const StudentDetail = () => {
                   <Slider {...settingsSlider}>
                     {advertsList.map((item: any, index: any) => {
                       return (
-                        <div>
-                          <Link href={item.link}>
-                            <a target="_blank">
-                              <Image
-                                className="img-fluid mx-auto d-block"
-                                src={item.image}
-                                width="300"
-                              />
-                            </a>
-                          </Link>
+                        <div key={`link-${index}`}>
+                          <a href={item.link} target="_blank" rel="noreferrer">
+                            <Image
+                              alt=""
+                              className="img-fluid mx-auto d-block"
+                              src={item.image}
+                              width="300"
+                            />
+                          </a>
                         </div>
                       );
                     })}

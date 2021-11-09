@@ -122,7 +122,7 @@ const Profile = () => {
               <Tab.Container defaultActiveKey={profileSchemaData[0].tab_key}>
                 <Nav className="custom-nav-tabs-links profile-account-nav" variant="pills">
                   {profileSchemaData.map((item: any, index: any) => (
-                    <Nav.Item className="profile-account-nav-item">
+                    <Nav.Item key={`nav-link-${index}`} className="profile-account-nav-item">
                       <Nav.Link key={`nav-item-${item.tab_key}`} eventKey={item.tab_key}>
                         {item.tab_name}
                       </Nav.Link>

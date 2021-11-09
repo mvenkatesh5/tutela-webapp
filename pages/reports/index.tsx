@@ -1,6 +1,6 @@
 import React from "react";
 // react bootstrap
-import { Container, Button, Badge, Row, Col, Form, Tab, Nav, Modal } from "react-bootstrap";
+import { Container, Button, Badge, Row, Col, Form, Tab, Nav, Modal, Image } from "react-bootstrap";
 // swr
 import useSWR, { mutate } from "swr";
 // components
@@ -145,6 +145,7 @@ const TeacherReport = () => {
       <div>
         {content.map((element: any, index: any) => (
           <div
+            key={`element-${index}`}
             className="mb-3"
             style={{
               border: "1px solid #e2e2e2",
@@ -163,7 +164,7 @@ const TeacherReport = () => {
                     borderRadius: "50px",
                   }}
                 >
-                  <img className="rounded-circle img-fluid" src={defaultImageUrl} />
+                  <Image alt="" className="rounded-circle img-fluid" src={defaultImageUrl} />
                 </div>
                 <h6 className="m-0" style={{ fontSize: "14px" }}>
                   {element.user.username} ({element.user.email})

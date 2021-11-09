@@ -175,6 +175,7 @@ const VideoView = () => {
                                   href={session.recording_link}
                                   target="_blank"
                                   className="btn btn-primary btn-sm"
+                                  rel="noreferrer"
                                 >
                                   Click here
                                 </a>

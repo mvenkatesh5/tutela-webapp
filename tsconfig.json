@@ -22,7 +22,8 @@
       "@styles/*": ["styles/*"],
       "@constants/*": ["constants/*"],
       "@contexts/*": ["contexts/*"]
-    }
+    },
+    "incremental": true
   },
   "exclude": ["node_modules"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.js"]

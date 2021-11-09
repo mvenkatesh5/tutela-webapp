@@ -14,6 +14,7 @@ import { MarkChatRead } from "@styled-icons/material/MarkChatRead";
 import { Announcement } from "@styled-icons/zondicons/Announcement";
 import { MeetingRoom } from "@styled-icons/material/MeetingRoom";
 import { Folder } from "@styled-icons/boxicons-regular/Folder";
+import { Assessment } from "@styled-icons/material-rounded/Assessment";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -73,6 +74,11 @@ const Sidebar = () => {
       label: "Resources",
       icon: <Folder />,
       href: "/resources",
+    },
+    {
+      label: "Tests",
+      icon: <Assessment />,
+      href: "/tests",
     },
   ];
 

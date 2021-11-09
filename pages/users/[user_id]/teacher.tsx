@@ -2,7 +2,7 @@ import React from "react";
 // next imports
 import { useRouter } from "next/router";
 // react bootstrap
-import { Container, Card, Tab, Nav, Row, Col } from "react-bootstrap";
+import { Container, Card, Tab, Nav, Row, Col, Image } from "react-bootstrap";
 // swr
 import useSWR from "swr";
 // components
@@ -28,7 +28,7 @@ import Page from "@components/page";
 // constants
 import { META_DESCRIPTION } from "@constants/page";
 
-const userDetailView = () => {
+const UserDetailView = () => {
   const defaultImageUrl = "/default-image.png";
 
   const router = useRouter();
@@ -85,7 +85,11 @@ const userDetailView = () => {
                       <div className="profile-detail">
                         <div className="header">
                           <div className="icon">
-                            <img className="rounded-circle img-fluid" src={defaultImageUrl} />
+                            <Image
+                              alt=""
+                              className="rounded-circle img-fluid"
+                              src={defaultImageUrl}
+                            />
                           </div>
                           <div className="content">
                             <div className="content-primary">
@@ -116,7 +120,10 @@ const userDetailView = () => {
                             variant="pills"
                           >
                             {teacherSchema.map((item: any, index: any) => (
-                              <Nav.Item className="profile-account-nav-item">
+                              <Nav.Item
+                                key={`nav-link-${index}`}
+                                className="profile-account-nav-item"
+                              >
                                 <Nav.Link key={`nav-item-${item.tab_key}`} eventKey={item.tab_key}>
                                   {item.tab_name}
                                 </Nav.Link>
@@ -175,4 +182,4 @@ const userDetailView = () => {
   );
 };
 
-export default withAdminAuth(userDetailView);
+export default withAdminAuth(UserDetailView);

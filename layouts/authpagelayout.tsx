@@ -10,16 +10,17 @@ function AuthWrapper(props: any) {
             <Col md="6" className="m-0 p-0">
               <div className="bg-dark auth-lef-bg h-100 p-5">
                 <Container className="h-100">
-                  <Link href="/">
-                    <Image className="img-fluid mb-5" src="/logo.svg" />
+                  <Link href="/" passHref>
+                    <Image className="img-fluid mb-5" src="/logo.svg" alt="" />
                   </Link>
                   <Row className="h-75">
                     <Col className="align-self-center" md="12">
                       <Row>
                         <Col md="8">
-                          <Image className="img-fluid mb-4" src="/quote.svg" />
+                          <Image className="img-fluid mb-4" src="/quote.svg" alt="" />
                           <p className="text-white mb-4-5 lead">
-                          Tell me and I forget, teach me and I may remember,  involve me and I learn
+                            Tell me and I forget, teach me and I may remember, involve me and I
+                            learn
                           </p>
                           <h4 className="text-white fw-bold">Benjamin Franklin</h4>
                         </Col>

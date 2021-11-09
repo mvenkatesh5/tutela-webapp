@@ -53,7 +53,7 @@ const ProductSubjectsView = (props: any) => {
       {productSubjectStagesArray && productSubjectStagesArray.length > 0 && (
         <div className="product-subjects-wrapper">
           {productSubjectStagesArray.map((levelData: any, levelIndex: any) => (
-            <div className="product-subjects-item">
+            <div key={`product-subjects-item-${levelIndex}`} className="product-subjects-item">
               <div className="inner-flex no-select">
                 <div className="inner-item text">
                   {/* <Form.Group controlId="flow-level-edit-input">

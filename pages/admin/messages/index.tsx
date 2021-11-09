@@ -108,7 +108,7 @@ const Messages = () => {
                   <Tab.Container defaultActiveKey={messageTab[0].tab_key}>
                     <Nav className="custom-nav-tabs-links profile-account-nav" variant="pills">
                       {messageTab.map((item: any, index: any) => (
-                        <Nav.Item className="profile-account-nav-item">
+                        <Nav.Item key={`nav-item-${index}`} className="profile-account-nav-item">
                           <Nav.Link key={`nav-item-${item.tab_key}`} eventKey={item.tab_key}>
                             {item.tab_label}
                           </Nav.Link>

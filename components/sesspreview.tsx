@@ -9,7 +9,7 @@ function SessionPreviewCard(props: any) {
         <Card.Body className="p-3">
           <Row>
             <Col className="align-self-center text-start">
-              <Image className="img-fluid rounded me-3" src="/bird.svg" />
+              <Image className="img-fluid rounded me-3" src="/bird.svg" alt="" />
               <p className="d-inline text-dark fw-bold m-0">{props.data.title}</p>
               <span className="badge border bg-light text-dark ms-3">
                 {props.data.start_datetime}

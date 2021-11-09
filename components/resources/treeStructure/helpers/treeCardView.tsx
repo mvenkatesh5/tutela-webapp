@@ -33,7 +33,7 @@ import { SlateEditor } from "@components/SlateEditor";
 const TreeChildrenRenderView = ({
   tree,
   level,
-  children,
+  t_children,
   root_node_id,
   parent,
   index,
@@ -76,7 +76,7 @@ const TreeChildrenRenderView = ({
       >
         {(provided: any, snapshot: any) => (
           <div ref={provided.innerRef} {...provided.draggableProps}>
-            <div className="flex" style={{ paddingLeft: `${children}px` }}>
+            <div className="flex" style={{ paddingLeft: `${t_children}px` }}>
               {tree.children && tree.children.length > 0 ? (
                 <div
                   className="flex-item dropdown"
@@ -133,7 +133,7 @@ const TreeChildrenRenderView = ({
                         </>
                       ) : (
                         <>
-                          <a href={tree.data.data.url} target="_blank">
+                          <a href={tree.data.data.url} target="_blank" rel="noreferrer">
                             {tree.data.data.kind} : {tree.data && tree.data.title}
                           </a>
                         </>
@@ -217,7 +217,7 @@ const TreeChildrenRenderView = ({
                 <TreeRenderView
                   tree={tree.children}
                   level={level}
-                  children={children + 30}
+                  t_children={t_children + 30}
                   root_node_id={root_node_id}
                   parent={tree.id}
                   admin={admin}
