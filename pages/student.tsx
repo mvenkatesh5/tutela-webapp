@@ -27,6 +27,7 @@ import {
   ADVERTS_ENDPOINT,
   SESSION_ENDPOINT_UPCOMING,
   USER_WITH_ID_ENDPOINT,
+  USER_COINS_ENDPOINT,
 } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
@@ -100,6 +101,7 @@ const StudentDetail = () => {
     { refreshInterval: 0 }
   );
 
+  const { data: coins, error: coinsError } = useSWR(USER_COINS_ENDPOINT, APIFetcher);
   const { data: newsList, error: newsListError } = useSWR(NEWS_ENDPOINT, APIFetcher);
   const { data: advertsList, error: advertsListError } = useSWR(ADVERTS_ENDPOINT, APIFetcher);
   const { data: sessionList, error: sessionListError } = useSWR(
@@ -170,6 +172,28 @@ const StudentDetail = () => {
             <Col lg="4">
               {/* <TestScroreCard /> */}
               {/* <UpcomingTestsCard /> */}
+              <Card className="pt-3 pb-3 px-3 border-0 shadow mb-3">
+                <h5>Coins Earned</h5>
+                {!coins ? (
+                  <div className="text-center mt-3">
+                    <small>Loading...</small>
+                  </div>
+                ) : (
+                  <div
+                    className="mt-1"
+                    style={{ display: "flex", alignItems: "center", gap: "10px" }}
+                  >
+                    <div style={{ width: "40px", height: "40px", flexShrink: 0 }}>
+                      <Image
+                        src={"/tutela-coin.png"}
+                        alt=""
+                        style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                      />
+                    </div>
+                    <div style={{ fontSize: "20px", fontWeight: 500 }}>{coins.total_coins}</div>
+                  </div>
+                )}
+              </Card>
 
               {advertsList && advertsList.length > 0 && (
                 <Card className="pt-3 pb-5 px-3 border-0 shadow">

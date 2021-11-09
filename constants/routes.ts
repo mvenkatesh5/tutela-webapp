@@ -121,3 +121,6 @@ export const MENTOR_REPORT_ENDPOINT = `/api/users/reports/mentors/`;
 // tests
 export const TESTS_ENDPOINT = `/api/tests/`;
 export const TESTS_WITH_ID_ENDPOINT = (test_id: any) => `/api/tests/${test_id}/`;
+
+// coins endpoint
+export const USER_COINS_ENDPOINT = `/api/user-coins/`;

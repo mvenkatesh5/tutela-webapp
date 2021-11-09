@@ -42,46 +42,52 @@ const Tests = () => {
       </Head>
       <AdminLayout>
         <div className="right-layout">
-          <Container>
-            <div className="d-flex align-items-center justify-content-between mt-2">
-              <div>
-                <h5 className="m-0 p-0">Tests</h5>
+          {!tests ? (
+            <div className="text-center mt-5 mb-5">Loading.....</div>
+          ) : (
+            <Container>
+              <div className="d-flex align-items-center justify-content-between mt-2">
+                <div>
+                  <h5 className="m-0 p-0">Tests</h5>
+                </div>
+                <div>
+                  <TestsCreate />
+                </div>
               </div>
-              <div>
-                <TestsCreate />
-              </div>
-            </div>
-            <div className="mt-2">
-              <Row>
-                {tests &&
-                  tests.length > 0 &&
-                  tests.map((data: any, index: Number) => (
-                    <Col md={3} key={data.id} style={{ marginTop: "10px" }}>
-                      <Card className="h-100">
-                        <Card.Body>
-                          <div className="d-flex align-items-center justify-content-between mb-2">
-                            <h6 className="m-0 p-0">{data.name}</h6>
-                            <div className="dropdown-wrapper global-dropdown">
-                              <Dropdown>
-                                <Dropdown.Toggle as="div" className="icon">
-                                  <DotsHorizontalRounded />
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu className="content-wrapper p-0">
-                                  <TestsEdit data={data} />
-                                  <TestsDelete data={data} />
-                                </Dropdown.Menu>
-                              </Dropdown>
+              <div className="mt-2">
+                {tests && tests.length > 0 ? (
+                  <Row>
+                    {tests.map((data: any, index: Number) => (
+                      <Col md={3} key={data.id} style={{ marginTop: "10px" }}>
+                        <Card className="h-100">
+                          <Card.Body>
+                            <div className="d-flex align-items-center justify-content-between mb-2">
+                              <h6 className="m-0 p-0">{data.name}</h6>
+                              <div className="dropdown-wrapper global-dropdown">
+                                <Dropdown>
+                                  <Dropdown.Toggle as="div" className="icon">
+                                    <DotsHorizontalRounded />
+                                  </Dropdown.Toggle>
+                                  <Dropdown.Menu className="content-wrapper p-0">
+                                    <TestsEdit data={data} />
+                                    <TestsDelete data={data} />
+                                  </Dropdown.Menu>
+                                </Dropdown>
+                              </div>
                             </div>
-                          </div>
-                          <p className="mb-2">{data.description}</p>
-                          <p className="mb-2">{dateTimeFormat(data.datetime)}</p>
-                        </Card.Body>
-                      </Card>
-                    </Col>
-                  ))}
-              </Row>
-            </div>
-          </Container>
+                            <p className="mb-2">{data.description}</p>
+                            <p className="mb-2">{dateTimeFormat(data.datetime)}</p>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    ))}
+                  </Row>
+                ) : (
+                  <div className="text-center mt-5 mb-5">No Tests are available</div>
+                )}
+              </div>
+            </Container>
+          )}
         </div>
       </AdminLayout>
     </Page>
