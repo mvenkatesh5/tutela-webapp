@@ -288,7 +288,12 @@ const SessionCard = (props: any) => {
                       {/* <div className="description ms-2">- 18 yes, 2 awaiting</div> */}
                     </div>
                     <div className="mt-1">
-                      <IconRow data={studentImages} session={props.data} role="user" />
+                      <IconRow
+                        data={studentImages}
+                        session={props.data}
+                        user_role={props.role}
+                        role="user"
+                      />
                     </div>
                   </div>
                 </div>
@@ -299,9 +304,13 @@ const SessionCard = (props: any) => {
                     <User className="text-muted" width={20} />
                   </div>
                   <div className="">
-                    <IconRow data={teacherImages} session={props.data} role="teacher" />
+                    <IconRow
+                      data={teacherImages}
+                      session={props.data}
+                      user_role={props.role}
+                      role="teacher"
+                    />
                   </div>
-                  {/* <div className=" mt-2 ms-2">Hello</div> */}
                 </div>
               )}
             </div>

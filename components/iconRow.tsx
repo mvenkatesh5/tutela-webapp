@@ -61,8 +61,6 @@ const IconRow = (props: any) => {
       });
   };
 
-  console.log(props);
-
   return (
     <div>
       <div className="row-icons-root-alter">
@@ -72,13 +70,13 @@ const IconRow = (props: any) => {
               <div
                 className="row-icons-alter-wrapper"
                 onClick={() => {
-                  if (props.role === "user") openModal(item);
+                  if (props.user_role != "student" && props.role === "user") openModal(item);
                 }}
               >
                 <div className="row-icons-alter" title={item.name} key={i.toString()}>
                   {item ? <Image src={item.icon} alt="" /> : <Image src={defaultImageUrl} alt="" />}
 
-                  {props.role === "user" && (
+                  {props.user_role != "student" && props.role === "user" && (
                     <div className="row-attendance">
                       {props.data.going ? (
                         <CheckCircleFill className="text-success" />
@@ -89,7 +87,7 @@ const IconRow = (props: any) => {
                   )}
                 </div>
                 <div className="row-name">{item.name} </div>
-                {props.role === "user" && (
+                {props.user_role != "student" && props.role === "user" && (
                   <div className="row-coins">
                     <div className="row-coin-icon">
                       <Image src={"/tutela-coin.png"} alt="" />

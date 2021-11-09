@@ -208,7 +208,12 @@ const SessionDetailView = () => {
                     </div>
                     <div className="description">
                       {studentImages && studentImages.length > 0 && (
-                        <IconRow data={studentImages} session={sessionDetail} role="user" />
+                        <IconRow
+                          data={studentImages}
+                          session={sessionDetail}
+                          user_role={userRole}
+                          role="user"
+                        />
                       )}
                     </div>
                   </div>
@@ -225,6 +230,7 @@ const SessionDetailView = () => {
                         <IconRow
                           data={teacherImages}
                           sessionDetail={sessionDetail}
+                          user_role={userRole}
                           role="teacher"
                         />
                       )}
