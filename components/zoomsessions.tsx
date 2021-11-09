@@ -16,12 +16,22 @@ import { datePreview } from "@constants/global";
 import { CreateZoomMeeting, SessionUpdate, SessionUserUpdate } from "@lib/services/sessionservice";
 // api routes
 import { SESSION_ENDPOINT } from "@constants/routes";
+// global imports
+import { getCurrentUser } from "@constants/global";
 
 const ZoomSession = (props: any) => {
   // const router = useRouter();
   const [zoomData, setZoomData] = React.useState<any>();
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
   const [dropdownToggle, setDropdownToggle] = React.useState<any>(false);
+
+  const [loader, setLoader] = React.useState<any>(false);
+  const [currentUser, setCurrentUser] = React.useState<any>();
+
+  React.useEffect(() => {
+    let authDetail = getCurrentUser();
+    if (authDetail) setCurrentUser(authDetail);
+  }, []);
 
   React.useEffect(() => {
     if (props.data && props.data.data && props.data.data.zoom) {
@@ -146,20 +156,34 @@ const ZoomSession = (props: any) => {
   };
 
   const userAttendanceRedirection = (url: any) => {
-    // if (props.sessionUsers && props.sessionUsers.length > 0) {
-    //   const payload = {};
-    //   SessionUserUpdate(payload)
-    //     .then((response) => {
-    //       console.log(response);
-    //       if (url) window.open(url, "_blank");
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // } else {
-    //   if (url) window.open(url, "_blank");
-    // }
-    if (url) window.open(url, "_blank");
+    setLoader(true);
+    if (props.data && props.data.sessionUsers && props.data.sessionUsers.length > 0) {
+      let currentUserSession: any = props.data.sessionUsers.find(
+        (_ele: any) => _ele.user_id === currentUser.user.id
+      );
+      if (currentUserSession && !currentUserSession.going) {
+        const payload = {
+          id: currentUserSession.id,
+          going: true,
+        };
+        SessionUserUpdate(payload)
+          .then((response) => {
+            console.log(response);
+            if (url) window.open(url, "_blank");
+            setLoader(false);
+          })
+          .catch((error) => {
+            console.log(error);
+            setLoader(false);
+          });
+      } else {
+        if (url) window.open(url, "_blank");
+        setLoader(false);
+      }
+    } else {
+      if (url) window.open(url, "_blank");
+      setLoader(false);
+    }
   };
 
   return (
@@ -175,7 +199,11 @@ const ZoomSession = (props: any) => {
                       date={props.data.start_datetime}
                       time={convertTimeToSeconds(props.data.start_datetime)}
                     >
-                      <div onClick={() => userAttendanceRedirection(zoomData.join_url)}>
+                      <div
+                        onClick={() => {
+                          if (!loader) userAttendanceRedirection(zoomData.join_url);
+                        }}
+                      >
                         <Badge className="bg-success hover-cursor">Join Meeting</Badge>
                       </div>
                       {/* <a href={zoomData.join_url} target="_blank">

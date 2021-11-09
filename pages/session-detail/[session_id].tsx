@@ -118,6 +118,7 @@ const SessionDetailView = () => {
       sessionDetail.session_users.map((data: any) => {
         if (data.as_role === 0) {
           learners.push({
+            user_id: data.user.id,
             id: data.id,
             coins: data.coins,
             going: data.going,
@@ -126,6 +127,7 @@ const SessionDetailView = () => {
           });
         } else {
           teachers.push({
+            user_id: data.user.id,
             id: data.id,
             coins: data.coins,
             going: data.going,
