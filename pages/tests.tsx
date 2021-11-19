@@ -15,7 +15,7 @@ import TestsCreate from "@components/tests/create";
 import TestsEdit from "@components/tests/edit";
 import TestsDelete from "@components/tests/delete";
 // api routes
-import { TESTS_ENDPOINT } from "@constants/routes";
+import { TESTS_ENDPOINT, PRODUCTS_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 // hoc
@@ -34,6 +34,8 @@ const Tests = () => {
     refreshInterval: 0,
   });
 
+  const { data: productsList, error: productsListError } = useSWR(PRODUCTS_ENDPOINT, APIFetcher);
+
   return (
     <Page meta={meta}>
       <Head>
@@ -51,7 +53,7 @@ const Tests = () => {
                   <h5 className="m-0 p-0">Tests</h5>
                 </div>
                 <div>
-                  <TestsCreate />
+                  <TestsCreate products={productsList} />
                 </div>
               </div>
               <div className="mt-2">
@@ -69,7 +71,7 @@ const Tests = () => {
                                     <DotsHorizontalRounded />
                                   </Dropdown.Toggle>
                                   <Dropdown.Menu className="content-wrapper p-0">
-                                    <TestsEdit data={data} />
+                                    <TestsEdit data={data} products={productsList} />
                                     <TestsDelete data={data} />
                                   </Dropdown.Menu>
                                 </Dropdown>

@@ -5,12 +5,13 @@ import { Button, Form, Modal } from "react-bootstrap";
 import { mutate } from "swr";
 // components
 import TestsForm from "./testsForm";
+import ProductDropdown from "./ProductDropdown";
 // api routes
 import { TESTS_ENDPOINT } from "@constants/routes";
 // api services
 import { TestsCreate } from "@lib/services/tests.service";
 
-const TestsCreateView = () => {
+const TestsCreateView = (props: any) => {
   const [buttonLoader, setButtonLoader] = React.useState(false);
   const [modal, setModal] = React.useState(false);
   const closeModal = () => {
@@ -19,6 +20,7 @@ const TestsCreateView = () => {
       name: "",
       description: "",
       datetime: new Date(),
+      product: "",
       data: {},
     });
   };
@@ -28,10 +30,14 @@ const TestsCreateView = () => {
     name: "",
     description: "",
     datetime: new Date(),
+    product: "",
     data: {},
   });
   const handleFormData = (value: any) => {
     setFormData(value);
+  };
+  const handleFormKeyData = (key: any, value: any) => {
+    setFormData({ ...formData, [key]: value });
   };
 
   const testsCreate = (event: any) => {
@@ -65,6 +71,11 @@ const TestsCreateView = () => {
         <Modal.Body>
           <Form onSubmit={testsCreate}>
             <TestsForm data={formData} handleData={handleFormData} />
+            <ProductDropdown
+              data={formData}
+              products={props.products}
+              handleData={handleFormKeyData}
+            />
             <Button
               variant="outline-primary"
               className="btn-sm"

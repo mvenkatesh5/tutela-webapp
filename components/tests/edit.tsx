@@ -5,6 +5,7 @@ import { Button, Form, Modal } from "react-bootstrap";
 import { mutate } from "swr";
 // components
 import TestsForm from "./testsForm";
+import ProductDropdown from "./ProductDropdown";
 // api routes
 import { TESTS_ENDPOINT } from "@constants/routes";
 // api services
@@ -20,9 +21,13 @@ const TestsEditView = (props: any) => {
   const handleFormData = (value: any) => {
     setFormData(value);
   };
+  const handleFormKeyData = (key: any, value: any) => {
+    setFormData({ ...formData, [key]: value });
+  };
 
   React.useEffect(() => {
     if (props.data) {
+      console.log(props.data);
       setFormData(props.data);
     }
   }, [props.data]);
@@ -61,6 +66,11 @@ const TestsEditView = (props: any) => {
             {formData && (
               <div>
                 <TestsForm data={formData} handleData={handleFormData} />
+                <ProductDropdown
+                  data={formData}
+                  products={props.products}
+                  handleData={handleFormKeyData}
+                />
                 <Button
                   variant="outline-primary"
                   className="btn-sm"
