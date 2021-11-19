@@ -76,7 +76,7 @@ const RequestedSessionModal = (props: any) => {
         <Modal.Body>
           <Container>
             <div className="d-flex justify-content-between align-items-center mb-3">
-              <h5 className="m-0 p-0">Rate your Sessions</h5>
+              <h5 className="m-0 p-0">Manage Sessions</h5>
               <div style={{ cursor: "pointer" }} onClick={closeModal}>
                 Close
               </div>

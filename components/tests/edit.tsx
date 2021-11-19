@@ -17,7 +17,7 @@ const TestsEditView = (props: any) => {
   const closeModal = () => setModal(false);
   const openModal = () => setModal(true);
 
-  const [formData, setFormData] = React.useState();
+  const [formData, setFormData] = React.useState<any>();
   const handleFormData = (value: any) => {
     setFormData(value);
   };
