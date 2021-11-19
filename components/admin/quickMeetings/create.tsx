@@ -52,50 +52,50 @@ const QuickMeetingCreateView = () => {
     event.preventDefault();
     setButtonLoader(true);
 
-    // if (parseInt(quickMeetingsData.minutes) > 0) {
-    //   let end_time: any = new Date();
-    //   end_time.setMinutes(end_time.getMinutes() + parseInt(quickMeetingsData.minutes));
+    if (parseInt(quickMeetingsData.minutes) > 0) {
+      let end_time: any = new Date();
+      end_time.setMinutes(end_time.getMinutes() + parseInt(quickMeetingsData.minutes));
 
-    //   const payload = {
-    //     topic: quickMeetingsData.name ? quickMeetingsData.name : "New Meeting",
-    //     start_datetime: new Date().toISOString().replace(/.\d+Z$/g, "Z"),
-    //     end_datetime: new Date(end_time).toISOString().replace(/.\d+Z$/g, "Z"),
-    //   };
+      const payload = {
+        topic: quickMeetingsData.name ? quickMeetingsData.name : "New Meeting",
+        start_datetime: new Date().toISOString().replace(/.\d+Z$/g, "Z"),
+        end_datetime: new Date(end_time).toISOString().replace(/.\d+Z$/g, "Z"),
+      };
 
-    //   CreateZoomMeeting(payload)
-    //     .then((response) => {
-    //       if (response) {
-    //         const meetingPayload = {
-    //           name: quickMeetingsData.name,
-    //           description: quickMeetingsData.description,
-    //           start_time: quickMeetingsData.start_time,
-    //           end_date: quickMeetingsData.end_date,
-    //           data: { zoom: payload, link: "" },
-    //           created_by: getCurrentUser() && getCurrentUser().user && getCurrentUser().user.id,
-    //         };
-    //         QuickMeetingCreate(meetingPayload)
-    //           .then((res) => {
-    //             mutate(
-    //               QUICK_MEETINGS_ENDPOINT,
-    //               async (elements: any) => {
-    //                 return [...elements, res];
-    //               },
-    //               false
-    //             );
-    //             closeModal();
-    //           })
-    //           .catch((errors) => {
-    //             console.log(errors);
-    //           });
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // } else {
-    //   alert("Please select Minutes greater than zero");
-    //   setButtonLoader(false);
-    // }
+      CreateZoomMeeting(payload)
+        .then((response) => {
+          if (response) {
+            const meetingPayload = {
+              name: quickMeetingsData.name,
+              description: quickMeetingsData.description,
+              start_time: quickMeetingsData.start_time,
+              end_date: quickMeetingsData.end_date,
+              data: { zoom: payload, link: "" },
+              created_by: getCurrentUser() && getCurrentUser().user && getCurrentUser().user.id,
+            };
+            QuickMeetingCreate(meetingPayload)
+              .then((res) => {
+                mutate(
+                  QUICK_MEETINGS_ENDPOINT,
+                  async (elements: any) => {
+                    return [...elements, res];
+                  },
+                  false
+                );
+                closeModal();
+              })
+              .catch((errors) => {
+                console.log(errors);
+              });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      alert("Please select Minutes greater than zero");
+      setButtonLoader(false);
+    }
   };
 
   return (
