@@ -26,11 +26,11 @@ const AdminLayout = (props: any) => {
         </div>
         <div className="bottom-layout">
           {tokenDetails && tokenDetails.info && tokenDetails.info.role === 2 ? (
-            <div className="left-layout active">
+            <div className="left-layout">
               <SidebarView />
             </div>
           ) : (
-            <div className="left-layout active">
+            <div className="left-layout">
               <UserSidebarView />
             </div>
           )}

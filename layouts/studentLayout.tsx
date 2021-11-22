@@ -60,7 +60,7 @@ const StudentLayout = (props: any) => {
           <DashboardNav />
         </div>
         <div className="bottom-bar">
-          <div className="t-side-bar active">
+          <div className="t-side-bar">
             <UserSidebar />
           </div>
           <div className="t-right-bar">

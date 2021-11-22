@@ -271,9 +271,9 @@ const UserAdminReportsView = () => {
                 {/* user details */}
                 {userDetailList && (
                   <div className="d-flex align-items-center mb-3" style={{ gap: "10px" }}>
-                    <div>
+                    {/* <div>
                       <ArrowLeftShort width="24" />
-                    </div>
+                    </div> */}
                     <div
                       style={{
                         border: "1px solid #ccc",

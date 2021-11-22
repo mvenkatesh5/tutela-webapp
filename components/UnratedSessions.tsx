@@ -17,7 +17,7 @@ const UnratedSessions = (props: any) => {
 
   return (
     <div>
-      <Modal size={"xl"} show={modal} onHide={closeModal} centered backdrop={"static"}>
+      <Modal size={"lg"} show={modal} onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>
           <Container>
             <h5 className="mb-3">Rate your Sessions</h5>

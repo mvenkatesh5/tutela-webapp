@@ -15,7 +15,7 @@ import { logout } from "lib/cookie";
 // }
 
 axios.defaults.baseURL = BASE_PROD;
-// axios.defaults.baseURL = BASE_LOCAL;
+axios.defaults.baseURL = BASE_LOCAL;
 
 export function setAxiosHeader(token: string) {
   if (token) {

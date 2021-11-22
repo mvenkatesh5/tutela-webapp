@@ -76,17 +76,14 @@ const UnratedSessionCard = (props: any) => {
           <div className="ms-auto d-flex align-items-center gap-3">User Rating submitting...</div>
         ) : (
           <div className="ms-auto d-flex align-items-center gap-3">
-            <div className="session-unrated-module" onClick={() => sessionReportUpdate(10)}>
-              {/* Sad */}
-              <EmojiFrown />
+            <div className="session-unrated-module" onClick={() => sessionReportUpdate(50)}>
+              <EmojiSmile />
             </div>
             <div className="session-unrated-module" onClick={() => sessionReportUpdate(30)}>
-              {/* Better */}
               <EmojiExpressionless />
             </div>
-            <div className="session-unrated-module" onClick={() => sessionReportUpdate(50)}>
-              {/* Best */}
-              <EmojiSmile />
+            <div className="session-unrated-module" onClick={() => sessionReportUpdate(10)}>
+              <EmojiFrown />
             </div>
           </div>
         )}
