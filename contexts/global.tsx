@@ -9,6 +9,7 @@ const initialState = {
   toastAlert: [],
   unratedSessionStatus: false,
   unratedSessions: [],
+  sidebarToggle: false,
 };
 
 const reducer = (state: any, action: any) => {
@@ -33,6 +34,11 @@ const reducer = (state: any, action: any) => {
       return {
         ...state,
         unratedSessions: action.payload,
+      };
+    case "SIDEBAR_TOGGLE":
+      return {
+        ...state,
+        sidebarToggle: action.payload,
       };
     default:
       return state;

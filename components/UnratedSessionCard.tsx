@@ -77,13 +77,16 @@ const UnratedSessionCard = (props: any) => {
         ) : (
           <div className="ms-auto d-flex align-items-center gap-3">
             <div className="session-unrated-module" onClick={() => sessionReportUpdate(50)}>
-              <EmojiSmile />
+              {/* <EmojiSmile /> */}
+              {String.fromCodePoint(parseInt("128512"))}
             </div>
             <div className="session-unrated-module" onClick={() => sessionReportUpdate(30)}>
-              <EmojiExpressionless />
+              {/* <EmojiExpressionless /> */}
+              {String.fromCodePoint(parseInt("128528"))}
             </div>
             <div className="session-unrated-module" onClick={() => sessionReportUpdate(10)}>
-              <EmojiFrown />
+              {/* <EmojiFrown /> */}
+              {String.fromCodePoint(parseInt("128577"))}
             </div>
           </div>
         )}
@@ -91,5 +94,9 @@ const UnratedSessionCard = (props: any) => {
     </div>
   );
 };
+
+// 128512
+// 128528
+// 128577
 
 export default UnratedSessionCard;

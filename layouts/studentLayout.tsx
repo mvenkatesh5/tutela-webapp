@@ -60,7 +60,7 @@ const StudentLayout = (props: any) => {
           <DashboardNav />
         </div>
         <div className="bottom-bar">
-          <div className="t-side-bar">
+          <div className={`t-side-bar ${globalState.sidebarToggle && "active"}`}>
             <UserSidebar />
           </div>
           <div className="t-right-bar">
