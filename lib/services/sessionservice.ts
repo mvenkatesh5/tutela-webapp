@@ -18,7 +18,7 @@ export const SessionBulkCreate = async (data: any) => {
   try {
     const response = await axios.post(BULK_SESSION_ENDPOINT, data);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };
@@ -27,7 +27,7 @@ export const SessionCreate = async (data: any) => {
   try {
     const response = await axios.post(SESSION_ENDPOINT, data);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };
@@ -36,7 +36,7 @@ export const SessionUpdate = async (data: any) => {
   try {
     const response = await axios.put(SESSION_WITH_ID_ENDPOINT(data.id), data);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };
@@ -45,7 +45,7 @@ export const SessionWithoutIdUpdate = async (data: any) => {
   try {
     const response = await axios.post(SESSION_UPDATE_ENDPOINT, data);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };
@@ -54,7 +54,7 @@ export const SessionBulkUpdate = async (data: any) => {
   try {
     const response = await axios.post(SESSION_BULK_UPDATE_ENDPOINT, data);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };
@@ -63,7 +63,7 @@ export const SessionDelete = async (id: Number) => {
   try {
     const response = await axios.delete(SESSION_WITH_ID_ENDPOINT(id));
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };
@@ -71,7 +71,7 @@ export const BulkSessionDelete = async (data: any) => {
   try {
     const response = await axios.post(BULK_SESSION_DELETE_ENDPOINT, data);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };
@@ -80,7 +80,7 @@ export const SessionUserCreate = async (data: any) => {
   try {
     const response = await axios.post(SESSION_USER_ENDPOINT, data);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };
@@ -99,11 +99,20 @@ export const SessionBulkUserCreate = async (data: any) => {
     });
 };
 
+export const SessionUserUpdate = async (data: any) => {
+  try {
+    const response = await axios.put(SESSION_USER_WITH_ID_ENDPOINT(data.id), data);
+    return response.data;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
 export const SessionUserDelete = async (data: any) => {
   try {
     const response = await axios.delete(SESSION_USER_WITH_ID_ENDPOINT(data));
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };
@@ -126,7 +135,7 @@ export const CreateZoomMeeting = async (data: any) => {
   try {
     const response = await axios.post(ZOOM_MEETING_ENDPOINT, data);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };
@@ -135,7 +144,7 @@ export const SessionAssetCreate = async (data: any) => {
   try {
     const response = await axios.post(SESSION_ASSET_ENDPOINT, data);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };
@@ -144,7 +153,7 @@ export const SessionAssetEdit = async (data: any) => {
   try {
     const response = await axios.put(SESSION_ASSET_WITH_ID_ENDPOINT(data.id), data);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };

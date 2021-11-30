@@ -1,11 +1,12 @@
 import React from "react";
 // react bootstrap
-import { Container, Button, Badge, Row, Col, Form, Tab, Nav } from "react-bootstrap";
+import { Container, Button, Badge, Row, Col, Form, Tab, Nav, Modal, Image } from "react-bootstrap";
 // swr
 import useSWR, { mutate } from "swr";
 // components
 import Page from "@components/page";
 import { SlateEditor } from "@components/SlateEditor";
+import ReportsForm from "@components/reports/reportsForm";
 // layouts
 import StudentLayout from "@layouts/studentLayout";
 // cookie
@@ -64,7 +65,47 @@ const TeacherReport = () => {
     { refreshInterval: 0 }
   );
 
-  console.log("mentorReportsList", mentorReportsList);
+  const [reportLoader, setReportLoader] = React.useState<any>(false);
+
+  const [reportEditModalContent, setReportEditModalContent] = React.useState<any>();
+
+  const [reportEditModal, setReportEditModal] = React.useState<any>(false);
+  const openReportModal = (report: any) => {
+    setReportEditModal(true);
+    setReportEditModalContent({
+      id: report.id,
+      content: report.report && report.report.content ? report.report.content : "",
+      test_details: report.report && report.report.test_details ? report.report.test_details : [],
+    });
+  };
+  const closeReportModal = () => {
+    setReportEditModal(false);
+    setReportEditModalContent("");
+  };
+
+  const updateReport = (e: any) => {
+    e.preventDefault();
+
+    setReportLoader(true);
+
+    const payload = {
+      id: reportEditModalContent.id,
+      report: {
+        content: reportEditModalContent.content,
+        test_details: reportEditModalContent.test_details,
+      },
+    };
+
+    ReportEdit(payload)
+      .then((res) => {
+        mutate([MENTOR_REPORT_ENDPOINT, tabKey]);
+        closeReportModal();
+        setReportLoader(false);
+      })
+      .catch((error) => {
+        setReportLoader(false);
+      });
+  };
 
   const RenderTabItem = ({ content, type }: any) => {
     const [buttonLoader, setButtonLoader] = React.useState<any>(false);
@@ -83,7 +124,6 @@ const TeacherReport = () => {
           mutate([MENTOR_REPORT_ENDPOINT, tabKey]);
         })
         .catch((error) => {
-          console.log(error);
           setButtonLoader(null);
         });
     };
@@ -104,7 +144,15 @@ const TeacherReport = () => {
     return (
       <div>
         {content.map((element: any, index: any) => (
-          <div className="border-bottom pt-3 pb-3">
+          <div
+            key={`element-${index}`}
+            className="mb-3"
+            style={{
+              border: "1px solid #e2e2e2",
+              padding: "16px 20px",
+              borderRadius: "4px",
+            }}
+          >
             {element.user && (
               <div className="d-flex align-items-center mb-2" style={{ gap: "10px" }}>
                 <div
@@ -116,7 +164,7 @@ const TeacherReport = () => {
                     borderRadius: "50px",
                   }}
                 >
-                  <img className="rounded-circle img-fluid" src={defaultImageUrl} />
+                  <Image alt="" className="rounded-circle img-fluid" src={defaultImageUrl} />
                 </div>
                 <h6 className="m-0" style={{ fontSize: "14px" }}>
                   {element.user.username} ({element.user.email})
@@ -128,6 +176,15 @@ const TeacherReport = () => {
                   <Badge className="bg-secondary">{element.flags}</Badge>
                 </div>
                 <div className="ms-auto">
+                  <Button
+                    variant="outline-secondary"
+                    className="btn-sm"
+                    onClick={() => openReportModal(element)}
+                  >
+                    Edit
+                  </Button>
+                </div>
+                <div className="ml-2">
                   <Button
                     className="btn-sm"
                     onClick={() => reportUpdate(element.id, type == "published" ? false : true)}
@@ -143,20 +200,29 @@ const TeacherReport = () => {
               </div>
             )}
 
+            {renderSlateContent(element.report.content) && (
+              <div className="mt-3 mb-3">
+                <SlateEditor
+                  readOnly={true}
+                  initialValue={renderSlateContent(element.report.content)}
+                />
+              </div>
+            )}
+
             {element.report.test_details && element.report.test_details.length > 0 && (
-              <div style={{ padding: "10px 10px" }}>
-                <Row style={{ gap: "20px" }}>
+              <div>
+                <h6>Test Details</h6>
+                <Row className="ms-1 me-1">
                   {element.report.test_details.map((element: any, index: any) => (
-                    <Col
-                      key={`report-test-details-${index}`}
-                      md={4}
-                      style={{
-                        border: "1px solid #e2e2e2",
-                        padding: "10px 12px",
-                        borderRadius: "4px",
-                      }}
-                    >
-                      <div style={{ gap: "10px" }}>
+                    <Col key={`report-test-details-${index}`} md={3} className="ps-0">
+                      <div
+                        style={{
+                          border: "1px solid #e2e2e2",
+                          marginBottom: "10px",
+                          padding: "10px 12px",
+                          borderRadius: "4px",
+                        }}
+                      >
                         <h5 className="m-0 p-0 mb-2">{element.name ? element.name : ""}</h5>
                         <div>
                           <Badge className="bg-info">{element.date ? element.date : ""}</Badge>
@@ -170,15 +236,6 @@ const TeacherReport = () => {
                 </Row>
               </div>
             )}
-
-            <div>
-              {renderSlateContent(element.report.content) && (
-                <SlateEditor
-                  readOnly={true}
-                  initialValue={renderSlateContent(element.report.content)}
-                />
-              )}
-            </div>
           </div>
         ))}
       </div>
@@ -243,6 +300,44 @@ const TeacherReport = () => {
               </Tab.Container>
             </Container>
           </StudentLayout>
+
+          <Modal
+            show={reportEditModal}
+            size="lg"
+            onHide={closeReportModal}
+            centered
+            backdrop={"static"}
+          >
+            <Modal.Body>
+              <Form onSubmit={updateReport}>
+                <h5 className="mb-3">Edit Report</h5>
+                {reportEditModalContent && (
+                  <div>
+                    <ReportsForm
+                      data={reportEditModalContent}
+                      handleData={setReportEditModalContent}
+                    />
+                    <Button
+                      variant="outline-primary"
+                      className="btn-sm"
+                      type="submit"
+                      style={{ marginRight: "10px" }}
+                      disabled={reportLoader}
+                    >
+                      {reportLoader ? "Updating Report..." : "Update Report"}
+                    </Button>
+                    <Button
+                      variant="outline-secondary"
+                      className="btn-sm"
+                      onClick={closeReportModal}
+                    >
+                      Close
+                    </Button>
+                  </div>
+                )}
+              </Form>
+            </Modal.Body>
+          </Modal>
         </>
       </Page>
     </>

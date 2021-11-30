@@ -41,32 +41,32 @@ const PdfRender = () => {
 
   return (
     <Page meta={meta}>
-    <div>
-      <Head>
-        <title>Pdf Render</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <AdminLayout>
-        <div className="right-layout">
-          <Container>
-            {!nodeDetailError && !nodeDetail ? (
-              <div className="text-center text-muted mt-5 mb-5">Loading...</div>
-            ) : (
-              <div>
-                {nodeDetail.data.url && (
-                  <div>
-                    <h5 className="mt-3 mb-3">{nodeDetail.title}</h5>
-                    <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
-                      <PDFRenderView pdf_url={nodeDetail.data.url} />
-                    </Worker>
-                  </div>
-                )}
-              </div>
-            )}
-          </Container>
-        </div>
-      </AdminLayout>
-    </div>
+      <div>
+        <Head>
+          <title>Pdf Render</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <AdminLayout>
+          <div className="right-layout">
+            <Container>
+              {!nodeDetailError && !nodeDetail ? (
+                <div className="text-center text-muted mt-5 mb-5">Loading...</div>
+              ) : (
+                <div>
+                  {nodeDetail.data.url && (
+                    <div>
+                      <h5 className="mt-3 mb-3">{nodeDetail.title}</h5>
+                      <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
+                        <PDFRenderView pdf_url={nodeDetail.data.url} />
+                      </Worker>
+                    </div>
+                  )}
+                </div>
+              )}
+            </Container>
+          </div>
+        </AdminLayout>
+      </div>
     </Page>
   );
 };

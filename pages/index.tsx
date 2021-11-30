@@ -18,10 +18,10 @@ const Home = () => {
     <Page meta={meta}>
       <AuthWrapper>
         <h3 className="text-dark fw-bold mb-4">Welcome to Tutela</h3>
-        <Link href="/signin">
+        <Link href="/signin" passHref>
           <Button className="w-100 rounded-2 shadow-sm mt-3">Sign In</Button>
         </Link>
-        <Link href="/signup">
+        <Link href="/signup" passHref>
           <Button className="w-100 rounded-2 shadow-sm mt-3">Sign Up</Button>
         </Link>
       </AuthWrapper>

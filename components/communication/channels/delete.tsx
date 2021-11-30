@@ -66,7 +66,12 @@ const ChannelDeleteView = (props: any) => {
             </div>
             <h6>
               Are you sure to delete the Channel
-              <strong> "{props.data.name ? props.data.name : ""}"</strong>
+              <strong>
+                {" "}
+                {`"`}
+                {props.data.name ? props.data.name : ""}
+                {`"`}
+              </strong>
             </h6>
             <div>
               <Button

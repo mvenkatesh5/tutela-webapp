@@ -9,6 +9,7 @@ const BookCard = (props: any) => {
             <Image
               src="https://www.tutelaprep.com/assets/images/logo-tutela.png"
               className="image"
+              alt=""
             />
           </div>
           <div>

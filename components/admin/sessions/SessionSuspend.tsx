@@ -87,7 +87,9 @@ const SessionSuspendView = (props: any) => {
               <strong className="text-primary">
                 {!validateSessionSuspend(props.data.details) ? " UnSuspend " : " Suspend "}
               </strong>
-              this session "<strong>{props.data.title}</strong>"
+              this session {`"`}
+              <strong>{props.data.title}</strong>
+              {`"`}
             </h6>
             <Button
               variant="outline-primary"

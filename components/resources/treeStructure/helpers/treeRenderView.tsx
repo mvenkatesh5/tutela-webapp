@@ -7,7 +7,7 @@ import TreeChildrenRenderView from "./treeCardView";
 const TreeRenderView = ({
   tree,
   level,
-  children,
+  t_children,
   root_node_id,
   parent,
   admin,
@@ -28,12 +28,12 @@ const TreeRenderView = ({
               tree.map((initialRoot: any, initialRootIndex: any) => (
                 <div
                   key={`tree-structure-level-${level}-${initialRootIndex}`}
-                  className={`${children ? "children" : ""}`}
+                  className={`${t_children ? "children" : ""}`}
                 >
                   <TreeChildrenRenderView
                     tree={initialRoot}
                     level={`${level}-${initialRootIndex}`}
-                    children={children}
+                    t_children={t_children}
                     root_node_id={root_node_id}
                     parent={parent}
                     index={initialRootIndex}

@@ -138,7 +138,7 @@ const SessionBulkCreateView = (props: any) => {
             break;
           }
         }
-      } catch (err) {
+      } catch (err: any) {
         console.log("Error: " + err.message);
       }
 

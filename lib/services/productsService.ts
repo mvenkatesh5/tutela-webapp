@@ -12,7 +12,7 @@ export const ProductsCreate = async (data: any) => {
   try {
     const response = await axios.post(PRODUCTS_ENDPOINT, data);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };
@@ -21,7 +21,7 @@ export const ProductsUpdate = async (data: any) => {
   try {
     const response = await axios.put(PRODUCTS_WITH_ID_ENDPOINT(data.id), data);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };
@@ -30,7 +30,7 @@ export const ProductsDelete = async (id: Number) => {
   try {
     const response = await axios.delete(PRODUCTS_WITH_ID_ENDPOINT(id));
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };
@@ -39,7 +39,7 @@ export const AddUserUnderProduct = async (data: any) => {
   try {
     const response = await axios.post(PRODUCT_USER_ENDPOINT(data.product));
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };
@@ -48,7 +48,7 @@ export const AddResourceUnderProduct = async (data: any) => {
   try {
     const response = await axios.post(PRODUCT_RESOURCES_ENDPOINT(data.product), data);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };
@@ -58,7 +58,7 @@ export const AddProductUnderUser = async (data: any) => {
   try {
     const response = await axios.post(PRODUCT_USER_ENDPOINT(data.product), data);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };
@@ -67,7 +67,7 @@ export const RemoveProductUnderUser = async (product_id: any) => {
   try {
     const response = await axios.delete(PRODUCT_USER_DELETE_ENDPOINT(product_id));
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };

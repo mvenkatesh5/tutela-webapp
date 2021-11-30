@@ -236,7 +236,6 @@ const SessionCreateView = (props: any) => {
                   <Form.Label>Select Product</Form.Label>
                   <Form.Control
                     as="select"
-                    required
                     size="sm"
                     className="mb-2"
                     value={sessionData.product_selected}

@@ -207,7 +207,7 @@ const BulkSchedules = () => {
                 break;
               }
             }
-          } catch (err) {
+          } catch (err: any) {
             console.log("Error: " + err.message);
           }
 
@@ -415,221 +415,224 @@ const BulkSchedules = () => {
 
   return (
     <Page meta={meta}>
-    <div>
-      <AdminLayout>
-        <div className="right-layout">
-          <Container className="mt-4">
-            <div className="card shadow">
-              <div className="card-header bg-white fw-bold py-3">
-                <h4 className="m-0">Schedule recurring sessions.</h4>
-              </div>
-              <div className="card-body">
-                <SessionForm
-                  data={sessionData}
-                  handleData={handleSessionData}
-                  view_end_date={true}
-                  role={`admin`}
-                />
-                <SessionUser users={userList} handleData={handleSessionListeners} />
-                <Tabs activeKey={sessionData.cornJobKind} onSelect={(k) => handleSessionTabData(k)}>
-                  <Tab eventKey="daily" title={`Daily`}>
-                    <div className="pt-2 pb-2">
-                      <div className="calender-flex-container">
-                        <div className="calender-flex-item pt-3">
-                          <Form.Check
-                            name="daily"
-                            type="radio"
-                            label="Everyday"
-                            id="everyday"
-                            value="everyday"
-                            onChange={(e) => {
-                              handleDailyData("everyday");
-                            }}
-                            checked={validateDailyData("everyday")}
-                          />
-                          <Form.Check
-                            name="daily"
-                            type="radio"
-                            label="Every weekday"
-                            id="weekday"
-                            value="weekday"
-                            onChange={(e) => {
-                              handleDailyData("weekday");
-                            }}
-                            checked={validateDailyData("weekday")}
-                          />
-                          <Form.Check
-                            name="daily"
-                            type="radio"
-                            label="Every weekend"
-                            id="weekend"
-                            value="weekend"
-                            onChange={(e) => {
-                              handleDailyData("weekend");
-                            }}
-                            checked={validateDailyData("weekend")}
-                          />
+      <div>
+        <AdminLayout>
+          <div className="right-layout">
+            <Container className="mt-4">
+              <div className="card shadow">
+                <div className="card-header bg-white fw-bold py-3">
+                  <h4 className="m-0">Schedule recurring sessions.</h4>
+                </div>
+                <div className="card-body">
+                  <SessionForm
+                    data={sessionData}
+                    handleData={handleSessionData}
+                    view_end_date={true}
+                    role={`admin`}
+                  />
+                  <SessionUser users={userList} handleData={handleSessionListeners} />
+                  <Tabs
+                    activeKey={sessionData.cornJobKind}
+                    onSelect={(k) => handleSessionTabData(k)}
+                  >
+                    <Tab eventKey="daily" title={`Daily`}>
+                      <div className="pt-2 pb-2">
+                        <div className="calender-flex-container">
+                          <div className="calender-flex-item pt-3">
+                            <Form.Check
+                              name="daily"
+                              type="radio"
+                              label="Everyday"
+                              id="everyday"
+                              value="everyday"
+                              onChange={(e) => {
+                                handleDailyData("everyday");
+                              }}
+                              checked={validateDailyData("everyday")}
+                            />
+                            <Form.Check
+                              name="daily"
+                              type="radio"
+                              label="Every weekday"
+                              id="weekday"
+                              value="weekday"
+                              onChange={(e) => {
+                                handleDailyData("weekday");
+                              }}
+                              checked={validateDailyData("weekday")}
+                            />
+                            <Form.Check
+                              name="daily"
+                              type="radio"
+                              label="Every weekend"
+                              id="weekend"
+                              value="weekend"
+                              onChange={(e) => {
+                                handleDailyData("weekend");
+                              }}
+                              checked={validateDailyData("weekend")}
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </Tab>
-                  <Tab eventKey="weekly" title={`Weekly`}>
-                    <div className="pt-2 pb-2">
-                      <div className="calender-flex-container pt-3">
-                        {calendarDays &&
-                          calendarDays.map((day: any, dayIndex: any) => (
-                            <div key={`weekly-${day}`} className="calender-flex-item">
-                              <Form.Check
-                                type="checkbox"
-                                id={`weekly-${day}-${uuidV4()}`}
-                                label={day}
-                                value={day}
-                                onChange={(e) => handleWeeklyData(day)}
-                                checked={validateWeeklyData(day)}
-                              />
-                            </div>
-                          ))}
+                    </Tab>
+                    <Tab eventKey="weekly" title={`Weekly`}>
+                      <div className="pt-2 pb-2">
+                        <div className="calender-flex-container pt-3">
+                          {calendarDays &&
+                            calendarDays.map((day: any, dayIndex: any) => (
+                              <div key={`weekly-${day}`} className="calender-flex-item">
+                                <Form.Check
+                                  type="checkbox"
+                                  id={`weekly-${day}-${uuidV4()}`}
+                                  label={day}
+                                  value={day}
+                                  onChange={(e) => handleWeeklyData(day)}
+                                  checked={validateWeeklyData(day)}
+                                />
+                              </div>
+                            ))}
+                        </div>
                       </div>
-                    </div>
-                  </Tab>
-                  <Tab eventKey="monthly" title={`Monthly`}>
-                    <div className="pt-2 pb-2">
-                      <div className="calender-flex-container">
-                        <div className="calender-flex-item">
-                          <Form.Check
-                            name="monthly"
-                            type="radio"
-                            label=""
-                            id="monthly-1"
-                            value="c1"
-                            onChange={(e) => {
-                              handleMonthlyData("c1", "category", "c1");
-                            }}
-                            checked={validateMonthlyData("c1")}
-                          />
-                        </div>
-                        <div className="calender-flex-item">Day</div>
-                        <div className="calender-flex-item mr-4">
-                          <Form.Control
-                            type="text"
-                            value={monthlyData.c1date}
-                            onChange={(e) => {
-                              handleMonthlyData("c1", "c1date", e.target.value);
-                            }}
-                          />
-                        </div>
-                        <div className="calender-flex-item">of every</div>
-                        <div className="calender-flex-item">
-                          <Form.Control
-                            as="select"
-                            value={monthlyData.c1month}
-                            onChange={(e) => {
-                              handleMonthlyData("c1", "c1month", e.target.value);
-                            }}
-                          >
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="6">6</option>
-                          </Form.Control>
-                        </div>
-                        <div className="calender-flex-item">month(s)</div>
-                      </div>
-                      <div className="calender-flex-container">
-                        <div className="calender-flex-item">
-                          <Form.Check
-                            name="monthly"
-                            type="radio"
-                            label=""
-                            id="monthly-2"
-                            value="c2"
-                            onChange={(e) => {
-                              handleMonthlyData("c2", "category", "c2");
-                            }}
-                            checked={validateMonthlyData("c2")}
-                          />
-                        </div>
-                        <div className="calender-flex-item">The</div>
-                        <div className="calender-flex-item">
-                          <Form.Control
-                            as="select"
-                            value={monthlyData.c2week}
-                            onChange={(e) => {
-                              handleMonthlyData("c2", "c2week", e.target.value);
-                            }}
-                          >
-                            <option value="1">First</option>
-                            <option value="2">Second</option>
-                            <option value="3">Third</option>
-                            <option value="4">Fourth</option>
-                          </Form.Control>
+                    </Tab>
+                    <Tab eventKey="monthly" title={`Monthly`}>
+                      <div className="pt-2 pb-2">
+                        <div className="calender-flex-container">
+                          <div className="calender-flex-item">
+                            <Form.Check
+                              name="monthly"
+                              type="radio"
+                              label=""
+                              id="monthly-1"
+                              value="c1"
+                              onChange={(e) => {
+                                handleMonthlyData("c1", "category", "c1");
+                              }}
+                              checked={validateMonthlyData("c1")}
+                            />
+                          </div>
+                          <div className="calender-flex-item">Day</div>
+                          <div className="calender-flex-item mr-4">
+                            <Form.Control
+                              type="text"
+                              value={monthlyData.c1date}
+                              onChange={(e) => {
+                                handleMonthlyData("c1", "c1date", e.target.value);
+                              }}
+                            />
+                          </div>
+                          <div className="calender-flex-item">of every</div>
+                          <div className="calender-flex-item">
+                            <Form.Control
+                              as="select"
+                              value={monthlyData.c1month}
+                              onChange={(e) => {
+                                handleMonthlyData("c1", "c1month", e.target.value);
+                              }}
+                            >
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="6">6</option>
+                            </Form.Control>
+                          </div>
+                          <div className="calender-flex-item">month(s)</div>
                         </div>
                         <div className="calender-flex-container">
-                          <Form.Control
-                            as="select"
-                            value={monthlyData.c2day}
-                            onChange={(e) => {
-                              handleMonthlyData("c2", "c2day", e.target.value);
-                            }}
-                          >
-                            {calendarDays &&
-                              calendarDays.map((day: any, dayIndex: any) => (
-                                <option key={`monthly-${day}`} value={day}>
-                                  {day}
-                                </option>
-                              ))}
-                          </Form.Control>
+                          <div className="calender-flex-item">
+                            <Form.Check
+                              name="monthly"
+                              type="radio"
+                              label=""
+                              id="monthly-2"
+                              value="c2"
+                              onChange={(e) => {
+                                handleMonthlyData("c2", "category", "c2");
+                              }}
+                              checked={validateMonthlyData("c2")}
+                            />
+                          </div>
+                          <div className="calender-flex-item">The</div>
+                          <div className="calender-flex-item">
+                            <Form.Control
+                              as="select"
+                              value={monthlyData.c2week}
+                              onChange={(e) => {
+                                handleMonthlyData("c2", "c2week", e.target.value);
+                              }}
+                            >
+                              <option value="1">First</option>
+                              <option value="2">Second</option>
+                              <option value="3">Third</option>
+                              <option value="4">Fourth</option>
+                            </Form.Control>
+                          </div>
+                          <div className="calender-flex-container">
+                            <Form.Control
+                              as="select"
+                              value={monthlyData.c2day}
+                              onChange={(e) => {
+                                handleMonthlyData("c2", "c2day", e.target.value);
+                              }}
+                            >
+                              {calendarDays &&
+                                calendarDays.map((day: any, dayIndex: any) => (
+                                  <option key={`monthly-${day}`} value={day}>
+                                    {day}
+                                  </option>
+                                ))}
+                            </Form.Control>
+                          </div>
+                          <div className="calender-flex-item">of every</div>
+                          <div className="calender-flex-item">
+                            <Form.Control
+                              as="select"
+                              value={monthlyData.c2month}
+                              onChange={(e) => {
+                                handleMonthlyData("c2", "c2month", e.target.value);
+                              }}
+                            >
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="6">6</option>
+                            </Form.Control>
+                          </div>
+                          <div className="calender-flex-item">month(s)</div>
                         </div>
-                        <div className="calender-flex-item">of every</div>
-                        <div className="calender-flex-item">
-                          <Form.Control
-                            as="select"
-                            value={monthlyData.c2month}
-                            onChange={(e) => {
-                              handleMonthlyData("c2", "c2month", e.target.value);
-                            }}
-                          >
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="6">6</option>
-                          </Form.Control>
-                        </div>
-                        <div className="calender-flex-item">month(s)</div>
                       </div>
-                    </div>
-                  </Tab>
-                </Tabs>
+                    </Tab>
+                  </Tabs>
 
-                <hr />
-                <div>
-                  <h5>Calendar View</h5>
-                  <CalenderMonthView
-                    currentDate={new Date()}
-                    sessionList={sessionList}
-                    role={"admin"}
-                    bulkPreview={true}
-                  />
+                  <hr />
+                  <div>
+                    <h5>Calendar View</h5>
+                    <CalenderMonthView
+                      currentDate={new Date()}
+                      sessionList={sessionList}
+                      role={"admin"}
+                      bulkPreview={true}
+                    />
+                  </div>
+
+                  <hr />
+                  <Button
+                    variant="primary"
+                    className="btn-sm mt-2"
+                    type="submit"
+                    disabled={buttonLoader}
+                    onClick={sessionBulkCreate}
+                  >
+                    {buttonLoader ? "Saving..." : "Save"}
+                  </Button>
                 </div>
-
-                <hr />
-                <Button
-                  variant="primary"
-                  className="btn-sm mt-2"
-                  type="submit"
-                  disabled={buttonLoader}
-                  onClick={sessionBulkCreate}
-                >
-                  {buttonLoader ? "Saving..." : "Save"}
-                </Button>
               </div>
-            </div>
-          </Container>
-        </div>
-      </AdminLayout>
-    </div>
+            </Container>
+          </div>
+        </AdminLayout>
+      </div>
     </Page>
   );
 };

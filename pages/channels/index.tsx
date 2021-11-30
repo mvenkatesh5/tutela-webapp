@@ -33,46 +33,46 @@ const Channel = () => {
 
   return (
     <Page meta={meta}>
-    <div>
-      <AdminLayout>
-        <div className="right-layout">
-          <ChannelCreateView />
-          <div className="channel-root-wrapper">
-            {!channelList && !channelListError ? (
-              <div className="text-center mt- 5 mb-5">Loading.....</div>
-            ) : (
-              <div>
-                {channelList && channelList.length > 0 ? (
-                  <div className="container-fluid">
-                    <div className="row">
-                      {channelList.map((data: any, index: any) => (
-                        <div key={`channels-view-${data.id}`} className="col-lg-3 mt-4">
-                          <ChannelCardView data={data}>
-                            <Dropdown>
-                              <Dropdown.Toggle as="div"></Dropdown.Toggle>
-                              <Dropdown.Menu>
-                              <div>
-                                <ChannelEditView data={data} />
-                                </div>
-                                <div>
-                                <ChannelDeleteView data={data} />
-                                </div>
-                              </Dropdown.Menu>
-                            </Dropdown>
-                          </ChannelCardView>
-                        </div>
-                      ))}
+      <div>
+        <AdminLayout>
+          <div className="right-layout">
+            <ChannelCreateView />
+            <div className="channel-root-wrapper">
+              {!channelList && !channelListError ? (
+                <div className="text-center mt- 5 mb-5">Loading.....</div>
+              ) : (
+                <div>
+                  {channelList && channelList.length > 0 ? (
+                    <div className="container-fluid">
+                      <div className="row">
+                        {channelList.map((data: any, index: any) => (
+                          <div key={`channels-view-${data.id}`} className="col-lg-3 mt-4">
+                            <ChannelCardView data={data}>
+                              <Dropdown>
+                                <Dropdown.Toggle as="div"></Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                  <div>
+                                    <ChannelEditView data={data} />
+                                  </div>
+                                  <div>
+                                    <ChannelDeleteView data={data} />
+                                  </div>
+                                </Dropdown.Menu>
+                              </Dropdown>
+                            </ChannelCardView>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <div className="text-center mt- 5 mb-5">No channels are available.</div>
-                )}
-              </div>
-            )}
+                  ) : (
+                    <div className="text-center mt- 5 mb-5">No channels are available.</div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      </AdminLayout>
-    </div>
+        </AdminLayout>
+      </div>
     </Page>
   );
 };

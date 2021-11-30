@@ -1,4 +1,5 @@
 import { Like, Dislike, ShareAlt, DotsHorizontal } from "@styled-icons/boxicons-regular";
+import { Image } from "react-bootstrap";
 
 function DiscussionFeedCard() {
   return (
@@ -14,7 +15,7 @@ function DiscussionFeedCard() {
             <span className="text-muted">2 Hrs Ago</span>
           </div>
           <div className="ms-auto me-3">
-            <img src="/sat.png" className="rounded-circle" width="20" />
+            <Image src="/sat.png" className="rounded-circle" width="20" alt="" />
           </div>
           <div className="">
             <strong>SAT</strong>

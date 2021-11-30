@@ -122,7 +122,11 @@ const ResourceFormUpload = (props: any) => {
   const createFileUploadTree = () => {
     if (props.upload_new) {
       let payload: any = null;
-      payload = addFileNodeAsChild(props.data.id, extractFileNameFromUrl(formData.url), formData);
+      payload = addFileNodeAsChild(
+        props.data.id,
+        formData.title ? formData.title : extractFileNameFromUrl(formData.url),
+        formData
+      );
       setButtonLoader(true);
       ResourceNodeOperation(payload)
         .then((response) => {
@@ -144,7 +148,7 @@ const ResourceFormUpload = (props: any) => {
           console.log(error);
         });
     } else {
-      const payload = { id: props.data.id, data: formData };
+      const payload = { id: props.data.id, title: formData.title, data: formData };
       setButtonLoader(true);
 
       ResourceNodeEdit(payload)
@@ -200,6 +204,7 @@ const ResourceFormUpload = (props: any) => {
           onClick={() => {
             openModal(props.data.data.data.kind ? props.data.data.data.kind : "document");
             setFormData({
+              title: props.data.data.title && props.data.data.title,
               kind: props.data.data.data.kind ? props.data.data.data.kind : "document",
               url: props.data.data.data.url ? props.data.data.data.url : "",
               content: props.data.data.data.content ? props.data.data.data.content : "",
@@ -219,6 +224,16 @@ const ResourceFormUpload = (props: any) => {
             </div>
           </div>
           <div>
+            <Form.Group className="mb-3" controlId={`form-control-resources-upload`}>
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                type="text"
+                required
+                value={formData.title}
+                onChange={(e: any) => handleFormData("title", e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
             <Form.Group className="mb-3" controlId={`form-control-resources-upload`}>
               <Form.Label>Upload Kind</Form.Label>
               <Form.Control

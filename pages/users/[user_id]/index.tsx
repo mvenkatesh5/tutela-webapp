@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 // react bootstrap
-import { Container, Card, Tab, Nav, Row, Col } from "react-bootstrap";
+import { Container, Card, Tab, Nav, Row, Col, Image } from "react-bootstrap";
 // material
 import { ArrowRightShort } from "@styled-icons/bootstrap/ArrowRightShort";
 // swr
@@ -38,7 +38,7 @@ import Page from "@components/page";
 // constants
 import { META_DESCRIPTION } from "@constants/page";
 
-const userDetailView = () => {
+const UserDetailView = () => {
   const defaultImageUrl = "/default-image.png";
 
   const router = useRouter();
@@ -62,7 +62,7 @@ const userDetailView = () => {
       <Tab.Container id="profile-schema-component" defaultActiveKey={profileSchemaData[0].tab_key}>
         <Nav className="custom-nav-tabs-links profile-account-nav" variant="pills">
           {profileSchemaData.map((item: any, index: any) => (
-            <Nav.Item className="profile-account-nav-item">
+            <Nav.Item key={`nav-link-${index}`} className="profile-account-nav-item">
               <Nav.Link key={`nav-item-${item.tab_key}`} eventKey={item.tab_key}>
                 {item.tab_name}
               </Nav.Link>
@@ -225,7 +225,11 @@ const userDetailView = () => {
                       <div className="profile-detail">
                         <div className="header">
                           <div className="icon">
-                            <img className="rounded-circle img-fluid" src={defaultImageUrl} />
+                            <Image
+                              alt=""
+                              className="rounded-circle img-fluid"
+                              src={defaultImageUrl}
+                            />
                           </div>
                           <div className="content">
                             <div className="content-primary">
@@ -270,7 +274,10 @@ const userDetailView = () => {
                               variant="pills"
                             >
                               {profileTabContent.map((item: any, index: any) => (
-                                <Nav.Item className="profile-account-nav-item">
+                                <Nav.Item
+                                  key={`nav-link-${index}`}
+                                  className="profile-account-nav-item"
+                                >
                                   <Nav.Link
                                     key={`profile-tab-content-nav-item-${item.tab_key}`}
                                     eventKey={`profile_tab_content_${item.tab_key}`}
@@ -308,4 +315,4 @@ const userDetailView = () => {
   );
 };
 
-export default withGlobalAuth(userDetailView);
+export default withGlobalAuth(UserDetailView);

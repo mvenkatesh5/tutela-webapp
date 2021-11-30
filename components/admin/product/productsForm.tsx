@@ -52,10 +52,10 @@ const ProductsFormView = (props: any) => {
         />
       </Form.Group>
 
-      <Form.Group className="mb-2">
+      {/* <Form.Group className="mb-2">
         <Form.Label className="mb-1 text-muted">Subjects</Form.Label>
         <ProductSubjectsView data={formPayload.subjects} handleFormData={handleFormPayload} />
-      </Form.Group>
+      </Form.Group> */}
     </div>
   );
 };

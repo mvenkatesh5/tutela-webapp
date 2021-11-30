@@ -112,7 +112,7 @@ const TreeView = (props: any) => {
             <TreeRenderView
               tree={tree}
               level={0}
-              children={20}
+              t_children={20}
               root_node_id={props.root_node_id}
               parent={props.root_node_id}
               admin={props.admin}

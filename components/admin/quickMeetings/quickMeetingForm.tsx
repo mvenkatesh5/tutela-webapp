@@ -2,8 +2,8 @@ import React from "react";
 // react bootstrap
 import { Form } from "react-bootstrap";
 // date picker
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+// import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
 
 const AdvertsFormView = (props: any) => {
   const [formPayload, setFormPayload] = React.useState(Object);
@@ -41,7 +41,20 @@ const AdvertsFormView = (props: any) => {
         />
       </Form.Group>
 
-      <Form.Group className="mb-3">
+      <Form.Group className="mb-4">
+        <Form.Label className="mb-1 text-muted">Time in Minutes</Form.Label>
+        <div className="d-flex align-items-center gap-3">
+          <Form.Control
+            type="number"
+            value={formPayload.minutes}
+            onChange={(e) => handleFormPayload("minutes", e.target.value)}
+            required
+          />
+          <div>Minutes</div>
+        </div>
+      </Form.Group>
+
+      {/* <Form.Group className="mb-3">
         <Form.Label className="mb-1 text-muted">Start Date</Form.Label>
         <br />
         <DatePicker
@@ -65,7 +78,7 @@ const AdvertsFormView = (props: any) => {
           timeIntervals={15}
           dateFormat="MMMM d, yyyy h:mm aa"
         />
-      </Form.Group>
+      </Form.Group> */}
     </div>
   );
 };

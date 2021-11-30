@@ -1,5 +1,5 @@
 // react bootstrap
-import { Button } from "react-bootstrap";
+import { Image } from "react-bootstrap";
 // components
 import ZoomSessions from "@components/zoomsessions";
 import MonthWeekDropdownView from "./monthWeekDropdownView";
@@ -35,9 +35,10 @@ const CalendarWeekMonthCardDetailView = (props: any) => {
                           {userData.as_role === 1 && (
                             <>
                               <div className="d-flex align-items-center" style={{ gap: "10px" }}>
-                                <img
+                                <Image
                                   src="/bird.svg"
                                   style={{ borderRadius: "2px", width: "20px", height: "20px" }}
+                                  alt=""
                                 />
                                 <small className="text-secondary">{userData.user.username}</small>
                               </div>

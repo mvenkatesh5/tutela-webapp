@@ -1,6 +1,6 @@
 import React from "react";
 // react bootstrap
-import { Container, Row, Col, Card } from "react-bootstrap";
+import { Container, Row, Col, Card, Image } from "react-bootstrap";
 // material icons
 import { TextLeft } from "@styled-icons/bootstrap/TextLeft";
 import { Calendar } from "@styled-icons/boxicons-regular/Calendar";
@@ -56,6 +56,8 @@ const QuickMeetingsView = () => {
     APIFetcher
   );
 
+  console.log("quickMeetingsList-->-->", quickMeetingsList);
+
   const meta = {
     title: "Quick Meetings",
     description: META_DESCRIPTION,
@@ -86,7 +88,7 @@ const QuickMeetingsView = () => {
                         <Card.Body>
                           <div className="quick-meeting-flex">
                             <div className="image-container">
-                              <img src="/default-image.png" />
+                              <Image alt="" src="/default-image.png" />
                             </div>
                             <div className="content">
                               <h6 className="mb-2">{data.name}</h6>
@@ -127,7 +129,7 @@ const QuickMeetingsView = () => {
                             <div className="content">
                               <small>
                                 {data.data && data.data.link ? (
-                                  <a href={data.data.link} target="_blank">
+                                  <a href={data.data.link} target="_blank" rel="noreferrer">
                                     {data.data.link}
                                   </a>
                                 ) : (

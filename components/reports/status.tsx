@@ -52,6 +52,7 @@ const ReportStatusView = (props: any) => {
   return (
     <>
       <Button
+        variant="outline-primary"
         className="btn-sm"
         onClick={() => handleReportData(!reportData)}
         disabled={buttonLoader}

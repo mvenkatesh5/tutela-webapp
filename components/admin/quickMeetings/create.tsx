@@ -11,6 +11,7 @@ import QuickMeetingForm from "./quickMeetingForm";
 import { QUICK_MEETINGS_ENDPOINT, DEFAULT_ZOOM_URL } from "@constants/routes";
 // api services
 import { QuickMeetingCreate } from "@lib/services/quickmeetingsservice";
+import { CreateZoomMeeting } from "@lib/services/sessionservice";
 // global imports
 import { getCurrentUser } from "@constants/global";
 
@@ -23,8 +24,9 @@ const QuickMeetingCreateView = () => {
       description: "",
       start_time: "",
       end_date: "",
+      minutes: "",
       data: {
-        link: DEFAULT_ZOOM_URL,
+        link: "",
       },
       created_by: getCurrentUser() && getCurrentUser().user && getCurrentUser().user.id,
     });
@@ -36,29 +38,64 @@ const QuickMeetingCreateView = () => {
     description: "",
     start_time: "",
     end_date: "",
-    data: { link: DEFAULT_ZOOM_URL },
+    minutes: "",
+    data: { link: "" },
     created_by: getCurrentUser() && getCurrentUser().user && getCurrentUser().user.id,
   });
   const handleQuickMeetingsData = (value: any) => {
     setQuickMeetingsData(value);
   };
 
+  const [buttonLoader, setButtonLoader] = React.useState<boolean>(false);
+
   const quickMeetingCreate = (event: any) => {
     event.preventDefault();
-    QuickMeetingCreate(quickMeetingsData)
-      .then((res) => {
-        mutate(
-          QUICK_MEETINGS_ENDPOINT,
-          async (elements: any) => {
-            return [...elements, res];
-          },
-          false
-        );
-        closeModal();
-      })
-      .catch((errors) => {
-        console.log(errors);
-      });
+    setButtonLoader(true);
+
+    if (parseInt(quickMeetingsData.minutes) > 0) {
+      let end_time: any = new Date();
+      end_time.setMinutes(end_time.getMinutes() + parseInt(quickMeetingsData.minutes));
+
+      const payload = {
+        topic: quickMeetingsData.name ? quickMeetingsData.name : "New Meeting",
+        start_datetime: new Date().toISOString().replace(/.\d+Z$/g, "Z"),
+        end_datetime: new Date(end_time).toISOString().replace(/.\d+Z$/g, "Z"),
+      };
+
+      CreateZoomMeeting(payload)
+        .then((response) => {
+          if (response) {
+            const meetingPayload = {
+              name: quickMeetingsData.name,
+              description: quickMeetingsData.description,
+              start_time: quickMeetingsData.start_time,
+              end_date: quickMeetingsData.end_date,
+              data: { zoom: payload, link: "" },
+              created_by: getCurrentUser() && getCurrentUser().user && getCurrentUser().user.id,
+            };
+            QuickMeetingCreate(meetingPayload)
+              .then((res) => {
+                mutate(
+                  QUICK_MEETINGS_ENDPOINT,
+                  async (elements: any) => {
+                    return [...elements, res];
+                  },
+                  false
+                );
+                closeModal();
+              })
+              .catch((errors) => {
+                console.log(errors);
+              });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      alert("Please select Minutes greater than zero");
+      setButtonLoader(false);
+    }
   };
 
   return (
@@ -83,8 +120,9 @@ const QuickMeetingCreateView = () => {
               className="btn-sm"
               type="submit"
               style={{ marginRight: "10px" }}
+              disabled={buttonLoader}
             >
-              Create Quick Meeting
+              {buttonLoader ? "Processing..." : "Create Quick Meeting"}
             </Button>
             <Button variant="outline-secondary" className="btn-sm" onClick={closeModal}>
               Close

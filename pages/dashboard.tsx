@@ -88,8 +88,13 @@ const DashboardDetail = (props: any) => {
               <UpcomingTestsCard />
               {advertsList && advertsList.length > 0 && (
                 <Card className="p-3 mt-4 border-0 shadow">
-                  <a href={advertsList[0].link ? advertsList[0].link : "#"} target="_blank">
+                  <a
+                    href={advertsList[0].link ? advertsList[0].link : "#"}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     <Image
+                      alt=""
                       className="img-fluid mx-auto d-block"
                       src={advertsList[0].image}
                       width="300"

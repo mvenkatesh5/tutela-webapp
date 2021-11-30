@@ -1,3 +1,4 @@
+import React from "react";
 // next imports
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -14,9 +15,23 @@ import { MarkChatRead } from "@styled-icons/material/MarkChatRead";
 import { Announcement } from "@styled-icons/zondicons/Announcement";
 import { MeetingRoom } from "@styled-icons/material/MeetingRoom";
 import { Folder } from "@styled-icons/boxicons-regular/Folder";
+import { Assessment } from "@styled-icons/material-rounded/Assessment";
+import { CollapseLeft } from "@styled-icons/open-iconic/CollapseLeft";
+import { ExpandRight } from "@styled-icons/open-iconic/ExpandRight";
+// global context provider
+import { globalContext } from "@contexts/global";
 
 const Sidebar = () => {
+  const [globalState, globalDispatch] = React.useContext(globalContext);
+
   const router = useRouter();
+
+  const toggleSidebar = () => {
+    globalDispatch({
+      type: "SIDEBAR_TOGGLE",
+      payload: !globalState.sidebarToggle,
+    });
+  };
 
   const sidebarOptions = [
     {
@@ -47,7 +62,7 @@ const Sidebar = () => {
     {
       label: "Quick Meetings",
       icon: <MeetingRoom />,
-      href: "/admin/quick-meetings",
+      href: "/quick-meetings",
     },
     {
       label: "Zoom Integrations",
@@ -74,33 +89,52 @@ const Sidebar = () => {
       icon: <Folder />,
       href: "/resources",
     },
+    {
+      label: "Tests",
+      icon: <Assessment />,
+      href: "/tests",
+    },
   ];
 
   return (
-    <div>
-      <div>
-        {sidebarOptions &&
-          sidebarOptions.length > 0 &&
-          sidebarOptions.map((menuItems, index) => (
-            <Link key={menuItems.href} href={menuItems.href}>
-              <a>
-                <OverlayTrigger
-                  key={`right`}
-                  placement={`right`}
-                  overlay={<Tooltip id={`tooltip-right`}>{menuItems.label}</Tooltip>}
+    <>
+      {sidebarOptions &&
+        sidebarOptions.length > 0 &&
+        sidebarOptions.map((menuItems, index) => (
+          <Link key={menuItems.href} href={menuItems.href}>
+            <a>
+              <OverlayTrigger
+                key={`right`}
+                placement={`right`}
+                overlay={<Tooltip id={`tooltip-right`}>{menuItems.label}</Tooltip>}
+              >
+                <div
+                  className={"item " + (router.pathname.includes(menuItems.href) ? "active" : "")}
                 >
-                  <div
-                    className={"item " + (router.pathname.includes(menuItems.href) ? "active" : "")}
-                  >
-                    <div className="icon">{menuItems.icon}</div>
-                    <div className="label">{menuItems.label}</div>
-                  </div>
-                </OverlayTrigger>
-              </a>
-            </Link>
-          ))}
-      </div>
-    </div>
+                  <div className="icon">{menuItems.icon}</div>
+                  <div className="label">{menuItems.label}</div>
+                </div>
+              </OverlayTrigger>
+            </a>
+          </Link>
+        ))}
+      <OverlayTrigger
+        key={`right`}
+        placement={`right`}
+        overlay={
+          <Tooltip id={`tooltip-right`}>
+            {!globalState.sidebarToggle ? "Collapse" : "Expand"}
+          </Tooltip>
+        }
+      >
+        <div className={"sidebar-item-container mt-auto"} onClick={toggleSidebar}>
+          <div className="sidebar-icon">
+            {!globalState.sidebarToggle ? <CollapseLeft /> : <ExpandRight />}
+          </div>
+          <div className="sidebar-label">{!globalState.sidebarToggle ? "Collapse" : "Expand"}</div>
+        </div>
+      </OverlayTrigger>
+    </>
   );
 };
 

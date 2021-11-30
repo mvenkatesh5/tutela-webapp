@@ -1,7 +1,7 @@
 // slate js
 import { createEditor, Transforms, Editor, Text, Node, Element, Range, Point } from "slate";
 
-export default (editor) => {
+const editorTable = (editor) => {
   const { deleteBackward, deleteForward, insertBreak } = editor;
 
   editor.deleteBackward = (unit) => {
@@ -52,3 +52,5 @@ export default (editor) => {
 
   return editor;
 };
+
+export default editorTable;

@@ -79,7 +79,12 @@ const SessionEditView = (props: any) => {
           <h5>Session Delete</h5>
           <Form>
             <h6 className="mt-4 mb-4">
-              Are you sure to delete this session <strong>"{props.data.title}"</strong>
+              Are you sure to delete this session{" "}
+              <strong>
+                {`"`}
+                {props.data.title}
+                {`"`}
+              </strong>
             </h6>
             <Button
               variant="outline-primary"

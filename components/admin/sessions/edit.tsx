@@ -160,7 +160,7 @@ const SessionEditView = (props: any) => {
                   data={sessionData}
                   handleData={handleSessionData}
                   role={props.role}
-                  disabled={true}
+                  disabled={false}
                 />
                 {props.role === "admin" && (
                   <SessionUser

@@ -107,7 +107,9 @@ const CommentView = (props: any) => {
               {props.data && props.data.length > 0 && (
                 <div>
                   {props.data.map((data: any, index: any) => (
-                    <MessageRenderComponent data={data} />
+                    <div key={`message-${index}`}>
+                      <MessageRenderComponent data={data} />
+                    </div>
                   ))}
                 </div>
               )}

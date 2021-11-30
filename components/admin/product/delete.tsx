@@ -53,7 +53,12 @@ const SessionEditView = (props: any) => {
           <h5>Product Delete</h5>
           <Form onSubmit={productDelete}>
             <h6 className="mt-4 mb-4">
-              Are you sure to delete this Product <strong>"{props.data.name}"</strong>
+              Are you sure to delete this Product{" "}
+              <strong>
+                {`"`}
+                {props.data.name}
+                {`"`}
+              </strong>
             </h6>
             <Button
               variant="outline-primary"

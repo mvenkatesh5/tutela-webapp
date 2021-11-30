@@ -48,6 +48,7 @@ export const SESSION_ASSET_WITH_SESSION_ID_ENDPOINT = (session_id: any) =>
   `/api/sessions/${session_id}/details/`;
 export const SESSION_ASSET_ENDPOINT = `/api/session-assets/`;
 export const SESSION_ASSET_WITH_ID_ENDPOINT = (asset_id: any) => `/api/session-assets/${asset_id}/`;
+export const UNRATED_SESSION_ENDPOINT = `/api/unrated-sessions/`;
 
 // calendar sessions
 export const USER_CALENDAR_SESSION_ENDPOINT = (date_query: any) =>
@@ -70,6 +71,9 @@ export const THREAD_WITH_COMMENT_ENDPOINT = (thread_id: Number) =>
 
 // user session
 export const REQUEST_SESSION_ENDPOINT = `/api/request-sessions/`;
+export const REQUEST_SESSION_WITH_ID_ENDPOINT = (req_id: any) => `/api/request-sessions/${req_id}/`;
+export const REQUEST_SESSION_WITH_STATE_ENDPOINT = (state: any) =>
+  `/api/request-sessions/?state=${state}`;
 
 // user messages
 export const USER_MESSAGE_ENDPOINT = `/api/messages/`;
@@ -117,3 +121,10 @@ export const USER_REPORTS_WITH_USER_ID_ENDPOINT = (user_id: any) =>
 export const USER_REPORTS_ENDPOINT = `/api/users/reports/`;
 export const USER_REPORTS_WITH_ID_ENDPOINT = (report_id: any) => `/api/users/reports/${report_id}/`;
 export const MENTOR_REPORT_ENDPOINT = `/api/users/reports/mentors/`;
+
+// tests
+export const TESTS_ENDPOINT = `/api/tests/`;
+export const TESTS_WITH_ID_ENDPOINT = (test_id: any) => `/api/tests/${test_id}/`;
+
+// coins endpoint
+export const USER_COINS_ENDPOINT = `/api/user-coins/`;

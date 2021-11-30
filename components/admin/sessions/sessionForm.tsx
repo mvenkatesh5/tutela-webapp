@@ -157,7 +157,7 @@ const SessionFormView = (props: any) => {
                 </Col>
               </Row>
               <div className="mb-2">
-                {props.disabled && (
+                {!props.disabled && (
                   <Form.Text className="text-info">
                     Click the{" "}
                     <strong>

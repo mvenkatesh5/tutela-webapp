@@ -7,6 +7,9 @@ export const globalContext = React.createContext<any>(null);
 const initialState = {
   // toast alerts
   toastAlert: [],
+  unratedSessionStatus: false,
+  unratedSessions: [],
+  sidebarToggle: false,
 };
 
 const reducer = (state: any, action: any) => {
@@ -21,6 +24,21 @@ const reducer = (state: any, action: any) => {
       return {
         ...state,
         toastAlert: state.toastAlert.filter((item: any, i: number) => item.id != action.payload.id),
+      };
+    case "UNRATED_SESSION_STATUS":
+      return {
+        ...state,
+        unratedSessionStatus: action.payload,
+      };
+    case "UNRATED_SESSIONS":
+      return {
+        ...state,
+        unratedSessions: action.payload,
+      };
+    case "SIDEBAR_TOGGLE":
+      return {
+        ...state,
+        sidebarToggle: action.payload,
       };
     default:
       return state;

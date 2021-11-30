@@ -1,7 +1,7 @@
 // slate js
 import { createEditor, Transforms, Editor, Text, Node, Element, Range, Point } from "slate";
 
-export default (editor) => {
+const editorImage = (editor) => {
   const { insertData, isVoid } = editor;
 
   editor.isVoid = (element) => {
@@ -35,3 +35,5 @@ export default (editor) => {
 
   return editor;
 };
+
+export default editorImage;

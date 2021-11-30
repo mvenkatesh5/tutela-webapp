@@ -118,11 +118,19 @@ const SessionDetailView = () => {
       sessionDetail.session_users.map((data: any) => {
         if (data.as_role === 0) {
           learners.push({
+            user_id: data.user.id,
+            id: data.id,
+            coins: data.coins,
+            going: data.going,
             name: data.user.first_name,
             icon: "/bird.svg",
           });
         } else {
           teachers.push({
+            user_id: data.user.id,
+            id: data.id,
+            coins: data.coins,
+            going: data.going,
             name: data.user.first_name,
             icon: "/bird.svg",
           });
@@ -165,7 +173,7 @@ const SessionDetailView = () => {
         <div className="header-wrapper">
           <Link href="/calendar">
             <a>
-              <Image src="/logo.svg" />
+              <Image src="/logo.svg" alt="" />
             </a>
           </Link>
           <div className="chat-icon" onClick={crispOpen}>
@@ -181,7 +189,7 @@ const SessionDetailView = () => {
                 <div className="left-wrapper">
                   <div className="session-title-container">
                     <div className="icon">
-                      <Image className="img-fluid rounded" src="/bird.svg" />
+                      <Image alt="" className="img-fluid rounded" src="/bird.svg" />
                     </div>
                     <div className="content">
                       <div className="title">{sessionDetail.title}</div>
@@ -202,7 +210,12 @@ const SessionDetailView = () => {
                     </div>
                     <div className="description">
                       {studentImages && studentImages.length > 0 && (
-                        <IconRow data={studentImages} />
+                        <IconRow
+                          data={studentImages}
+                          session={sessionDetail}
+                          user_role={userRole}
+                          role="user"
+                        />
                       )}
                     </div>
                   </div>
@@ -216,7 +229,12 @@ const SessionDetailView = () => {
                     </div>
                     <div className="description">
                       {teacherImages && teacherImages.length > 0 && (
-                        <IconRow data={teacherImages} />
+                        <IconRow
+                          data={teacherImages}
+                          sessionDetail={sessionDetail}
+                          user_role={userRole}
+                          role="teacher"
+                        />
                       )}
                     </div>
                   </div>
@@ -235,6 +253,7 @@ const SessionDetailView = () => {
                             href={sessionDetail.recording_link}
                             target="_blank"
                             className="description"
+                            rel="noreferrer"
                           >
                             {sessionDetail.recording_link}
                           </a>
@@ -254,7 +273,11 @@ const SessionDetailView = () => {
                     </div>
                     <div className="description">
                       {userRole && (
-                        <ZoomSessions data={sessionDetail} role={userRole ? userRole : null} />
+                        <ZoomSessions
+                          data={sessionDetail}
+                          role={userRole ? userRole : null}
+                          sessionUsers={studentImages}
+                        />
                       )}
                     </div>
                   </div>
@@ -309,7 +332,10 @@ const SessionDetailView = () => {
                                 className="image-container"
                                 onClick={() => handleCurrentVideoRenderUrl(item)}
                               >
-                                <img src={item.thumbnail ? item.thumbnail : "/default-image.png"} />
+                                <Image
+                                  alt=""
+                                  src={item.thumbnail ? item.thumbnail : "/default-image.png"}
+                                />
                               </div>
                               <div
                                 className="title"

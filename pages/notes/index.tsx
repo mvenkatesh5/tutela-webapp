@@ -53,46 +53,48 @@ const NotesView = () => {
 
   return (
     <Page meta={meta}>
-    <div>
-      <Head>
-        <title>notes</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <StudentLayout>
-        <Container className="pt-3 pb-3">
-          <h3 className="mb-4">Notes</h3>
-          {!notes && !notesError ? (
-            <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
-          ) : (
-            <div>
-              {notes && notes.length === 0 ? (
-                <div className="text-secondary mt-5 mb-5 text-center">No notes are available.</div>
-              ) : (
-                <Row>
-                  {notes.map((note: any, notesIndex: number) => (
-                    <Col md={3} key={`note-title-${notesIndex}`} className="mb-3">
-                      <div className="card">
-                        <div className="card-body">
-                          <p>{note.text}</p>
-                          <div className="d-flex mt-2">
-                            <div>
-                              <NotesEdit data={note} user={currentUser} />
-                            </div>
-                            <div className="ms-2">
-                              <NotesDelete data={note} user={currentUser} />
+      <div>
+        <Head>
+          <title>notes</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <StudentLayout>
+          <Container className="pt-3 pb-3">
+            <h3 className="mb-4">Notes</h3>
+            {!notes && !notesError ? (
+              <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
+            ) : (
+              <div>
+                {notes && notes.length === 0 ? (
+                  <div className="text-secondary mt-5 mb-5 text-center">
+                    No notes are available.
+                  </div>
+                ) : (
+                  <Row>
+                    {notes.map((note: any, notesIndex: number) => (
+                      <Col md={3} key={`note-title-${notesIndex}`} className="mb-3">
+                        <div className="card">
+                          <div className="card-body">
+                            <p>{note.text}</p>
+                            <div className="d-flex mt-2">
+                              <div>
+                                <NotesEdit data={note} user={currentUser} />
+                              </div>
+                              <div className="ms-2">
+                                <NotesDelete data={note} user={currentUser} />
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </Col>
-                  ))}
-                </Row>
-              )}
-            </div>
-          )}
-        </Container>
-      </StudentLayout>
-    </div>
+                      </Col>
+                    ))}
+                  </Row>
+                )}
+              </div>
+            )}
+          </Container>
+        </StudentLayout>
+      </div>
     </Page>
   );
 };

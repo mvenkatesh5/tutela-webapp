@@ -16,7 +16,7 @@ import ResourceNotesView from "@components/notes/view";
 import { SlateEditor } from "@components/SlateEditor";
 
 const TreeView = (props: any) => {
-  const TreeChildrenRenderView = ({ tree, level, children, root_node_id, user }: any) => {
+  const TreeChildrenRenderView = ({ tree, level, t_children, root_node_id, user }: any) => {
     const [dropdownToggle, setDropdownToggle] = React.useState<any>(true);
 
     const imageFileNameSplitRender = (value: any) => {
@@ -41,7 +41,7 @@ const TreeView = (props: any) => {
 
     return (
       <>
-        <div className="flex" style={{ paddingLeft: `${children}px` }}>
+        <div className="flex" style={{ paddingLeft: `${t_children}px` }}>
           {tree.children && tree.children.length > 0 ? (
             <div className="flex-item dropdown" onClick={() => setDropdownToggle(!dropdownToggle)}>
               {dropdownToggle ? <ChevronDown /> : <ChevronRight />}
@@ -99,7 +99,7 @@ const TreeView = (props: any) => {
                     </>
                   ) : (
                     <>
-                      <a href={tree.data.data.url} target="_blank">
+                      <a href={tree.data.data.url} target="_blank" rel="noreferrer">
                         {tree.data.data.kind} : {tree.data && tree.data.title}
                       </a>
                     </>
@@ -134,7 +134,7 @@ const TreeView = (props: any) => {
             <TreeRenderView
               tree={tree.children}
               level={level}
-              children={children + 30}
+              t_children={t_children + 30}
               root_node_id={root_node_id}
               user={user}
             />
@@ -144,7 +144,7 @@ const TreeView = (props: any) => {
     );
   };
 
-  const TreeRenderView = ({ tree, level, children, root_node_id, user }: any) => {
+  const TreeRenderView = ({ tree, level, t_children, root_node_id, user }: any) => {
     return (
       <>
         {tree &&
@@ -154,12 +154,12 @@ const TreeView = (props: any) => {
               return (
                 <div
                   key={`tree-structure-level-${level}-${initialRootIndex}`}
-                  className={`${children ? "children" : ""}`}
+                  className={`${t_children ? "children" : ""}`}
                 >
                   <TreeChildrenRenderView
                     tree={initialRoot}
                     level={`${level}-${initialRootIndex}`}
-                    children={children}
+                    t_children={t_children}
                     root_node_id={root_node_id}
                     user={user}
                   />
@@ -178,7 +178,7 @@ const TreeView = (props: any) => {
           <TreeRenderView
             tree={props.data}
             level={0}
-            children={10}
+            t_children={10}
             root_node_id={props.root_node_id}
             user={props.user}
           />

@@ -7,7 +7,7 @@ const CustomNavTabs = (props: any) => {
       <Tab.Container defaultActiveKey="0">
         <Nav className="custom-nav-tabs-links" variant="pills">
           {props.data.map((item: any, index: any) => (
-            <Nav.Item>
+            <Nav.Item key={`nav-item-${index}`}>
               <Nav.Link key={`nav-item-${item.key}`} eventKey={index}>
                 <small>{item.title}</small>
               </Nav.Link>

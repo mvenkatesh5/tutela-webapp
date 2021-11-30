@@ -7,33 +7,118 @@
   padding-left: 10px;
   gap: 8px;
   .row-icons-alter-wrapper {
+    position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
     background-color: #e6e6e6;
     border-radius: 4px;
-    padding: 5px;
+    padding: 6px;
+    border-radius: 50px;
+    gap: 8px;
     .row-icons-alter {
-      height: 18px;
-      width: 18px;
+      position: relative;
+      height: 22px;
+      width: 22px;
       border-radius: 100px;
-      overflow: hidden;
+      // overflow: hidden;
       display: flex;
       img {
         width: 100%;
         height: 100%;
         object-fit: contain;
+        border-radius: 100px;
+      }
+      .row-attendance {
+        position: absolute;
+        bottom: -3px;
+        right: -2px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #e6e6e6;
+        background: #fff;
+        svg {
+          width: 12px;
+          height: 12px;
+        }
       }
     }
-
     .row-name {
-      padding-left: 6px;
       font-size: 13px;
       font-weight: 700;
       text-align: center;
+    }
+    .row-coins {
+      display: flex;
+      align-items: center;
+      margin-left: 2px;
+      gap: 4px;
+      .row-coin-icon {
+        height: 18px;
+        width: 18px;
+        border-radius: 100px;
+        overflow: hidden;
+        display: flex;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+      }
+      .row-coin-count {
+        font-size: 13px;
+        font-weight: 700;
+        text-align: center;
+      }
     }
   }
 }
 .cursor {
   cursor: pointer !important;
+}
+
+.coin-modal-wrapper {
+  display: flex;
+  gap: 14px;
+  .coin-modal-icon {
+    flex-shrink: 0;
+    width: 35px;
+    height: 35px;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #f5f5f5;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+  .coin-modal-text-wrapper {
+    .coin-modal-name {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .coin-modal-text {
+      margin-top: 4px;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      .coin-heading {
+        font-size: 14px;
+        font-weight: 500;
+        color: #333333;
+      }
+      .coin-description {
+        font-size: 14px;
+        font-weight: 500;
+        color: #777777;
+      }
+    }
+  }
 }

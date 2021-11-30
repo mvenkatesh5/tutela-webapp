@@ -75,6 +75,7 @@ const UserDetails = () => {
     if (user && searchContent) {
       if (user.username.includes(searchContent)) return true;
       else if (user.first_name.includes(searchContent)) return true;
+      else if (user.last_name.includes(searchContent)) return true;
       else if (user.email.includes(searchContent)) return true;
       else return false;
     } else {
@@ -114,7 +115,9 @@ const UserDetails = () => {
                     <th>Last Name</th>
                     <th>Username</th>
                     <th>Email</th>
+                    <th>Date Joined</th>
                     <th>Last Login</th>
+                    <th>Last Logout</th>
                     <th>Role</th>
                     <th>TimeZone</th>
                   </tr>
@@ -123,6 +126,7 @@ const UserDetails = () => {
                   {userList &&
                     userList.length > 0 &&
                     userList.map((users: any, i: any) => {
+                      console.log(users);
                       if (validateIsTeacherRouter(users) && validateSearch(users)) {
                         return (
                           <tr key={i}>
@@ -139,6 +143,12 @@ const UserDetails = () => {
                             <td className="heading">{users.last_name}</td>
                             <td className="heading">{users.username}</td>
                             <td className="description">{users.email}</td>
+                            <td className="description text-center">
+                              {users.date_joined ? dateTimeFormat(users.date_joined) : "-"}
+                            </td>
+                            <td className="description text-center">
+                              {users.last_login ? dateTimeFormat(users.last_login) : "-"}
+                            </td>
                             <td className="description text-center">
                               {users.last_login ? dateTimeFormat(users.last_login) : "-"}
                             </td>

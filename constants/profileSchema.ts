@@ -370,8 +370,7 @@ export const profileSchemaData = [
       },
       {
         kind_name: "Aspirations after 12th",
-        kind_description:
-          "Please help us understand your college goals.",
+        kind_description: "Please help us understand your college goals.",
         kind_data: [
           {
             key: "dream_college",

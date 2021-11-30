@@ -5,7 +5,7 @@ import isUrl from "is-url";
 // import from toolbar
 import { wrapLink } from "../Toolbar";
 
-export default (editor) => {
+const editorLink = (editor) => {
   const { insertData, insertText, isInline } = editor;
 
   editor.isInline = (element) => {
@@ -32,3 +32,5 @@ export default (editor) => {
 
   return editor;
 };
+
+export default editorLink;
