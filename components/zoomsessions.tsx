@@ -157,9 +157,9 @@ const ZoomSession = (props: any) => {
 
   const userAttendanceRedirection = (url: any) => {
     setLoader(true);
-    if (props.data && props.data.sessionUsers && props.data.sessionUsers.length > 0) {
-      let currentUserSession: any = props.data.sessionUsers.find(
-        (_ele: any) => _ele.user_id === currentUser.user.id
+    if (props.data && props.data.session_users && props.data.session_users.length > 0) {
+      let currentUserSession: any = props.data.session_users.find(
+        (_ele: any) => _ele.user.id === currentUser.user.id
       );
       if (currentUserSession && !currentUserSession.going) {
         const payload = {

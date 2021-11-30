@@ -78,7 +78,7 @@ const IconRow = (props: any) => {
 
                   {props.user_role != "student" && props.role === "user" && (
                     <div className="row-attendance">
-                      {props.data.going ? (
+                      {item.going ? (
                         <CheckCircleFill className="text-success" />
                       ) : (
                         <ExclamationCircleFill className="text-danger" />
@@ -124,19 +124,19 @@ const IconRow = (props: any) => {
                       <div className="coin-modal-name">{currentSessionUser.name}</div>
                       <div className="coin-modal-text">
                         <div className="coin-heading">Session Name</div>
-                        <div className="coin-tog">:</div>
+                        <div className="coin-tog ml-0">:</div>
                         <div className="coin-description">{props.session.title}</div>
                       </div>
                       <div className="coin-modal-text">
                         <div className="coin-heading">Time</div>
-                        <div className="coin-tog">:</div>
+                        <div className="coin-tog ml-0">:</div>
                         <div className="coin-description">
                           {dateTimeFormat(props.session.start_datetime)}
                         </div>
                       </div>
                       <div className="coin-modal-text">
                         <div className="coin-heading">Attendance</div>
-                        <div className="coin-tog">:</div>
+                        <div className="coin-tog ml-0">:</div>
                         <div className="coin-description">
                           {currentSessionUser.going ? (
                             <span className="text-success">Present</span>
