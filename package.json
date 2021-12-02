@@ -45,7 +45,7 @@
     "next": "12.0.3",
     "next-cookies": "^2.0.3",
     "nprogress": "0.2.0",
-    "pdfjs-dist": "2.10.377",
+    "pdfjs-dist": "2.6.347",
     "puppeteer-core": "11.0.0",
     "react": "17.0.2",
     "react-aria": "3.10.0",
