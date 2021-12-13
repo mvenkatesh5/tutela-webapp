@@ -753,3 +753,38 @@ a {
     font-size: 34px;
   }
 }
+
+// student tests
+.student-test-container {
+  max-height: 220px;
+  overflow: auto;
+  .student-test-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+    .student-icon {
+      border-radius: 2px;
+      overflow: hidden;
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #eeeeee;
+      & div {
+        font-size: 14px;
+        font-weight: 500;
+      }
+      & div:last-child {
+        font-size: 10px;
+      }
+    }
+    .student-content {
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+}

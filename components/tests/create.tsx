@@ -19,6 +19,7 @@ const TestsCreateView = (props: any) => {
     setFormData({
       name: "",
       description: "",
+      url: "",
       datetime: new Date(),
       product: "",
       data: {},
@@ -29,6 +30,7 @@ const TestsCreateView = (props: any) => {
   const [formData, setFormData] = React.useState({
     name: "",
     description: "",
+    url: "",
     datetime: new Date(),
     product: "",
     data: {},

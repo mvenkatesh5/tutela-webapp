@@ -1,6 +1,8 @@
 import React from "react";
 // react bootstrap
 import { Button, Form, Modal } from "react-bootstrap";
+// material icons
+import { MessageSquareEdit } from "@styled-icons/boxicons-regular/";
 // swr
 import { mutate } from "swr";
 // components
@@ -47,9 +49,11 @@ const AdvertsEditView = (props: any) => {
   };
 
   return (
-    <div>
+    <>
       <Button variant="primary" className="btn-sm" onClick={openModal}>
-        Edit Advert
+        <div className="d-flex justify-content-center align-items-center">
+          <MessageSquareEdit width="16" />
+        </div>
       </Button>
 
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
@@ -75,7 +79,7 @@ const AdvertsEditView = (props: any) => {
         </Modal.Body>
       </Modal>
       <Form></Form>
-    </div>
+    </>
   );
 };
 

@@ -40,6 +40,16 @@ const TestsFormView = (props: any) => {
           required
         />
       </Form.Group>
+      <Form.Group className="mb-2" id="tests-link">
+        <Form.Label className="mb-1 text-muted">Link</Form.Label>
+        <Form.Control
+          as="textarea"
+          rows={3}
+          value={formPayload.url}
+          onChange={(e) => handleFormPayload("url", e.target.value)}
+          required
+        />
+      </Form.Group>
 
       <Form.Group className="mb-3" id="tests-datetime">
         <Form.Label className="mb-1 text-muted">Date</Form.Label>

@@ -35,6 +35,18 @@ export const bindZero = (value: any) => {
   else return `0${value}`;
 };
 
+export const returnSingleDate = (currentDate: any) => {
+  let newDate = new Date(currentDate);
+  let date = bindZero(newDate.getDate());
+  return `${date}`;
+};
+
+export const returnSingleMonth = (currentDate: any) => {
+  let newDate = new Date(currentDate);
+  let month = newDate.getMonth();
+  return `${calendarMonths[month].key}`;
+};
+
 export const datePreview = (currentDate: any) => {
   let newDate = new Date(currentDate);
   let date = bindZero(newDate.getDate());

@@ -19,6 +19,7 @@ import AdminLayout from "@layouts/adminLayout";
 import { USER_ENDPOINT, USER_WITH_ID_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher, APIUpdater } from "@lib/services";
+import { UserUpdate } from "@lib/services/userService";
 // hoc
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 // components
@@ -88,6 +89,29 @@ const UserDetails = () => {
     description: META_DESCRIPTION,
   };
 
+  const updateUserActiveStatus = (userId: any, status: any) => {
+    const payload = {
+      id: userId,
+      is_active: status,
+    };
+    UserUpdate(payload)
+      .then((response: any) => {
+        mutate(
+          USER_ENDPOINT,
+          async (elements: any) => {
+            let index = elements.findIndex((mutateData: any) => mutateData.id === response.id);
+            return elements.map((oldElement: any, i: Number) =>
+              i === index ? response : oldElement
+            );
+          },
+          false
+        );
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
+  };
+
   return (
     <Page meta={meta}>
       <div>
@@ -107,7 +131,7 @@ const UserDetails = () => {
                   />
                 </div>
               </div>
-              <Table bordered>
+              <Table bordered style={{ whiteSpace: "nowrap" }}>
                 <thead>
                   <tr>
                     {!is_teacher && <th className="text-center">#</th>}
@@ -118,6 +142,7 @@ const UserDetails = () => {
                     <th>Date Joined</th>
                     <th>Last Login</th>
                     <th>Last Logout</th>
+                    <th>Status</th>
                     <th>Role</th>
                     <th>TimeZone</th>
                   </tr>
@@ -152,8 +177,22 @@ const UserDetails = () => {
                             <td className="description text-center">
                               {users.last_login ? dateTimeFormat(users.last_login) : "-"}
                             </td>
+                            <td className="description text-center">
+                              <button
+                                type="button"
+                                className={`btn ${
+                                  users.is_active ? "btn-danger" : "btn-success"
+                                } btn-sm w-100`}
+                                onClick={() => updateUserActiveStatus(users.id, !users.is_active)}
+                              >
+                                {users.is_active ? "Deactivate" : "Activate"}
+                              </button>
+                            </td>
                             <td>
-                              <Form.Group controlId="exampleForm.ControlSelect1">
+                              <Form.Group
+                                controlId="exampleForm.ControlSelect1"
+                                style={{ minWidth: "200px" }}
+                              >
                                 <Form.Control
                                   as="select"
                                   value={users.role}

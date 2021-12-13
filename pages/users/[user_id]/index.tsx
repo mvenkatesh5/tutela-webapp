@@ -7,7 +7,7 @@ import { Container, Card, Tab, Nav, Row, Col, Image } from "react-bootstrap";
 // material
 import { ArrowRightShort } from "@styled-icons/bootstrap/ArrowRightShort";
 // swr
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 // components
 import FromBuilder from "@components/forms";
 import MessageView from "@components/comments/view";
@@ -31,6 +31,7 @@ import {
 } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
+import { UserUpdate } from "@lib/services/userService";
 // hoc
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 // components
@@ -166,7 +167,7 @@ const UserDetailView = () => {
   const { data: usersList, error: usersListError } = useSWR(USER_ENDPOINT, APIFetcher);
 
   const { data: userDetailList, error: userDetailListError } = useSWR(
-    user_id ? USER_WITH_ID_ENDPOINT(user_id) : null,
+    user_id ? [USER_WITH_ID_ENDPOINT(user_id), user_id] : null,
     (url) => APIFetcher(url),
     { refreshInterval: 0 }
   );
@@ -204,6 +205,27 @@ const UserDetailView = () => {
   const meta = {
     title: "User Details",
     description: META_DESCRIPTION,
+  };
+
+  const updateUserActiveStatus = (userId: any, status: any) => {
+    const payload = {
+      id: userId,
+      is_active: status,
+    };
+    UserUpdate(payload)
+      .then((response: any) => {
+        console.log(response);
+        mutate(
+          [USER_WITH_ID_ENDPOINT(user_id), user_id],
+          async (elements: any) => {
+            return response;
+          },
+          false
+        );
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -261,6 +283,19 @@ const UserDetailView = () => {
                         resources={resources}
                         userId={user_id}
                       />
+                      <div className="mt-3">
+                        <button
+                          type="button"
+                          className={`btn ${
+                            userDetailList.is_active ? "btn-danger" : "btn-success"
+                          } btn-sm w-100`}
+                          onClick={() =>
+                            updateUserActiveStatus(userDetailList.id, !userDetailList.is_active)
+                          }
+                        >
+                          {userDetailList.is_active ? "Deactivate" : "Activate"}
+                        </button>
+                      </div>
                     </div>
                     <div className="right-wrapper">
                       <Tab.Container

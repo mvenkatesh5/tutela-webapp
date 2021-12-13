@@ -8,6 +8,7 @@ import AdminLayout from "@layouts/adminLayout";
 // components
 import AdvertCreateView from "@components/admin/advert/create";
 import AdvertEditView from "@components/admin/advert/edit";
+import AdvertDeleteView from "@components/admin/advert/delete";
 // api routes
 import { ADVERTS_ENDPOINT } from "@constants/routes";
 // api services
@@ -57,7 +58,10 @@ const AdvertsView = () => {
                           />
                         </div>
                         <h6 className="mt-2 mb-2">{data.title}</h6>
-                        <AdvertEditView data={data} />
+                        <div className="d-flex align-items-center gap-1">
+                          <AdvertEditView data={data} />
+                          <AdvertDeleteView data={data} />
+                        </div>
                       </Card.Body>
                     </Card>
                   </Col>
