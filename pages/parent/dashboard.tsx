@@ -24,6 +24,7 @@ import {
   PRODUCTS_ENDPOINT,
   USER_ENDPOINT,
   USER_PRODUCT_RESOURCE_VIEW_ENDPOINT,
+  TESTS_ENDPOINT,
 } from "@constants/routes";
 // api routes
 // hoc
@@ -34,6 +35,8 @@ import Page from "@components/page";
 import { META_DESCRIPTION } from "@constants/page";
 // cookie
 import { getAuthenticationToken } from "@lib/cookie";
+// constants
+import { returnSingleDate, returnSingleMonth } from "@constants/global";
 
 function ParentDashboard() {
   const meta = {
@@ -117,6 +120,10 @@ function ParentDashboard() {
       : null,
     (url) => APIFetcher(url)
   );
+
+  const { data: tests, error: testsError } = useSWR(TESTS_ENDPOINT, APIFetcher, {
+    refreshInterval: 0,
+  });
 
   return (
     <Page meta={meta}>
@@ -220,12 +227,47 @@ function ParentDashboard() {
                               className="img-fluid mx-auto d-block"
                               src={item.image}
                               width="300"
+                              alt=""
                             />
                           </a>
                         </Link>
                       </div>
                     ))}
                   </Slider>
+                </Card>
+              )}
+
+              {!tests ? (
+                <div className="text-center mt-5 mb-5">Loading.....</div>
+              ) : (
+                <Card className="pt-3 pb-4 px-3 mt-3 border-0 shadow">
+                  <h6 className="mb-3">All Tests</h6>
+                  {tests && tests.length > 0 ? (
+                    <div className="student-test-container">
+                      {tests.map((data: any, index: Number) => (
+                        <div
+                          key={`students-tests-${index}`}
+                          className="d-flex align-items-center student-test-item"
+                        >
+                          <div className="student-icon">
+                            <div>{returnSingleDate(data.datetime)}</div>
+                            <div>{returnSingleMonth(data.datetime)}</div>
+                          </div>
+                          {data.link ? (
+                            <div className="student-content">
+                              <Link href={data.href}>
+                                <a>{data.name}</a>
+                              </Link>
+                            </div>
+                          ) : (
+                            <div className="student-content">{data.name}</div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center mt-5 mb-5">No Tests are available</div>
+                  )}
                 </Card>
               )}
             </Col>
