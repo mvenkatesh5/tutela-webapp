@@ -61,6 +61,28 @@ const IconRow = (props: any) => {
       });
   };
 
+  const [attendanceLoader, setAttendanceLoader] = useState<boolean>(false);
+  const sessionReportUpdate = (attendance: any) => {
+    if (currentSessionUser) {
+      const payload = { id: currentSessionUser.id, going: attendance };
+      setAttendanceLoader(true);
+      SessionUserUpdate(payload)
+        .then((response) => {
+          setAttendanceLoader(false);
+          closeModal();
+          mutate(
+            [USER_CALENDAR_SESSION_ENDPOINT(props.currentDateQuery), props.currentDateQuery],
+            APIFetcher(USER_CALENDAR_SESSION_ENDPOINT(props.currentDateQuery)),
+            false
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          setAttendanceLoader(false);
+        });
+    }
+  };
+
   return (
     <div>
       <div className="row-icons-root-alter">
@@ -95,6 +117,19 @@ const IconRow = (props: any) => {
                     <div className="row-coin-count">{item.coins}</div>
                   </div>
                 )}
+                {item.rating >= 0 && item.rating >= 10 && (
+                  <>
+                    {item.rating === 50 && (
+                      <div className="row-rating">{String.fromCodePoint(parseInt("128512"))}</div>
+                    )}
+                    {item.rating === 30 && (
+                      <div className="row-rating">{String.fromCodePoint(parseInt("128528"))}</div>
+                    )}
+                    {item.rating === 10 && (
+                      <div className="row-rating">{String.fromCodePoint(parseInt("128577"))}</div>
+                    )}
+                  </>
+                )}
               </div>
             );
           }
@@ -123,25 +158,44 @@ const IconRow = (props: any) => {
                     <div className="coin-modal-text-wrapper">
                       <div className="coin-modal-name">{currentSessionUser.name}</div>
                       <div className="coin-modal-text">
-                        <div className="coin-heading">Session Name</div>
-                        <div className="coin-tog ml-0">:</div>
+                        <div className="coin-heading">Session Name:</div>
+                        {/* <div className="coin-tog ml-0">:</div> */}
                         <div className="coin-description">{props.session.title}</div>
                       </div>
                       <div className="coin-modal-text">
-                        <div className="coin-heading">Time</div>
-                        <div className="coin-tog ml-0">:</div>
+                        <div className="coin-heading">Time:</div>
+                        {/* <div className="coin-tog ml-0">:</div> */}
                         <div className="coin-description">
                           {dateTimeFormat(props.session.start_datetime)}
                         </div>
                       </div>
                       <div className="coin-modal-text">
-                        <div className="coin-heading">Attendance</div>
-                        <div className="coin-tog ml-0">:</div>
+                        <div className="coin-heading">Attendance:</div>
+                        {/* <div className="coin-tog ml-0">:</div> */}
                         <div className="coin-description">
                           {currentSessionUser.going ? (
                             <span className="text-success">Present</span>
                           ) : (
                             <span className="text-danger">Absent</span>
+                          )}
+                        </div>
+                        <div>
+                          {currentSessionUser.going ? (
+                            <button
+                              className="btn btn-sm btn-outline-primary"
+                              disabled={attendanceLoader}
+                              onClick={() => sessionReportUpdate(false)}
+                            >
+                              {attendanceLoader ? "Processing..." : "Absent"}
+                            </button>
+                          ) : (
+                            <button
+                              className="btn btn-sm btn-outline-primary"
+                              disabled={attendanceLoader}
+                              onClick={() => sessionReportUpdate(true)}
+                            >
+                              {attendanceLoader ? "Processing..." : "Present"}
+                            </button>
                           )}
                         </div>
                       </div>
