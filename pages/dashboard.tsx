@@ -93,9 +93,9 @@ const DashboardDetail = (props: any) => {
               )}
             </Col>
             <Col>
-              <UpcomingTestsCard />
+              {/* <UpcomingTestsCard /> */}
               {advertsList && advertsList.length > 0 && (
-                <Card className="p-3 mt-4 border-0 shadow">
+                <Card className="p-3 border-0 shadow">
                   <a
                     href={advertsList[0].link ? advertsList[0].link : "#"}
                     target="_blank"
