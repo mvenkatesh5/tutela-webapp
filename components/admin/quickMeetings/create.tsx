@@ -68,13 +68,14 @@ const QuickMeetingCreateView = () => {
             const meetingPayload = {
               name: quickMeetingsData.name,
               description: quickMeetingsData.description,
-              start_time: quickMeetingsData.start_time,
-              end_date: quickMeetingsData.end_date,
-              data: { zoom: payload, link: "" },
+              start_time: payload.start_datetime,
+              end_date: payload.end_datetime,
+              data: { zoom: response, link: "" },
               created_by: getCurrentUser() && getCurrentUser().user && getCurrentUser().user.id,
             };
             QuickMeetingCreate(meetingPayload)
               .then((res) => {
+                setButtonLoader(true);
                 mutate(
                   QUICK_MEETINGS_ENDPOINT,
                   async (elements: any) => {
@@ -86,11 +87,13 @@ const QuickMeetingCreateView = () => {
               })
               .catch((errors) => {
                 console.log(errors);
+                setButtonLoader(true);
               });
           }
         })
         .catch((error) => {
           console.log(error);
+          setButtonLoader(true);
         });
     } else {
       alert("Please select Minutes greater than zero");

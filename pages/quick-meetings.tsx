@@ -128,9 +128,13 @@ const QuickMeetingsView = () => {
                             </div>
                             <div className="content">
                               <small>
-                                {data.data && data.data.link ? (
-                                  <a href={data.data.link} target="_blank" rel="noreferrer">
-                                    {data.data.link}
+                                {data.data && data.data.zoom.start_url ? (
+                                  <a
+                                    href={data.data.zoom.start_url}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                  >
+                                    {data.data.zoom.start_url}
                                   </a>
                                 ) : (
                                   "-"
@@ -138,7 +142,17 @@ const QuickMeetingsView = () => {
                               </small>
                             </div>
                           </div>
-                          {userRole === "admin" && <QuickMeetingEditView data={data} />}
+                          {data.data && data.data.zoom.start_url && (
+                            <a
+                              href={data.data.zoom.start_url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="btn btn-primary btn-sm"
+                            >
+                              Join Meeting
+                            </a>
+                          )}
+                          {/* {userRole === "admin" && <QuickMeetingEditView data={data} />} */}
                         </Card.Body>
                       </Card>
                     </Col>
