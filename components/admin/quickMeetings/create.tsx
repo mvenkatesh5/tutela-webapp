@@ -75,7 +75,7 @@ const QuickMeetingCreateView = () => {
             };
             QuickMeetingCreate(meetingPayload)
               .then((res) => {
-                setButtonLoader(true);
+                setButtonLoader(false);
                 mutate(
                   QUICK_MEETINGS_ENDPOINT,
                   async (elements: any) => {
@@ -87,13 +87,13 @@ const QuickMeetingCreateView = () => {
               })
               .catch((errors) => {
                 console.log(errors);
-                setButtonLoader(true);
+                setButtonLoader(false);
               });
           }
         })
         .catch((error) => {
           console.log(error);
-          setButtonLoader(true);
+          setButtonLoader(false);
         });
     } else {
       alert("Please select Minutes greater than zero");
