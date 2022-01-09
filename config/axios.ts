@@ -2,9 +2,17 @@ import axios from "axios";
 // cookie
 import cookie from "js-cookie";
 // constants
-import { BASE_STAGING, BASE_LOCAL, BASE_PROD } from "@constants/routes";
+import {
+  BASE_STAGING,
+  BASE_LOCAL,
+  BASE_PROD,
+  ZOOM_RECORDINGS_GO_ENDPOINT,
+} from "@constants/routes";
 // cookie helpers
 import { logout } from "lib/cookie";
+
+// axios for go instance
+export const axiosInstance = axios.create();
 
 // if (process.env.APP_ENV === "production") {
 //   axios.defaults.baseURL = BASE_PROD;

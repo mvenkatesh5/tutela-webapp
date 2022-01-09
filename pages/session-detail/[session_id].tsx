@@ -2,6 +2,7 @@ import React from "react";
 // next imports
 import Link from "next/link";
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
 // react bootstrap
 import { Image, Button, Modal, Form } from "react-bootstrap";
 // material icons
@@ -15,11 +16,19 @@ import useSWR, { mutate } from "swr";
 // components
 import ZoomSessions from "@components/zoomsessions";
 import IconRow from "@components/iconRow";
+const ShakaPlayer = dynamic(() => import("@components/ShakaPlayer"), {
+  ssr: false,
+});
 // api routes
 import { SESSION_ASSET_WITH_SESSION_ID_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
-import { SessionAssetCreate, SessionAssetEdit } from "@lib/services/sessionservice";
+import {
+  SessionAssetCreate,
+  SessionAssetEdit,
+  ZoomRecordingsEndpoint,
+  ZoomRecordingsGoEndpoint,
+} from "@lib/services/sessionservice";
 // cookie
 import { getAuthenticationToken } from "@lib/cookie";
 // global imports
@@ -105,12 +114,48 @@ const SessionDetailView = () => {
     }
   };
 
+  // zoom fetching
+  const [fetchLoader, setFetchLoader] = React.useState<boolean>(false);
+  const fetchZoomRecordings = () => {
+    const payload = {
+      session_id: session_id,
+    };
+    setFetchLoader(true);
+    ZoomRecordingsEndpoint(payload)
+      .then((response) => {
+        if (response && response.message === "NO_NEW_FILES") {
+          alert("All recordings processed.");
+          setFetchLoader(false);
+        } else if (response.dl_server) {
+          uploadZoomRecordings(response.dl_server);
+        } else {
+          alert("Recordings not ready, please try again after sometime.");
+          setFetchLoader(false);
+        }
+      })
+      .catch((error) => {
+        setFetchLoader(false);
+      });
+  };
+  const uploadZoomRecordings = (payload: any) => {
+    ZoomRecordingsGoEndpoint(payload)
+      .then((response) => {
+        setFetchLoader(false);
+        alert("Recording transfer initiated. Please check after sometime.");
+      })
+      .catch((error) => {
+        if (error.status === 403) alert("No recording files found.");
+        setFetchLoader(false);
+      });
+  };
+
   const { data: sessionDetail, error: sessionDetailError } = useSWR(
     session_id ? [SESSION_ASSET_WITH_SESSION_ID_ENDPOINT(session_id), session_id] : null,
     (url) => APIFetcher(url),
     { refreshInterval: 0 }
   );
 
+  const [videoAssets, setVideoAssets] = React.useState<any>();
   React.useEffect(() => {
     if (sessionDetail && sessionDetail.session_users) {
       let learners: any = [];
@@ -140,6 +185,45 @@ const SessionDetailView = () => {
       });
       setStudentImages(learners);
       setTeacherImages(teachers);
+    }
+    let assets: any = [];
+    if (sessionDetail && sessionDetail.session_assets && sessionDetail.session_assets.length > 0) {
+      sessionDetail.session_assets.map((data: any) => {
+        const payload = {
+          id: data.id,
+          title: data.title,
+          thumbnail: data.thumbnail,
+          kind: data.kind,
+          url: data.url,
+          created: data.created,
+          updated: data.updated,
+        };
+        console.log("payload", payload);
+        assets.push(payload);
+      });
+    }
+    if (
+      sessionDetail &&
+      sessionDetail.recording_files &&
+      sessionDetail.recording_files.data &&
+      sessionDetail.recording_files.data.length > 0
+    ) {
+      sessionDetail.recording_files.data.map((data: any) => {
+        console.log("data", data);
+        const payload = {
+          id: data.uuid,
+          title: "Zoom recording",
+          thumbnail: data.thumbnail,
+          kind: data.medium,
+          url: data.recording_link,
+          created: null,
+          updated: null,
+        };
+        assets.push(payload);
+      });
+    }
+    if (assets && assets.length > 0) {
+      setVideoAssets(assets);
     }
   }, [sessionDetail]);
 
@@ -289,39 +373,62 @@ const SessionDetailView = () => {
                     {currentVideoRenderUrl && (
                       <div className="video-container">
                         <div className="iframe-container">
-                          <iframe
-                            src={currentVideoRenderUrl.url}
-                            loading="lazy"
-                            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-                            allowFullScreen={true}
-                          ></iframe>
+                          {currentVideoRenderUrl.kind === "ZOOM_CLOUD" ? (
+                            <ShakaPlayer
+                              src={currentVideoRenderUrl.url}
+                              config={null}
+                              chromeLess={null}
+                              className={"h-100"}
+                              subtitle={null}
+                            />
+                          ) : (
+                            <iframe
+                              src={currentVideoRenderUrl.url}
+                              loading="lazy"
+                              allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+                              allowFullScreen={true}
+                            ></iframe>
+                          )}
                         </div>
                         <div className="video-heading">
                           <div className="title">{currentVideoRenderUrl.title}</div>
                           <div className="kind">{currentVideoRenderUrl.kind}</div>
                         </div>
-                        <div className="video-description">Video description</div>
+                        {/* <div className="video-description">Video description</div> */}
                       </div>
                     )}
                   </div>
 
                   <div className="middle-bottom-wrapper">
-                    <div className="d-flex justify-content-between align-items-center">
+                    <div className="d-flex align-items-center gap-3">
                       <div>
                         <h5 className="m-0 p-0">All Videos</h5>
                       </div>
                       {userRole != "student" && (
-                        <div>
-                          <Button className="btn-sm" onClick={() => openModal(initialModalData)}>
-                            Upload Video
-                          </Button>
-                        </div>
+                        <>
+                          <div className="ms-auto">
+                            <Button className="btn-sm" onClick={() => openModal(initialModalData)}>
+                              Upload Video
+                            </Button>
+                          </div>
+                          {sessionDetail && sessionDetail.data && sessionDetail.data.zoom && (
+                            <div>
+                              <Button
+                                className="btn-sm"
+                                disabled={fetchLoader}
+                                onClick={fetchZoomRecordings}
+                              >
+                                {fetchLoader ? "Fetching in progress..." : "Fetch Recordings"}
+                              </Button>
+                            </div>
+                          )}
+                        </>
                       )}
                     </div>
-                    {sessionDetail.session_assets && sessionDetail.session_assets.length > 0 ? (
+                    {videoAssets && videoAssets.length > 0 ? (
                       <>
                         <div className="render-video-container">
-                          {sessionDetail.session_assets.map((item: any, index: any) => (
+                          {videoAssets.map((item: any, index: any) => (
                             <div
                               key={`render-video-item-${index}`}
                               className={`render-video-item ${
@@ -345,13 +452,13 @@ const SessionDetailView = () => {
                               >
                                 {item.title}
                               </div>
-                              <div
+                              {/* <div
                                 className="description"
                                 onClick={() => handleCurrentVideoRenderUrl(item)}
                               >
                                 Video description
-                              </div>
-                              {userRole != "student" && (
+                              </div> */}
+                              {userRole != "student" && item.kind != "ZOOM_CLOUD" && (
                                 <div className="button-container">
                                   <Button
                                     variant="outline-secondary"

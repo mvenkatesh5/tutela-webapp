@@ -13,6 +13,10 @@ export const AUTH_SIGNUP = `/signup/`;
 export const FORGOT_PASSWORD = `/forgot-password/`;
 export const RESET_PASSWORD = `/reset-password/`;
 
+// session recording endpoints
+export const ZOOM_RECORDINGS_ENDPOINT = `/api/zoom-recordings/fetch/`;
+export const ZOOM_RECORDINGS_GO_ENDPOINT = `https://tutela.edison.video/api/download/`;
+
 // users
 export const USER_ENDPOINT = `/api/users/`;
 export const USER_WITH_ID_ENDPOINT = (user_id: any) => `/api/users/${user_id}/`;

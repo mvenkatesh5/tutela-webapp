@@ -1,4 +1,5 @@
 import axios from "axios";
+import { axiosInstance } from "@config/axios";
 // api routes
 import {
   BULK_SESSION_ENDPOINT,
@@ -12,6 +13,8 @@ import {
   BULK_SESSION_DELETE_ENDPOINT,
   SESSION_ASSET_ENDPOINT,
   SESSION_ASSET_WITH_ID_ENDPOINT,
+  ZOOM_RECORDINGS_ENDPOINT,
+  ZOOM_RECORDINGS_GO_ENDPOINT,
 } from "@constants/routes";
 
 export const SessionBulkCreate = async (data: any) => {
@@ -152,6 +155,25 @@ export const SessionAssetCreate = async (data: any) => {
 export const SessionAssetEdit = async (data: any) => {
   try {
     const response = await axios.put(SESSION_ASSET_WITH_ID_ENDPOINT(data.id), data);
+    return response.data;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
+// zoom recordings
+export const ZoomRecordingsEndpoint = async (data: any) => {
+  try {
+    const response = await axios.post(ZOOM_RECORDINGS_ENDPOINT, data);
+    return response.data;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
+export const ZoomRecordingsGoEndpoint = async (data: any) => {
+  try {
+    const response = await axiosInstance.post(ZOOM_RECORDINGS_GO_ENDPOINT, data);
     return response.data;
   } catch (error: any) {
     throw error.response.data;

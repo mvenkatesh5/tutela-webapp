@@ -238,12 +238,15 @@
           }
         }
         .title {
+          word-wrap: break-word;
+          width: 210px;
           font-size: 14px;
           font-weight: 600;
           color: #212121;
           padding: 4px 10px 2px 10px;
         }
         .description {
+          width: 210px;
           font-size: 12px;
           color: #717171;
           padding: 0px 10px 2px 10px;
