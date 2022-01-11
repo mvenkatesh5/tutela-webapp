@@ -94,6 +94,16 @@ export const dateTimeFormat = (currentDate: any) => {
   return `${year}-${month}-${date}T${hours}:${minutes}`;
 };
 
+export const timeDateFormat = (currentDate: any) => {
+  let newDate = new Date(currentDate);
+  let date = bindZero(newDate.getDate());
+  let month = bindZero(newDate.getMonth() + 1);
+  let year = bindZero(newDate.getFullYear());
+  let hours = bindZero(newDate.getHours());
+  let minutes = bindZero(newDate.getMinutes());
+  return `${hours}:${minutes} ${date}-${month}-${year} `;
+};
+
 export const returnDateWithText = (currentDate: any) => {
   let newDate = new Date(currentDate);
   let date = bindZero(newDate.getDate());
