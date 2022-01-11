@@ -18,6 +18,7 @@ import { Announcement } from "@styled-icons/zondicons/Announcement";
 import { DocumentReport } from "@styled-icons/heroicons-outline/DocumentReport";
 import { CollapseLeft } from "@styled-icons/open-iconic/CollapseLeft";
 import { ExpandRight } from "@styled-icons/open-iconic/ExpandRight";
+import { DocumentBulletList } from "@styled-icons/fluentui-system-filled/DocumentBulletList";
 // cookie
 import { getAuthenticationToken } from "@lib/cookie";
 // global context provider
@@ -418,7 +419,28 @@ const UserSidebar = () => {
           </a>
         </Link>
       )}
-
+      {tokenDetails && tokenDetails.user && tokenDetails.user.role != 3 && (
+        <Link href="/doubts">
+          <a>
+            <OverlayTrigger
+              key={`right`}
+              placement={`right`}
+              overlay={<Tooltip id={`tooltip-right`}>Doubts</Tooltip>}
+            >
+              <div
+                className={
+                  "sidebar-item-container " + (router.pathname.includes("/doubts") ? "active" : "")
+                }
+              >
+                <div className="sidebar-icon">
+                  <DocumentBulletList />
+                </div>
+                <div className="sidebar-label">Doubts</div>
+              </div>
+            </OverlayTrigger>
+          </a>
+        </Link>
+      )}
       <OverlayTrigger
         key={`right`}
         placement={`right`}

@@ -1,0 +1,275 @@
+import React from "react";
+// next imports
+import NextLink from "next/link";
+import { useRouter } from "next/router";
+// swr
+import useSWR, { mutate } from "swr";
+// react bootstrap
+import { Button, Form, Image } from "react-bootstrap";
+// material icons
+import { Pencil } from "@styled-icons/ionicons-sharp/Pencil";
+import { TrashFill } from "@styled-icons/bootstrap/TrashFill";
+// seo
+import Page from "@components/page";
+import { META_DESCRIPTION } from "@constants/page";
+// components
+import DoubtsStatus from "@components/doubts/DoubtsStatus";
+import DoubtsEdit from "@components/doubts/DoubtsEdit";
+import DoubtsDelete from "@components/doubts/DoubtsDelete";
+import ReplyEdit from "@components/doubts/ReplyEdit";
+import ReplyDelete from "@components/doubts/ReplyDelete";
+// layout
+import AdminLayout from "@layouts/adminLayout";
+// common
+import { timeDateFormat } from "@constants/global";
+// cookie
+import { getAuthenticationToken } from "@lib/cookie";
+// api routes
+import { DOUBTS_WITH_REPLIES_ENDPOINT, USER_ENDPOINT } from "@constants/routes";
+// api services
+import { APIFetcher } from "@lib/services";
+import { DoubtRepliesCreate } from "@lib/services/doubts.service";
+// hoc
+import withGlobalAuth from "@lib/hoc/withGlobalAuth";
+
+const DoubtsPageDetail = () => {
+  const meta = {
+    title: "Doubts Detail",
+    description: META_DESCRIPTION,
+  };
+
+  const getCurrentRole = (user: any) => {
+    if (user && user.user && user.user.role === 0) return "student";
+    if (user && user.user && user.user.role === 1) return "teacher";
+    if (user && user.user && user.user.role === 2) return "admin";
+    if (user && user.user && user.user.role === 3) return "parent";
+  };
+
+  const router = useRouter();
+  const { doubt_id } = router.query;
+
+  const getCurrentUser = () => {
+    let user: any = getAuthenticationToken();
+    user = user ? JSON.parse(user) : "";
+    if (user) {
+      return user;
+    }
+    return null;
+  };
+
+  const [currentUser, setCurrentUser] = React.useState<any>(getCurrentUser());
+
+  const [editor, setEditor] = React.useState(false);
+
+  const { data: doubtWithReplies, error: doubtWithRepliesError } = useSWR(
+    doubt_id ? [DOUBTS_WITH_REPLIES_ENDPOINT(doubt_id), doubt_id] : null,
+    APIFetcher
+  );
+
+  const { data: users, error: usersError } = useSWR(USER_ENDPOINT, APIFetcher);
+
+  const [buttonLoader, setButtonLoader] = React.useState(false);
+  const [formData, setFormData] = React.useState({
+    text: "",
+  });
+  const handleFormData = (key: any, value: any) => {
+    setFormData({ ...formData, [key]: value });
+  };
+
+  const updateReplies = () => {
+    if (formData.text) {
+      const payload = formData;
+      setButtonLoader(true);
+      DoubtRepliesCreate(doubt_id, payload)
+        .then((response) => {
+          setButtonLoader(false);
+          setEditor(false);
+          handleFormData("text", "");
+          mutate(
+            [DOUBTS_WITH_REPLIES_ENDPOINT(doubt_id), doubt_id],
+            async (elements: any) => {
+              let newElement = { ...elements };
+              newElement.responses = [...newElement.responses, response];
+              return newElement;
+            },
+            false
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          setButtonLoader(false);
+        });
+    }
+  };
+
+  const renderUserDetails = (user: any, user_id: any) => {
+    let userElement = user.find((_: any) => _.id === user_id);
+    if (userElement) return `${userElement.first_name} ${userElement.last_name}`;
+  };
+
+  return (
+    <Page meta={meta}>
+      <AdminLayout>
+        <div className="right-layout px-5">
+          <div className="">
+            {!doubtWithReplies && !doubtWithRepliesError ? (
+              <div className="text-center text-muted mt-5">Loading...</div>
+            ) : (
+              <>
+                <h4 className="mb-2">{doubtWithReplies.text}</h4>
+
+                <div className="doubts-detail-card gap-4 mt-1">
+                  <div className="Image">
+                    <Image src="/bird.svg" alt="" className="image" />
+                  </div>
+                  <div className="w-100">
+                    <div className="title">
+                      {doubtWithReplies?.user?.first_name} {doubtWithReplies?.user?.last_name}
+                      Title name
+                    </div>
+                    <div className="text-muted date">
+                      {timeDateFormat(doubtWithReplies.created_at)}
+                    </div>
+                    {users && doubtWithReplies?.allocated_to && (
+                      <div className="description-doubt mt-1">
+                        Assigned to: {renderUserDetails(users, doubtWithReplies?.allocated_to)}
+                      </div>
+                    )}
+                  </div>
+                  {currentUser &&
+                    getCurrentRole(currentUser) === "student" &&
+                    doubtWithReplies?.user?.id === currentUser?.user?.id && (
+                      <>
+                        <div className="ml-auto">
+                          <DoubtsStatus
+                            doubt={doubtWithReplies}
+                            mutateQuery={[DOUBTS_WITH_REPLIES_ENDPOINT(doubt_id), doubt_id]}
+                            doubt_detail={true}
+                          >
+                            {doubtWithReplies?.is_resolved ? (
+                              <Button size={"sm"}>Reopen</Button>
+                            ) : (
+                              <Button variant="secondary" size={"sm"}>
+                                Resolve
+                              </Button>
+                            )}
+                          </DoubtsStatus>
+                        </div>
+                        <div>
+                          <DoubtsEdit
+                            doubt={doubtWithReplies}
+                            mutateQuery={[DOUBTS_WITH_REPLIES_ENDPOINT(doubt_id), doubt_id]}
+                            doubt_detail={true}
+                            users={users}
+                          >
+                            <Button variant="secondary" size={"sm"}>
+                              <Pencil width="16" height="16" />
+                            </Button>
+                          </DoubtsEdit>
+                        </div>
+                        <div>
+                          <DoubtsDelete
+                            doubt={doubtWithReplies}
+                            mutateQuery={[DOUBTS_WITH_REPLIES_ENDPOINT(doubt_id), doubt_id]}
+                            doubt_detail={true}
+                          >
+                            <Button size={"sm"}>
+                              <TrashFill width="16" height="16" />
+                            </Button>
+                          </DoubtsDelete>
+                        </div>
+                      </>
+                    )}
+                </div>
+
+                {doubtWithReplies?.data?.description && (
+                  <div className="py-2 description-doubt">
+                    {doubtWithReplies?.data?.description} description
+                  </div>
+                )}
+
+                <button onClick={() => setEditor(!editor)} className=" blue-button-answer my-2">
+                  Answer
+                </button>
+
+                {editor && (
+                  <>
+                    <div className="d-flex gap-2 my-2">
+                      <Image src="/bird.svg" alt="" className="doubts-image mb-auto" />
+                      <Form.Group className="w-100">
+                        <Form.Control
+                          as="textarea"
+                          rows={6}
+                          value={formData.text}
+                          onChange={(e) => handleFormData("text", e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                    </div>
+                    <div className="d-flex ms-auto">
+                      <Button
+                        className="ms-auto"
+                        size="sm"
+                        disabled={buttonLoader}
+                        onClick={updateReplies}
+                      >
+                        {buttonLoader ? "Processing..." : "Send"}
+                      </Button>
+                    </div>
+                  </>
+                )}
+
+                {doubtWithReplies &&
+                doubtWithReplies.responses &&
+                doubtWithReplies.responses.length > 0 ? (
+                  <>
+                    <h4 className="mt-3">
+                      {doubtWithReplies.responses.length}{" "}
+                      Answers
+                    </h4>
+                    {doubtWithReplies.responses.map((data: any, index: any) => (
+                      <div key={`doubts-responses-${index}`}>
+                        <div className="doubts-answer-card pt-3 mt-3">
+                          <Image className="image" src="/bird.svg" alt="" />
+                          <div className="w-full">
+                            <div className="text-sm font-medium">
+                              {data?.user?.first_name} {data?.user?.last_name}
+                            </div>
+                            <div className="date">{timeDateFormat(data.created_at)}</div>
+                          </div>
+                          {currentUser.user.id === data.user.id && (
+                            <>
+                              <div className="ms-auto mt-4">
+                                <ReplyEdit doubt_id={doubt_id} doubt={data}>
+                                  <Button variant="secondary" size={"sm"}>
+                                    <Pencil width="16" height="16" />
+                                  </Button>
+                                </ReplyEdit>
+                              </div>
+                              <div className="mt-4">
+                                <ReplyDelete doubt_id={doubt_id} doubt={data}>
+                                  <Button size={"sm"}>
+                                    <TrashFill width="16" height="16" />
+                                  </Button>
+                                </ReplyDelete>
+                              </div>
+                            </>
+                          )}
+                        </div>
+                        <div className="my-2">{data.text}</div>
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  <div className="text-center text-muted mt-5">No Replies are available...</div>
+                )}
+              </>
+            )}
+          </div>
+        </div>
+      </AdminLayout>
+    </Page>
+  );
+};
+
+export default withGlobalAuth(DoubtsPageDetail);
