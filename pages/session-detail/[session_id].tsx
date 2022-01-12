@@ -197,8 +197,8 @@ const SessionDetailView = () => {
           url: data.url,
           created: data.created,
           updated: data.updated,
+          archived: data?.archived ? data?.archived : false,
         };
-        console.log("payload", payload);
         assets.push(payload);
       });
     }
@@ -209,7 +209,6 @@ const SessionDetailView = () => {
       sessionDetail.recording_files.data.length > 0
     ) {
       sessionDetail.recording_files.data.map((data: any) => {
-        console.log("data", data);
         const payload = {
           id: data.uuid,
           title: "Zoom recording",
@@ -218,7 +217,10 @@ const SessionDetailView = () => {
           url: data.recording_link,
           created: null,
           updated: null,
+          archived: data?.archived ? data?.archived : false,
         };
+        console.log(data.medium);
+        console.log(payload);
         assets.push(payload);
       });
     }
@@ -227,12 +229,21 @@ const SessionDetailView = () => {
     }
   }, [sessionDetail]);
 
+  const archivedStatusZoomRecordingLinks = (id: any, archived: any) => {
+    let zoomRecordings = [...videoAssets];
+    let currentZoomRecordingsIndex = zoomRecordings.findIndex((record) => record.id === id);
+    if (currentZoomRecordingsIndex >= 0) {
+      zoomRecordings[currentZoomRecordingsIndex].archived = archived;
+    }
+  };
+
+  const [tokenDetails, setTokenDetails] = React.useState<any>();
   React.useEffect(() => {
     if (getAuthenticationToken()) {
       let details: any = getAuthenticationToken();
       details = details ? JSON.parse(details) : null;
       if (details) {
-        // setTokenDetails(details);
+        setTokenDetails(details);
         if (details.info.role === 2) setUserRole("admin");
         else if (details.info.role === 1) setUserRole("teacher");
         else setUserRole("student");
@@ -428,49 +439,52 @@ const SessionDetailView = () => {
                     {videoAssets && videoAssets.length > 0 ? (
                       <>
                         <div className="render-video-container">
-                          {videoAssets.map((item: any, index: any) => (
-                            <div
-                              key={`render-video-item-${index}`}
-                              className={`render-video-item ${
-                                currentVideoRenderUrl && currentVideoRenderUrl.id === item.id
-                                  ? "active"
-                                  : ""
-                              }`}
-                            >
-                              <div
-                                className="image-container"
-                                onClick={() => handleCurrentVideoRenderUrl(item)}
-                              >
-                                <Image
-                                  alt=""
-                                  src={item.thumbnail ? item.thumbnail : "/default-image.png"}
-                                />
-                              </div>
-                              <div
-                                className="title"
-                                onClick={() => handleCurrentVideoRenderUrl(item)}
-                              >
-                                {item.title}
-                              </div>
-                              {/* <div
-                                className="description"
-                                onClick={() => handleCurrentVideoRenderUrl(item)}
-                              >
-                                Video description
-                              </div> */}
-                              {userRole != "student" && item.kind != "ZOOM_CLOUD" && (
-                                <div className="button-container">
-                                  <Button
-                                    variant="outline-secondary"
-                                    className="btn-sm edit-button"
-                                    onClick={() => openModal(item)}
+                          {videoAssets.map((item: any, index: any) => {
+                            if (!item.archived || tokenDetails?.user?.email === "admin1@sample.com")
+                              return (
+                                <div
+                                  key={`render-video-item-${index}`}
+                                  className={`render-video-item ${
+                                    currentVideoRenderUrl && currentVideoRenderUrl.id === item.id
+                                      ? "active"
+                                      : ""
+                                  }`}
+                                >
+                                  <div
+                                    className="image-container"
+                                    onClick={() => handleCurrentVideoRenderUrl(item)}
                                   >
-                                    Edit
-                                  </Button>
+                                    <Image
+                                      alt=""
+                                      src={item.thumbnail ? item.thumbnail : "/default-image.png"}
+                                    />
+                                  </div>
+                                  <div
+                                    className="title"
+                                    onClick={() => handleCurrentVideoRenderUrl(item)}
+                                  >
+                                    {item.title}
+                                  </div>
+                                  {/* <div
+                                    className="description"
+                                    onClick={() => handleCurrentVideoRenderUrl(item)}
+                                  >
+                                    Video description
+                                  </div> */}
+                                  {userRole != "student" && item.kind != "ZOOM_CLOUD" && (
+                                    <div className="button-container">
+                                      <Button
+                                        variant="outline-secondary"
+                                        className="btn-sm edit-button"
+                                        onClick={() => openModal(item)}
+                                      >
+                                        Edit
+                                      </Button>
+                                    </div>
+                                  )}
                                 </div>
-                              )}
-                            </div>
-                          ))}
+                              );
+                          })}
                         </div>
                       </>
                     ) : (

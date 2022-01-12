@@ -7,6 +7,11 @@ export default class CustomDocument extends Document {
         <Head>
           {/* eslint-disable-next-line @next/next/no-sync-scripts */}
           <script src="https://github.com/videojs/mux.js/releases/latest/download/mux.js"></script>
+          <script
+            defer
+            data-domain="onlinelearning.tutelaprep.com"
+            src="https://plausible.io/js/plausible.js"
+          ></script>
         </Head>
         <body>
           <Main />
