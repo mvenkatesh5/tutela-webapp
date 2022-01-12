@@ -18,6 +18,7 @@ import { Folder } from "@styled-icons/boxicons-regular/Folder";
 import { Assessment } from "@styled-icons/material-rounded/Assessment";
 import { CollapseLeft } from "@styled-icons/open-iconic/CollapseLeft";
 import { ExpandRight } from "@styled-icons/open-iconic/ExpandRight";
+import { Forum } from "@styled-icons/material/Forum";
 // global context provider
 import { globalContext } from "@contexts/global";
 
@@ -93,6 +94,11 @@ const Sidebar = () => {
       label: "Tests",
       icon: <Assessment />,
       href: "/tests",
+    },
+    {
+      label: "Doubts",
+      icon: <Forum />,
+      href: "/doubts",
     },
   ];
 
