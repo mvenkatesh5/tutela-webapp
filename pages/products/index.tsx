@@ -73,22 +73,24 @@ const ProductView = () => {
                       >
                         <div className="left">{product.name}</div>
                         <div className="right">
-                          <div className="dropdown-wrapper global-dropdown">
-                            <Dropdown>
-                              <Dropdown.Toggle as="div" className="icon">
-                                <DotsHorizontalRounded />
-                              </Dropdown.Toggle>
+                          {usersList && (
+                            <div className="dropdown-wrapper global-dropdown">
+                              <Dropdown>
+                                <Dropdown.Toggle as="div" className="icon">
+                                  <DotsHorizontalRounded />
+                                </Dropdown.Toggle>
 
-                              <Dropdown.Menu className="content-wrapper p-0">
-                                <ProductEditView
-                                  data={product}
-                                  users={usersList}
-                                  resources={resourcesList}
-                                />
-                                <ProductDeleteView data={product} />
-                              </Dropdown.Menu>
-                            </Dropdown>
-                          </div>
+                                <Dropdown.Menu className="content-wrapper p-0">
+                                  <ProductEditView
+                                    data={product}
+                                    users={usersList}
+                                    resources={resourcesList}
+                                  />
+                                  <ProductDeleteView data={product} />
+                                </Dropdown.Menu>
+                              </Dropdown>
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div className="content">
