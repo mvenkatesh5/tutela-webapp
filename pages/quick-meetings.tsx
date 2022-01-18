@@ -73,7 +73,7 @@ const QuickMeetingsView = () => {
                 <Col>
                   <h5>Quick Meetings</h5>
                 </Col>
-                {userRole === "admin" && (
+                {(userRole === "admin" || userRole === "teacher") && (
                   <Col>
                     <QuickMeetingCreateView />
                   </Col>
@@ -130,11 +130,17 @@ const QuickMeetingsView = () => {
                               <small>
                                 {data.data && data.data.zoom.start_url ? (
                                   <a
-                                    href={data.data.zoom.start_url}
+                                    href={
+                                      userRole === "admin"
+                                        ? data.data.zoom.start_url
+                                        : data.data.zoom.join_url
+                                    }
                                     target="_blank"
                                     rel="noreferrer"
                                   >
-                                    {data.data.zoom.start_url}
+                                    {userRole === "admin"
+                                      ? data.data.zoom.start_url
+                                      : data.data.zoom.join_url}
                                   </a>
                                 ) : (
                                   "-"
@@ -142,9 +148,14 @@ const QuickMeetingsView = () => {
                               </small>
                             </div>
                           </div>
+
                           {data.data && data.data.zoom.start_url && (
                             <a
-                              href={data.data.zoom.start_url}
+                              href={
+                                userRole === "admin"
+                                  ? data.data.zoom.start_url
+                                  : data.data.zoom.join_url
+                              }
                               target="_blank"
                               rel="noreferrer"
                               className="btn btn-primary btn-sm"
@@ -152,6 +163,7 @@ const QuickMeetingsView = () => {
                               Join Meeting
                             </a>
                           )}
+
                           {/* {userRole === "admin" && <QuickMeetingEditView data={data} />} */}
                         </Card.Body>
                       </Card>

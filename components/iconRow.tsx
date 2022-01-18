@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 // react bootstrap
 import { Button, Modal, Form, Image } from "react-bootstrap";
 // styled icons
@@ -109,24 +109,45 @@ const IconRow = (props: any) => {
                   )}
                 </div>
                 <div className="row-name">{item.name} </div>
-                {props.user_role != "student" && props.role === "user" && (
-                  <div className="row-coins">
-                    <div className="row-coin-icon">
-                      <Image src={"/tutela-coin.png"} alt="" />
-                    </div>
-                    <div className="row-coin-count">{item.coins}</div>
-                  </div>
-                )}
-                {item.rating >= 0 && item.rating >= 10 && (
+
+                {props.user_role == "admin" && (
                   <>
-                    {item.rating === 50 && (
-                      <div className="row-rating">{String.fromCodePoint(parseInt("128512"))}</div>
+                    {props.user_role != "student" && props.role === "user" && (
+                      <div className="row-coins">
+                        <div className="row-coin-icon">
+                          <Image src={"/tutela-coin.png"} alt="" />
+                        </div>
+                        <div className="row-coin-count">{item.coins}</div>
+                      </div>
                     )}
-                    {item.rating === 30 && (
-                      <div className="row-rating">{String.fromCodePoint(parseInt("128528"))}</div>
+
+                    {props.role === "teacher" && (
+                      <div className="row-coins">
+                        <div className="row-coin-icon">
+                          <Image src={"/tutela-coin.png"} alt="" />
+                        </div>
+                        <div className="row-coin-count me-1">{item.coins}</div>
+                      </div>
                     )}
-                    {item.rating === 10 && (
-                      <div className="row-rating">{String.fromCodePoint(parseInt("128577"))}</div>
+
+                    {item.rating >= 0 && item.rating >= 10 && (
+                      <>
+                        {item.rating === 50 && (
+                          <div className="row-rating">
+                            {String.fromCodePoint(parseInt("128512"))}
+                          </div>
+                        )}
+                        {item.rating === 30 && (
+                          <div className="row-rating">
+                            {String.fromCodePoint(parseInt("128528"))}
+                          </div>
+                        )}
+                        {item.rating === 10 && (
+                          <div className="row-rating">
+                            {String.fromCodePoint(parseInt("128577"))}
+                          </div>
+                        )}
+                      </>
                     )}
                   </>
                 )}

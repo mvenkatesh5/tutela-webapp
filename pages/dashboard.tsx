@@ -17,6 +17,8 @@ import { META_DESCRIPTION } from "@constants/page";
 import { getAuthenticationToken } from "@lib/cookie";
 // api services
 import { APIFetcher } from "@lib/services";
+// react slick
+import Slider from "react-slick";
 // layouts
 import StudentLayout from "layouts/studentLayout";
 // hoc
@@ -33,6 +35,18 @@ const DashboardDetail = (props: any) => {
   const [currentDateQuery, setCurrentDateQuery] = React.useState<any>();
   const [userRole, setUserRole] = React.useState<any>();
   const [tokenDetails, setTokenDetails] = React.useState<any>();
+
+   const settingsSlider = {
+     dots: true,
+     infinite: true,
+     slidesToShow: 1,
+     slidesToScroll: 1,
+     autoplay: true,
+     autoplaySpeed: 2500,
+     // nextArrow: <SampleNextArrow />,
+     // prevArrow: <SamplePrevArrow />,
+   };
+
   React.useEffect(() => {
     if (getAuthenticationToken()) {
       let details: any = getAuthenticationToken();
@@ -92,23 +106,41 @@ const DashboardDetail = (props: any) => {
                 <div className="text-center mt-4 mb-4">No sessions for Today.</div>
               )}
             </Col>
-            <Col>
+            <Col lg="4">
               {/* <UpcomingTestsCard /> */}
               {advertsList && advertsList.length > 0 && (
-                <Card className="p-3 border-0 shadow">
-                  <a
-                    href={advertsList[0].link ? advertsList[0].link : "#"}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <Image
-                      alt=""
-                      className="img-fluid mx-auto d-block"
-                      src={advertsList[0].image}
-                      width="300"
-                    />
-                  </a>
+                <Card className="p-3 pb-4 border-0 shadow">
+                  <Slider {...settingsSlider}>
+                    {advertsList.map((item: any, index: any) => {
+                      return (
+                        <div key={`link-${index}`}>
+                          <a href={item.link} target="_blank" rel="noreferrer">
+                            <Image
+                              alt=""
+                              className="img-fluid mx-auto d-block"
+                              src={item.image}
+                              width="300"
+                            />
+                          </a>
+                        </div>
+                      );
+                    })}
+                  </Slider>
                 </Card>
+                // <Card className="p-3 border-0 shadow">
+                //   <a
+                //     href={advertsList[0].link ? advertsList[0].link : "#"}
+                //     target="_blank"
+                //     rel="noreferrer"
+                //   >
+                //     <Image
+                //       alt=""
+                //       className="img-fluid mx-auto d-block"
+                //       src={advertsList[0].image}
+                //       width="300"
+                //     />
+                //   </a>
+                // </Card>
               )}
               {!tests ? (
                 <div className="text-center mt-5 mb-5">Loading.....</div>
