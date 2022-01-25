@@ -34,6 +34,8 @@ const withoutAuth = (WrappedComponent: any) => {
         WrappedComponent.getInitialProps && (await WrappedComponent.getInitialProps(ctx));
       return { ...componentProps, tokenDetails };
     }
+
+    return {};
   };
 
   return Wrapper;

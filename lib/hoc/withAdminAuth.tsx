@@ -40,6 +40,8 @@ const withAdminAuth = (WrappedComponent: any) => {
     } else {
       redirect(ctx, "/signin");
     }
+
+    return {};
   };
 
   return Wrapper;

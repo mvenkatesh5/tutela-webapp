@@ -37,6 +37,8 @@ const withStudentAuth = (WrappedComponent: any) => {
     } else {
       redirect(ctx, "/signin");
     }
+
+    return {};
   };
 
   return Wrapper;

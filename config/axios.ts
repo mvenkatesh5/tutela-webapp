@@ -45,7 +45,7 @@ export function setAxiosHeader(token: string) {
   }
 })();
 
-const UNAUTHORIZED = [401];
+const UNAUTHORIZED = [401, 403];
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
