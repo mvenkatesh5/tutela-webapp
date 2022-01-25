@@ -419,7 +419,7 @@ const UserSidebar = () => {
           </a>
         </Link>
       )}
-      {tokenDetails && tokenDetails.user && tokenDetails.user.role != 3 && (
+      {/* {tokenDetails && tokenDetails.user && tokenDetails.user.role != 3 && (
         <Link href="/doubts">
           <a>
             <OverlayTrigger
@@ -440,7 +440,7 @@ const UserSidebar = () => {
             </OverlayTrigger>
           </a>
         </Link>
-      )}
+      )} */}
       <OverlayTrigger
         key={`right`}
         placement={`right`}

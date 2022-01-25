@@ -95,11 +95,11 @@ const Sidebar = () => {
       icon: <Assessment />,
       href: "/tests",
     },
-    {
-      label: "Doubts",
-      icon: <Forum />,
-      href: "/doubts",
-    },
+    // {
+    //   label: "Doubts",
+    //   icon: <Forum />,
+    //   href: "/doubts",
+    // },
   ];
 
   return (
