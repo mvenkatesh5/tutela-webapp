@@ -1,8 +1,9 @@
 import React from "react";
 // next imports
+import Link from "next/link";
 import { useRouter } from "next/router";
 // react bootstrap
-import { Container, Badge, Card, Tab, Nav, Row, Col } from "react-bootstrap";
+import { Container, Badge, Card, Tab, Nav, Row, Col, Button } from "react-bootstrap";
 // material icons
 import { ArrowLeftShort } from "@styled-icons/bootstrap/ArrowLeftShort";
 // swr
@@ -62,10 +63,10 @@ const UserAdminReportsView = () => {
   const [userReports, setUserReports] = React.useState<any>();
 
   const report_tab_data = [
-    { tab_key: "overview", tab_name: "Overview" },
-    { tab_key: "performance", tab_name: "Performance" },
-    { tab_key: "syllabus", tab_name: "Syllabus" },
-    { tab_key: "behavior", tab_name: "Behavior" },
+    { tab_key: "overview", tab_name: "Reports" },
+    // { tab_key: "performance", tab_name: "Performance" },
+    // { tab_key: "syllabus", tab_name: "Syllabus" },
+    // { tab_key: "behavior", tab_name: "Behavior" },
   ];
   const [tabKey, setTabKey] = React.useState<any>(report_tab_data[0].tab_key);
 
@@ -87,13 +88,13 @@ const UserAdminReportsView = () => {
     }, [view, userReports]);
 
     const renderSlateContent = (value: any) => {
-      if (value.length > 0 && Array.isArray(value)) {
+      if (value && value.length > 0 && Array.isArray(value)) {
         return value;
       } else {
         return [
           {
             type: "paragraph",
-            children: [{ text: value.length > 0 ? value : "" }],
+            children: [{ text: value && value.length > 0 ? value : "" }],
           },
         ];
       }
@@ -113,14 +114,61 @@ const UserAdminReportsView = () => {
                   borderRadius: "4px",
                 }}
               >
-                {view === "overview" && <Badge className="bg-secondary mb-3">{report.flags}</Badge>}
+                {report.title && <h4>{report.title}</h4>}
 
-                {renderSlateContent(report.report.content) && (
-                  <div className="mb-3">
-                    <SlateEditor
-                      readOnly={true}
-                      initialValue={renderSlateContent(report.report.content)}
-                    />
+                {report?.report?.content && (
+                  <div className="mt-3">
+                    <h6>General Report</h6>
+                    {renderSlateContent(report?.report?.content) && (
+                      <div className="mb-3">
+                        <SlateEditor
+                          readOnly={true}
+                          initialValue={renderSlateContent(report?.report?.content)}
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {report?.performance?.content && (
+                  <div className="mt-3">
+                    <h6>Performance Report</h6>
+                    {renderSlateContent(report?.performance?.content) && (
+                      <div className="mb-3">
+                        <SlateEditor
+                          readOnly={true}
+                          initialValue={renderSlateContent(report?.performance?.content)}
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {report?.syllabus?.content && (
+                  <div className="mt-3">
+                    <h6>Syllabus</h6>
+                    {renderSlateContent(report?.syllabus?.content) && (
+                      <div className="mb-3">
+                        <SlateEditor
+                          readOnly={true}
+                          initialValue={renderSlateContent(report?.syllabus?.content)}
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {report?.behavior?.content && (
+                  <div className="mt-3">
+                    <h6>Behavior</h6>
+                    {renderSlateContent(report?.behavior?.content) && (
+                      <div className="mb-3">
+                        <SlateEditor
+                          readOnly={true}
+                          initialValue={renderSlateContent(report?.behavior?.content)}
+                        />
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -163,12 +211,13 @@ const UserAdminReportsView = () => {
                       />
                     </div>
                     <div>
-                      <ReportEditView
-                        data={report}
-                        product={product_id}
-                        user={user_id}
-                        view={tabKey}
-                      />
+                      <Link href={`/user-report/${user_id}/${product_id}/reports/${report.id}`}>
+                        <a>
+                          <Button variant="outline-secondary" className="btn-sm">
+                            Edit
+                          </Button>
+                        </a>
+                      </Link>
                     </div>
                     <div>
                       <ReportDeleteView
@@ -328,7 +377,13 @@ const UserAdminReportsView = () => {
               {userRole && (userRole === "admin" || userRole === "teacher") && (
                 <div className="d-flex mt-3 justify-content-end">
                   <div>
-                    <ReportCreateView product={product_id} user={user_id} view={tabKey} />
+                    <Link href={`/user-report/${user_id}/${product_id}/reports/create`}>
+                      <a>
+                        <Button variant="primary" className="btn-sm">
+                          Add Report
+                        </Button>
+                      </a>
+                    </Link>
                   </div>
                 </div>
               )}

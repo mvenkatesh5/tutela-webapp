@@ -1,4 +1,6 @@
 import React from "react";
+// next imports
+import Link from "next/link";
 // react bootstrap
 import { Container, Button, Badge, Row, Col, Form, Tab, Nav, Modal, Image } from "react-bootstrap";
 // swr
@@ -176,13 +178,17 @@ const TeacherReport = () => {
                   <Badge className="bg-secondary">{element.flags}</Badge>
                 </div>
                 <div className="ms-auto">
-                  <Button
-                    variant="outline-secondary"
-                    className="btn-sm"
-                    onClick={() => openReportModal(element)}
-                  >
-                    Edit
-                  </Button>
+                  <Link href={`/reports/${element.id}`}>
+                    <a>
+                      <Button
+                        variant="outline-secondary"
+                        className="btn-sm"
+                        // onClick={() => openReportModal(element)}
+                      >
+                        Edit
+                      </Button>
+                    </a>
+                  </Link>
                 </div>
                 <div className="ml-2">
                   <Button
@@ -200,12 +206,61 @@ const TeacherReport = () => {
               </div>
             )}
 
-            {renderSlateContent(element.report.content) && (
-              <div className="mt-3 mb-3">
-                <SlateEditor
-                  readOnly={true}
-                  initialValue={renderSlateContent(element.report.content)}
-                />
+            {element?.title && <h4>{element?.title}</h4>}
+
+            {element?.report?.content && (
+              <div className="mt-3">
+                <h6>General Report</h6>
+                {renderSlateContent(element?.report?.content) && (
+                  <div className="mb-3">
+                    <SlateEditor
+                      readOnly={true}
+                      initialValue={renderSlateContent(element?.report?.content)}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+
+            {element?.performance?.content && (
+              <div className="mt-3">
+                <h6>Performance Report</h6>
+                {renderSlateContent(element?.performance?.content) && (
+                  <div className="mb-3">
+                    <SlateEditor
+                      readOnly={true}
+                      initialValue={renderSlateContent(element?.performance?.content)}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+
+            {element?.syllabus?.content && (
+              <div className="mt-3">
+                <h6>Syllabus</h6>
+                {renderSlateContent(element?.syllabus?.content) && (
+                  <div className="mb-3">
+                    <SlateEditor
+                      readOnly={true}
+                      initialValue={renderSlateContent(element?.syllabus?.content)}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+
+            {element?.behavior?.content && (
+              <div className="mt-3">
+                <h6>Behavior</h6>
+                {renderSlateContent(element?.behavior?.content) && (
+                  <div className="mb-3">
+                    <SlateEditor
+                      readOnly={true}
+                      initialValue={renderSlateContent(element?.behavior?.content)}
+                    />
+                  </div>
+                )}
               </div>
             )}
 
