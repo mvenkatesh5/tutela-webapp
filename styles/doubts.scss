@@ -148,3 +148,32 @@
     }
   }
 }
+
+// attachment uploader
+.attachment-uploader-wrapper {
+  width: 100%;
+  position: relative;
+  cursor: pointer;
+
+  .dropzone {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border: 2px dashed #ccc;
+    border-radius: 4px;
+  }
+}
+
+.attachment-wrapper {
+  position: relative;
+  .attachment-button {
+    background: none;
+    border: none !important;
+    border-radius: 6px;
+    &:hover {
+        background: #ccc;
+      }
+  
+    
+  }
+}

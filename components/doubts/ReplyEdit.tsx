@@ -3,18 +3,26 @@ import React from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 // material icons
 import { Close } from "@styled-icons/evaicons-solid/Close";
+// component
+import ImageUploader from "@components/doubts/ImageUploader";
 // swr
 import { mutate } from "swr";
 // api routes
 import { DOUBTS_WITH_REPLIES_ENDPOINT } from "@constants/routes";
 // api services
 import { DoubtRepliesEdit } from "@lib/services/doubts.service";
+import { AsyncUploadS3File } from "@lib/services";
 
 const ReplyEdit = ({ children, doubt, doubt_id }: any) => {
   const [modal, setModal] = React.useState(false);
   const openModal = () => {
     if (doubt) {
-      setFormData({ ...formData, text: doubt.text });
+      setFormData({
+        ...formData,
+        text: doubt.text,
+        files: doubt?.data?.attachments || [],
+        attachments: [],
+      });
     }
     setModal(true);
   };
@@ -26,16 +34,67 @@ const ReplyEdit = ({ children, doubt, doubt_id }: any) => {
   const [buttonLoader, setButtonLoader] = React.useState(false);
   const [formData, setFormData] = React.useState<any>({
     text: "",
+    files: doubt?.data?.attachments || [],
+    attachments: [],
   });
   const handleFormData = (key: any, value: any) => {
     setFormData({ ...formData, [key]: value });
   };
 
-  const editDoubt = () => {
+  const uploadFileToS3 = () => {
+    let formDataPayload: any = [];
+    setButtonLoader(true);
+
+    if (formData.attachments && formData.attachments.length > 0) {
+      formData.attachments.map((file: any) => {
+        const formData = new FormData();
+        formData.append("asset", file);
+        let attributesJson = {
+          type: file.type,
+        };
+        formData.append("attributes", JSON.stringify(attributesJson));
+        formDataPayload.push(formData);
+      });
+
+      if (formDataPayload && formDataPayload.length > 0) {
+        AsyncUploadS3File(formDataPayload)
+          .then((response: any) => {
+            setButtonLoader(false);
+            let assetPayload: any = [];
+            if (response && response.length > 0) {
+              response.map((asset: any) => {
+                assetPayload.push(asset.data);
+              });
+              if (assetPayload && assetPayload.length > 0) {
+                editDoubt(assetPayload);
+              }
+            } else {
+              editDoubt([]);
+            }
+          })
+          .catch((error) => {
+            setButtonLoader(false);
+            console.log(error);
+          });
+      } else {
+        editDoubt([]);
+      }
+    } else {
+      editDoubt([]);
+    }
+  };
+
+  const editDoubt = (assetPayload: any) => {
     if (formData.text) {
       const payload = {
         id: doubt.id,
         text: formData.text,
+        data: {
+          attachments:
+            assetPayload && assetPayload.length > 0
+              ? [...formData.files, ...assetPayload]
+              : formData.files,
+        },
       };
       setButtonLoader(true);
 
@@ -94,12 +153,17 @@ const ReplyEdit = ({ children, doubt, doubt_id }: any) => {
                 required
               />
             </Form.Group>
+
+            <div className="mb-3">
+              <div className="text-theme-muted mb-2">Upload Attachments</div>
+              <ImageUploader data={formData.files} handleData={handleFormData} />
+            </div>
           </div>
           <div className="d-flex gap-2">
             <Button onClick={closeModal} variant="secondary" className="ms-auto">
               Close
             </Button>
-            <Button variant="primary" disabled={buttonLoader} onClick={editDoubt}>
+            <Button variant="primary" disabled={buttonLoader} onClick={uploadFileToS3}>
               {buttonLoader ? "Processing..." : "Continue"}
             </Button>
           </div>
