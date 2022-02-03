@@ -16,8 +16,10 @@ import { META_DESCRIPTION } from "@constants/page";
 import DoubtsStatus from "@components/doubts/DoubtsStatus";
 import DoubtsEdit from "@components/doubts/DoubtsEdit";
 import DoubtsDelete from "@components/doubts/DoubtsDelete";
+import ReplyCreate from "@components/doubts/ReplyCreate";
 import ReplyEdit from "@components/doubts/ReplyEdit";
 import ReplyDelete from "@components/doubts/ReplyDelete";
+import ImageUploader from "@components/doubts/ImageUploader";
 // layout
 import AdminLayout from "@layouts/adminLayout";
 // common
@@ -76,31 +78,31 @@ const DoubtsPageDetail = () => {
     setFormData({ ...formData, [key]: value });
   };
 
-  const updateReplies = () => {
-    if (formData.text) {
-      const payload = formData;
-      setButtonLoader(true);
-      DoubtRepliesCreate(doubt_id, payload)
-        .then((response) => {
-          setButtonLoader(false);
-          setEditor(false);
-          handleFormData("text", "");
-          mutate(
-            [DOUBTS_WITH_REPLIES_ENDPOINT(doubt_id), doubt_id],
-            async (elements: any) => {
-              let newElement = { ...elements };
-              newElement.responses = [...newElement.responses, response];
-              return newElement;
-            },
-            false
-          );
-        })
-        .catch((error) => {
-          console.log(error);
-          setButtonLoader(false);
-        });
-    }
-  };
+  // const updateReplies = () => {
+  //   if (formData.text) {
+  //     const payload = formData;
+  //     setButtonLoader(true);
+  //     DoubtRepliesCreate(doubt_id, payload)
+  //       .then((response) => {
+  //         setButtonLoader(false);
+  //         setEditor(false);
+  //         handleFormData("text", "");
+  //         mutate(
+  //           [DOUBTS_WITH_REPLIES_ENDPOINT(doubt_id), doubt_id],
+  //           async (elements: any) => {
+  //             let newElement = { ...elements };
+  //             newElement.responses = [...newElement.responses, response];
+  //             return newElement;
+  //           },
+  //           false
+  //         );
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //         setButtonLoader(false);
+  //       });
+  //   }
+  // };
 
   const renderUserDetails = (user: any, user_id: any) => {
     let userElement = user.find((_: any) => _.id === user_id);
@@ -125,7 +127,6 @@ const DoubtsPageDetail = () => {
                   <div className="w-100">
                     <div className="title">
                       {doubtWithReplies?.user?.first_name} {doubtWithReplies?.user?.last_name}
-                      Title name
                     </div>
                     <div className="text-muted date">
                       {timeDateFormat(doubtWithReplies.created_at)}
@@ -187,14 +188,22 @@ const DoubtsPageDetail = () => {
                     {doubtWithReplies?.data?.description} description
                   </div>
                 )}
-
-                <button onClick={() => setEditor(!editor)} className=" blue-button-answer my-2">
+                {doubtWithReplies && doubtWithReplies.data && doubtWithReplies.data?.attachments && (
+                  <div className="pb-4">
+                    <div className="text-muted pb-2">Attachments:</div>
+                    <ImageUploader data={doubtWithReplies.data?.attachments} edit={false} />
+                  </div>
+                )}
+                {/* <button onClick={() => setEditor(!editor)} className=" blue-button-answer my-2">
                   Answer
-                </button>
+                </button> */}
+                {doubt_id && currentUser && (
+                  <ReplyCreate doubt_id={doubt_id} currentUser={currentUser} />
+                )}
+                {/* {editor && (
+                  <> */}
 
-                {editor && (
-                  <>
-                    <div className="d-flex gap-2 my-2">
+                {/* <div className="d-flex gap-2 my-2">
                       <Image src="/bird.svg" alt="" className="doubts-image mb-auto" />
                       <Form.Group className="w-100">
                         <Form.Control
@@ -217,16 +226,13 @@ const DoubtsPageDetail = () => {
                       </Button>
                     </div>
                   </>
-                )}
+                )} */}
 
                 {doubtWithReplies &&
                 doubtWithReplies.responses &&
                 doubtWithReplies.responses.length > 0 ? (
                   <>
-                    <h4 className="mt-3">
-                      {doubtWithReplies.responses.length}{" "}
-                      Answers
-                    </h4>
+                    <h4 className="mt-3">{doubtWithReplies.responses.length} Answers</h4>
                     {doubtWithReplies.responses.map((data: any, index: any) => (
                       <div key={`doubts-responses-${index}`}>
                         <div className="doubts-answer-card pt-3 mt-3">
@@ -256,9 +262,22 @@ const DoubtsPageDetail = () => {
                             </>
                           )}
                         </div>
+                        <div>
+                          {data && data.data && data.data?.attachments && (
+                            <div className="pb-1">
+                              <div className="font-light pb-2">Attachments:</div>
+                              <ImageUploader data={data.data?.attachments} edit={false} />
+                            </div>
+                          )}
+                        </div>
                         <div className="my-2">{data.text}</div>
                       </div>
                     ))}
+                    <div className="mt-4">
+                      {doubt_id && currentUser && (
+                        <ReplyCreate doubt_id={doubt_id} currentUser={currentUser} />
+                      )}
+                    </div>
                   </>
                 ) : (
                   <div className="text-center text-muted mt-5">No Replies are available...</div>

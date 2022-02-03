@@ -13,7 +13,7 @@ import { META_DESCRIPTION } from "@constants/page";
 import AdminLayout from "@layouts/adminLayout";
 // components
 import SearchCheckboxView from "@components/admin/sessions/SearchCheckbox";
-// import ListDropdown from "@components/forms/InputList";
+import ImageUploader from "@components/doubts/ImageUploader";
 // api routes
 import {
   DOUBTS_WITH_QUERY_ENDPOINT,
@@ -22,7 +22,7 @@ import {
 } from "@constants/routes";
 // api services
 import { DoubtCreate } from "@lib/services/doubts.service";
-import { APIFetcher } from "@lib/services";
+import { APIFetcher, AsyncUploadS3File } from "@lib/services";
 // hoc
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 
@@ -38,6 +38,7 @@ const DoubtsPageDetail = () => {
   const [formData, setFormData] = React.useState({
     text: "",
     description: "",
+    attachments: [],
   });
   const handleFormData = (key: any, value: any) => {
     setFormData({ ...formData, [key]: value });
@@ -45,10 +46,53 @@ const DoubtsPageDetail = () => {
 
   const [teachers, setTeachers] = React.useState<any>();
 
-  const submitDoubt = () => {
+const uploadFileToS3 = () => {
+  let formDataPayload: any = [];
+  setButtonLoader(true);
+
+  if (formData.attachments && formData.attachments.length > 0) {
+    formData.attachments.map((file: any) => {
+      const formData = new FormData();
+      formData.append("asset", file);
+      let attributesJson = {
+        type: file.type,
+      };
+      formData.append("attributes", JSON.stringify(attributesJson));
+      formDataPayload.push(formData);
+    });
+
+    if (formDataPayload && formDataPayload.length > 0) {
+      AsyncUploadS3File(formDataPayload)
+        .then((response: any) => {
+          setButtonLoader(false);
+          let assetPayload: any = [];
+          if (response && response.length > 0) {
+            response.map((asset: any) => {
+              assetPayload.push(asset.data);
+            });
+            if (assetPayload && assetPayload.length > 0) {
+              submitDoubt(assetPayload);
+            }
+          } else {
+            submitDoubt([]);
+          }
+        })
+        .catch((error) => {
+          setButtonLoader(false);
+          console.log(error);
+        });
+    } else {
+      submitDoubt([]);
+    }
+  } else {
+    submitDoubt([]);
+  }
+};
+
+  const submitDoubt = (fileAttachments: any) => {
     const payload = {
       text: formData.text,
-      data: { description: formData.description },
+      data: { description: formData.description, attachments: fileAttachments },
       allocated_to: teachers.value ? teachers.value : "",
     };
 
@@ -117,6 +161,11 @@ const DoubtsPageDetail = () => {
                   />
                 </Form.Group>
               </div>
+              {/* multiple image uploader */}
+              <div>
+                <div className="text-muted mb-2">Upload Attachments</div>
+                <ImageUploader data={null} handleData={handleFormData} />
+              </div>
               <div className="d-flex mt-4">
                 <div className="d-flex ms-auto gap-3">
                   <NextLink href="/doubts">
@@ -126,7 +175,7 @@ const DoubtsPageDetail = () => {
                       </Button>
                     </a>
                   </NextLink>
-                  <Button size="sm" type="submit" disabled={buttonLoader} onClick={submitDoubt}>
+                  <Button size="sm" type="submit" disabled={buttonLoader} onClick={uploadFileToS3}>
                     {buttonLoader ? "Loading..." : "Submit"}
                   </Button>
                 </div>{" "}
