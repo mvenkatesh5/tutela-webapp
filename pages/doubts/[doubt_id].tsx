@@ -83,7 +83,7 @@ const DoubtsPageDetail = () => {
               <div className="text-center text-muted mt-5">Loading...</div>
             ) : (
               <>
-                <h4 className="mb-2">{doubtWithReplies.text}</h4>
+                <h2 className="mb-2">{doubtWithReplies.text}</h2>
 
                 <div className="doubts-detail-card gap-4 mt-1">
                   <div className="Image">
