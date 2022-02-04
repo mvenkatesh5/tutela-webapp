@@ -8,7 +8,7 @@ export const APIFetcher = async (url: any) => {
     return response.data;
   } catch (error: any) {
     console.log(error);
-    throw error.response.data;
+    throw error.response?.data;
   }
 };
 

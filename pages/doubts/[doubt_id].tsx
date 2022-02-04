@@ -109,6 +109,8 @@ const DoubtsPageDetail = () => {
     if (userElement) return `${userElement.first_name} ${userElement.last_name}`;
   };
 
+  console.log("doubtWithReplies", doubtWithReplies);
+
   return (
     <Page meta={meta}>
       <AdminLayout>
@@ -129,7 +131,7 @@ const DoubtsPageDetail = () => {
                       {doubtWithReplies?.user?.first_name} {doubtWithReplies?.user?.last_name}
                     </div>
                     <div className="text-muted date">
-                      {timeDateFormat(doubtWithReplies.created_at)}
+                      {timeDateFormat(doubtWithReplies.created)}
                     </div>
                     {users && doubtWithReplies?.allocated_to && (
                       <div className="description-doubt mt-1">
@@ -185,7 +187,7 @@ const DoubtsPageDetail = () => {
 
                 {doubtWithReplies?.data?.description && (
                   <div className="py-2 description-doubt">
-                    {doubtWithReplies?.data?.description} description
+                    {doubtWithReplies?.data?.description}
                   </div>
                 )}
                 {doubtWithReplies && doubtWithReplies.data && doubtWithReplies.data?.attachments && (
@@ -241,7 +243,7 @@ const DoubtsPageDetail = () => {
                             <div className="text-sm font-medium">
                               {data?.user?.first_name} {data?.user?.last_name}
                             </div>
-                            <div className="date">{timeDateFormat(data.created_at)}</div>
+                            <div className="date">{timeDateFormat(data.created)}</div>
                           </div>
                           {currentUser.user.id === data.user.id && (
                             <>
