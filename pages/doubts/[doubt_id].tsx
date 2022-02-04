@@ -61,8 +61,6 @@ const DoubtsPageDetail = () => {
 
   const [currentUser, setCurrentUser] = React.useState<any>(getCurrentUser());
 
-  const [editor, setEditor] = React.useState(false);
-
   const { data: doubtWithReplies, error: doubtWithRepliesError } = useSWR(
     doubt_id ? [DOUBTS_WITH_REPLIES_ENDPOINT(doubt_id), doubt_id] : null,
     APIFetcher
@@ -70,46 +68,11 @@ const DoubtsPageDetail = () => {
 
   const { data: users, error: usersError } = useSWR(USER_ENDPOINT, APIFetcher);
 
-  const [buttonLoader, setButtonLoader] = React.useState(false);
-  const [formData, setFormData] = React.useState({
-    text: "",
-  });
-  const handleFormData = (key: any, value: any) => {
-    setFormData({ ...formData, [key]: value });
-  };
-
-  // const updateReplies = () => {
-  //   if (formData.text) {
-  //     const payload = formData;
-  //     setButtonLoader(true);
-  //     DoubtRepliesCreate(doubt_id, payload)
-  //       .then((response) => {
-  //         setButtonLoader(false);
-  //         setEditor(false);
-  //         handleFormData("text", "");
-  //         mutate(
-  //           [DOUBTS_WITH_REPLIES_ENDPOINT(doubt_id), doubt_id],
-  //           async (elements: any) => {
-  //             let newElement = { ...elements };
-  //             newElement.responses = [...newElement.responses, response];
-  //             return newElement;
-  //           },
-  //           false
-  //         );
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //         setButtonLoader(false);
-  //       });
-  //   }
-  // };
 
   const renderUserDetails = (user: any, user_id: any) => {
     let userElement = user.find((_: any) => _.id === user_id);
     if (userElement) return `${userElement.first_name} ${userElement.last_name}`;
   };
-
-  console.log("doubtWithReplies", doubtWithReplies);
 
   return (
     <Page meta={meta}>
@@ -140,6 +103,23 @@ const DoubtsPageDetail = () => {
                     )}
                   </div>
                   {currentUser &&
+                    (getCurrentRole(currentUser) === "teacher" ||
+                      getCurrentRole(currentUser) === "admin") && (
+                      <div className="ml-auto">
+                        <DoubtsStatus
+                          doubt={doubtWithReplies}
+                          mutateQuery={[DOUBTS_WITH_REPLIES_ENDPOINT(doubt_id), doubt_id]}
+                          doubt_detail={true}
+                        >
+                          {!doubtWithReplies?.is_resolved && (
+                            <Button variant="secondary" size={"sm"}>
+                              Resolve
+                            </Button>
+                          )}
+                        </DoubtsStatus>
+                      </div>
+                    )}
+                  {currentUser &&
                     getCurrentRole(currentUser) === "student" &&
                     doubtWithReplies?.user?.id === currentUser?.user?.id && (
                       <>
@@ -149,13 +129,7 @@ const DoubtsPageDetail = () => {
                             mutateQuery={[DOUBTS_WITH_REPLIES_ENDPOINT(doubt_id), doubt_id]}
                             doubt_detail={true}
                           >
-                            {doubtWithReplies?.is_resolved ? (
-                              <Button size={"sm"}>Reopen</Button>
-                            ) : (
-                              <Button variant="secondary" size={"sm"}>
-                                Resolve
-                              </Button>
-                            )}
+                            {doubtWithReplies?.is_resolved && <Button size={"sm"}>Reopen</Button>}
                           </DoubtsStatus>
                         </div>
                         <div>
@@ -196,39 +170,10 @@ const DoubtsPageDetail = () => {
                     <ImageUploader data={doubtWithReplies.data?.attachments} edit={false} />
                   </div>
                 )}
-                {/* <button onClick={() => setEditor(!editor)} className=" blue-button-answer my-2">
-                  Answer
-                </button> */}
+
                 {doubt_id && currentUser && (
                   <ReplyCreate doubt_id={doubt_id} currentUser={currentUser} />
                 )}
-                {/* {editor && (
-                  <> */}
-
-                {/* <div className="d-flex gap-2 my-2">
-                      <Image src="/bird.svg" alt="" className="doubts-image mb-auto" />
-                      <Form.Group className="w-100">
-                        <Form.Control
-                          as="textarea"
-                          rows={6}
-                          value={formData.text}
-                          onChange={(e) => handleFormData("text", e.target.value)}
-                          required
-                        />
-                      </Form.Group>
-                    </div>
-                    <div className="d-flex ms-auto">
-                      <Button
-                        className="ms-auto"
-                        size="sm"
-                        disabled={buttonLoader}
-                        onClick={updateReplies}
-                      >
-                        {buttonLoader ? "Processing..." : "Send"}
-                      </Button>
-                    </div>
-                  </>
-                )} */}
 
                 {doubtWithReplies &&
                 doubtWithReplies.responses &&

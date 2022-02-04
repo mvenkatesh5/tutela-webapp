@@ -51,17 +51,23 @@ const RenderDoubts = ({ doubts, user, user_role, mutateQuery, users }: any) => {
                 )}
               </div>
 
+              {(user_role === "teacher" || user_role === "admin") && (
+                <div className="ml-auto">
+                  <DoubtsStatus doubt={data} mutateQuery={mutateQuery}>
+                    {!data?.is_resolved && (
+                      <Button variant="secondary" size={"sm"}>
+                        Resolve
+                      </Button>
+                    )}
+                  </DoubtsStatus>
+                </div>
+              )}
+
               {user_role === "student" && user?.user?.id === data?.user?.id && (
                 <>
                   <div className="ml-auto">
                     <DoubtsStatus doubt={data} mutateQuery={mutateQuery}>
-                      {data?.is_resolved ? (
-                        <Button size={"sm"}>Reopen</Button>
-                      ) : (
-                        <Button variant="secondary" size={"sm"}>
-                          Resolve
-                        </Button>
-                      )}
+                      {data?.is_resolved && <Button size={"sm"}>Reopen</Button>}
                     </DoubtsStatus>
                   </div>
                   <div className="ml-auto">
