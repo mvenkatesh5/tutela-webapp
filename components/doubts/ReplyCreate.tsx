@@ -1,7 +1,7 @@
 import React from "react";
 // next imports
-import Image from "next/image";// react bootstrap
-import { Button, } from "react-bootstrap";
+import Image from "next/image"; // react bootstrap
+import { Button } from "react-bootstrap";
 // swr
 import { mutate } from "swr";
 // components
@@ -18,14 +18,14 @@ const ReplyCreate = ({ doubt_id, currentUser }: any) => {
     setEditor(false);
     setFormData({
       text: "",
-      attachments: []
+      attachments: [],
     });
   };
 
   const [buttonLoader, setButtonLoader] = React.useState(false);
   const [formData, setFormData] = React.useState({
     text: "",
-    attachments: []
+    attachments: [],
   });
   const handleFormData = (key: any, value: any) => {
     setFormData({ ...formData, [key]: value });
@@ -40,7 +40,7 @@ const ReplyCreate = ({ doubt_id, currentUser }: any) => {
         const formData = new FormData();
         formData.append("asset", file);
         let attributesJson = {
-          type: file.type
+          type: file.type,
         };
         formData.append("attributes", JSON.stringify(attributesJson));
         formDataPayload.push(formData);
@@ -79,13 +79,12 @@ const ReplyCreate = ({ doubt_id, currentUser }: any) => {
       const payload = {
         text: formData.text,
         data: {
-          attachments: assetPayload
-        }
+          attachments: assetPayload,
+        },
       };
-
       setButtonLoader(true);
-
       DoubtRepliesCreate(doubt_id, payload)
+
         .then((response) => {
           setButtonLoader(false);
           handleEditor();
@@ -93,7 +92,9 @@ const ReplyCreate = ({ doubt_id, currentUser }: any) => {
             [DOUBTS_WITH_QUERY_ENDPOINT(doubt_id), doubt_id],
             async (elements: any) => {
               let newElement = { ...elements };
-              newElement.responses = [...newElement.responses, response];
+              if (elements && elements.length > 0) {
+                newElement.responses = [...newElement.responses, response];
+              }
               return newElement;
             },
             false
