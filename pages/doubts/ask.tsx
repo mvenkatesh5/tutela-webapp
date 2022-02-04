@@ -44,56 +44,57 @@ const DoubtsPageDetail = () => {
     setFormData({ ...formData, [key]: value });
   };
 
+  const [teachersList, setTeachersList] = React.useState<any>();
   const [teachers, setTeachers] = React.useState<any>();
 
-const uploadFileToS3 = () => {
-  let formDataPayload: any = [];
-  setButtonLoader(true);
+  const uploadFileToS3 = () => {
+    let formDataPayload: any = [];
+    setButtonLoader(true);
 
-  if (formData.attachments && formData.attachments.length > 0) {
-    formData.attachments.map((file: any) => {
-      const formData = new FormData();
-      formData.append("asset", file);
-      let attributesJson = {
-        type: file.type,
-      };
-      formData.append("attributes", JSON.stringify(attributesJson));
-      formDataPayload.push(formData);
-    });
+    if (formData.attachments && formData.attachments.length > 0) {
+      formData.attachments.map((file: any) => {
+        const formData = new FormData();
+        formData.append("asset", file);
+        let attributesJson = {
+          type: file.type,
+        };
+        formData.append("attributes", JSON.stringify(attributesJson));
+        formDataPayload.push(formData);
+      });
 
-    if (formDataPayload && formDataPayload.length > 0) {
-      AsyncUploadS3File(formDataPayload)
-        .then((response: any) => {
-          setButtonLoader(false);
-          let assetPayload: any = [];
-          if (response && response.length > 0) {
-            response.map((asset: any) => {
-              assetPayload.push(asset.data);
-            });
-            if (assetPayload && assetPayload.length > 0) {
-              submitDoubt(assetPayload);
+      if (formDataPayload && formDataPayload.length > 0) {
+        AsyncUploadS3File(formDataPayload)
+          .then((response: any) => {
+            setButtonLoader(false);
+            let assetPayload: any = [];
+            if (response && response.length > 0) {
+              response.map((asset: any) => {
+                assetPayload.push(asset.data);
+              });
+              if (assetPayload && assetPayload.length > 0) {
+                submitDoubt(assetPayload);
+              }
+            } else {
+              submitDoubt([]);
             }
-          } else {
-            submitDoubt([]);
-          }
-        })
-        .catch((error) => {
-          setButtonLoader(false);
-          console.log(error);
-        });
+          })
+          .catch((error) => {
+            setButtonLoader(false);
+            console.log(error);
+          });
+      } else {
+        submitDoubt([]);
+      }
     } else {
       submitDoubt([]);
     }
-  } else {
-    submitDoubt([]);
-  }
-};
+  };
 
   const submitDoubt = (fileAttachments: any) => {
     const payload = {
       text: formData.text,
       data: { description: formData.description, attachments: fileAttachments },
-      allocated_to: teachers.value ? teachers.value : "",
+      allocated_to: teachers && teachers.length > 0 ? teachers[0] : "",
     };
 
     setButtonLoader(true);
@@ -115,6 +116,13 @@ const uploadFileToS3 = () => {
   };
 
   const { data: users, error: usersError } = useSWR(USER_ENDPOINT, APIFetcher);
+
+  React.useEffect(() => {
+    if (users && users.length > 0) {
+      let user_role_teacher: any = [{ id: null, name: "No teacher selected", role: 1 }];
+      setTeachersList([...users, user_role_teacher]);
+    }
+  }, [users]);
 
   return (
     <div>
@@ -152,13 +160,15 @@ const uploadFileToS3 = () => {
                   <Form.Label>
                     <div className="text-muted">Teachers</div>
                   </Form.Label>
-                  <SearchCheckboxView
-                    users={users}
-                    data={teachers}
-                    handleData={(value: any) => setTeachers(value)}
-                    role={1}
-                    validInput={1}
-                  />
+                  {teachersList && teachersList.length > 0 && (
+                    <SearchCheckboxView
+                      users={teachersList}
+                      data={teachers}
+                      handleData={(value: any) => setTeachers(value)}
+                      role={1}
+                      validInput={1}
+                    />
+                  )}
                 </Form.Group>
               </div>
               {/* multiple image uploader */}

@@ -135,13 +135,8 @@ export const USER_COINS_ENDPOINT = `/api/user-coins/`;
 
 // doubts endpoints
 export const DOUBTS_ENDPOINT = `/api/doubts/`;
-export const DOUBTS_WITH_QUERY_ENDPOINT = (query: any) =>
-  `/api/doubts${query ? "/" + query : "/"}`;
-export const DOUBTS_WITH_ID_ENDPOINT = (doubt_id: any) =>
-  `/api/doubts/${doubt_id}/`;
-export const DOUBTS_WITH_REPLIES_ENDPOINT = (doubt_id: any) =>
-  `/api/doubts/${doubt_id}/replies/`;
-export const DOUBTS_ID_WITH_REPLIES_ID_ENDPOINT = (
-  doubt_id: any,
-  reply_id: any
-) => `/api/doubts/${doubt_id}/replies/${reply_id}/`;
+export const DOUBTS_WITH_QUERY_ENDPOINT = (query: any) => `/api/doubts${query ? "/" + query : "/"}`;
+export const DOUBTS_WITH_ID_ENDPOINT = (doubt_id: any) => `/api/doubts/${doubt_id}/`;
+export const DOUBTS_WITH_REPLIES_ENDPOINT = (doubt_id: any) => `/api/doubts/${doubt_id}/replies/`;
+export const DOUBTS_ID_WITH_REPLIES_ID_ENDPOINT = (doubt_id: any, reply_id: any) =>
+  `/api/doubts/${doubt_id}/replies/${reply_id}/`;

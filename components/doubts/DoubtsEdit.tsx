@@ -56,71 +56,57 @@ const DoubtsEdit = ({ children, doubt, mutateQuery, doubt_detail, users }: any) 
 
   React.useEffect(() => {
     if (users && users.length > 0) {
-      let user_role_teacher: any = [{ name: "No teacher selected", value: null }];
-      users.map((user: any) => {
-        if (user.role === 1) {
-          const payload = {
-            name: `${user.first_name} ${user.last_name} (${user.email})`,
-            value: user.id,
-          };
-          user_role_teacher.push(payload);
-        }
-      });
-      if (user_role_teacher && user_role_teacher.length > 0) {
-        setTeachersList(user_role_teacher);
-        if (doubt.allocated_to) {
-          let userElement = user_role_teacher.find((_: any) => _.value === doubt.allocated_to);
-          if (userElement) setTeachers(userElement);
-        } else setTeachers(user_role_teacher[0]);
+      let user_role_teacher: any = [{ id: null, name: "No teacher selected", role: 1 }];
+      setTeachersList([...users, user_role_teacher]);
+      if (doubt.allocated_to) {
+        let userElement = user_role_teacher.find((_: any) => _.value === doubt.allocated_to);
+        if (userElement) setTeachers([userElement.id]);
       }
     }
   }, [users]);
 
+  const uploadFileToS3 = () => {
+    let formDataPayload: any = [];
+    setButtonLoader(true);
 
-const uploadFileToS3 = () => {
-  let formDataPayload: any = [];
-  setButtonLoader(true);
+    if (formData.attachments && formData.attachments.length > 0) {
+      formData.attachments.map((file: any) => {
+        const formData = new FormData();
+        formData.append("asset", file);
+        let attributesJson = {
+          type: file.type,
+        };
+        formData.append("attributes", JSON.stringify(attributesJson));
+        formDataPayload.push(formData);
+      });
 
-  if (formData.attachments && formData.attachments.length > 0) {
-    formData.attachments.map((file: any) => {
-      const formData = new FormData();
-      formData.append("asset", file);
-      let attributesJson = {
-        type: file.type,
-      };
-      formData.append("attributes", JSON.stringify(attributesJson));
-      formDataPayload.push(formData);
-    });
-
-    if (formDataPayload && formDataPayload.length > 0) {
-      AsyncUploadS3File(formDataPayload)
-        .then((response: any) => {
-          setButtonLoader(false);
-          let assetPayload: any = [];
-          if (response && response.length > 0) {
-            response.map((asset: any) => {
-              assetPayload.push(asset.data);
-            });
-            if (assetPayload && assetPayload.length > 0) {
-              editDoubt(assetPayload);
+      if (formDataPayload && formDataPayload.length > 0) {
+        AsyncUploadS3File(formDataPayload)
+          .then((response: any) => {
+            setButtonLoader(false);
+            let assetPayload: any = [];
+            if (response && response.length > 0) {
+              response.map((asset: any) => {
+                assetPayload.push(asset.data);
+              });
+              if (assetPayload && assetPayload.length > 0) {
+                editDoubt(assetPayload);
+              }
+            } else {
+              editDoubt([]);
             }
-          } else {
-            editDoubt([]);
-          }
-        })
-        .catch((error) => {
-          setButtonLoader(false);
-          console.log(error);
-        });
+          })
+          .catch((error) => {
+            setButtonLoader(false);
+            console.log(error);
+          });
+      } else {
+        editDoubt([]);
+      }
     } else {
       editDoubt([]);
     }
-  } else {
-    editDoubt([]);
-  }
-};
-
-
+  };
 
   const editDoubt = (assetPayload: any) => {
     if (formData.text) {
@@ -134,7 +120,7 @@ const uploadFileToS3 = () => {
               ? [...formData.files, ...assetPayload]
               : formData.files,
         },
-        allocated_to: teachers.value,
+        allocated_to: teachers[0],
       };
       setButtonLoader(true);
       DoubtEdit(payload)
@@ -218,11 +204,15 @@ const uploadFileToS3 = () => {
                   <Form.Label>
                     <div className="text-muted">Teachers</div>
                   </Form.Label>
-                  <SearchCheckboxView
-                    users={teachersList}
-                    data={teachers}
-                    handleData={(value: any) => setTeachers(value)}
-                  />
+                  {teachersList && teachersList.length > 0 && (
+                    <SearchCheckboxView
+                      users={teachersList}
+                      data={teachers}
+                      handleData={(value: any) => setTeachers(value)}
+                      role={1}
+                      validInput={1}
+                    />
+                  )}
                 </Form.Group>
               </div>
             </div>
