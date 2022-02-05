@@ -1,6 +1,8 @@
-import { Card, Image, Button } from "react-bootstrap";
 // next Import
 import Link from "next/link";
+// react bootstrap
+import { Card, Image, Button } from "react-bootstrap";
+
 function Doubts() {
   return (
     <>
