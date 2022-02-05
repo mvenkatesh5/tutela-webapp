@@ -1,5 +1,6 @@
 import { Card, Image, Button } from "react-bootstrap";
-
+// next Import
+import Link from "next/link";
 function Doubts() {
   return (
     <>
@@ -10,7 +11,11 @@ function Doubts() {
           <p className="text-muted text-center">
             Get your doubts cleared from our expert <br /> mentors and move fast towards your goal.
           </p>
-          <Button variant="outline-primary rounded-2">Ask a doubt</Button>
+          <Link href="/doubts/ask">
+            <a>
+              <Button variant="outline-primary rounded-2">Ask a doubt</Button>
+            </a>
+          </Link>
         </Card.Body>
       </Card>
     </>
