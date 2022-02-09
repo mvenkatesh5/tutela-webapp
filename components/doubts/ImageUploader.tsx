@@ -1,6 +1,8 @@
 import React from "react";
 // Next import
 import Link from "next/link";
+// react bootstrap
+import { Image } from "react-bootstrap";
 // icon
 import { Download } from "@styled-icons/bootstrap/Download";
 import { Close } from "@styled-icons/evaicons-solid/Close";
@@ -72,31 +74,54 @@ const ImageUploader = ({ data, handleData, edit = true }: any) => {
             files.length > 0 &&
             files.map((file: any, fileIndex: any) => (
               <>
-                <div className="border px-2 py-1 d-flex gap-2 rounded">
-                  <div className="relative">
-                    {file.attributes?.type.includes("application") ? (
+                {file.attributes?.type.includes("application") ? (
+                  <div className="border px-2 py-1 d-flex gap-2 rounded attachment">
+                    <div className="relative">
+                      {/* {file.attributes?.type.includes("application") ? ( */}
                       <DocumentAttach width="20px" />
-                    ) : (
-                      <ImageFill width="20px" />
-                    )}
-                  </div>
+                      {/* ) : (
+                        <ImageFill width="20px" />
+                      )} */}
+                    </div>
 
-                  <div className="">
+                    <div className="">
+                      <Link href={file.asset}>
+                        <a target={"_blank"}>{getFileName(file.asset)}</a>
+                      </Link>
+                    </div>
+
+                    {edit && (
+                      <button onClick={() => handleFiles(fileIndex)} className="attachment-button">
+                        <Close width="16px" />
+                      </button>
+                    )}
+
+                    <div className="attachment-button" onClick={() => downloadFile(file.asset)}>
+                      <Download width="16px" />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="border p-2 pt-4 image-wrapper">
+                    <div className="buttons-wrapper px-2 d-flex gap-1">
+                      <div className="attachment-button" onClick={() => downloadFile(file.asset)}>
+                        <Download width="16px" />
+                      </div>
+                      {edit && (
+                        <button
+                          onClick={() => handleFiles(fileIndex)}
+                          className="attachment-button p-0"
+                        >
+                          <Close width="16px" />
+                        </button>
+                      )}
+                    </div>
                     <Link href={file.asset}>
-                      <a target={"_blank"}>{getFileName(file.asset)}</a>
+                      <a target={"_blank"}>
+                        <Image src={file.asset} alt="" className="image" />
+                      </a>
                     </Link>
                   </div>
-
-                  {edit && (
-                    <button onClick={() => handleFiles(fileIndex)} className="attachment-button">
-                      <Close width="16px" />
-                    </button>
-                  )}
-
-                  <div className="attachment-button" onClick={() => downloadFile(file.asset)}>
-                    <Download width="16px" />
-                  </div>
-                </div>
+                )}
               </>
             ))}
 

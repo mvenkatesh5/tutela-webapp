@@ -92,6 +92,14 @@ const DashboardDetail = (props: any) => {
       <StudentLayout>
         <Container className="mt-5 container-lg">
           <Row>
+            <div className="px-2 mb-3">
+              <div className="p-2 px-3 rounded alert-container">
+                <Image alt="" src="/announcement.svg" className="icon"/>
+                <div className="alert">
+                  Welcome to <strong>Tutela</strong> Have a great Day ahead!
+                </div>
+              </div>
+            </div>
             <h4 className="fw-bold text-dark mb-3">Upcoming Sessions</h4>
             <Col md="8">
               {sessionList && sessionList.length > 0 ? (

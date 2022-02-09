@@ -12,7 +12,7 @@ import { DOUBTS_WITH_QUERY_ENDPOINT } from "@constants/routes";
 import { DoubtRepliesCreate } from "@lib/services/doubts.service";
 import { AsyncUploadS3File } from "@lib/services";
 
-const ReplyCreate = ({ doubt_id, currentUser }: any) => {
+const ReplyCreate = ({ doubt_id, currentUser, reply_id }: any) => {
   const [editor, setEditor] = React.useState(false);
   const handleEditor = () => {
     setEditor(false);
@@ -110,7 +110,7 @@ const ReplyCreate = ({ doubt_id, currentUser }: any) => {
   return (
     <div>
       <Button size={"sm"} onClick={() => setEditor(!editor)} className="mb-3">
-        <div className="-mt-1">Answer</div>
+        <div className="-mt-1">{reply_id === currentUser?.user?.id ? "Reply" : "Answer"}</div>
       </Button>
       {editor && (
         <>

@@ -68,7 +68,6 @@ const DoubtsPageDetail = () => {
 
   const { data: users, error: usersError } = useSWR(USER_ENDPOINT, APIFetcher);
 
-
   const renderUserDetails = (user: any, user_id: any) => {
     let userElement = user.find((_: any) => _.id === user_id);
     if (userElement) return `${userElement.first_name} ${userElement.last_name}`;
@@ -172,7 +171,11 @@ const DoubtsPageDetail = () => {
                 )}
 
                 {doubt_id && currentUser && (
-                  <ReplyCreate doubt_id={doubt_id} currentUser={currentUser} />
+                  <ReplyCreate
+                    doubt_id={doubt_id}
+                    currentUser={currentUser}
+                    reply_id={doubtWithReplies?.user?.id}
+                  />
                 )}
 
                 {doubtWithReplies &&
@@ -222,7 +225,11 @@ const DoubtsPageDetail = () => {
                     ))}
                     <div className="mt-4">
                       {doubt_id && currentUser && (
-                        <ReplyCreate doubt_id={doubt_id} currentUser={currentUser} />
+                        <ReplyCreate
+                          doubt_id={doubt_id}
+                          currentUser={currentUser}
+                          reply_id={doubtWithReplies?.user?.id}
+                        />
                       )}
                     </div>
                   </>

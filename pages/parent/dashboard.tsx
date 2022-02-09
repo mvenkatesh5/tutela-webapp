@@ -130,6 +130,14 @@ function ParentDashboard() {
       <ParentLayout>
         <div className="container mt-4">
           <Row>
+            <div className="px-2 mb-3">
+              <div className="p-2 px-3 rounded alert-container">
+                <Image alt="" src="/announcement.svg" className="icon" />
+                <div className="alert">
+                  Welcome to <strong>Tutela</strong> Have a great Day ahead!
+                </div>
+              </div>
+            </div>
             <Col md={8}>
               <h4 className="fw-bold mb-2">Progress Report</h4>
 

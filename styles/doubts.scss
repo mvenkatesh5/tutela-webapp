@@ -166,14 +166,26 @@
 
 .attachment-wrapper {
   position: relative;
+  .attachment{
+    height: 35px;
+    margin-top: auto;
+  }
   .attachment-button {
     background: none;
     border: none !important;
     border-radius: 6px;
-    &:hover {
-        background: #ccc;
-      }
-  
-    
+    cursor: pointer;
+  }
+  .image-wrapper {
+    position: relative;
+    .image {
+      width: 150px;
+      height: 150px;
+    }
+    .buttons-wrapper {
+      position: absolute;
+      right: 0;
+      top:-2px;
+    }
   }
 }
