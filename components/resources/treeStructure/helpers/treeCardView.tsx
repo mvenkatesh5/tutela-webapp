@@ -117,9 +117,12 @@ const TreeChildrenRenderView = ({
               ) : (
                 <div className="flex-item title">
                   {extractFileNameFromUrl(tree.data.data.url) ? (
-                    <Link href={`/pdf-viewer/${tree.id}/`}>
-                      <a target="_blank">{tree.data && tree.data.title}</a>
-                    </Link>
+                    // <Link href={`/pdf-viewer/${tree.id}/`}>
+                    //   <a target="_blank">{tree.data && tree.data.title}</a>
+                    // </Link>
+                    <div>
+                      {tree.data && tree.data.title}-{tree.id}
+                    </div>
                   ) : (
                     <>
                       {tree.data.data && tree.data.data.kind === "rich-text" ? (

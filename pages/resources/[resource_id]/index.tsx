@@ -22,7 +22,7 @@ import { RESOURCE_WITH_NODE_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 // hoc
-import withGlobalAuth from "@lib/hoc/withGlobalAuth";
+import withAdminTeacherAuth from "@lib/hoc/withAdminTeacherAuth";
 // components
 import Page from "@components/page";
 // constants
@@ -73,7 +73,7 @@ const ResourceTreeView = () => {
                         <Times />
                       </div>
                     </div>
-                    <div className="pdf-content">
+                    <div className="pdf-content" style={{ position: "relative" }}>
                       <PDFRenderView
                         pdf_url={pdfToggle.data.data.url}
                         pdfToggle={pdfToggle}
@@ -135,4 +135,4 @@ const ResourceTreeView = () => {
   );
 };
 
-export default withGlobalAuth(ResourceTreeView);
+export default withAdminTeacherAuth(ResourceTreeView);

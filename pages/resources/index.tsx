@@ -22,7 +22,7 @@ import { RESOURCE_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 // hoc
-import withGlobalAuth from "@lib/hoc/withGlobalAuth";
+import withAdminTeacherAuth from "@lib/hoc/withAdminTeacherAuth";
 // components
 import Page from "@components/page";
 // constants
@@ -112,4 +112,4 @@ const Resources = () => {
     </Page>
   );
 };
-export default withGlobalAuth(Resources);
+export default withAdminTeacherAuth(Resources);

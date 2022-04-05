@@ -83,9 +83,10 @@ const TreeView = (props: any) => {
           ) : (
             <div className="flex-item title">
               {extractFileNameFromUrl(tree.data.data.url) ? (
-                <Link href={`/pdf-viewer/${tree.id}/`}>
-                  <a target="_blank">{tree.data && tree.data.title}</a>
-                </Link>
+                // <Link href={`/pdf-viewer/${tree.id}/`}>
+                //   <a target="_blank">{tree.data && tree.data.title}</a>
+                // </Link>
+                <>{tree.data && tree.data.title}</>
               ) : (
                 <>
                   {tree.data.data && tree.data.data.kind === "rich-text" ? (
