@@ -792,15 +792,21 @@ a {
 .alert-container {
   display: flex;
   box-shadow: inset 0px 1px 8px rgba(0, 0, 0, 0.15);
-  gap:10px;
+  gap: 10px;
   align-items: center;
   .icon {
     width: 60px;
     height: 60px;
     flex-shrink: 0;
   }
-  .alert{
+  .alert {
     font-size: 24px;
-    margin:auto 0;
+    margin: auto 0;
+  }
+}
+
+@media print {
+  * {
+    display: none !important;
   }
 }
