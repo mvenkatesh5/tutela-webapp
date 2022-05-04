@@ -29,6 +29,7 @@ import {
   USER_WITH_ID_ENDPOINT,
   USER_COINS_ENDPOINT,
   TESTS_ENDPOINT,
+  ANNOUNCEMENT_USER_ENDPOINT,
 } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
@@ -128,6 +129,14 @@ const StudentDetail = () => {
     refreshInterval: 0,
   });
 
+  const { data: announcement, error: announcementError } = useSWR(
+    ANNOUNCEMENT_USER_ENDPOINT,
+    APIFetcher,
+    {
+      refreshInterval: 0,
+    }
+  );
+
   return (
     <Page meta={meta}>
       <StudentLayout>
@@ -144,14 +153,38 @@ const StudentDetail = () => {
           </div>
 
           <Row>
-            <div className="px-2 mb-3">
-              <div className="p-2 px-3 rounded alert-container">
-                <Image alt="" src="/announcement.svg" className="icon" />
-                <div className="alert">
-                  Welcome to <strong>Tutela</strong> Have a great Day ahead!
+            {announcement && (
+              <>
+                <div className="px-2 mb-3">
+                  <div className="p-2 px-3 rounded alert-container">
+                    <Image alt="" src="/announcement.svg" className="icon" />
+                    {announcement?.url ? (
+                      <a href={announcement?.url} rel="noreferrer" target="_blank">
+                        <div className="alert">
+                          {announcement?.message ? (
+                            announcement?.message
+                          ) : (
+                            <>
+                              Welcome to <strong>Tutela</strong> Have a great Day ahead!
+                            </>
+                          )}
+                        </div>
+                      </a>
+                    ) : (
+                      <div className="alert">
+                        {announcement?.message ? (
+                          announcement?.message
+                        ) : (
+                          <>
+                            Welcome to <strong>Tutela</strong> Have a great Day ahead!
+                          </>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </div>
+              </>
+            )}
             <h4 className="fw-bold text-dark mb-3">Upcoming Sessions</h4>
             <Col lg="8">
               {sessionList && sessionList.length > 0 ? (
