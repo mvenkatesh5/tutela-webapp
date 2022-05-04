@@ -19,6 +19,7 @@ import { Assessment } from "@styled-icons/material-rounded/Assessment";
 import { CollapseLeft } from "@styled-icons/open-iconic/CollapseLeft";
 import { ExpandRight } from "@styled-icons/open-iconic/ExpandRight";
 import { Forum } from "@styled-icons/material/Forum";
+import { Announcement as AnnouncementIcon } from "@styled-icons/material-rounded/Announcement";
 // global context provider
 import { globalContext } from "@contexts/global";
 
@@ -44,6 +45,11 @@ const Sidebar = () => {
       label: "News",
       icon: <DynamicFeed />,
       href: "/news",
+    },
+    {
+      label: "Announcements",
+      icon: <AnnouncementIcon />,
+      href: "/announcements",
     },
     {
       label: "Adverts",

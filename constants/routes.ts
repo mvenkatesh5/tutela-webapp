@@ -28,6 +28,10 @@ export const USER_PARENT_LINKING_ENDPOINT = `/api/user-linking/`;
 export const NEWS_ENDPOINT = `/api/news/`;
 export const NEWS_WITH_ID_ENDPOINT = (news_id: Number) => `/api/news/${news_id}`;
 
+// announcements
+export const ANNOUNCEMENT_ENDPOINT = `/api/announcements/`;
+export const ANNOUNCEMENT_WITH_ID_ENDPOINT = (news_id: Number) => `/api/announcements/${news_id}`;
+
 // adverts
 export const ADVERTS_ENDPOINT = `/api/adverts/`;
 export const ADVERTS_WITH_ID_ENDPOINT = (advert_id: Number) => `/api/adverts/${advert_id}/`;
