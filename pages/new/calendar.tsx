@@ -20,7 +20,7 @@ const ConcernPage = () => {
   const concerns = [
     {
       title: "What exactly do I do to ensure Educational achievements of my child?",
-      reply: "2",
+      reply: "4",
       is_resolved: false,
     },
     {
