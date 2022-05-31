@@ -20,6 +20,7 @@ import { CollapseLeft } from "@styled-icons/open-iconic/CollapseLeft";
 import { ExpandRight } from "@styled-icons/open-iconic/ExpandRight";
 import { Forum } from "@styled-icons/material/Forum";
 import { Announcement as AnnouncementIcon } from "@styled-icons/material-rounded/Announcement";
+import { Dashboard } from "@styled-icons/boxicons-solid/Dashboard";
 // global context provider
 import { globalContext } from "@contexts/global";
 
@@ -43,20 +44,20 @@ const Sidebar = () => {
 
   const sidebarOptions = [
     {
-      label: "Calendar",
-      icon: <Calendar />,
-      href: "/calendar",
+      label: "Dashboard",
+      icon: <Dashboard />,
+      href: "/new",
     },
     {
-      label: "News",
+      label: "Concerns",
       icon: <DynamicFeed />,
-      href: "/news",
+      href: "/new/concern",
     },
-    {
-      label: "Adverts",
-      icon: <Announcement />,
-      href: "/adverts",
-    },
+    // {
+    //   label: "Calendar",
+    //   icon: <Calendar />,
+    //   href: "/new/calendar",
+    // },
   ];
 
   return (
@@ -71,9 +72,7 @@ const Sidebar = () => {
                 placement={`right`}
                 overlay={<Tooltip id={`tooltip-right`}>{menuItems.label}</Tooltip>}
               >
-                <div
-                  className={"item " + (router.pathname.includes(menuItems.href) ? "active" : "")}
-                >
+                <div className={"item " + (router.pathname === menuItems.href ? "active" : "")}>
                   <div className="icon">{menuItems.icon}</div>
                   <div className="label">{menuItems.label}</div>
                 </div>

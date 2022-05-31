@@ -32,12 +32,11 @@ import {
 // api services
 import { APIFetcher } from "@lib/services";
 // hoc
-import withStudentAuth from "@lib/hoc/withStudentAuth";
+import withAdminAuth from "@lib/hoc/withAdminAuth";
 // react slick
 import Slider from "react-slick";
 // constants
 import { returnSingleDate, returnSingleMonth } from "@constants/global";
-
 
 const StudentDetail = () => {
   const meta = {
@@ -320,4 +319,4 @@ const StudentDetail = () => {
   );
 };
 
-export default withStudentAuth(StudentDetail);
+export default withAdminAuth(StudentDetail);
