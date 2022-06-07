@@ -7,7 +7,7 @@ import { getAuthenticationToken } from "@lib/cookie";
 // global context provider
 import { globalContext } from "@contexts/global";
 
-const NewLayout = (props: any) => {
+const NewLayout = ({ children, sidebar = true }: any) => {
   const [globalState, globalDispatch] = React.useContext(globalContext);
 
   const [tokenDetails, setTokenDetails] = React.useState<any>();
@@ -28,10 +28,13 @@ const NewLayout = (props: any) => {
           <DashboardNav />
         </div>
         <div className="bottom-layout">
-          <div className={`left-layout ${globalState.sidebarToggle && "active"}`}>
-            <SidebarView />
-          </div>
-          <div className="right-layout">{props.children}</div>
+          {sidebar && (
+            <div className={`left-layout ${globalState.sidebarToggle && "active"}`}>
+              <SidebarView />
+            </div>
+          )}
+
+          <div className="right-layout">{children}</div>
         </div>
       </div>
     </div>
