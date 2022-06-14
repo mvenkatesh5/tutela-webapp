@@ -13,25 +13,25 @@ const ReportHeader = () => {
         <div>
           <Link href="/new/child-detail">
             <a>
-              <LeftArrowAlt className="text-white" width="25px" />
+              <LeftArrowAlt className="text-white" width="32px" />
             </a>
           </Link>
-          <h2 className="mt-4">ACT</h2>
+          <h1 className="mt-4">ACT</h1>
         </div>
-        <div className="d-flex gap-4">
+        <div className="d-flex gap-5">
           <div className="">
-            <div className="flex-shrink-0 round-image">
-              <Image alt="" className="img-fluid d-block" src="/bird.svg" width="24" />
+            <div className="flex-shrink-0 round-image-lg">
+              <Image alt="" className="img-fluid d-block" src="/bird.svg" width="32" />
             </div>
             <div className="fw-bold my-1">Anuchal Mehta</div>
             <small>Grade 11, IGCSE</small>
           </div>
           <div className="">
-            <div className="flex-shrink-0 round-image">
-              <Image alt="" className="img-fluid d-block rounded" src="/bird.svg" width="24" />
+            <div className="flex-shrink-0 round-image-lg">
+              <Image alt="" className="img-fluid d-block rounded" src="/bird.svg" width="32" />
             </div>
             <div className="fw-bold my-1">Raj Gopal</div>
-            <small>Teacher</small>
+            <small>Mentor</small>
           </div>
         </div>
       </div>

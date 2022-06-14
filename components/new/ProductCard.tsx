@@ -13,7 +13,7 @@ const Product = ({ data }: any) => {
         {data.completed_percentage == "100" ? (
           <small
             style={{ backgroundColor: "#E6F7EB" }}
-            className="p-2 d-flex gap-2 align-items-center"
+            className="p-2 d-flex gap-2 align-items-center rounded"
           >
             <div className="text-success">
               <Circle width="16px" />
@@ -21,7 +21,7 @@ const Product = ({ data }: any) => {
             Completed!!
           </small>
         ) : (
-          <div className="p-2 pt-3 bg-primary"></div>
+          <div className="p-2 pt-3 bg-primary rounded-top"></div>
         )}
 
         <div className="p-3">

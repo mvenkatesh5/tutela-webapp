@@ -22,7 +22,7 @@ const ProductCompleted = () => {
       <NewLayout sidebar={false}>
         <ReportHeader />
         <div className="container mx-auto mt-5">
-          <Card className="shadow border-0 p-4 my-4 relative overflow-hidden">
+          <Card className="shadow border-0 p-4 my-4 mb-5 relative overflow-hidden">
             <div className="icon-complete-circle"></div>
             <h3 className="">Congratulations!! You completed the program.</h3>
             <div className="text-muted">
@@ -104,7 +104,7 @@ const ProductCompleted = () => {
             pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
             deserunt mollit anim id est laborum.
           </div>
-          <h5 className="mt-4 fw-bold">Physics</h5>
+          <h5 className="mt-5 fw-bold">Physics</h5>
           <div className="text-muted">
             Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
             commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum

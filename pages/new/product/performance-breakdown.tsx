@@ -49,7 +49,7 @@ const PerformanceBreakdown = () => {
       <NewLayout sidebar={false}>
         <ReportHeader />
         <div className="container mx-auto mt-5">
-          <div className="d-flex gap-3 pt-4 mb-5">
+          <div className="d-flex gap-3 pt-4 mb-4">
             <div>
               <Form.Group className="mb-3">
                 <Form.Control type="date" required />
@@ -65,9 +65,9 @@ const PerformanceBreakdown = () => {
 
           {performanceData &&
             performanceData.map((data: any, index: any) => (
-              <div key={`performanceData-key-${index}`} className="mt-5">
+              <div key={`performanceData-key-${index}`} className="mb-5">
                 <div className="d-flex gap-3 my-4">
-                  <h5 className="fw-bold my-auto">{data.title}</h5>
+                  <h4 className="fw-bold my-auto">{data.title}</h4>
                   <Rating value={data.rating} />
                 </div>
                 <div className="d-flex align-items-center gap-2 my-3">

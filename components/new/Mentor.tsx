@@ -32,7 +32,7 @@ const Mentor = () => {
               mentors.map((mentor: any, index: any) => (
                 <div
                   key={`mentors-index-${index}`}
-                  className="d-flex my-2 bg-light p-1 gap-2 align-items-center"
+                  className="d-flex my-2 bg-light p-1 gap-2 align-items-center px-2 rounded"
                 >
                   <div className="flex-shrink-0">
                     <Image

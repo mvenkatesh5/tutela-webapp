@@ -28,8 +28,8 @@
 .text-xs {
   font-size: 10px;
 }
-.text-lg{
-  font-size:20px;
+.text-lg {
+  font-size: 20px;
 }
 
 .custom-progress-bar {
@@ -37,4 +37,20 @@
 }
 .cursor-pointer {
   cursor: pointer;
+}
+
+.custom-table {
+  table {
+    width: 100%;
+  }
+
+  td,
+  th {
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr {
+    border-bottom: 1px solid #e2e2e2;
+  }
 }

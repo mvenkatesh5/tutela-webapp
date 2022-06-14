@@ -62,7 +62,7 @@ const ChildDetail = () => {
     <Page meta={meta}>
       <NewLayout sidebar={false}>
         <Row className="mt-4  mx-auto">
-          <Col className="p-3" md={4}>
+          <Col className="p-3" md={3}>
             <div className="border rounded p-3">
               <div className="d-flex gap-3 align-items-center">
                 <div className="flex-shrink-0">
@@ -77,14 +77,23 @@ const ChildDetail = () => {
 
               <div className="text-muted mt-3 ">Personal Details</div>
               <hr className="my-1" />
-              <div className="fw-bolder">
-                <div className="text-muted mt-2">Email</div>
-                <div className="my-0">anuchalmehta12@gmail.com</div>
-                <div className="text-muted mt-2">Mobile </div>
-                <div className="my-0">9988923322</div>
-                <div className="text-muted mt-2">Address</div>
-                <div className="my-0">Noida Sector 62, Gautham Budha Nagar, UP</div>
+              <div className=" d-flex flex-column">
+                <small className="text-muted mt-2">Email</small>
+                <small className="my-0">anuchalmehta12@gmail.com</small>
+                <small className="text-muted mt-2">Mobile </small>
+                <small className="my-0">9988923322</small>
+                <small className="text-muted mt-2">Address</small>
+                <small className="my-0">Noida Sector 62, Gautham Budha Nagar, UP</small>
               </div>
+            </div>
+            <div className="border rounded mt-4 p-3 d-flex gap-2">
+              <div className="flex-shrink-0">
+                <Image alt="" className="img-fluid d-block " src="/progress.svg" width="60" />
+              </div>
+              <small className="text-danger">
+                Attendance is below 80% , If this continues your ward will not be able to clear the
+                actaul test with a good score.
+              </small>
             </div>
 
             <div className=" mt-4">
@@ -94,14 +103,14 @@ const ChildDetail = () => {
               <Products data={products} />
             </div>
           </Col>
-          <Col className="" md={8}>
-            <Row className="">
+          <Col md={9}>
+            <Row>
               <Col className="p-3" md={6}>
                 <h5 className="">Tentative Dates</h5>
-                <div className="border w-100  rounded p-3">
+                <div className="border w-100  rounded p-3 py-2">
                   {tentativeDates &&
                     tentativeDates.map((date: any, index: any) => (
-                      <div key={`dates-index-${index}`} className=" my-2 bg-light p-1 px-2">
+                      <div key={`dates-index-${index}`} className=" my-2 bg-light p-2 rounded">
                         <Link href="/new/product-report">
                           <a>
                             <div className="text-black">{date.name}</div>
@@ -114,12 +123,12 @@ const ChildDetail = () => {
               <Col className="p-3" md={6}>
                 <h5 className="">Mentors</h5>
 
-                <div className="border w-100 rounded p-3">
+                <div className="border w-100 rounded p-3 py-2">
                   {mentors &&
                     mentors.map((mentor: any, index: any) => (
                       <div
                         key={`mentors-index-${index}`}
-                        className="d-flex my-2 bg-light p-1 gap-2 align-items-center px-2"
+                        className="d-flex my-2 bg-light gap-2 align-items-center p-2 rounded"
                       >
                         <div className="flex-shrink-0">
                           <Image
@@ -129,7 +138,7 @@ const ChildDetail = () => {
                             width="20"
                           />
                         </div>
-                        <small className="">{mentor.name}</small>
+                        <div className="">{mentor.name}</div>
 
                         <div className="ms-auto text-primary">
                           <RightArrowAlt width="18px" />
@@ -150,7 +159,7 @@ const ChildDetail = () => {
               </Row>
             </Row>
 
-            <div className="d-flex justify-content-between mt-4 mb-2">
+            {/* <div className="d-flex justify-content-between mt-4 mb-2">
               <h5>Cumulative Attendace</h5>
               <div>
                 <Form.Group className="mb-3">
@@ -169,7 +178,7 @@ const ChildDetail = () => {
               <div className="flex-shrink-0 mt-4">
                 <Image alt="" className="img-fluid d-block " src="/progress.svg" width="100" />
               </div>
-            </div>
+            </div> */}
           </Col>
         </Row>
       </NewLayout>
