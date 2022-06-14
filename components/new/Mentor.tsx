@@ -20,7 +20,7 @@ const Mentor = () => {
       <div className="p-3 pb-2 d-flex justify-content-between">
         <h6 className="text-muted">MENTORS</h6>
 
-        <div onClick={() => setOpen(!open)}>
+        <div className="cursor-pointer" onClick={() => setOpen(!open)}>
           {open ? <ChevronUp width="16px" /> : <ChevronDown width="16px" />}
         </div>
       </div>

@@ -1,8 +1,6 @@
 import React from "react";
-// next
-import Link from "next/link";
 // react-bootstrap
-import { Container, Row, Col, Image, Card } from "react-bootstrap";
+import {  Row, Col } from "react-bootstrap";
 // constants
 import { META_DESCRIPTION } from "@constants/page";
 // components

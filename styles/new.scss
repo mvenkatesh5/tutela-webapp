@@ -1,0 +1,40 @@
+.round-image {
+  border-radius: 100px;
+  overflow: hidden;
+  width: 24px;
+  height: 24px;
+}
+.round-image-lg {
+  border-radius: 100px;
+  overflow: hidden;
+  width: 32px;
+  height: 32px;
+}
+
+.icon-complete-circle {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  right: -40px;
+  top: -40px;
+  background: linear-gradient(90.36deg, #4a00e0 3%, #8e2de2 102.64%);
+  border-radius: 190px;
+  transform: rotate(-13.13deg);
+}
+
+.input-size {
+  width: "200px !important";
+}
+.text-xs {
+  font-size: 10px;
+}
+.text-lg{
+  font-size:20px;
+}
+
+.custom-progress-bar {
+  width: 100%;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
