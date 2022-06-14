@@ -1,6 +1,4 @@
 import React from "react";
-// next
-import Link from "next/link";
 // react-bootstrap
 import { Container, Row, Col, Image, Card } from "react-bootstrap";
 // constants

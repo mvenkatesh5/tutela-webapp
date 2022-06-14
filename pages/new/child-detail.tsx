@@ -2,13 +2,10 @@ import React, { Fragment } from "react";
 // next
 import Link from "next/link";
 // react-bootstrap
-import {  Row, Col, Image} from "react-bootstrap";
+import { Row, Col, Image, Form } from "react-bootstrap";
 // icons
 import { RightArrowAlt } from "@styled-icons/boxicons-regular/RightArrowAlt";
 import { ExclamationTriangle } from "@styled-icons/fa-solid/ExclamationTriangle";
-import { Calendar } from "@styled-icons/boxicons-regular/Calendar";
-import { ChevronDown } from "@styled-icons/boxicons-solid/ChevronDown";
-
 // constants
 import { META_DESCRIPTION } from "@constants/page";
 // components
@@ -155,32 +152,10 @@ const ChildDetail = () => {
 
             <div className="d-flex justify-content-between mt-4 mb-2">
               <h5>Cumulative Attendace</h5>
-              <div className="dropdown">
-                <button
-                  className="btn btn-outline-secondary btn-sm"
-                  type="button"
-                  id="dropdownMenuButton"
-                  data-toggle="dropdown"
-                  aria-haspopup="false"
-                  aria-expanded="false"
-                >
-                  <div className="d-flex align-items-center">
-                    <Calendar width="16px" />
-                    <div> Janurary 2021</div>
-                    <ChevronDown width="16px" />
-                  </div>
-                </button>
-                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a className="dropdown-item" href="#">
-                    Action
-                  </a>
-                  <a className="dropdown-item" href="#">
-                    Another action
-                  </a>
-                  <a className="dropdown-item" href="#">
-                    Something else here
-                  </a>
-                </div>
+              <div>
+                <Form.Group className="mb-3">
+                  <Form.Control type="date" required />
+                </Form.Group>
               </div>
             </div>
             <div className="border w-100 p-3 rounded">
