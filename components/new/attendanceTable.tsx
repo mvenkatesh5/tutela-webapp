@@ -8,18 +8,20 @@ import { CheckCircle } from "@styled-icons/fa-solid/CheckCircle";
 
 const AttendanceTable = ({ attendanceData }: any) => {
   return (
-    <div className="border rounded">
-      <Table hover className="mb-0">
+    <div className="border rounded custom-table">
+      <table className="mb-0">
         <thead className="bg-light">
-          <tr>
-            <th>#</th>
+          <tr className="my-3">
+            <th className="text-center">#</th>
             <th>Topic</th>
             <th>Date of Completion</th>
             <th>Rewards</th>
             <th>Attendance</th>
             <th>Teacher</th>
             <th>Product</th>
-            <th>...</th>
+            <th>
+              <div className="mb-1 p-2">...</div>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -27,7 +29,7 @@ const AttendanceTable = ({ attendanceData }: any) => {
             attendanceData.length > 0 &&
             attendanceData.map((data: any, index: any) => (
               <tr key={`attendanceData-key-${index}`}>
-                <td>{index + 1}</td>
+                <td className="text-center">{index + 1}</td>
                 <td>{data.topic}</td>
                 <td>
                   <div className="d-flex align-items-center gap-2">
@@ -63,7 +65,7 @@ const AttendanceTable = ({ attendanceData }: any) => {
               </tr>
             ))}
         </tbody>
-      </Table>
+      </table>
     </div>
   );
 };

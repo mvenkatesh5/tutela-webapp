@@ -13,7 +13,7 @@ const ProgressBarElement = ({ percent }: any) => {
           <div className="text-success fw-bold">{percent}%</div>
         </div>
       </div>
-      <ProgressBar variant="success" now={percent} />
+      <ProgressBar variant="success" className="rounded-pill" now={percent} />
     </div>
   );
 };

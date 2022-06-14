@@ -26,10 +26,10 @@ const ProductReport = () => {
           <ProgressBarElement percent={75} />
 
           <div className="d-flex justify-content-between align-items-center mt-2">
-            <small className="text-muted">23 Jan 2022</small>
-            <small className="text-muted">23 May 2022</small>
+            <div className="text-muted">23 Jan 2022</div>
+            <div className="text-muted">23 May 2022</div>
           </div>
-          <div className="d-flex gap-3 pt-4 mb-5">
+          <div className="d-flex gap-3 pt-4 mb-4">
             <div>
               <Form.Group className="mb-3">
                 <Form.Control type="date" required />
@@ -52,7 +52,7 @@ const ProductReport = () => {
             pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
             deserunt mollit anim id est laborum.
           </div>
-          <h5 className="mt-4 fw-bold">Physics</h5>
+          <h5 className="mt-5 fw-bold">Physics</h5>
           <div className="text-muted">
             Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
             commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum

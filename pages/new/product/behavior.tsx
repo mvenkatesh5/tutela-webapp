@@ -36,7 +36,7 @@ const BehaviorPage = () => {
       <NewLayout sidebar={false}>
         <ReportHeader />
         <div className="container mx-auto mt-5">
-          <div className="d-flex gap-3 pt-4 mb-5">
+          <div className="d-flex gap-3 pt-4 mb-4">
             <div>
               <Form.Group className="mb-3">
                 <Form.Control type="date" required />

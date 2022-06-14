@@ -60,13 +60,13 @@ const BehaviorPage = () => {
             </div>{" "}
           </div>
 
-          <div className="border-bottom my-4 d-flex gap-3">
+          <div className="border-bottom my-4 d-flex gap-4">
             {tabsData &&
               tabsData.map((data: any, index: any) => (
                 <div
                   key={`tabsData-index-${index}`}
                   onClick={() => setTabs(data.key)}
-                  className={`fw-bold pb-2 ${
+                  className={`fw-bold pb-2 cursor-pointer ${
                     tabs == data.key
                       ? "text-primary border-bottom border-primary border-3"
                       : "text-muted"
@@ -92,15 +92,18 @@ const BehaviorPage = () => {
                 </div>
               </div>
               <div className="border rounded">
-                <Table hover className="mb-0">
+                <table className="mb-0 custom-table w-100">
                   <thead className="bg-light">
                     <tr>
-                      <th>#</th>
+                      <th className="text-center">#</th>
                       <th>Topic Name</th>
                       <th>Column</th>
                       <th>Column</th>
                       <th>Column</th>
                       <th>Column</th>
+                      <th>
+                        <div className="mb-1 p-2">...</div>
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -108,16 +111,17 @@ const BehaviorPage = () => {
                       productDetail.length > 0 &&
                       productDetail.map((data: any, index: any) => (
                         <tr key={`attendanceData-key-${index}`}>
-                          <td>{index + 1}</td>
+                          <td className="text-center">{index + 1}</td>
                           <td>{data.name}</td>
                           <td>data</td>
                           <td>data</td>
                           <td>data</td>
                           <td>data</td>
+                          <td></td>
                         </tr>
                       ))}
                   </tbody>
-                </Table>
+                </table>
               </div>
             </>
           )}

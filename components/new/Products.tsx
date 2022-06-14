@@ -11,41 +11,43 @@ const Products = ({ data }: any) => {
   const Card = ({ products }: any) => {
     const [open, setOpen] = React.useState(false);
     return (
-      <div className="bg-light">
-        <div className="d-flex my-2 bg-light p-1 gap-2 align-items-center">
-          <Circle className="text-success" width="16px" />
-          <div className="">{products.name}</div>
+      <>
+        <div className="bg-light rounded mb-1">
+          <div className="d-flex my-2 bg-light rounded p-1 px-2 gap-2 align-items-center">
+            <Circle className="text-success" width="16px" />
+            <div className="">{products.name}</div>
 
-          <div className="ms-auto d-flex gap-2 text-muted">
-            <ThreeDots width="16px" />
-            <div
-              onClick={() => {
-                setOpen(!open);
-              }}
-              className="cursor-pointer"
-            >
-              <ChevronDown width="14px" />
+            <div className="ms-auto d-flex gap-2 text-muted">
+              <ThreeDots width="16px" />
+              <div
+                onClick={() => {
+                  setOpen(!open);
+                }}
+                className="cursor-pointer"
+              >
+                <ChevronDown width="14px" />
+              </div>
             </div>
           </div>
+          {open && (
+            <>
+              <hr className="my-0" />
+              <div className="p-2 d-flex flex-wrap gap-3">
+                <div>
+                  <span className="text-muted">Progress:</span>{" "}
+                  <span className="text-success">100%</span>{" "}
+                </div>
+                <div>
+                  <span className="text-muted">Join date: </span> <span>Jan 2, 2022</span>{" "}
+                </div>
+                <div>
+                  <span className="text-muted">Completion date: </span> <span>Apr 25, 2022</span>{" "}
+                </div>
+              </div>
+            </>
+          )}
         </div>
-        {open && (
-          <>
-            <hr className="my-0" />
-            <div className="p-2 d-flex flex-wrap gap-3">
-              <div>
-                <span className="text-muted">Progress:</span>{" "}
-                <span className="text-success">100%</span>{" "}
-              </div>
-              <div>
-                <span className="text-muted">Join date: </span> <span>Jan 2, 2022</span>{" "}
-              </div>
-              <div>
-                <span className="text-muted">Completion date: </span> <span>Apr 25, 2022</span>{" "}
-              </div>
-            </div>
-          </>
-        )}
-      </div>
+      </>
     );
   };
   return (
