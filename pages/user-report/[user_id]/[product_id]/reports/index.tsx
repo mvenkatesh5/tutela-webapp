@@ -39,8 +39,6 @@ const UserAdminReportsView = () => {
 
   const defaultImageUrl = "/default-image.png";
 
-  const [currentUser, setCurrentUser] = React.useState<any>();
-  const [userRole, setUserRole] = React.useState<any>();
 
   React.useEffect(() => {
     if (getAuthenticationToken()) {
@@ -299,6 +297,14 @@ const UserAdminReportsView = () => {
       email: "",
     };
   };
+
+
+  const [currentUser, setCurrentUser] = React.useState<any>();
+  const [userRole, setUserRole] = React.useState<any>();
+  // console.log("userDetailList", userDetailList);
+  console.log("userProductResourceList", userProductResourceList);
+  // console.log("productDetail", productDetail);
+  // console.log("reportList", reportList);
 
   return (
     <Page meta={meta}>

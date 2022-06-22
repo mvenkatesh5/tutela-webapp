@@ -125,6 +125,7 @@ function ParentDashboard() {
     refreshInterval: 0,
   });
 
+
   return (
     <Page meta={meta}>
       <ParentLayout>
