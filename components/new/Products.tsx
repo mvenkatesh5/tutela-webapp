@@ -14,9 +14,8 @@ const Products = ({ data }: any) => {
       <>
         <div className="bg-light rounded mb-1">
           <div className="d-flex my-2 bg-light rounded p-1 px-2 gap-2 align-items-center">
-            <Circle className="text-success" width="16px" />
-            <div className="">{products.name}</div>
-
+            <Circle className="text-success flex-shrink-0" width="16px" />
+            <div className="text-truncate">{products.product.name}</div>
             <div className="ms-auto d-flex gap-2 text-muted">
               <ThreeDots width="16px" />
               <div
