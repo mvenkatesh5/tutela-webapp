@@ -37,8 +37,6 @@ const ProductsPage = () => {
   const { data: resourcesList, error: resourcesListError } = useSWR(RESOURCE_ENDPOINT, APIFetcher);
   const { data: productsList, error: productsListError } = useSWR(PRODUCTS_ENDPOINT, APIFetcher);
 
-  console.log("productsList", productsList);
-
   const getCurrentUserName = (user_id: any) => {
     if (usersList && usersList.length > 0) {
       const currentData: any = usersList.find(

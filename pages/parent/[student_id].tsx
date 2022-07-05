@@ -14,7 +14,7 @@ import useSWR from "swr";
 // api services
 import { APIFetcher } from "@lib/services";
 // api routes
-import { USER_PRODUCT_RESOURCE_VIEW_ENDPOINT, USER_WITH_ID_ENDPOINT } from "@constants/routes";
+import { PRODUCTS_WITH_USER_ID_ENDPOINT, USER_WITH_ID_ENDPOINT } from "@constants/routes";
 // components
 import Page from "@components/page";
 import Mentor from "@components/new/Mentor";
@@ -24,6 +24,8 @@ import ProductCard from "@components/new/ProductCard";
 import NewLayout from "@layouts/newLayout";
 // cookie
 import { getAuthenticationToken } from "@lib/cookie";
+// hoc
+import withParentAuth from "@lib/hoc/withParentAuth";
 
 const ChildDetail = () => {
   const meta = {
@@ -72,9 +74,11 @@ const ChildDetail = () => {
   );
 
   const { data: productsList, error: productsListError } = useSWR(
-    student_id && student_id ? [USER_PRODUCT_RESOURCE_VIEW_ENDPOINT(student_id), student_id] : null,
+    student_id && student_id ? [PRODUCTS_WITH_USER_ID_ENDPOINT(student_id), student_id] : null,
     (url) => APIFetcher(url)
   );
+
+  console.log("productsList", productsList);
 
   return (
     <Page meta={meta}>
@@ -253,4 +257,4 @@ const ChildDetail = () => {
   );
 };
 
-export default ChildDetail;
+export default withParentAuth(ChildDetail);

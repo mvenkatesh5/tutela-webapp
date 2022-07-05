@@ -100,6 +100,8 @@ export const PRODUCT_USER_DELETE_ENDPOINT = (user_bridge_id: any) =>
   `/api/products-users/${user_bridge_id}/`;
 export const PRODUCT_RESOURCES_ENDPOINT = (product_id: any) =>
   `/api/products/${product_id}/resources/`;
+// user side products
+export const PRODUCTS_WITH_USER_ID_ENDPOINT = (user_id: any) => `/api/users/${user_id}/products/`;
 
 // quick meetings
 export const QUICK_MEETINGS_ENDPOINT = `/api/quick-meetings`;
