@@ -16,7 +16,12 @@ function NewsCard(props: any) {
                   <p className="fw-light text-secondary mb-0">{props.data.description}</p>
                 </Col>
                 <Col md="4" className="text-end">
-                  <Image className="img-fluid" src="/news.svg" width="80" alt="" />
+                  <Image
+                    className="img-fluid"
+                    src={props.data.image_url ? props.data.image_url : `/news.svg`}
+                    width="90"
+                    alt=""
+                  />
                 </Col>
               </Row>
             </Card.Body>
