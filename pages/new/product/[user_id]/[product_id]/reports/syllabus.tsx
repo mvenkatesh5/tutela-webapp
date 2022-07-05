@@ -65,7 +65,7 @@ const SyllabusPage = () => {
       <NewLayout sidebar={false}>
         <ReportHeader />
         <div className="container mx-auto mt-5">
-          <div className="d-flex gap-3 pt-3 mb-4">
+          <div className="d-flex flex-wrap gap-3 pt-3 mb-4">
             <div>
               <Form.Group className="mb-3">
                 <Form.Control type="date" required />

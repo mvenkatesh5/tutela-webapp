@@ -145,3 +145,10 @@ export const DOUBTS_WITH_ID_ENDPOINT = (doubt_id: any) => `/api/doubts/${doubt_i
 export const DOUBTS_WITH_REPLIES_ENDPOINT = (doubt_id: any) => `/api/doubts/${doubt_id}/replies/`;
 export const DOUBTS_ID_WITH_REPLIES_ID_ENDPOINT = (doubt_id: any, reply_id: any) =>
   `/api/doubts/${doubt_id}/replies/${reply_id}/`;
+
+// concerns endpoints
+export const CONCERNS_ENDPOINT = `/api/concerns/`;
+export const CONCERNS_WITH_ID_COMMENT_ENDPOINT = (concern_id: any) =>
+  `/api/concerns/${concern_id}/comments/`;
+export const CONCERNS_ID_WITH_REPLIES_ID_ENDPOINT = (concern_id: any, comment_id: any) =>
+  `/api/concerns/${concern_id}/comments/${comment_id}/`;

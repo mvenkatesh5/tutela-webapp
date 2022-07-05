@@ -48,7 +48,7 @@ const TeacherFeedback = () => {
               </TopicModal>
             </div>
           </div>
-          <div className="border rounded">
+          <div className="border overflow-auto rounded">
             <table className="mb-0 custom-table w-100">
               <thead className="bg-light">
                 <tr>

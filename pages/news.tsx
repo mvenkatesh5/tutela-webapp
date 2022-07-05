@@ -62,4 +62,8 @@ const NewsView = () => {
   );
 };
 
-export default withAdminAuth(NewsView);
+export default
+//  withAdminAuth(
+  NewsView
+  // )
+  ;

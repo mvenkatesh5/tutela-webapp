@@ -1,36 +1,41 @@
-import React from "react";
-// react bootstrap
-import { Row, Col, Dropdown } from "react-bootstrap";
-// material icons
-import { DotsHorizontalRounded } from "@styled-icons/boxicons-regular";
-// swr
-import useSWR from "swr";
-// components
-import ProductCreateView from "@components/admin/product/create";
-import ProductEditView from "@components/admin/product/edit";
-import ProductDeleteView from "@components/admin/product/delete";
-// layouts
-import AdminLayout from "@layouts/adminLayout";
-// api routes
-import { USER_ENDPOINT, RESOURCE_ENDPOINT, PRODUCTS_ENDPOINT } from "@constants/routes";
-// api services
-import { APIFetcher } from "@lib/services";
-// hoc
-import withAdminAuth from "@lib/hoc/withAdminAuth";
-// components
-import Page from "@components/page";
+import React, { Fragment } from "react";
+// next imports
+import Link from "next/link";
+// icons
+import { PeopleTeam } from "@styled-icons/fluentui-system-filled/PeopleTeam";
+import { FileTextOutline } from "@styled-icons/evaicons-outline/FileTextOutline";
+// react-bootstrap
+import { Button, Table, Row, Col } from "react-bootstrap";
 // constants
 import { META_DESCRIPTION } from "@constants/page";
+// swr
+import useSWR from "swr";
+// api services
+import { APIFetcher } from "@lib/services";
+// api routes
+import {
+  USER_PRODUCT_RESOURCE_VIEW_ENDPOINT,
+  USER_ENDPOINT,
+  RESOURCE_ENDPOINT,
+  PRODUCTS_ENDPOINT,
+} from "@constants/routes";
+// components
+import Page from "@components/page";
+import ProductCard from "@components/new/ProductCard";
+// layouts
+import AdminLayout from "@layouts/adminLayout";
+// hoc
+import withAdminAuth from "@lib/hoc/withAdminAuth";
 
-const ProductView = () => {
-  const { data: usersList, error: usersListError } = useSWR(USER_ENDPOINT, APIFetcher);
-  const { data: resourcesList, error: resourcesListError } = useSWR(RESOURCE_ENDPOINT, APIFetcher);
-  const { data: productsList, error: productsListError } = useSWR(PRODUCTS_ENDPOINT, APIFetcher);
-
+const ProductsPage = () => {
   const meta = {
     title: "Products",
     description: META_DESCRIPTION,
   };
+
+  const { data: usersList, error: usersListError } = useSWR(USER_ENDPOINT, APIFetcher);
+  const { data: resourcesList, error: resourcesListError } = useSWR(RESOURCE_ENDPOINT, APIFetcher);
+  const { data: productsList, error: productsListError } = useSWR(PRODUCTS_ENDPOINT, APIFetcher);
 
   console.log("productsList", productsList);
 
@@ -52,97 +57,45 @@ const ProductView = () => {
       if (currentData) return `${currentData.title}`;
     }
   };
-
   return (
     <Page meta={meta}>
       <AdminLayout>
-        <div className="right-layout">
-          <ProductCreateView users={usersList} resources={resourcesList} />
-          {!productsListError && !productsList ? (
-            <div className="text-center text-muted mt-5 mb-5">Loading...</div>
-          ) : (
-            <Row className="mt-2 mb-2">
-              {productsList &&
-                productsList.length > 0 &&
-                productsList.map((product: any, index: any) => (
-                  <Col md={3} key={product.id} className="mb-2">
-                    <div className="product-card-wrapper">
-                      <div
-                        className="header"
-                        style={{ backgroundColor: product.color ? product.color : "#ccc" }}
-                      >
-                        <div className="left">{product.name}</div>
-                        <div className="right">
-                          {usersList && (
-                            <div className="dropdown-wrapper global-dropdown">
-                              <Dropdown>
-                                <Dropdown.Toggle as="div" className="icon">
-                                  <DotsHorizontalRounded />
-                                </Dropdown.Toggle>
-
-                                <Dropdown.Menu className="content-wrapper p-0">
-                                  <ProductEditView
-                                    data={product}
-                                    users={usersList}
-                                    resources={resourcesList}
-                                  />
-                                  <ProductDeleteView data={product} />
-                                </Dropdown.Menu>
-                              </Dropdown>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="content">
-                        <div className="description">{product.description}</div>
-                        <div className="description mt-2 mb-2">Users: ({product.users.length})</div>
-                        {product.users && product.users.length > 0 && (
-                          <div className="d-flex flex-wrap" style={{ gap: "10px" }}>
-                            {product.users.map((data: any) => (
-                              <div
-                                key={`user-${data}`}
-                                style={{
-                                  fontSize: "12px",
-                                  backgroundColor: "#ccc",
-                                  borderRadius: "4px",
-                                }}
-                                className="p-1"
-                              >
-                                {getCurrentUserName(data)}
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                        <div className="description mt-2 mb-2">
-                          Resources: ({product.resources.length})
-                        </div>
-                        {product.resources && product.resources.length > 0 && (
-                          <div className="d-flex flex-wrap" style={{ gap: "10px" }}>
-                            {product.resources.map((data: any) => (
-                              <div
-                                key={`user-${data}`}
-                                style={{
-                                  fontSize: "12px",
-                                  backgroundColor: "#ccc",
-                                  borderRadius: "4px",
-                                }}
-                                className="p-1"
-                              >
-                                {getCurrentResourceName(data)}
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </Col>
-                ))}
-            </Row>
-          )}
+        <div className="container mx-auto mt-5 px-4">
+          <div className="d-flex justify-content-between mb-3">
+            <h3>Products</h3>
+            <Link href="/products/create">
+              <a>
+                <Button className="d-flex align-items-center gap-2">
+                  <PeopleTeam width="16px" />
+                  <div className="">Create Product</div>
+                </Button>
+              </a>
+            </Link>
+          </div>
+          <Row className="pe-0">
+            {!productsListError && !productsList ? (
+              <div className="text-center text-muted mt-5 mb-5">Loading...</div>
+            ) : (
+              <>
+                {productsList &&
+                  productsList.length > 0 &&
+                  productsList.map((product: any, index: any) => (
+                    <Col className="my-2" lg={3} md={6} key={`products-key-${index}`}>
+                      <ProductCard
+                        data={product}
+                        productsList={productsList}
+                        users={usersList}
+                        resources={resourcesList}
+                      />
+                    </Col>
+                  ))}
+              </>
+            )}
+          </Row>
         </div>
       </AdminLayout>
     </Page>
   );
 };
 
-export default withAdminAuth(ProductView);
+export default withAdminAuth(ProductsPage);

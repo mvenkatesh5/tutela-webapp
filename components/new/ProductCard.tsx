@@ -1,14 +1,18 @@
 import React from "react";
+// next imports
 import Link from "next/link";
 // react-bootstrap
-import { Col, Card } from "react-bootstrap";
+import { Col, Card, Dropdown } from "react-bootstrap";
 // icons
 import { DocumentBulletList } from "@styled-icons/fluentui-system-regular/DocumentBulletList";
 import { ThreeDotsVertical } from "@styled-icons/bootstrap/ThreeDotsVertical";
 import { Circle } from "@styled-icons/entypo/Circle";
 import { PeopleTeam } from "@styled-icons/fluentui-system-filled/PeopleTeam";
+// components
+import ProductEditView from "@components/admin/product/edit";
+import ProductDeleteView from "@components/admin/product/delete";
 
-const Product = ({ data, user_id, productsList, users }: any) => {
+const Product = ({ data, user_id, productsList, users, resources, view }: any) => {
   console.log("data in product", data);
   return (
     // <Col className="my-2" md={4}>
@@ -27,35 +31,54 @@ const Product = ({ data, user_id, productsList, users }: any) => {
         <div
           className="p-2 pt-3 rounded-top"
           style={{
-            backgroundColor: data.product.color ? data.product.color : "#ccc",
+            backgroundColor: data.color ? data.color : "#ccc",
           }}
         ></div>
       )}
 
       <div className="p-3">
-        <Link href={`/new/product/${productsList.id}/${data.product.id}/reports`}>
+        <Link
+          href={
+            view == "parent"
+              ? `/new/product/${productsList.id}/${data.id}/reports`
+              : `/products/${data.id}`
+          }
+        >
           <a>
-            <div className="fw-bold text-black">{data.product.name}</div>
+            <div className="fw-bold text-black">{data.name}</div>
           </a>
         </Link>
-        <small className="">{data.product.description}</small>
+        <small className="">{data.description}</small>
       </div>
       <div className="d-flex justify-content-between  mt-auto px-3 pb-3">
-        <div className="d-flex gap-2">
-          {users && (
+        <div className="d-flex gap-2 flex-wrap">
+          {data.users && (
             <div className="d-flex align-items-center gap-1">
               <PeopleTeam width="16px" />
-              <small className="fw-bold">{users} users</small>
+              <small className="fw-bold">{data.users.length} users</small>
             </div>
           )}
 
           <div className="d-flex align-items-center gap-1">
             <DocumentBulletList width="16px" />
-            <small className="fw-bold">{data.product.resources.length} resource</small>
+            <small className="fw-bold">{data?.resources?.length} resource</small>
           </div>
         </div>
         <div>
-          <ThreeDotsVertical width="14px" />
+          {users && (
+            <div className="dropdown-wrapper global-dropdown">
+              <Dropdown>
+                <Dropdown.Toggle as="div" className="icon">
+                  <ThreeDotsVertical width="14px" />
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu className="content-wrapper p-0">
+                  <ProductEditView data={data} users={users} resources={resources} />
+                  <ProductDeleteView data={data} />
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
+          )}
         </div>
       </div>
     </Card>

@@ -46,18 +46,18 @@ const Sidebar = () => {
     {
       label: "Dashboard",
       icon: <Dashboard />,
-      href: "/new",
+      href: "/parent/dashboard",
     },
     {
       label: "Concerns",
       icon: <DynamicFeed />,
-      href: "/new/concern",
+      href: "/parent/concern",
     },
-    // {
-    //   label: "Calendar",
-    //   icon: <Calendar />,
-    //   href: "/new/calendar",
-    // },
+    {
+      label: "Calendar",
+      icon: <Calendar />,
+      href: "/parent/calendar",
+    },
   ];
 
   return (
