@@ -6,7 +6,7 @@ import { DeleteOutline } from "@styled-icons/material-rounded/DeleteOutline";
 import { ExclamationCircle } from "@styled-icons/heroicons-outline/ExclamationCircle";
 import { ThreeDotsVertical } from "@styled-icons/bootstrap/ThreeDotsVertical";
 
-const CommentCard = ({ data, deleteComment }: any) => {
+const CommentCard = ({ data, deleteComment, currentUser }: any) => {
   const [loader, setLoader] = React.useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = React.useState(false);
 
@@ -36,7 +36,9 @@ const CommentCard = ({ data, deleteComment }: any) => {
         <Image alt="" className="img-fluid mx-auto d-block " src="/bird.svg" width="35" />
       </div>
       <div className="">
-        <div className="fw-bold">User Name</div>
+        <div className="fw-bold">
+          {currentUser.first_name} {currentUser.last_name}
+        </div>
         <small className="text-muted">{data.text}</small>
       </div>
 

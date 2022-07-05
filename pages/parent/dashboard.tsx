@@ -229,11 +229,10 @@ const StudentDetail = () => {
               {/* <h5 className="fw-bold text-dark mt-5 mb-3">News and Updates</h5> */}
               <div className="d-flex mt-5 mb-0 justify-content-between">
                 <h5 className="fw-bold text-dark ">News and Updates</h5>
-                <Link href="/news">
+                <Link href="/parent/news">
                   <a>
                     <div className="d-flex gap-2 text-primary align-items-center">
                       <div className="text-nowrap">View all</div>
-
                       <RightArrowAlt width="18px" />
                     </div>
                   </a>
@@ -271,7 +270,7 @@ const StudentDetail = () => {
                       <>
                         {index <= 2 && (
                           <div key={`concerns-${index}`}>
-                            <ConcernCard data={data} />
+                            <ConcernCard users={users} data={data} />
                           </div>
                         )}
                       </>

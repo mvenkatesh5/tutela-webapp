@@ -17,6 +17,8 @@ import NewLayout from "@layouts/newLayout";
 import useSWR from "swr";
 // api routes
 import { CONCERN_ENDPOINT, COMMENT_WITH_CONCERN_ID_ENDPOINT } from "@constants/routes";
+// cookie
+import { getAuthenticationToken } from "@lib/cookie";
 // api services
 import { APIFetcher } from "@lib/services";
 
@@ -28,6 +30,17 @@ const ConcernPage = () => {
 
   const router = useRouter();
   const { concern: concern_id } = router.query;
+
+  const [userDetails, setUserDetails] = React.useState<any>();
+  React.useEffect(() => {
+    if (getAuthenticationToken()) {
+      let details: any = getAuthenticationToken();
+      details = details ? JSON.parse(details) : null;
+      if (details && details.info) {
+        setUserDetails(details);
+      }
+    }
+  }, []);
 
   const handleCurrentConcern = (concernId: any) => {
     router.replace(`/parent/concern?concern=${concernId}`, undefined, { shallow: true });
@@ -70,7 +83,7 @@ const ConcernPage = () => {
   return (
     <Page meta={meta}>
       <NewLayout>
-        {!concerns && !concernsError ? (
+        {!concerns && !concernsError && !userDetails ? (
           <div className="text-center py-5">Loading...</div>
         ) : (
           <Row className="message-layout p-4">
@@ -127,7 +140,11 @@ const ConcernPage = () => {
               {!concernComments && !concernCommentsError ? (
                 <div className="text-center py-5">Loading...</div>
               ) : (
-                <Messenger concern_id={concern_id} concernComments={concernComments} />
+                <Messenger
+                  currentUser={userDetails?.user}
+                  concern_id={concern_id}
+                  concernComments={concernComments}
+                />
               )}
             </Col>
           </Row>

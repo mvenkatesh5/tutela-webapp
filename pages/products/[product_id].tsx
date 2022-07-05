@@ -19,7 +19,7 @@ import { APIFetcher } from "@lib/services";
 // api routes
 import { PRODUCTS_WITH_ID_ENDPOINT, USER_ENDPOINT } from "@constants/routes";
 // layout
-import NewLayout from "@layouts/newLayout";
+import AdminLayout from "@layouts/adminLayout";
 
 const BehaviorPage = () => {
   const meta = {
@@ -69,25 +69,60 @@ const BehaviorPage = () => {
 
   const { data: usersList, error: usersListError } = useSWR(USER_ENDPOINT, APIFetcher);
 
+  // console.log("product.users", product.users);
+
+  // teacher =1
+  // student =2
+
+  const GetUsersDataByUserId = (role: any) => {
+    const users = usersList.filter((user: any) => product.users.includes(user.id));
+    if (users.filter((user: any) => user.role == role).length > 0) {
+      return users
+        .filter((user: any) => user.role == role)
+        .map((user: any) => (
+          <div
+            key={`members-attendanceData-key-${user.id}-${user.first_name}`}
+            style={{ background: "#DFE1E6" }}
+            className="px-1 rounded-pill d-flex align-items-center gap-1"
+          >
+            <Image alt="" className="rounded-circle" width="20px" src="/bird.svg" />
+            <div className="fw-bold">
+              {user.first_name} {user.last_name}
+            </div>
+            <Image
+              alt=""
+              className="rounded-circle"
+              width="16px"
+              height="16px"
+              src="/tutela-coin.png"
+            />
+            <small>10</small>
+          </div>
+        ));
+    } else {
+      return <div>{role == 1 ? "No mentors available" : "No students available"}</div>;
+    }
+  };
+
   return (
     <Page meta={meta}>
-      <NewLayout>
+      <AdminLayout>
         {!product || productError ? (
           <div className="text-center">Loading...</div>
         ) : (
-          <div className="container mx-auto mt-5">
+          <div className="container mx-auto mt-5 px-4">
             <h4>{product.name}</h4>
             <div className="text-muted">{product.description}</div>
 
             <div className="d-flex gap-3 mt-3">
-              <div className="d-flex">
+              <div className="d-flex gap-2">
                 <PeopleTeam width="16px" />
                 <div>
                   {product.users.length}{" "}
                   <span className="text-muted">{product.users.length == 1 ? "User" : "Users"}</span>{" "}
                 </div>
               </div>
-              <div className="d-flex">
+              <div className="d-flex gap-2">
                 <FileTextOutline width="16px" />
                 <div>
                   {product.resources.length}{" "}
@@ -166,33 +201,15 @@ const BehaviorPage = () => {
             {tabs == "members" && (
               <div className="mt-4">
                 <h3>Members</h3>
-                <div className="d-flex flex-wrap gap-4 mt-4">
-                  {product &&
-                    product.users &&
-                    product.users.map((data: any, index: any) => (
-                      <div
-                        key={`members-attendanceData-key-${index}`}
-                        style={{ background: "#DFE1E6" }}
-                        className="px-1 rounded-pill d-flex align-items-center gap-1"
-                      >
-                        <Image alt="" className="rounded-circle" width="20px" src="/bird.svg" />
-                        <div className="fw-bold">user name</div>
-                        <Image
-                          alt=""
-                          className="rounded-circle"
-                          width="16px"
-                          height="16px"
-                          src="/tutela-coin.png"
-                        />
-                        <small>10</small>
-                      </div>
-                    ))}
-                </div>
+                <h5 className="mt-4">Users</h5>
+                <div className="d-flex flex-wrap gap-4 mt-2">{GetUsersDataByUserId(0)}</div>
+                <h5 className="mt-4">Mentors</h5>
+                <div className="d-flex flex-wrap gap-4 mt-2">{GetUsersDataByUserId(1)}</div>
               </div>
             )}
           </div>
         )}
-      </NewLayout>
+      </AdminLayout>
     </Page>
   );
 };

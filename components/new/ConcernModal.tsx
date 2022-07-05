@@ -1,4 +1,6 @@
 import React from "react";
+// next imports
+import { useRouter } from "next/router";
 // react bootstrap
 import { Button, Form, Modal } from "react-bootstrap";
 // material icons
@@ -12,12 +14,14 @@ import { Concern } from "@lib/services/concernService";
 
 const ConcernModal = (props: any) => {
   const [modal, setModal] = React.useState(false);
+
   const closeModal = () => {
     setModal(false);
     setFormData("");
   };
   const openModal = () => setModal(true);
 
+  const router = useRouter();
   const [buttonLoader, setButtonLoader] = React.useState(false);
 
   const [formData, setFormData] = React.useState<any>({
@@ -43,6 +47,7 @@ const ConcernModal = (props: any) => {
         console.log("response", response);
         mutate(CONCERN_ENDPOINT);
         closeModal();
+        router.push("/parent/concerns");
       })
       .catch((error) => {
         closeModal();

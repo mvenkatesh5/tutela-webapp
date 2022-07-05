@@ -52,7 +52,7 @@ const Product = ({ data, user_id, productsList, users, resources, view }: any) =
       </div>
       <div className="d-flex justify-content-between  mt-auto px-3 pb-3">
         <div className="d-flex gap-2 flex-wrap">
-          {data.users && (
+          {view != "parent" && data.users && (
             <div className="d-flex align-items-center gap-1">
               <PeopleTeam width="16px" />
               <small className="fw-bold">{data.users.length} users</small>
