@@ -1,6 +1,6 @@
 import React from "react";
 // react bootstrap
-import { Row, Col, Card } from "react-bootstrap";
+import { Row, Col, Card, Image } from "react-bootstrap";
 // swr
 import useSWR from "swr";
 // layouts
@@ -35,6 +35,8 @@ const NewsView = () => {
     description: META_DESCRIPTION,
   };
 
+  console.log("newsList", newsList);
+
   return (
     <Page meta={meta}>
       <AdminLayout>
@@ -45,12 +47,30 @@ const NewsView = () => {
             {newsList &&
               newsList.length > 0 &&
               newsList.map((data: any, index: Number) => (
-                <Col md={6} key={data.id} style={{ marginTop: "10px" }}>
-                  <Card>
-                    <Card.Body>
-                      <h6 className="mt-2 mb-2">{data.title}</h6>
-                      <p>{data.description}</p>
-                      <NewsEditView data={data} />
+                <Col md={4} key={data.id} style={{ marginTop: "10px" }}>
+                  <Card style={{ height: "100%" }}>
+                    <Card.Body
+                      style={{
+                        height: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "between",
+                      }}
+                    >
+                      <div style={{ height: "100%" }}>
+                        <div style={{ height: "175px" }}>
+                          <Image
+                            alt=""
+                            src={data?.image_url ? data?.image_url : "/default-image.png"}
+                            style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                          />
+                        </div>
+                        <h6 className="mt-2 mb-2">{data.title}</h6>
+                        <p>{data.description}</p>
+                      </div>
+                      <div>
+                        <NewsEditView data={data} />
+                      </div>
                     </Card.Body>
                   </Card>
                 </Col>
@@ -62,8 +82,6 @@ const NewsView = () => {
   );
 };
 
-export default
-//  withAdminAuth(
-  NewsView
-  // )
-  ;
+export default //  withAdminAuth(
+NewsView;
+// )
