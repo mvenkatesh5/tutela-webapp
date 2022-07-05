@@ -26,6 +26,7 @@ const ParentNewsPage = () => {
   return (
     <Page meta={meta}>
       <NewLayout>
+        <h3>News</h3>
         <Row className="pe-3">
           {newsList &&
             newsList.length > 0 &&
