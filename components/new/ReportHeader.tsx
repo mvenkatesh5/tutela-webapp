@@ -6,14 +6,14 @@ import { Image } from "react-bootstrap";
 // icons
 import { LeftArrowAlt } from "@styled-icons/boxicons-regular/LeftArrowAlt";
 
-const ReportHeader = ({ userDetailList, productDetail, mentor }: any) => {
+const ReportHeader = ({ userDetailList, productDetail, mentor, user_id }: any) => {
   return (
     <div className="py-5 text-white report-header">
       {productDetail && (
         <>
           <div className="container mx-auto d-flex justify-content-between align-items-center">
             <div>
-              <Link href="/new/child-detail">
+              <Link href={`/parent/${user_id}`}>
                 <a>
                   <LeftArrowAlt className="text-white" width="32px" />
                 </a>

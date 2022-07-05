@@ -40,7 +40,7 @@ const Product = ({ data, user_id, productsList, users, resources, view }: any) =
         <Link
           href={
             view == "parent"
-              ? `/new/product/${productsList.id}/${data.id}/reports`
+              ? `/parent/product/${productsList.id}/${data.id}/reports`
               : `/products/${data.id}`
           }
         >
