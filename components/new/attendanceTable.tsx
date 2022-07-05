@@ -8,7 +8,7 @@ import { CheckCircle } from "@styled-icons/fa-solid/CheckCircle";
 
 const AttendanceTable = ({ attendanceData }: any) => {
   return (
-    <div className="border rounded custom-table">
+    <div className="border overflow-auto rounded custom-table">
       <table className="mb-0">
         <thead className="bg-light">
           <tr className="my-3">

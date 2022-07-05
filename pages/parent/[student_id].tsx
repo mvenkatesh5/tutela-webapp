@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 // next
 import Link from "next/link";
+import { useRouter } from "next/router";
 // react-bootstrap
 import { Row, Col, Image, Form } from "react-bootstrap";
 // icons
@@ -13,14 +14,7 @@ import useSWR from "swr";
 // api services
 import { APIFetcher } from "@lib/services";
 // api routes
-import {
-  NEWS_ENDPOINT,
-  ADVERTS_ENDPOINT,
-  PRODUCTS_ENDPOINT,
-  USER_ENDPOINT,
-  USER_PRODUCT_RESOURCE_VIEW_ENDPOINT,
-  TESTS_ENDPOINT,
-} from "@constants/routes";
+import { USER_PRODUCT_RESOURCE_VIEW_ENDPOINT, USER_WITH_ID_ENDPOINT } from "@constants/routes";
 // components
 import Page from "@components/page";
 import Mentor from "@components/new/Mentor";
@@ -36,6 +30,10 @@ const ChildDetail = () => {
     title: "Child Detail",
     description: META_DESCRIPTION,
   };
+
+  const router = useRouter();
+  const student_id = router.query.student_id;
+
   const mentors = [
     { name: "Raj Gopal", image: "/bird.svg" },
     { name: "Venkat Kumar", image: "/bird.svg" },
@@ -49,6 +47,7 @@ const ChildDetail = () => {
     { name: "Main test" },
   ];
 
+  console.log("student_id", student_id);
   const [currentUser, setCurrentUser] = React.useState<any>();
   const [userRole, setUserRole] = React.useState<any>();
 
@@ -66,58 +65,22 @@ const ChildDetail = () => {
     }
   }, []);
 
-  const [parentUsers, setParentUsers] = React.useState<any>();
-  const [currentSelectedUser, setCurrentSelectedUser] = React.useState<any>();
-
-  const { data: users, error: usersError } = useSWR(USER_ENDPOINT, APIFetcher);
-
-  const generateUniqueList = (arrayList: any) => {
-    let uniqueNames: any = [];
-    arrayList.forEach((element: any) => {
-      if (!uniqueNames.includes(element)) uniqueNames.push(element);
-    });
-    return uniqueNames;
-  };
-
-  React.useEffect(() => {
-    if (users && users.length > 0) {
-      if (
-        currentUser &&
-        currentUser.user &&
-        currentUser.user.linked_items &&
-        currentUser.user.linked_items.students &&
-        currentUser.user.linked_items.students.length > 0
-      ) {
-        let uniqueUsers = generateUniqueList(currentUser.user.linked_items.students);
-        if (uniqueUsers && uniqueUsers.length > 0) {
-          let uniqueUserDetails: any = [];
-          uniqueUsers.forEach((element: any) => {
-            let currentUser = users.find(
-              (userElement: any) => userElement.id === parseInt(element)
-            );
-            if (currentUser) uniqueUserDetails.push(currentUser);
-          });
-          if (uniqueUserDetails && uniqueUserDetails.length > 0) {
-            setCurrentSelectedUser(uniqueUserDetails[0].id);
-            setParentUsers(uniqueUserDetails);
-          }
-        }
-      }
-    }
-  }, [users && currentUser]);
+  const { data: userDetailList, error: userDetailListError } = useSWR(
+    student_id ? USER_WITH_ID_ENDPOINT(student_id) : null,
+    (url) => APIFetcher(url),
+    { refreshInterval: 0 }
+  );
 
   const { data: productsList, error: productsListError } = useSWR(
-    currentSelectedUser && currentSelectedUser
-      ? [USER_PRODUCT_RESOURCE_VIEW_ENDPOINT(currentSelectedUser), currentSelectedUser]
-      : null,
+    student_id && student_id ? [USER_PRODUCT_RESOURCE_VIEW_ENDPOINT(student_id), student_id] : null,
     (url) => APIFetcher(url)
   );
-  console.log("productsList", currentSelectedUser);
+
   return (
     <Page meta={meta}>
       <NewLayout sidebar={false}>
         <Row className="mt-4  mx-auto">
-          {parentUsers ? (
+          {userDetailList ? (
             <>
               <Col className="p-3" md={3}>
                 <div className="border rounded p-3">
@@ -131,8 +94,12 @@ const ChildDetail = () => {
                       />
                     </div>
                     <div className="d-flex flex-column">
-                      <div className="fw-bold">{parentUsers[0]?.profile_data.name}</div>
-                      <small className="text-muted">{parentUsers[0]?.profile_data.school}</small>
+                      <div className="fw-bold">
+                        {userDetailList?.profile_data?.name
+                          ? userDetailList?.profile_data?.name
+                          : userDetailList.first_name + " " + userDetailList.last_name}
+                      </div>
+                      <small className="text-muted">{userDetailList?.profile_data?.school}</small>
                       <small className="text-muted">Grade 11, IGCSE</small>
                     </div>
                   </div>
@@ -140,12 +107,24 @@ const ChildDetail = () => {
                   <div className="text-muted mt-3 ">Personal Details</div>
                   <hr className="my-1" />
                   <div className=" d-flex flex-column">
-                    <small className="text-muted mt-2">Email</small>
-                    <small className="my-0">{parentUsers[0]?.email}</small>
-                    <small className="text-muted mt-2">Mobile </small>
-                    <small className="my-0">{parentUsers[0]?.profile_data.phone}</small>
-                    <small className="text-muted mt-2">Address</small>
-                    <small className="my-0">{parentUsers[0]?.profile_data.address}</small>
+                    {userDetailList?.email && (
+                      <>
+                        <small className="text-muted mt-2">Email</small>
+                        <small className="my-0">{userDetailList?.email}</small>
+                      </>
+                    )}
+                    {userDetailList?.profile_data?.phone && (
+                      <>
+                        <small className="text-muted mt-2">Mobile </small>
+                        <small className="my-0">{userDetailList?.profile_data?.phone}</small>
+                      </>
+                    )}
+                    {userDetailList?.profile_data?.address && (
+                      <>
+                        <small className="text-muted mt-2">Address</small>
+                        <small className="my-0">{userDetailList?.profile_data?.address}</small>
+                      </>
+                    )}
                   </div>
                 </div>
                 <div className="border rounded mt-4 p-3 d-flex gap-2">
@@ -178,11 +157,11 @@ const ChildDetail = () => {
                       {tentativeDates &&
                         tentativeDates.map((date: any, index: any) => (
                           <div key={`dates-index-${index}`} className=" my-2 bg-light p-2 rounded">
-                            <Link href="/new/product-report">
-                              <a>
-                                <div className="text-black">{date.name}</div>
-                              </a>
-                            </Link>
+                            {/* <Link href="/new/product-report"> */}
+                            {/* <a> */}
+                            <div className="text-black">{date.name}</div>
+                            {/* </a> */}
+                            {/* </Link> */}
                           </div>
                         ))}
                     </div>
@@ -217,7 +196,7 @@ const ChildDetail = () => {
                   <h5 className="mt-2 ms-1">Products</h5>
 
                   <Row className="pe-0">
-                    {currentSelectedUser && (
+                    {userDetailList && (
                       <>
                         {!productsListError && !productsList ? (
                           <div className="text-center text-muted mt-5 mb-5">Loading...</div>
@@ -229,9 +208,10 @@ const ChildDetail = () => {
                               productsList.product_users.map((product: any, index: any) => (
                                 <Col className="my-2" md={4} key={`products-key-${index}`}>
                                   <ProductCard
-                                    data={product}
+                                    data={product.product}
                                     user_id={currentUser?.user.id}
                                     productsList={productsList}
+                                    view={"parent"}
                                   />
                                 </Col>
                               ))}

@@ -3,6 +3,8 @@ import React from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 // material icons
 import { CloseOutline } from "@styled-icons/evaicons-outline/CloseOutline";
+// services
+import { ConcernCreate } from "@lib/services/concernService";
 
 const ConcernModal = (props: any) => {
   const [modal, setModal] = React.useState(false);
@@ -16,21 +18,38 @@ const ConcernModal = (props: any) => {
 
   const [formData, setFormData] = React.useState<any>({
     title: "",
-    explain: "",
+    description: "",
+    student: "",
   });
   const handleFromData = (key: any, value: any) => {
     setFormData({ ...formData, [key]: value });
   };
+  const [currentSelectedUser, setCurrentSelectedUser] = React.useState<any>(
+    props.parentUsers[0].id
+  );
 
   const raiseConcern = () => {
-    closeModal();
+    const payload = {
+      title: formData.title,
+      description: formData.description,
+      student: currentSelectedUser,
+    };
+    ConcernCreate(payload)
+      .then((response) => {
+        console.log("response", response);
+        closeModal();
+      })
+      .catch((error) => {
+        closeModal();
+        console.log("error", error);
+      });
   };
 
   return (
     <>
       <Button
         variant="primary"
-        className="btn-sm my-auto px-4 me-2" 
+        className="btn-sm my-auto px-4 me-2"
         style={{ height: "30px" }}
         onClick={openModal}
       >
@@ -45,7 +64,9 @@ const ConcernModal = (props: any) => {
               <CloseOutline width="20px" />
             </Button>
           </div>
-          <Form onSubmit={raiseConcern}>
+          <Form
+          // onSubmit={raiseConcern}
+          >
             <Form.Group className="mb-3">
               <Form.Label className="mb-1 text-muted">Title</Form.Label>
               <Form.Control
@@ -60,20 +81,41 @@ const ConcernModal = (props: any) => {
               <Form.Control
                 as="textarea"
                 rows={5}
-                value={formData.explain}
-                onChange={(e) => handleFromData("explain", e.target.value)}
+                value={formData.description}
+                onChange={(e) => handleFromData("description", e.target.value)}
                 required
               />
             </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label className="mb-1 text-muted">Student</Form.Label>
+              <Form.Control
+                as="select"
+                value={currentSelectedUser}
+                onChange={(e: any) => setCurrentSelectedUser(e.target.value)}
+              >
+                {props.parentUsers &&
+                  props.parentUsers.length > 0 &&
+                  props.parentUsers.map((user: any, index: any) => (
+                    <option key={`${user.id}`} value={user.id}>
+                      {user.username} ({user.email})
+                    </option>
+                  ))}
+              </Form.Control>
+            </Form.Group>
             <div className="d-flex justify-content-end">
-              <Button variant="primary" className="btn-sm" type="submit" disabled={buttonLoader}>
+              <Button
+                variant="primary"
+                className="btn-sm"
+                onClick={raiseConcern}
+                disabled={buttonLoader}
+              >
                 {buttonLoader ? "Raising..." : "Raise Concern"}
               </Button>
             </div>
           </Form>
         </Modal.Body>
       </Modal>
-      <Form></Form>
     </>
   );
 };

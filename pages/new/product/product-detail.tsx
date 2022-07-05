@@ -3,12 +3,13 @@ import React, { Fragment } from "react";
 import { PeopleTeam } from "@styled-icons/fluentui-system-filled/PeopleTeam";
 import { FileTextOutline } from "@styled-icons/evaicons-outline/FileTextOutline";
 // react-bootstrap
-import { Button, Table } from "react-bootstrap";
+import { Button, Image } from "react-bootstrap";
 // constants
 import { META_DESCRIPTION } from "@constants/page";
 // components
 import Page from "@components/page";
 import Dropdown from "@components/new/Dropdown";
+import AddTopicCluster from "@components/new/AddTopicCluster";
 // layout
 import NewLayout from "@layouts/newLayout";
 
@@ -32,7 +33,21 @@ const BehaviorPage = () => {
     { name: "Resources", key: "resources" },
     { name: "Product Detail", key: "product" },
   ];
-
+  const members = [
+    { name: "Riya", coins: "10" },
+    { name: "Riya", coins: "10" },
+    { name: "Riya", coins: "10" },
+    { name: "Varun kashyap", coins: "10" },
+    { name: "Varun kashyap", coins: "10" },
+    { name: "Riya", coins: "10" },
+    { name: "Riya", coins: "10" },
+    { name: "Varun kashyap", coins: "10" },
+    { name: "Riya", coins: "10" },
+    { name: "Riya", coins: "10" },
+    { name: "Varun kashyap", coins: "10" },
+    { name: "Riya", coins: "10" },
+    { name: "Varun kashyap", coins: "10" },
+  ];
   const [tabs, setTabs] = React.useState(tabsData[0].key);
 
   return (
@@ -79,7 +94,7 @@ const BehaviorPage = () => {
 
           {tabs == "topics" && (
             <>
-              <div className="d-flex align-items-center justify-content-between mt-4">
+              <div className="d-flex flex-wrap align-items-center justify-content-between mt-4">
                 <h3>Topics</h3>
                 <div className="d-flex gap-3 pt-4 mb-5">
                   <Dropdown name="overview">
@@ -88,7 +103,7 @@ const BehaviorPage = () => {
                   <Dropdown name="overview">
                     <div className="bg-light px-2 py-1">Overview</div>
                   </Dropdown>
-                  <Button className="btn btn-primary">Add Topic Cluster</Button>
+                  <AddTopicCluster />
                 </div>
               </div>
               <div className="border rounded">
@@ -124,6 +139,32 @@ const BehaviorPage = () => {
                 </table>
               </div>
             </>
+          )}
+          {tabs == "members" && (
+            <div className="mt-4">
+              <h3>Members</h3>
+              <div className="d-flex flex-wrap gap-4 mt-4">
+                {members &&
+                  members.map((data: any, index: any) => (
+                    <div
+                      key={`members-attendanceData-key-${index}`}
+                      style={{ background: "#DFE1E6" }}
+                      className="px-1 rounded-pill d-flex align-items-center gap-1"
+                    >
+                      <Image alt="" className="rounded-circle" width="20px" src="/bird.svg" />
+                      <div className="fw-bold">{data.name}</div>
+                      <Image
+                        alt=""
+                        className="rounded-circle"
+                        width="16px"
+                        height="16px"
+                        src="/tutela-coin.png"
+                      />
+                      <small>10</small>
+                    </div>
+                  ))}
+              </div>
+            </div>
           )}
         </div>
       </NewLayout>

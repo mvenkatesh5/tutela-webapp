@@ -23,7 +23,7 @@ const NewLayout = ({ children, sidebar = true }: any) => {
 
   return (
     <div>
-      <div className="admin-wrapper">
+      <div className="new-layout-wrapper">
         <div className="top-layout">
           <DashboardNav />
         </div>

@@ -1,8 +1,9 @@
 import React from "react";
 // next imports
+import Link from "next/link";
 import { useRouter } from "next/router";
 // bootstrap
-import { Form } from "react-bootstrap";
+import { Form, Row, Col, Badge, Button } from "react-bootstrap";
 // swr
 import useSWR from "swr";
 // constants
@@ -14,6 +15,9 @@ import Page from "@components/page";
 import ReportHeader from "@components/new/ReportHeader";
 import Dropdown from "@components/new/Dropdown";
 import ProgressBarElement from "@components/new/ProgressBar";
+import ReportStatusView from "@components/reports/status";
+import ReportDeleteView from "@components/reports/delete";
+import { SlateEditor } from "@components/SlateEditor";
 // api services
 import { APIFetcher } from "@lib/services";
 // api routes
@@ -127,6 +131,176 @@ const ProductReport = () => {
       email: "",
     };
   };
+
+  const RenderTabContent = ({ view }: any) => {
+    const [currentReports, setCurrentReports] = React.useState<any>();
+
+    React.useEffect(() => {
+      if (userReports && userReports.length > 0) {
+        let currentElements: any;
+        if (view === "overview") {
+          currentElements = userReports.filter((element: any) =>
+            ["performance", "syllabus", "behavior"].includes(element.flags)
+          );
+        } else {
+          currentElements = userReports.filter((element: any) => element.flags === view);
+        }
+        if (currentElements && currentElements.length > 0) setCurrentReports(currentElements);
+      }
+    }, [view, userReports]);
+
+    const renderSlateContent = (value: any) => {
+      if (value && value.length > 0 && Array.isArray(value)) {
+        return value;
+      } else {
+        return [
+          {
+            type: "paragraph",
+            children: [{ text: value && value.length > 0 ? value : "" }],
+          },
+        ];
+      }
+    };
+
+    return (
+      <div>
+        {currentReports && currentReports.length > 0 ? (
+          <>
+            {currentReports.map((report: any, reportIndex: any) => (
+              <div
+                key={`reports-${report.id}`}
+                className="mb-3"
+                style={{
+                  border: "1px solid #e2e2e2",
+                  padding: "16px",
+                  borderRadius: "4px",
+                }}
+              >
+                {report.title && <h4>{report.title}</h4>}
+
+                {report?.report?.content && (
+                  <div className="mt-3">
+                    <h6>General Report</h6>
+                    {renderSlateContent(report?.report?.content) && (
+                      <div className="mb-3">
+                        <SlateEditor
+                          readOnly={true}
+                          initialValue={renderSlateContent(report?.report?.content)}
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {report?.performance?.content && (
+                  <div className="mt-3">
+                    <h6>Performance Report</h6>
+                    {renderSlateContent(report?.performance?.content) && (
+                      <div className="mb-3">
+                        <SlateEditor
+                          readOnly={true}
+                          initialValue={renderSlateContent(report?.performance?.content)}
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {report?.syllabus?.content && (
+                  <div className="mt-3">
+                    <h6>Syllabus</h6>
+                    {renderSlateContent(report?.syllabus?.content) && (
+                      <div className="mb-3">
+                        <SlateEditor
+                          readOnly={true}
+                          initialValue={renderSlateContent(report?.syllabus?.content)}
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {report?.behavior?.content && (
+                  <div className="mt-3">
+                    <h6>Behavior</h6>
+                    {renderSlateContent(report?.behavior?.content) && (
+                      <div className="mb-3">
+                        <SlateEditor
+                          readOnly={true}
+                          initialValue={renderSlateContent(report?.behavior?.content)}
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {report.report.test_details && report.report.test_details.length > 0 && (
+                  <div className="mb-3">
+                    <h6>Test Details</h6>
+                    <Row className="ms-1 me-1">
+                      {report.report.test_details.map((element: any, index: any) => (
+                        <Col key={`report-test-details-${index}`} md={3} className="ps-0">
+                          <div
+                            style={{
+                              border: "1px solid #e2e2e2",
+                              marginBottom: "10px",
+                              padding: "10px 12px",
+                              borderRadius: "4px",
+                            }}
+                          >
+                            <h5 className="m-0 p-0 mb-2">{element.name ? element.name : ""}</h5>
+                            <div>
+                              <Badge className="bg-info">{element.date ? element.date : ""}</Badge>
+                              <Badge className="bg-info ms-2">
+                                {element.score ? element.score : ""}
+                              </Badge>
+                            </div>
+                          </div>
+                        </Col>
+                      ))}
+                    </Row>
+                  </div>
+                )}
+
+                {userRole && userRole === "admin" && (
+                  <div className="d-flex align-items-center" style={{ gap: "10px" }}>
+                    <div>
+                      <ReportStatusView
+                        data={report}
+                        product={product_id}
+                        user={user_id}
+                        view={tabKey}
+                      />
+                    </div>
+                    <div>
+                      <Link href={`/user-report/${user_id}/${product_id}/reports/${report.id}`}>
+                        <a>
+                          <Button variant="outline-secondary" className="btn-sm">
+                            Edit
+                          </Button>
+                        </a>
+                      </Link>
+                    </div>
+                    <div>
+                      <ReportDeleteView
+                        data={report}
+                        product={product_id}
+                        user={user_id}
+                        view={tabKey}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </>
+        ) : (
+          <div className="text-secondary mt-5 mb-5 text-center">No reports Under {view}.</div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <Page meta={meta}>
       <NewLayout sidebar={false}>
@@ -158,7 +332,7 @@ const ProductReport = () => {
                 </Dropdown>
               </div>
 
-              <h5 className="mt-4 fw-bold">Mathematics</h5>
+              {/* <h5 className="mt-4 fw-bold">Mathematics</h5>
               <div className="text-muted">
                 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
                 ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
@@ -179,7 +353,12 @@ const ProductReport = () => {
                 commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
                 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
                 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </div>
+              </div> */}
+              {report_tab_data.map((item: any, index: any) => (
+                <div key={`report-tab-data-${item.tab_key}`}>
+                  <RenderTabContent view={item.tab_key} />
+                </div>
+              ))}
             </div>
           </>
         ) : (

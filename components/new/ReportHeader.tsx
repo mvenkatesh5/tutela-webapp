@@ -8,7 +8,7 @@ import { LeftArrowAlt } from "@styled-icons/boxicons-regular/LeftArrowAlt";
 
 const ReportHeader = ({ userDetailList, productDetail, mentor }: any) => {
   return (
-    <div style={{ margin: "-15px", background: "#C0405C" }} className="py-5 text-white">
+    <div className="py-5 text-white report-header">
       {productDetail && (
         <>
           <div className="container mx-auto d-flex justify-content-between align-items-center">
