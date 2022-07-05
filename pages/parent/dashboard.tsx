@@ -30,7 +30,7 @@ import {
   TESTS_ENDPOINT,
   ANNOUNCEMENT_USER_ENDPOINT,
   USER_ENDPOINT,
-  CONCERNS_ENDPOINT,
+  CONCERN_ENDPOINT,
 } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
@@ -93,7 +93,7 @@ const StudentDetail = () => {
   //   (url) => APIFetcher(url),
   //   { refreshInterval: 5000 }
   // );
-  const { data: concerns, error: concernsError } = useSWR(CONCERNS_ENDPOINT, APIFetcher, {
+  const { data: concerns, error: concernsError } = useSWR(CONCERN_ENDPOINT, APIFetcher, {
     refreshInterval: 0,
   });
 
@@ -243,9 +243,13 @@ const StudentDetail = () => {
                 {newsList &&
                   newsList.length > 0 &&
                   newsList.map((data: any, index: Number) => (
-                    <Col md={6} className="d-flex my-3" key={data.id}>
-                      <NewsCard data={data} />
-                    </Col>
+                    <>
+                      {index <= 1 && (
+                        <Col md={6} className="d-flex my-3" key={data.id}>
+                          <NewsCard data={data} />
+                        </Col>
+                      )}
+                    </>
                   ))}
               </Row>
               <div className="d-flex mt-5 mb-3 justify-content-between">
@@ -264,9 +268,13 @@ const StudentDetail = () => {
                   {concerns &&
                     concerns.length > 0 &&
                     concerns.map((data: any, index: Number) => (
-                      <div key={`concerns-${index}`}>
-                        <ConcernCard data={data} />
-                      </div>
+                      <>
+                        {index <= 2 && (
+                          <div key={`concerns-${index}`}>
+                            <ConcernCard data={data} />
+                          </div>
+                        )}
+                      </>
                     ))}
                 </div>
               </Row>
