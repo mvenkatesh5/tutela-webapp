@@ -71,7 +71,7 @@ const Messenger = ({ concern_id, concernComments }: any) => {
       });
   };
   return (
-    <div className="border rounded mt-5 d-flex flex-column p-3 pb-0 h-100">
+    <div className="border rounded mt-4 d-flex flex-column p-3 pb-0 h-100">
       <div className="overflow-auto">
         {concernComments && concernComments.length > 0 ? (
           <>

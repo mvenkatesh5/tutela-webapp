@@ -74,7 +74,7 @@ const ConcernPage = () => {
           <div className="text-center py-5">Loading...</div>
         ) : (
           <Row className="message-layout p-4">
-            <Col className="overflow-auto" md={4}>
+            <Col md={4}>
               <div className="d-flex justify-content-between align-items-center pb-1">
                 <h5>Concerns</h5>
                 <Dropdown>
@@ -93,7 +93,7 @@ const ConcernPage = () => {
                 </Dropdown>
               </div>
 
-              <div className="border rounded">
+              <div className="border rounded overflow-auto message-layout">
                 {filteredConcerns && filteredConcerns.length > 0 ? (
                   <>
                     {filteredConcerns.map((data: any, index: any) => (
@@ -123,7 +123,7 @@ const ConcernPage = () => {
                 )}
               </div>
             </Col>
-            <Col className="pt-1 message-layout" md={8}>
+            <Col className="mt-3 message-layout" md={8}>
               {!concernComments && !concernCommentsError ? (
                 <div className="text-center py-5">Loading...</div>
               ) : (
