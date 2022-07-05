@@ -1,4 +1,6 @@
 import React from "react";
+// next imports
+import { useRouter } from "next/router";
 // react-bootstrap
 import { Container, Row, Col, Image, Card, Form, Dropdown } from "react-bootstrap";
 // icons
@@ -14,7 +16,7 @@ import NewLayout from "@layouts/newLayout";
 // swr
 import useSWR from "swr";
 // api routes
-import { CONCERNS_ENDPOINT, CONCERNS_WITH_ID_COMMENT_ENDPOINT } from "@constants/routes";
+import { CONCERN_ENDPOINT, COMMENT_WITH_CONCERN_ID_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 
@@ -24,105 +26,112 @@ const ConcernPage = () => {
     description: META_DESCRIPTION,
   };
 
-  const [status, setStatus] = React.useState("all");
+  const router = useRouter();
+  const { concern: concern_id } = router.query;
 
-  const { data: concerns, error: concernsError } = useSWR(CONCERNS_ENDPOINT, APIFetcher, {
+  const handleCurrentConcern = (concernId: any) => {
+    router.replace(`/parent/concern?concern=${concernId}`, undefined, { shallow: true });
+  };
+
+  const { data: concerns, error: concernsError } = useSWR(CONCERN_ENDPOINT, APIFetcher, {
     refreshInterval: 0,
   });
 
-  const [concernId, setConcernID] = React.useState<any>();
-
-  const [filtered, setFiltered] = React.useState<any>(concerns);
-
-  React.useEffect(() => {
-    if (concerns) {
-      setConcernID(filtered[0]?.id);
+  const { data: concernComments, error: concernCommentsError } = useSWR(
+    concern_id ? [COMMENT_WITH_CONCERN_ID_ENDPOINT(concern_id), concern_id] : null,
+    APIFetcher,
+    {
+      refreshInterval: 0,
     }
-  }, [filtered]);
+  );
 
-  React.useEffect(() => {
-    setFiltered(concerns);
-  }, [concerns]);
-  const filteredConcerns = (status: any) => {
-    if (status === "all") {
-      setFiltered(concerns);
-    } else {
-      const filtered = concerns.filter((concern: any) => {
-        return concern.status === status;
-      });
-      setFiltered(filtered);
-    }
-
-    setStatus(status);
+  const filteredOptions = [
+    { key: "all", title: "All" },
+    { key: "pending", title: "Pending" },
+    { key: "resolved", title: "Resolved" },
+  ];
+  const [filtered, setConcernFilter] = React.useState<any>("all");
+  const handleConcernFilter = (value: any) => {
+    setConcernFilter(value);
   };
+
+  React.useEffect(() => {
+    if (!concern_id && concerns && concerns.length > 0) handleCurrentConcern(concerns[0].id);
+  }, [concern_id, concerns]);
+
+  const filteredConcerns = React.useMemo(() => {
+    if (filtered === "all") return concerns;
+    if (filtered === "pending")
+      return concerns.filter((_concern: any) => _concern.status === "pending");
+    if (filtered === "resolved")
+      return concerns.filter((_concern: any) => _concern.status === "resolved");
+  }, [concerns, filtered]);
 
   return (
     <Page meta={meta}>
       <NewLayout>
-        <Row className="mt-4 message-layout">
-          <Col className="overflow-auto" md={4}>
-            <div className="d-flex justify-content-between align-items-center mb-3">
-              <h4>Concerns</h4>
-              <div className="">
+        {!concerns && !concernsError ? (
+          <div className="text-center py-5">Loading...</div>
+        ) : (
+          <Row className="message-layout p-4">
+            <Col className="overflow-auto" md={4}>
+              <div className="d-flex justify-content-between align-items-center pb-1">
+                <h5>Concerns</h5>
                 <Dropdown>
                   <Dropdown.Toggle className="text-button text-black d-flex align-items-center gap-2">
-                    <TextAlignCenter width="16px" /> <div className="text-capitalize">{status}</div>
+                    <TextAlignCenter width="14px" />
+                    <div className="text-capitalize">{filtered}</div>
                   </Dropdown.Toggle>
-
                   <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => filteredConcerns("all")}>All</Dropdown.Item>
-                    <Dropdown.Item onClick={() => filteredConcerns("pending")}>
-                      Pending
-                    </Dropdown.Item>
-                    <Dropdown.Item onClick={() => filteredConcerns("resolved")}>
-                      Resolved
-                    </Dropdown.Item>
+                    {filteredOptions &&
+                      filteredOptions.map((_option: any, _idx: any) => (
+                        <Dropdown.Item key={_idx} onClick={() => handleConcernFilter(_option.key)}>
+                          {_option.title}
+                        </Dropdown.Item>
+                      ))}
                   </Dropdown.Menu>
                 </Dropdown>
               </div>
-            </div>
-            <div className="border rounded">
-              {concerns && filtered && filtered.length > 0 ? (
-                <>
-                  {" "}
-                  {filtered &&
-                    filtered.length > 0 &&
-                    filtered.map((data: any, index: any) => (
+
+              <div className="border rounded">
+                {filteredConcerns && filteredConcerns.length > 0 ? (
+                  <>
+                    {filteredConcerns.map((data: any, index: any) => (
                       <div
-                        onClick={() => setConcernID(data.id)}
+                        onClick={() => handleCurrentConcern(data.id)}
                         key={`index-concern-i-${index}`}
-                        className={`p-3 cursor-pointer ${
-                          concernId == data.id
+                        className={`p-3 cursor-pointer overflow-auto ${
+                          concern_id == data.id
                             ? "border border-2 border-primary rounded"
                             : "border-bottom"
                         } `}
                       >
-                        {data.is_resolved ? (
-                          <small className="bg-success text-white rounded px-2 p-1">Resolved</small>
-                        ) : (
-                          <small className="bg-danger text-white rounded px-2 p-1">Pending</small>
-                        )}
+                        <small
+                          className={`${
+                            data.status === "resolved" ? `bg-success` : `bg-danger`
+                          } bg-success text-white rounded px-2 p-1`}
+                        >
+                          {data.status}
+                        </small>
+
                         <div className="mt-2 fw-bold cursor-pointer">{data.title || "Concern"}</div>
-                        {/* <div className="text-muted">
-                      {" "}
-                      {data.reply} {data.reply == 1 ? "reply" : "replies"}
-                    </div> */}
                       </div>
                     ))}
-                </>
+                  </>
+                ) : (
+                  <div className="text-center py-5">No concerns are available.</div>
+                )}
+              </div>
+            </Col>
+            <Col className="pt-1 message-layout" md={8}>
+              {!concernComments && !concernCommentsError ? (
+                <div className="text-center py-5">Loading...</div>
               ) : (
-                <div className="text-center p-3">No Concerns....</div>
+                <Messenger concern_id={concern_id} concernComments={concernComments} />
               )}
-            </div>
-          </Col>
-          <Col className="pt-1 message-layout" md={8}>
-            {filtered && filtered.length > 0 ? (
-              <Messenger concernId={concernId} />
-            ) : (
-              <div className="text-center border rounded mt-5 p-3">No Comments...</div>
-            )}
-          </Col>
-        </Row>
+            </Col>
+          </Row>
+        )}
       </NewLayout>
     </Page>
   );

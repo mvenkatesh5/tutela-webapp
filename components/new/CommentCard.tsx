@@ -55,12 +55,12 @@ const CommentCard = ({ data, deleteComment }: any) => {
                       onClick={handleDeleteConfirmation}
                       disabled={loader}
                     >
-                      <DeleteOutline className="flex-shrink-0"  width="18px" />
+                      <DeleteOutline className="flex-shrink-0" width="18px" />
                       <div>Deleting...</div>
                     </button>
                   ) : (
                     <button
-                      className={`d-flex gap-2 align-items-center text-danger text-button`}
+                      className={`d-flex gap-2 align-items-center text-warning text-button`}
                       onClick={handleDeleteConfirmation}
                     >
                       <ExclamationCircle className="flex-shrink-0" height="18px" />

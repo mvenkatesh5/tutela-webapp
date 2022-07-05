@@ -105,7 +105,7 @@ function DashboardNav() {
       }
     }
   }, [users && currentUser]);
-  
+
   return (
     <>
       <Navbar className="shadow-sm n-navbar-root h-100 px-2" collapseOnSelect expand="xl">

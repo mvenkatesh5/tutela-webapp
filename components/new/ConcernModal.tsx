@@ -3,8 +3,12 @@ import React from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 // material icons
 import { CloseOutline } from "@styled-icons/evaicons-outline/CloseOutline";
+// swr
+import { mutate } from "swr";
+// api routes
+import { CONCERN_ENDPOINT } from "@constants/routes";
 // services
-import { ConcernCreate } from "@lib/services/concernService";
+import { Concern } from "@lib/services/concernService";
 
 const ConcernModal = (props: any) => {
   const [modal, setModal] = React.useState(false);
@@ -34,9 +38,10 @@ const ConcernModal = (props: any) => {
       description: formData.description,
       student: currentSelectedUser,
     };
-    ConcernCreate(payload)
+    Concern.create(payload)
       .then((response) => {
         console.log("response", response);
+        mutate(CONCERN_ENDPOINT);
         closeModal();
       })
       .catch((error) => {

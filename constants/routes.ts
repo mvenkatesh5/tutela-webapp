@@ -146,9 +146,11 @@ export const DOUBTS_WITH_REPLIES_ENDPOINT = (doubt_id: any) => `/api/doubts/${do
 export const DOUBTS_ID_WITH_REPLIES_ID_ENDPOINT = (doubt_id: any, reply_id: any) =>
   `/api/doubts/${doubt_id}/replies/${reply_id}/`;
 
-// concerns endpoints
-export const CONCERNS_ENDPOINT = `/api/concerns/`;
-export const CONCERNS_WITH_ID_COMMENT_ENDPOINT = (concern_id: any) =>
+// concern endpoints
+export const CONCERN_ENDPOINT = `/api/concerns/`;
+export const CONCERN_WITH_ID_ENDPOINT = (concern_id: any) => `/api/concerns/${concern_id}`;
+
+export const COMMENT_WITH_CONCERN_ID_ENDPOINT = (concern_id: any) =>
   `/api/concerns/${concern_id}/comments/`;
-export const CONCERNS_ID_WITH_REPLIES_ID_ENDPOINT = (concern_id: any, comment_id: any) =>
+export const CONCERN_ID_AND_COMMENT_ID_ENDPOINT = (concern_id: any, comment_id: any) =>
   `/api/concerns/${concern_id}/comments/${comment_id}/`;

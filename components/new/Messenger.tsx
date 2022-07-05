@@ -1,50 +1,49 @@
 import React from "react";
-// react-bootstrap
-import { Image } from "react-bootstrap";
 // icons
 import { Send } from "@styled-icons/feather/Send";
-import { DeleteOutline } from "@styled-icons/material-rounded/DeleteOutline";
 // components
 import CommentCard from "./CommentCard";
 // swr
-import useSWR from "swr";
 import { mutate } from "swr";
 // api routes
-import { CONCERNS_WITH_ID_COMMENT_ENDPOINT } from "@constants/routes";
+import { COMMENT_WITH_CONCERN_ID_ENDPOINT } from "@constants/routes";
 // api services
-import { APIFetcher } from "@lib/services";
-import { ConcernCommentCreate, ConcernCommentDelete } from "@lib/services/concernService";
+import { ConcernComment } from "@lib/services/concernService";
 
-const Messenger = ({ concernId }: any) => {
-  const { data: productsList, error: productsListError } = useSWR(
-    concernId && concernId ? [CONCERNS_WITH_ID_COMMENT_ENDPOINT(concernId), concernId] : null,
-    (url) => APIFetcher(url)
-  );
-
+const Messenger = ({ concern_id, concernComments }: any) => {
   const [comment, setComment] = React.useState("");
   const [buttonLoader, setButtonLoader] = React.useState(false);
-  const sendComment = () => {
-    const payload = {
-      id: concernId,
-      data: {
-        text: comment,
-      },
-    };
+
+  React.useEffect(() => {
+    let scrollView = document.getElementById("scroll-into-view");
+    if (scrollView) {
+      scrollView.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+  }, [concernComments]);
+
+  const createComment = () => {
     if (comment && comment.length >= 0) {
+      const payload = {
+        concern: concern_id,
+        data: {
+          text: comment,
+        },
+      };
+
       setButtonLoader(true);
-      ConcernCommentCreate(payload)
+      ConcernComment.create(payload)
         .then((response) => {
           mutate(
-            CONCERNS_WITH_ID_COMMENT_ENDPOINT(concernId),
-            APIFetcher(CONCERNS_WITH_ID_COMMENT_ENDPOINT(concernId)),
+            [COMMENT_WITH_CONCERN_ID_ENDPOINT(concern_id), concern_id],
+            async (elements: any) => {
+              return [...elements, response];
+            },
             false
           );
-          console.log("response", response);
           setComment("");
           setButtonLoader(false);
         })
         .catch((error) => {
-          console.log("error", error);
           setButtonLoader(false);
         });
     } else {
@@ -52,37 +51,43 @@ const Messenger = ({ concernId }: any) => {
     }
   };
 
-  const deleteComment = (commentId: any) => {
+  const deleteComment = (comment: any) => {
     const payload = {
-      id: concernId,
-      reply_id: commentId,
+      concern: concern_id,
+      comment: comment,
     };
-    ConcernCommentDelete(payload)
-      .then((res) => {})
+    ConcernComment.delete(payload)
+      .then((res) => {
+        mutate(
+          [COMMENT_WITH_CONCERN_ID_ENDPOINT(concern_id), concern_id],
+          async (elements: any) => {
+            return elements.filter((element: any) => element.id !== comment);
+          },
+          false
+        );
+      })
       .catch((errors) => {
         console.log(errors);
       });
   };
   return (
     <div className="border rounded mt-5 d-flex flex-column p-3 pb-0 h-100">
-      {!productsList || productsListError ? (
-        <div className="text-center">loading...</div>
-      ) : (
-        <div className="overflow-auto">
-          {productsList && productsList.length > 0 ? (
-            <>
-              {productsList &&
-                productsList.map((data: any, index: any) => (
-                  <div key={`replies-index-${index} `}>
-                    <CommentCard data={data} deleteComment={deleteComment} />
-                  </div>
-                ))}
-            </>
-          ) : (
-            <div className="text-center"> No comments available</div>
-          )}
-        </div>
-      )}
+      <div className="overflow-auto">
+        {concernComments && concernComments.length > 0 ? (
+          <>
+            {concernComments &&
+              concernComments.map((data: any, index: any) => (
+                <div key={`replies-index-${index} `}>
+                  <CommentCard data={data} deleteComment={deleteComment} />
+                </div>
+              ))}
+            <div id="scroll-into-view"></div>
+          </>
+        ) : (
+          <div className="text-center py-5">No comments are available.</div>
+        )}
+      </div>
+
       <div className="mt-auto comment-input-wrapper d-flex align-items-center bg-light">
         <textarea
           rows={3}
@@ -90,8 +95,9 @@ const Messenger = ({ concernId }: any) => {
           onChange={(e: any) => setComment(e.target.value)}
           placeholder="Write something..."
           className="w-100 input bg-light"
+          disabled={buttonLoader}
         />
-        <button onClick={sendComment} disabled={buttonLoader} className="text-button">
+        <button onClick={createComment} disabled={buttonLoader} className="text-button">
           <Send className="flex-shrink-0" width="20px" />
         </button>
       </div>
