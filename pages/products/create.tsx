@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 // next imports
 import Link from "next/link";
+import {useRouter} from "next/router";
 // icons
 import { PeopleTeam } from "@styled-icons/fluentui-system-filled/PeopleTeam";
 import { FileTextOutline } from "@styled-icons/evaicons-outline/FileTextOutline";
@@ -43,8 +44,10 @@ const ProductCreatePage = () => {
     title: "Product",
     description: META_DESCRIPTION,
   };
+  const router = useRouter();
   const { data: usersList, error: usersListError } = useSWR(USER_ENDPOINT, APIFetcher);
   const { data: resourcesList, error: resourcesListError } = useSWR(RESOURCE_ENDPOINT, APIFetcher);
+
 
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
 
@@ -84,6 +87,7 @@ const ProductCreatePage = () => {
     ProductsCreate(payload)
       .then((res) => {
         handleUsers(res);
+        router.push("/products");
       })
       .catch((errors) => {
         console.log(errors);
