@@ -10,7 +10,7 @@ import { COMMENT_WITH_CONCERN_ID_ENDPOINT } from "@constants/routes";
 // api services
 import { ConcernComment } from "@lib/services/concernService";
 
-const Messenger = ({ concern_id, concernComments }: any) => {
+const Messenger = ({ concern_id, concernComments, currentUser }: any) => {
   const [comment, setComment] = React.useState("");
   const [buttonLoader, setButtonLoader] = React.useState(false);
 
@@ -78,7 +78,11 @@ const Messenger = ({ concern_id, concernComments }: any) => {
             {concernComments &&
               concernComments.map((data: any, index: any) => (
                 <div key={`replies-index-${index} `}>
-                  <CommentCard data={data} deleteComment={deleteComment} />
+                  <CommentCard
+                    currentUser={currentUser}
+                    data={data}
+                    deleteComment={deleteComment}
+                  />
                 </div>
               ))}
             <div id="scroll-into-view"></div>

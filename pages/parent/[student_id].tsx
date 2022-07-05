@@ -100,7 +100,7 @@ const ChildDetail = () => {
                           : userDetailList.first_name + " " + userDetailList.last_name}
                       </div>
                       <small className="text-muted">{userDetailList?.profile_data?.school}</small>
-                      <small className="text-muted">Grade 11, IGCSE</small>
+                      {/* <small className="text-muted">Grade 11, IGCSE</small> */}
                     </div>
                   </div>
 
