@@ -12,7 +12,7 @@ import { PeopleTeam } from "@styled-icons/fluentui-system-filled/PeopleTeam";
 import ProductEditView from "@components/admin/product/edit";
 import ProductDeleteView from "@components/admin/product/delete";
 
-const Product = ({ data, user_id, productsList, users, resources, view }: any) => {
+const Product = ({ data, user_id, productsList, users, resources, view, student_id }: any) => {
   console.log("data in product", data);
   return (
     // <Col className="my-2" md={4}>
@@ -40,7 +40,7 @@ const Product = ({ data, user_id, productsList, users, resources, view }: any) =
         <Link
           href={
             view == "parent"
-              ? `/parent/product/${productsList.id}/${data.id}/reports`
+              ? `/parent/product/${student_id}/${data.id}/reports`
               : `/products/${data.id}`
           }
         >

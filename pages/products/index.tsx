@@ -58,7 +58,7 @@ const ProductsPage = () => {
   return (
     <Page meta={meta}>
       <AdminLayout>
-        <div className="container mx-auto mt-5 px-4 overflow-auto">
+        <div className="container mx-auto pt-5 px-4 overflow-auto">
           <div className="d-flex justify-content-between mb-3">
             <h3>Products</h3>
             <Link href="/products/create">

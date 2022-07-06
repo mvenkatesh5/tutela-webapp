@@ -34,7 +34,7 @@ const ReportHeader = ({ userDetailList, productDetail, mentor, user_id }: any) =
                 <div className="flex-shrink-0 round-image-lg">
                   <Image alt="" className="img-fluid d-block rounded" src="/bird.svg" width="32" />
                 </div>
-                <div className="fw-bold my-1">{mentor.name}</div>
+                <div className="fw-bold my-1">{userDetailList.mentor}</div>
                 <small>Mentor</small>
               </div>
             </div>

@@ -258,112 +258,116 @@ const BehaviorPage = () => {
   return (
     <Page meta={meta}>
       <AdminLayout>
-        {!product || productError ? (
-          <div className="text-center">Loading...</div>
-        ) : (
-          <div className="container mx-auto mt-5 px-4">
-            <h4>{product.name}</h4>
-            <div className="text-muted">{product.description}</div>
+        <div className="overflow-auto container mx-auto">
+          {!product || productError ? (
+            <div className="text-center">Loading...</div>
+          ) : (
+            <div className="container mx-auto mt-5 px-4">
+              <h4>{product.name}</h4>
+              <div className="text-muted">{product.description}</div>
 
-            <div className="d-flex gap-3 mt-3">
-              <div className="d-flex gap-2">
-                <PeopleTeam width="16px" />
-                <div>
-                  {product.users.length}
-                  <span className="text-muted">{product.users.length == 1 ? "User" : "Users"}</span>
-                </div>
-              </div>
-              <div className="d-flex gap-2">
-                <FileTextOutline width="16px" />
-                <div>
-                  {product.resources.length}
-                  <span className="text-muted">
-                    {product.resources.length == 1 ? "Resource" : "Resources"}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="border-bottom my-4 d-flex gap-4">
-              {tabsData &&
-                tabsData.map((data: any, index: any) => (
-                  <div
-                    key={`tabsData-index-${index}`}
-                    onClick={() => setTabs(data.key)}
-                    className={`fw-bold pb-2 cursor-pointer ${
-                      tabs == data.key
-                        ? "text-primary border-bottom border-primary border-3"
-                        : "text-muted"
-                    }`}
-                  >
-                    {data.name}
-                  </div>
-                ))}
-            </div>
-
-            {tabs == "topics" && (
-              <>
-                <div className="d-flex flex-wrap align-items-center justify-content-between mt-4">
-                  <h3>Topics</h3>
-                  <div className="d-flex gap-3 pt-4 mb-5">
-                    <Dropdown name="overview">
-                      <div className="bg-light px-2 py-1">Overview</div>
-                    </Dropdown>
-                    <Dropdown name="overview">
-                      <div className="bg-light px-2 py-1">Overview</div>
-                    </Dropdown>
-                    <AddTopicCluster />
+              <div className="d-flex gap-3 mt-3">
+                <div className="d-flex gap-2">
+                  <PeopleTeam width="16px" />
+                  <div>
+                    {product.users.length}
+                    <span className="text-muted">
+                      {product.users.length == 1 ? "User" : "Users"}
+                    </span>
                   </div>
                 </div>
-                <div className="border rounded">
-                  <table className="mb-0 custom-table w-100">
-                    <thead className="bg-light">
-                      <tr>
-                        <th className="text-center">#</th>
-                        <th>Topic Name</th>
-                        <th>Column</th>
-                        <th>Column</th>
-                        <th>Column</th>
-                        <th>Column</th>
-                        <th>
-                          <div className="mb-1 p-2">...</div>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {productDetail &&
-                        productDetail.length > 0 &&
-                        productDetail.map((data: any, index: any) => (
-                          <tr key={`attendanceData-key-${index}`}>
-                            <td className="text-center">{index + 1}</td>
-                            <td>{data.name}</td>
-                            <td>data</td>
-                            <td>data</td>
-                            <td>data</td>
-                            <td>data</td>
-                            <td></td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
-                </div>
-              </>
-            )}
-            {tabs == "members" && (
-              <div className="mt-4">
-                <h4>Members</h4>
-                <h6 className="pt-3 pb-2">Mentors</h6>
-                <div className="d-flex flex-wrap gap-4 mt-2">
-                  <RenderCurrentUsers userRole={"teacher"} />
-                </div>
-                <h6 className="pt-3 pb-2">Users</h6>
-                <div className="d-flex flex-wrap gap-4 mt-2">
-                  <RenderCurrentUsers userRole={"student"} />
+                <div className="d-flex gap-2">
+                  <FileTextOutline width="16px" />
+                  <div>
+                    {product.resources.length}
+                    <span className="text-muted">
+                      {product.resources.length == 1 ? "Resource" : "Resources"}
+                    </span>
+                  </div>
                 </div>
               </div>
-            )}
-          </div>
-        )}
+
+              <div className="border-bottom my-4 d-flex gap-4">
+                {tabsData &&
+                  tabsData.map((data: any, index: any) => (
+                    <div
+                      key={`tabsData-index-${index}`}
+                      onClick={() => setTabs(data.key)}
+                      className={`fw-bold pb-2 cursor-pointer ${
+                        tabs == data.key
+                          ? "text-primary border-bottom border-primary border-3"
+                          : "text-muted"
+                      }`}
+                    >
+                      {data.name}
+                    </div>
+                  ))}
+              </div>
+
+              {tabs == "topics" && (
+                <>
+                  <div className="d-flex flex-wrap align-items-center justify-content-between mt-4">
+                    <h3>Topics</h3>
+                    <div className="d-flex gap-3 pt-4 mb-5">
+                      <Dropdown name="overview">
+                        <div className="bg-light px-2 py-1">Overview</div>
+                      </Dropdown>
+                      <Dropdown name="overview">
+                        <div className="bg-light px-2 py-1">Overview</div>
+                      </Dropdown>
+                      <AddTopicCluster />
+                    </div>
+                  </div>
+                  <div className="border rounded">
+                    <table className="mb-0 custom-table w-100">
+                      <thead className="bg-light">
+                        <tr>
+                          <th className="text-center">#</th>
+                          <th>Topic Name</th>
+                          <th>Column</th>
+                          <th>Column</th>
+                          <th>Column</th>
+                          <th>Column</th>
+                          <th>
+                            <div className="mb-1 p-2">...</div>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {productDetail &&
+                          productDetail.length > 0 &&
+                          productDetail.map((data: any, index: any) => (
+                            <tr key={`attendanceData-key-${index}`}>
+                              <td className="text-center">{index + 1}</td>
+                              <td>{data.name}</td>
+                              <td>data</td>
+                              <td>data</td>
+                              <td>data</td>
+                              <td>data</td>
+                              <td></td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
+              )}
+              {tabs == "members" && (
+                <div className="mt-4">
+                  <h4>Members</h4>
+                  <h6 className="pt-3 pb-2">Mentors</h6>
+                  <div className="d-flex flex-wrap gap-4 mt-2">
+                    <RenderCurrentUsers userRole={"teacher"} />
+                  </div>
+                  <h6 className="pt-3 pb-2">Users</h6>
+                  <div className="d-flex flex-wrap gap-4 mt-2">
+                    <RenderCurrentUsers userRole={"student"} />
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </AdminLayout>
     </Page>
   );

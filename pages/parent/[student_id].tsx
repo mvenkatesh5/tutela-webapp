@@ -220,6 +220,7 @@ const ChildDetail = () => {
                                     user_id={currentUser?.user.id}
                                     productsList={productsList}
                                     view={"parent"}
+                                    student_id={student_id}
                                   />
                                 </Col>
                               ))}
