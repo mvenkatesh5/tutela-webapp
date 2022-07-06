@@ -5,7 +5,10 @@ import { useRouter } from "next/router";
 import { PeopleTeam } from "@styled-icons/fluentui-system-filled/PeopleTeam";
 import { FileTextOutline } from "@styled-icons/evaicons-outline/FileTextOutline";
 // react-bootstrap
-import { Button, Image, Modal } from "react-bootstrap";
+import { Button, Image, Modal, Form } from "react-bootstrap";
+// date picker
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 // constants
 import { META_DESCRIPTION } from "@constants/page";
 // components
@@ -83,32 +86,48 @@ const BehaviorPage = () => {
 
   const UserAddMentor = ({ children, valid = false, userRole, data }: any) => {
     const [formData, setFormData] = React.useState<any>();
-    const handleFormData = (value: any) => {
-      setFormData({ ...formData, mentor: value[0] });
+    const handleFormData = (key: any, value: any) => {
+      setFormData({ ...formData, [key]: value });
     };
 
     const [modal, setModal] = React.useState<boolean>(false);
     const openModal = () => {
       setModal(true);
-      setFormData({ id: data?.id, mentor: data?.mentor?.id || null });
+      setFormData({
+        id: data?.id,
+        mentor: data?.mentor?.id || null,
+        scheduled_date: data?.scheduled_date || new Date(),
+        join_date: data?.join_date || new Date(),
+        progress: data?.progress || 0,
+        is_active: data?.is_active || false,
+      });
     };
     const closeModal = () => {
       setModal(false);
-      setFormData({ id: data?.id, mentor: null });
+      setFormData({
+        id: data?.id,
+        mentor: null,
+        scheduled_date: new Date(),
+        join_date: new Date(),
+        progress: 0,
+        is_active: false,
+      });
     };
 
     const [buttonLoader, setButtonLoader] = React.useState(false);
     const updateMentor = () => {
+      console.log("formData", formData);
       setButtonLoader(true);
       APIUpdater(PRODUCT_USER_DELETE_ENDPOINT(formData?.id), formData)
         .then((response) => {
+          console.log("response", response);
           mutate(PRODUCT_USER_ENDPOINT(product_id));
-          setButtonLoader(true);
+          setButtonLoader(false);
           closeModal();
         })
         .catch((error) => {
-          console.log(error);
-          setButtonLoader(true);
+          console.log("error", error);
+          setButtonLoader(false);
         });
     };
 
@@ -133,10 +152,49 @@ const BehaviorPage = () => {
                     <UserSelectCalendarView
                       data={formData?.mentor}
                       users={userList}
-                      handleData={handleFormData}
+                      handleData={(value: any) => handleFormData("mentor", value[0])}
                     />
                   )}
                 </div>
+
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-1 text-muted">Scheduled Date</Form.Label>
+                  <Form.Control
+                    type="date"
+                    value={formData?.scheduled_date}
+                    onChange={(e: any) => handleFormData("scheduled_date", e.target.value)}
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-1 text-muted">Join Date</Form.Label>
+                  <Form.Control
+                    type="date"
+                    value={formData?.join_date}
+                    onChange={(e: any) => handleFormData("join_date", e.target.value)}
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-1 text-muted">Progress</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={formData?.progress || ""}
+                    onChange={(e) => handleFormData("progress", e.target.value)}
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="product-progress">
+                  <Form.Check
+                    type="switch"
+                    id="product-progress"
+                    label={`    Is Active`}
+                    value={formData?.is_active}
+                    checked={formData?.is_active}
+                    onChange={() => handleFormData("is_active", !formData.is_active)}
+                  />
+                </Form.Group>
+
                 <div className="d-flex justify-content-end gap-3">
                   <Button variant="light" className="btn-sm" onClick={closeModal}>
                     Close
