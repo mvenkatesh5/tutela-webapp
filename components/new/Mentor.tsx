@@ -5,7 +5,7 @@ import { Image } from "react-bootstrap";
 import { ChevronDown } from "@styled-icons/boxicons-solid/ChevronDown";
 import { ChevronUp } from "@styled-icons/boxicons-solid/ChevronUp";
 
-const Mentor = () => {
+const Mentor = ({ productsList }: any) => {
   const [open, setOpen] = React.useState(false);
 
   const mentors = [
@@ -28,21 +28,28 @@ const Mentor = () => {
         <>
           <hr className="my-0" />
           <div className="p-3">
-            {mentors &&
-              mentors.map((mentor: any, index: any) => (
-                <div
-                  key={`mentors-index-${index}`}
-                  className="d-flex my-2 bg-light p-1 gap-2 align-items-center px-2 rounded"
-                >
-                  <div className="flex-shrink-0">
-                    <Image
-                      alt=""
-                      className="img-fluid mx-auto d-block "
-                      src="/bird.svg"
-                      width="20"
-                    />
-                  </div>
-                  <div className="">{mentor.name}</div>
+            {productsList &&
+              productsList.length > 0 &&
+              productsList.map((mentor: any, index: any) => (
+                <div key={`mentors-index-${index}`}>
+                  {mentor?.mentor && (
+                    <div
+                      key={`mentors-index-${index}`}
+                      className="d-flex my-2 bg-light p-1 gap-2 align-items-center px-2 rounded"
+                    >
+                      <div className="flex-shrink-0">
+                        <Image
+                          alt=""
+                          className="img-fluid mx-auto d-block "
+                          src="/bird.svg"
+                          width="20"
+                        />
+                      </div>
+                      <div className="">
+                        {mentor?.mentor?.first_name} {mentor?.mentor?.last_name}
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))}
           </div>

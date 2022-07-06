@@ -96,6 +96,7 @@ const BehaviorPage = () => {
       setFormData({
         id: data?.id,
         mentor: data?.mentor?.id || null,
+        completion_date: data?.completion_date || new Date(),
         scheduled_date: data?.scheduled_date || new Date(),
         join_date: data?.join_date || new Date(),
         progress: data?.progress || 0,
@@ -109,6 +110,7 @@ const BehaviorPage = () => {
         mentor: null,
         scheduled_date: new Date(),
         join_date: new Date(),
+        completion_date: new Date(),
         progress: 0,
         is_active: false,
       });
@@ -172,6 +174,15 @@ const BehaviorPage = () => {
                     type="date"
                     value={formData?.join_date}
                     onChange={(e: any) => handleFormData("join_date", e.target.value)}
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-1 text-muted">Completion Date</Form.Label>
+                  <Form.Control
+                    type="date"
+                    value={formData?.completion_date}
+                    onChange={(e: any) => handleFormData("completion_date", e.target.value)}
                   />
                 </Form.Group>
 

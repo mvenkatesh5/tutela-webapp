@@ -5,19 +5,18 @@ import { ChevronUp } from "@styled-icons/boxicons-solid/ChevronUp";
 import { Circle } from "@styled-icons/entypo/Circle";
 import { ThreeDots } from "@styled-icons/bootstrap/ThreeDots";
 
-const Products = ({ data }: any) => {
+const Products = ({ productsList }: any) => {
   const [open, setOpen] = React.useState(false);
 
-  const Card = ({ products }: any) => {
+  const Card = ({ product }: any) => {
     const [open, setOpen] = React.useState(false);
     return (
       <>
         <div className="bg-light rounded mb-1">
           <div className="d-flex my-2 bg-light rounded p-1 px-2 gap-2 align-items-center">
             <Circle className="text-success flex-shrink-0" width="16px" />
-            <div className="text-truncate">{products.product.name}</div>
+            <div className="text-truncate">{product.product.name}</div>
             <div className="ms-auto d-flex gap-2 text-muted">
-              <ThreeDots width="16px" />
               <div
                 onClick={() => {
                   setOpen(!open);
@@ -34,13 +33,15 @@ const Products = ({ data }: any) => {
               <div className="p-2 d-flex flex-wrap gap-3">
                 <div>
                   <span className="text-muted">Progress:</span>{" "}
-                  <span className="text-success">100%</span>{" "}
+                  <span className="text-success">{product?.progress || 0}%</span>
                 </div>
                 <div>
-                  <span className="text-muted">Join date: </span> <span>Jan 2, 2022</span>{" "}
+                  <span className="text-muted">Join date: </span>{" "}
+                  <span>{product?.join_date || "-"}</span>
                 </div>
                 <div>
-                  <span className="text-muted">Completion date: </span> <span>Apr 25, 2022</span>{" "}
+                  <span className="text-muted">Completion date: </span>{" "}
+                  <span>{product?.completion_date || "-"}</span>
                 </div>
               </div>
             </>
@@ -49,6 +50,7 @@ const Products = ({ data }: any) => {
       </>
     );
   };
+
   return (
     <div className="border rounded">
       <div className="p-3 pb-2 d-flex justify-content-between">
@@ -68,10 +70,11 @@ const Products = ({ data }: any) => {
               placeholder="Search and add products"
             />
 
-            {data &&
-              data.map((products: any, index: any) => (
+            {productsList &&
+              productsList.length > 0 &&
+              productsList.map((product: any, index: any) => (
                 <div key={`Products-index-${index}`}>
-                  <Card products={products} />
+                  <Card product={product} />
                 </div>
               ))}
           </div>

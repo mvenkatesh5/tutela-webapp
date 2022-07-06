@@ -78,8 +78,6 @@ const ChildDetail = () => {
     (url) => APIFetcher(url)
   );
 
-  console.log("productsList", productsList);
-
   return (
     <Page meta={meta}>
       <NewLayout sidebar={false}>
@@ -142,11 +140,11 @@ const ChildDetail = () => {
                 </div>
 
                 <div className=" mt-4">
-                  <Mentor />
+                  <Mentor productsList={productsList} />
                 </div>
                 <div className=" mt-4">
                   {productsList ? (
-                    <Products data={productsList.product_users} />
+                    <Products productsList={productsList} />
                   ) : (
                     <div className="">loading...</div>
                   )}
@@ -158,14 +156,17 @@ const ChildDetail = () => {
                   <Col className="p-3" md={6}>
                     <h5 className="">Tentative Dates</h5>
                     <div className="border w-100  rounded p-3 py-2">
-                      {tentativeDates &&
-                        tentativeDates.map((date: any, index: any) => (
-                          <div key={`dates-index-${index}`} className=" my-2 bg-light p-2 rounded">
-                            {/* <Link href="/new/product-report"> */}
-                            {/* <a> */}
-                            <div className="text-black">{date.name}</div>
-                            {/* </a> */}
-                            {/* </Link> */}
+                      {productsList &&
+                        productsList.length > 0 &&
+                        productsList.map((data: any, index: any) => (
+                          <div key={`dates-index-${index}`}>
+                            {data?.scheduled_date && (
+                              <div className=" my-2 bg-light p-2 rounded">
+                                <div className="text-black">
+                                  {data?.product?.name} - {data?.scheduled_date}
+                                </div>
+                              </div>
+                            )}
                           </div>
                         ))}
                     </div>
@@ -174,25 +175,29 @@ const ChildDetail = () => {
                     <h5 className="">Mentors</h5>
 
                     <div className="border w-100 rounded p-3 py-2">
-                      {mentors &&
-                        mentors.map((mentor: any, index: any) => (
-                          <div
-                            key={`mentors-index-${index}`}
-                            className="d-flex my-2 bg-light gap-2 align-items-center p-2 rounded"
-                          >
-                            <div className="flex-shrink-0">
-                              <Image
-                                alt=""
-                                className="img-fluid mx-auto d-block "
-                                src="/bird.svg"
-                                width="20"
-                              />
-                            </div>
-                            <div className="">{mentor.name}</div>
+                      {productsList &&
+                        productsList.length > 0 &&
+                        productsList.map((mentor: any, index: any) => (
+                          <div key={`mentors-index-${index}`}>
+                            {mentor?.mentor && (
+                              <div className="d-flex my-2 bg-light gap-2 align-items-center p-2 rounded">
+                                <div className="flex-shrink-0">
+                                  <Image
+                                    alt=""
+                                    className="img-fluid mx-auto d-block "
+                                    src="/bird.svg"
+                                    width="20"
+                                  />
+                                </div>
+                                <div className="">
+                                  {mentor?.mentor?.first_name} {mentor?.mentor?.last_name}
+                                </div>
 
-                            <div className="ms-auto text-primary">
-                              <RightArrowAlt width="18px" />
-                            </div>
+                                <div className="ms-auto text-primary">
+                                  <RightArrowAlt width="18px" />
+                                </div>
+                              </div>
+                            )}
                           </div>
                         ))}
                     </div>
@@ -207,9 +212,8 @@ const ChildDetail = () => {
                         ) : (
                           <>
                             {productsList &&
-                              productsList.product_users &&
-                              productsList.product_users.length > 0 &&
-                              productsList.product_users.map((product: any, index: any) => (
+                              productsList.length > 0 &&
+                              productsList.map((product: any, index: any) => (
                                 <Col className="my-2" md={4} key={`products-key-${index}`}>
                                   <ProductCard
                                     data={product.product}
