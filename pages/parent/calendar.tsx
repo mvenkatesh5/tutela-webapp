@@ -211,7 +211,7 @@ const CalendarView = () => {
     <Page meta={meta}>
       <div>
         <NewLayout>
-          <div className="right-layout-calender">
+          <div className="right-layout-calender overflow-auto">
             <div className="calender-root-wrapper">
               {currentRenderView == "day" && (
                 <div className="left-wrapper">

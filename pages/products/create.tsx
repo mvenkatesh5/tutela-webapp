@@ -169,113 +169,117 @@ const ProductCreatePage = () => {
   return (
     <Page meta={meta}>
       <AdminLayout>
-        <Form className="w-100 p-3" onSubmit={productsCreate}>
-          <div className="container mx-auto mt-5">
-            <h3>Create Product</h3>
-            <Row className="mt-5">
-              <Col md={6} className="">
-                <div className="text-primary w-100 border-bottom fw-bold pb-2">Product Details</div>
-                <div className="my-4 d-flex flex-column">
-                  <Form.Label className="mb-1 text-muted">Color</Form.Label>
-                  <Form.Control
-                    className="p-1"
-                    type="color"
-                    value={formData.color}
-                    onChange={(e) => handleFormData("color", e.target.value)}
-                    required
-                  />
-                </div>
-                <Form.Group className="my-4">
-                  <Form.Label className="mb-1 text-muted">Title</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => handleFormData("name", e.target.value)}
-                    required
-                  />{" "}
-                </Form.Group>
-                <Form.Group className="my-4">
-                  <Form.Label className="mb-1 text-muted">Description</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    value={formData.description}
-                    onChange={(e) => handleFormData("description", e.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <Form.Group className="my-4">
-                  <Form.Label className="mb-1 text-muted d-flex gap-2">
-                    <Book size={20} />
-                    Subject
-                  </Form.Label>{" "}
-                  <Form.Control type="text" required />
-                </Form.Group>
-              </Col>
-              <Col md={6} className="">
-                <div className="text-primary w-100 border-bottom fw-bold pb-2">
-                  Members & Resources
-                </div>
-
-                {usersList && usersList.length > 0 && (
-                  <>
-                    <Form.Group className="my-4">
-                      <Form.Label className="mb-1 text-muted d-flex gap-2">
-                        <PeopleTeam size={20} />
-                        Members
-                      </Form.Label>
-                      <SearchCheckboxView
-                        users={usersList}
-                        data={sessionStudents}
-                        handleData={handleSessionStudents}
-                        role={0}
-                        validInput={usersList.length}
-                      />
-                    </Form.Group>
-
-                    <Form.Group className="my-4">
-                      <Form.Label className="mb-1 text-muted d-flex gap-2">
-                        <PeopleTeam size={20} />
-                        Teachers
-                      </Form.Label>
-                      <SearchCheckboxView
-                        users={usersList}
-                        data={sessionTeachers}
-                        handleData={handleSessionTeachers}
-                        role={1}
-                        validInput={usersList.length}
-                      />
-                    </Form.Group>
-                  </>
-                )}
-
-                {resourcesList && resourcesList.length > 0 && (
+        <div className="container overflow-auto">
+          <Form className="w-100 p-3" onSubmit={productsCreate}>
+            <div className="container mx-auto mt-5">
+              <h3>Create Product</h3>
+              <Row className="mt-5">
+                <Col md={6} className="">
+                  <div className="text-primary w-100 border-bottom fw-bold pb-2">
+                    Product Details
+                  </div>
+                  <div className="my-4 d-flex flex-column">
+                    <Form.Label className="mb-1 text-muted">Color</Form.Label>
+                    <Form.Control
+                      className="p-1"
+                      type="color"
+                      value={formData.color}
+                      onChange={(e) => handleFormData("color", e.target.value)}
+                      required
+                    />
+                  </div>
                   <Form.Group className="my-4">
-                    <Form.Label className="mb-1 text-muted d-flex gap-2">
-                      <FileTextOutline size={20} />
-                      Resources
-                    </Form.Label>
-                    <ResourceSearchCheckboxView
-                      resources={resourcesList}
-                      data={productResources}
-                      handleData={handleProductResources}
+                    <Form.Label className="mb-1 text-muted">Title</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={formData.name}
+                      onChange={(e) => handleFormData("name", e.target.value)}
+                      required
                     />{" "}
                   </Form.Group>
-                )}
-              </Col>
-            </Row>
-            <div className="d-flex justify-content-end d-flex gap-3">
-              <Link href="/products">
-                <a>
-                  <Button variant="outline-secondary">Cancel</Button>
-                </a>
-              </Link>
-              <Button type="submit" variant="primary">
-                Create Product
-              </Button>
+                  <Form.Group className="my-4">
+                    <Form.Label className="mb-1 text-muted">Description</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      value={formData.description}
+                      onChange={(e) => handleFormData("description", e.target.value)}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="my-4">
+                    <Form.Label className="mb-1 text-muted d-flex gap-2">
+                      <Book size={20} />
+                      Subject
+                    </Form.Label>{" "}
+                    <Form.Control type="text" required />
+                  </Form.Group>
+                </Col>
+                <Col md={6} className="">
+                  <div className="text-primary w-100 border-bottom fw-bold pb-2">
+                    Members & Resources
+                  </div>
+
+                  {usersList && usersList.length > 0 && (
+                    <>
+                      <Form.Group className="my-4">
+                        <Form.Label className="mb-1 text-muted d-flex gap-2">
+                          <PeopleTeam size={20} />
+                          Members
+                        </Form.Label>
+                        <SearchCheckboxView
+                          users={usersList}
+                          data={sessionStudents}
+                          handleData={handleSessionStudents}
+                          role={0}
+                          validInput={usersList.length}
+                        />
+                      </Form.Group>
+
+                      <Form.Group className="my-4">
+                        <Form.Label className="mb-1 text-muted d-flex gap-2">
+                          <PeopleTeam size={20} />
+                          Teachers
+                        </Form.Label>
+                        <SearchCheckboxView
+                          users={usersList}
+                          data={sessionTeachers}
+                          handleData={handleSessionTeachers}
+                          role={1}
+                          validInput={usersList.length}
+                        />
+                      </Form.Group>
+                    </>
+                  )}
+
+                  {resourcesList && resourcesList.length > 0 && (
+                    <Form.Group className="my-4">
+                      <Form.Label className="mb-1 text-muted d-flex gap-2">
+                        <FileTextOutline size={20} />
+                        Resources
+                      </Form.Label>
+                      <ResourceSearchCheckboxView
+                        resources={resourcesList}
+                        data={productResources}
+                        handleData={handleProductResources}
+                      />{" "}
+                    </Form.Group>
+                  )}
+                </Col>
+              </Row>
+              <div className="d-flex justify-content-end d-flex gap-3">
+                <Link href="/products">
+                  <a>
+                    <Button variant="outline-secondary">Cancel</Button>
+                  </a>
+                </Link>
+                <Button type="submit" variant="primary">
+                  Create Product
+                </Button>
+              </div>
             </div>
-          </div>
-        </Form>
+          </Form>
+        </div>
       </AdminLayout>
     </Page>
   );
