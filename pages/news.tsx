@@ -1,6 +1,6 @@
 import React from "react";
 // react bootstrap
-import { Row, Col, Card, Image } from "react-bootstrap";
+import { Row, Col, Card, Image ,Button } from "react-bootstrap";
 // swr
 import useSWR from "swr";
 // layouts
@@ -8,6 +8,7 @@ import AdminLayout from "@layouts/adminLayout";
 // components
 import NewsCreateView from "@components/admin/news/create";
 import NewsEditView from "@components/admin/news/edit";
+import NewsDeleteView from "@components/admin/news/delete";
 import Page from "@components/page";
 // api routes
 import { NEWS_ENDPOINT } from "@constants/routes";
@@ -36,6 +37,7 @@ const NewsView = () => {
   };
 
   console.log("newsList", newsList);
+  // link: "https://www.tutelaprep.com/blog/how-to-get-an-upper-edge-in-applications-despite-of-boards-being-cancelled-postponed/";
 
   return (
     <Page meta={meta}>
@@ -68,8 +70,14 @@ const NewsView = () => {
                         <h6 className="mt-2 mb-2">{data.title}</h6>
                         <p>{data.description}</p>
                       </div>
-                      <div>
-                        <NewsEditView data={data} />
+                      <div className="d-flex gap-2">
+                        <div>
+                          <NewsEditView data={data} />
+                        </div>
+                        <NewsDeleteView data={data} />
+                        {/* <Button variant="danger" className="btn btn-sm" onClick={() => newsDelete(data.id)}>
+                          Delete
+                        </Button> */}
                       </div>
                     </Card.Body>
                   </Card>
@@ -82,6 +90,4 @@ const NewsView = () => {
   );
 };
 
-export default //  withAdminAuth(
-NewsView;
-// )
+export default withAdminAuth(NewsView);
