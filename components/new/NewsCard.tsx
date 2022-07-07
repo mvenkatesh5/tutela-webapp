@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Image, Col } from "react-bootstrap";
 
 function NewsCard(props: any) {
-  console.log("props.data", props.data);
   return (
     <>
       <Link href={props.data.link ? props.data.link : "#"}>
