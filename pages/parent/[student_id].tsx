@@ -91,7 +91,7 @@ const ChildDetail = () => {
                       <Image
                         alt=""
                         className="img-fluid mx-auto d-block "
-                        src="/bird.svg"
+                        src={userDetailList?.photo || "/bird.svg"}
                         width="65"
                       />
                     </div>

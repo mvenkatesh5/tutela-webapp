@@ -1,8 +1,11 @@
 import React from "react";
 // react bootstrap
-import { Form, Container, Card, Button, Tab, Nav, Row, Col } from "react-bootstrap";
+import { Form, Container, Card, Button, Tab, Nav, Row, Col, Image } from "react-bootstrap";
 // swr
 import useSWR from "swr";
+// styled icons
+import { Times } from "@styled-icons/fa-solid/Times";
+import { Edit } from "@styled-icons/fluentui-system-filled/Edit";
 // blueprint
 import { TimezonePicker } from "@blueprintjs/timezone";
 // blueprint css
@@ -20,6 +23,7 @@ import { USER_WITH_ID_ENDPOINT, USER_RESOURCE_VIEW_ENDPOINT } from "@constants/r
 // api services
 import { APIFetcher } from "@lib/services";
 import { UserUpdate } from "@lib/services/userService";
+import { ResourceFileUpload } from "@lib/services/resource.service";
 // cookie
 import { getAuthenticationToken } from "@lib/cookie";
 // hoc
@@ -56,6 +60,7 @@ const Profile = () => {
       id: tokenDetails && tokenDetails.user && tokenDetails.user.id,
       profile_data: profile,
       timezone: timeZone,
+      photo: photo,
     };
 
     UserUpdate(payload)
@@ -96,6 +101,55 @@ const Profile = () => {
     title: "Profile",
     description: META_DESCRIPTION,
   };
+  const [photo, setPhoto] = React.useState<any>(userDetailList?.photo);
+
+  console.log("userDetailList", userDetailList);
+
+  // data
+  const hiddenFileInput: any = React.useRef(null);
+  const handleClick = (event: any) => {
+    if (hiddenFileInput) hiddenFileInput.current.click();
+  };
+  const [uploadTimerToggle, setUploadTimerToggle] = React.useState(false);
+  const [uploadTimer, setUploadTimer] = React.useState(0);
+
+  const readFile = (input: any) => {
+    if (input.target.files && input.target.files[0]) {
+      setUploadTimerToggle(true);
+      let formData = new FormData();
+      const ImageData = {
+        name: input.target.files[0].name,
+      };
+      formData.append("asset", input.target.files[0]);
+      formData.append("attributes", JSON.stringify(ImageData));
+
+      uploadImageToS3(formData);
+    }
+  };
+
+  const uploadImageToS3 = (formData: any) => {
+    const config: any = {
+      onUploadProgress: function (progressEvent: any) {
+        var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+        setUploadTimer(percentCompleted);
+        if (percentCompleted === 100) {
+          // setUploadTimerToggle(false);
+          // setUploadTimer(0);
+        }
+      },
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    ResourceFileUpload(formData, config)
+      .then((response: any) => {
+        setPhoto(response.asset);
+        setUploadTimerToggle(false);
+        setUploadTimer(0);
+      })
+      .catch((errorData: any) => {});
+  };
 
   return (
     <Page meta={meta}>
@@ -107,6 +161,36 @@ const Profile = () => {
             <Container className="py-3">
               <h3 className="mb-4">Account</h3>
 
+              {/* mmmamaa */}
+              <Form.Group className="mb-2">
+                <Form.Label as="div" className="mb-1 text-muted">
+                  <Image
+                    src={photo || userDetailList?.photo || "/bird.svg"}
+                    width="80"
+                    className="rounded"
+                    alt=""
+                  />
+                </Form.Label>
+                <Button
+                  className="btn btn-sm mb-3 mt-2"
+                  onClick={handleClick}
+                  disabled={uploadTimerToggle}
+                >
+                  {uploadTimerToggle
+                    ? `Uploading File ${uploadTimer}%`
+                    : userDetailList?.photo
+                    ? "Update Image"
+                    : "Upload Image"}
+                </Button>
+                <Form.Control
+                  ref={hiddenFileInput}
+                  type="file"
+                  onChange={readFile}
+                  required={true}
+                  style={{ display: "none" }}
+                />
+              </Form.Group>
+              {/* mmmamaa */}
               <div className="mb-2">
                 <div className="text-secondary mb-1">Select TimeZone</div>
                 <TimezonePicker
@@ -118,7 +202,6 @@ const Profile = () => {
                   }}
                 />
               </div>
-
               <Tab.Container defaultActiveKey={profileSchemaData[0].tab_key}>
                 <Nav className="custom-nav-tabs-links profile-account-nav" variant="pills">
                   {profileSchemaData.map((item: any, index: any) => (

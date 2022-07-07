@@ -6,11 +6,17 @@ import { Image } from "react-bootstrap";
 import { RightArrowAlt } from "@styled-icons/boxicons-regular";
 
 function NewsCard({ data }: any) {
+  console.log("--------data-------",data);
   return (
     <>
       <div className="w-100 border rounded p-3 d-flex justify-content-start align-items-center gap-2 mb-3">
         <div className="">
-          <Image alt="" className="img-fluid mx-auto d-block" src="/bird.svg" width="55" />
+          <Image
+            alt=""
+            className="img-fluid mx-auto d-block"
+            src={data.photo|| "/bird.svg"}
+            width="55"
+          />
         </div>
         <div className="d-flex flex-column">
           <div className="fw-bold">

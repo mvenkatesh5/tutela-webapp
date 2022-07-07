@@ -229,6 +229,7 @@ const CalendarView = () => {
                         data={currentSelectUser}
                         users={parentUsers}
                         handleData={handleCurrentSelectUser}
+                        userRole="parent"
                       />
                     )}
                   </div>
