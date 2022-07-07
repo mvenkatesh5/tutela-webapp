@@ -47,7 +47,7 @@ const ConcernModal = (props: any) => {
         console.log("response", response);
         mutate(CONCERN_ENDPOINT);
         closeModal();
-        router.push("/parent/concerns");
+        router.push(`/parent/concern?concern=${response.id}`);
       })
       .catch((error) => {
         closeModal();

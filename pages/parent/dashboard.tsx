@@ -309,7 +309,7 @@ const StudentDetail = () => {
                   </Slider>
                 </Card>
               )}
-              <Card className="pt-3 pb-4 px-3 mt-3 border-0 shadow">
+              {/* <Card className="pt-3 pb-4 px-3 mt-3 border-0 shadow">
                 <div className="d-flex justify-content-between mb-2">
                   <h6 className="">Last tests score</h6>
                   <div className="d-flex gap-2 text-primary align-items-center">
@@ -341,7 +341,7 @@ const StudentDetail = () => {
                       </tr>
                     ))}
                 </table>
-              </Card>
+              </Card> */}
 
               {!tests || testsError ? (
                 <div className="text-center mt-5 mb-5">Loading.....</div>

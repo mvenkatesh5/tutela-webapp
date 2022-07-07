@@ -149,6 +149,7 @@ export const DOUBTS_ID_WITH_REPLIES_ID_ENDPOINT = (doubt_id: any, reply_id: any)
   `/api/doubts/${doubt_id}/replies/${reply_id}/`;
 
 // concern endpoints
+export const ALL_CONCERNS_ENDPOINT = `/api/concerns/all/`;
 export const CONCERN_ENDPOINT = `/api/concerns/`;
 export const CONCERN_WITH_ID_ENDPOINT = (concern_id: any) => `/api/concerns/${concern_id}`;
 

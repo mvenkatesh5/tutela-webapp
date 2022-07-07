@@ -249,8 +249,8 @@ const UserDetailView = () => {
                           <div className="icon">
                             <Image
                               alt=""
-                              className="rounded-circle img-fluid"
-                              src={defaultImageUrl}
+                              className="rounded-circl img-fluid"
+                              src={userDetailList.photo || defaultImageUrl}
                             />
                           </div>
                           <div className="content">

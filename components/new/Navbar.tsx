@@ -1,4 +1,6 @@
 import React from "react";
+// next imports
+import Link from "next/link";
 // react bootstrap
 import { Navbar, Nav, Container, Image, Form } from "react-bootstrap";
 // material icons
@@ -111,7 +113,11 @@ function DashboardNav() {
       <Navbar className="shadow-sm n-navbar-root h-100 px-2" collapseOnSelect expand="xl">
         <Container fluid>
           <Navbar.Brand className="navbar-brand-image">
-            <Image src="/logo.svg" alt="" />
+            <Link href="/parent/dashboard">
+              <a>
+                <Image src="/logo.svg" alt="" />
+              </a>
+            </Link>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <div className="navbar-collapse-wrapper w-100">
@@ -121,27 +127,25 @@ function DashboardNav() {
                   {parentUsers && parentUsers.length > 0 && (
                     <ConcernModal parentUsers={parentUsers} />
                   )}
-                  <Nav.Link className="fw-bold mt-1 nav-icons">
+                  {/* <Nav.Link className="fw-bold mt-1 nav-icons">
                     <Notifications />
-                  </Nav.Link>
+                  </Nav.Link> */}
                   <Nav.Link
                     className="mt-1 nav-icons"
                     // onClick={crispOpen}
+                    href="/parent/concern"
                   >
                     <HelpWithCircle />
                   </Nav.Link>
-                  <Nav.Link className="mt-1 nav-icons">
+                  {/* <Nav.Link className="mt-1 nav-icons">
                     <Settings />
-                  </Nav.Link>
+                  </Nav.Link> */}
+                  {/* <Nav.Link className="rounded-circle nav-icons me-2">
+                    <Image className="rounded-circle" src="/bird.svg" alt="" />{" "}
+                  </Nav.Link> */}
                   <Nav.Link className="fw-bold text-muted mt-1 nav-icons" onClick={signOut}>
                     <Login />
                   </Nav.Link>
-                  <Nav.Link className="rounded-circle nav-icons">
-                    <Image className="rounded-circle" src="/bird.svg" alt="" />{" "}
-                  </Nav.Link>
-                  {/* <Nav.Link className="fw-bold text-muted mt-1 nav-icons" onClick={signOut}>
-                    <Login />
-                  </Nav.Link> */}
                 </Nav>
               </Navbar.Collapse>
             </div>
