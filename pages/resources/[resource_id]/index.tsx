@@ -18,7 +18,7 @@ const PDFRenderView = dynamic(import("@components/pdfRender"), { ssr: false });
 // layouts
 import PdfViewerLayout from "@layouts/pdfViewerLayout";
 // api routes
-import { RESOURCE_WITH_NODE_ENDPOINT } from "@constants/routes";
+import { RESOURCE_WITH_NODE_ENDPOINT, TAGS_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 // hoc
@@ -44,6 +44,8 @@ const ResourceTreeView = () => {
     (url) => APIFetcher(url),
     { refreshInterval: 0 }
   );
+
+  const { data: tags, error: tagsError } = useSWR(TAGS_ENDPOINT, APIFetcher);
 
   const meta = {
     title: "Resources Details",
@@ -106,6 +108,7 @@ const ResourceTreeView = () => {
                         currentProduct={productCategory}
                         pdfToggle={pdfToggle}
                         handlePdfToggle={handlePdfToggle}
+                        tags={tags}
                       />
                     </>
                   ) : (
