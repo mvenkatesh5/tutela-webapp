@@ -11,7 +11,10 @@ import { TAGS_ENDPOINT } from "@constants/routes";
 import { Tag } from "@lib/services/tagService";
 
 const TagEditView = ({ data, modal, setModal }: any) => {
-  const closeModal = () => setModal(false);
+  const closeModal = () => {
+    setTagsData({ name: "", color: "" });
+    setModal(false);
+  };
   const [buttonLoader, setButtonLoader] = React.useState(false);
 
   const [tagsData, setTagsData] = React.useState<any>();
