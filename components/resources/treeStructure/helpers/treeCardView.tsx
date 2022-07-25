@@ -27,6 +27,7 @@ import TreeCreateView from "../create";
 import TreeEditView from "../edit";
 import TreeDeleteView from "../delete";
 import TreePermissionView from "../treePermission";
+import Tags from "../tags";
 import ResourceNotesView from "@components/notes/view";
 import { SlateEditor } from "@components/SlateEditor";
 
@@ -43,6 +44,7 @@ const TreeChildrenRenderView = ({
   user,
   pdfToggle,
   handlePdfToggle,
+  tags,
 }: any) => {
   const [dropdownToggle, setDropdownToggle] = React.useState<any>(true);
 
@@ -147,6 +149,9 @@ const TreeChildrenRenderView = ({
               )}
 
               {admin && (
+                <Tags data={tree} root_node_id={root_node_id} add_to="children" tags={tags} />
+              )}
+              {admin && (
                 <div className="flex-item upload">
                   <TreeUploadView
                     data={tree}
@@ -229,6 +234,7 @@ const TreeChildrenRenderView = ({
                   user={user}
                   pdfToggle={pdfToggle}
                   handlePdfToggle={handlePdfToggle}
+                  tags={tags}
                 />
               </div>
             )}

@@ -14,6 +14,12 @@ import { BookReader } from "@styled-icons/boxicons-regular/BookReader";
 // components
 import ResourceNotesView from "@components/notes/view";
 import { SlateEditor } from "@components/SlateEditor";
+// swr
+import useSWR from "swr";
+// api routes
+import { TAGS_WITH_ID_ENDPOINT } from "@constants/routes";
+// api services
+import { APIFetcher } from "@lib/services";
 
 const TreeView = (props: any) => {
   const TreeChildrenRenderView = ({ tree, level, t_children, root_node_id, user }: any) => {
@@ -37,6 +43,31 @@ const TreeView = (props: any) => {
       urlPayload = urlPayload && urlPayload.length > 0 ? urlPayload[urlPayload.length - 1] : "";
       if (urlPayload.toLowerCase() === "pdf") return true;
       return false;
+    };
+
+    const { data: tagData, error: tagDataError } = useSWR(
+      tree.data.tag && tree.data.tag ? TAGS_WITH_ID_ENDPOINT(tree.data.tag) : null,
+      (url) => APIFetcher(url),
+      { refreshInterval: 0 }
+    );
+    React.useEffect(() => {
+      setSelectedTag(tagData);
+    }, [tagData]);
+
+    const [selectedTag, setSelectedTag] = React.useState<any>(tagData);
+
+    const pickTextColorBasedOnBgColorSimple = (
+      bgColor?: string,
+      lightColor: string = "#fff",
+      darkColor: string = "#000000"
+    ) => {
+      if (!bgColor) return;
+
+      var color = bgColor.charAt(0) === "#" ? bgColor.substring(1, 7) : bgColor;
+      var r = parseInt(color.substring(0, 2), 16); // hexToR
+      var g = parseInt(color.substring(2, 4), 16); // hexToG
+      var b = parseInt(color.substring(4, 6), 16); // hexToB
+      return r * 0.299 + g * 0.587 + b * 0.114 > 186 ? darkColor : lightColor;
     };
 
     return (
@@ -107,6 +138,18 @@ const TreeView = (props: any) => {
                   )}
                 </>
               )}
+            </div>
+          )}
+
+          {selectedTag && (
+            <div
+              className="text-xs flex-shrink-0 mx-2 px-2 rounded-pill fw-bold"
+              style={{
+                backgroundColor: selectedTag?.color ? selectedTag.color : "#ccc",
+                color: pickTextColorBasedOnBgColorSimple(selectedTag?.color),
+              }}
+            >
+              {selectedTag?.name}
             </div>
           )}
 

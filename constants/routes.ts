@@ -157,3 +157,7 @@ export const COMMENT_WITH_CONCERN_ID_ENDPOINT = (concern_id: any) =>
   `/api/concerns/${concern_id}/comments/`;
 export const CONCERN_ID_AND_COMMENT_ID_ENDPOINT = (concern_id: any, comment_id: any) =>
   `/api/concerns/${concern_id}/comments/${comment_id}/`;
+
+// tags endpoints
+export const TAGS_ENDPOINT = `/api/tags/`;
+export const TAGS_WITH_ID_ENDPOINT = (tag_id: any) => `/api/tags/${tag_id}/`;
