@@ -4,6 +4,7 @@ import { Folder } from "@styled-icons/boxicons-solid/Folder";
 import { CaretDownFill } from "@styled-icons/bootstrap/CaretDownFill";
 // components
 import ResourceViewCard from "./resourceViewCard";
+
 const ResourceCard = ({ data }: any) => {
   const [show, setShow] = React.useState(false);
   return (

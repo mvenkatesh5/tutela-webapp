@@ -9,21 +9,16 @@ import ResourceSearchCheckboxView from "components/resources/ResourceCheckbox";
 // swr
 import { mutate } from "swr";
 // api routes
-import {
-  USER_ENDPOINT,
-  RESOURCE_ENDPOINT,
-  PRODUCTS_ENDPOINT,
-  PRODUCT_USER_ENDPOINT,
-  PRODUCT_RESOURCES_ENDPOINT,
-} from "@constants/routes";
+import { PRODUCTS_WITH_ID_ENDPOINT } from "@constants/routes";
 // api services
 import {
   ProductsCreate,
   AddUserUnderProductPromise,
   AddResourceUnderProductPromise,
 } from "@lib/services/productsService";
+import { ProductsUpdate } from "@lib/services/productsService";
 
-const AddResourceModal = (props: any) => {
+const AddResourceModal = ({ product, resources }: any) => {
   const [modal, setModal] = React.useState(false);
   const closeModal = () => {
     setModal(false);
@@ -36,41 +31,45 @@ const AddResourceModal = (props: any) => {
   const handleProductResources = (value: any) => {
     setProductResources(value);
   };
+  React.useEffect(() => {
+    if (product && product?.resource_nodes) {
+      setProductResources(product?.resource_nodes);
+    }
+  }, [product]);
 
-  const handleResources = () => {
+  const handleResources = (event: any) => {
+    event.preventDefault();
+
     setButtonLoader(true);
     if (productResources && productResources.length > 0) {
-      let resources: any = [];
-      productResources.map((data: any) => {
-        const payload = { resource: data };
-        resources.push(payload);
-      });
+      console.log("productResources", productResources);
 
-      AddResourceUnderProductPromise(PRODUCT_RESOURCES_ENDPOINT(props.product.id), resources)
-        .then((response) => {
-          mutateProducts(props.product);
-          setButtonLoader(false);
+      const productPayload = {
+        id: product?.id,
+        resource_nodes: productResources,
+      };
+      setButtonLoader(false);
+      ProductsUpdate(productPayload)
+        .then((res) => {
+          mutate(
+            PRODUCTS_WITH_ID_ENDPOINT(product?.id),
+            async (elements: any) => {
+              return res;
+            },
+            false
+          );
           closeModal();
+          setButtonLoader(false);
         })
-        .catch((error) => {
+        .catch((errors) => {
+          console.log(errors);
           setButtonLoader(false);
         });
     } else {
-      mutateProducts(props.product);
-      setButtonLoader(false);
-      closeModal();
+      alert("Please select at least one resource.");
     }
   };
 
-  const mutateProducts = (product: any) => {
-    mutate(
-      PRODUCTS_ENDPOINT,
-      async (elements: any) => {
-        return [...elements, product];
-      },
-      false
-    );
-  };
   return (
     <>
       <Button onClick={openModal} className="btn btn-primary flex-shrink-0">
@@ -80,32 +79,24 @@ const AddResourceModal = (props: any) => {
       <Modal show={modal} onHide={closeModal} closeButton centered backdrop={"static"}>
         <Modal.Body>
           <div className="d-flex justify-content-between">
-            <h5 className="mb-3">Add Topic Cluster</h5>
+            <h5 className="mb-3">Add Resources</h5>
             <Button variant="" className="btn-sm text-muted" onClick={closeModal}>
               <CloseOutline width="20px" />
             </Button>
           </div>
+
           <Form onSubmit={handleResources}>
-            {props.resources && props.resources.length > 0 && (
+            {resources && resources.length > 0 && (
               <Form.Group className="my-4">
                 <Form.Label className="mb-1 text-muted d-flex gap-2">Select Resources</Form.Label>
                 <ResourceSearchCheckboxView
-                  resources={props.resources}
-                  data={props.productResources}
+                  resources={resources}
+                  data={productResources}
                   handleData={handleProductResources}
                 />
               </Form.Group>
             )}
-            {/* <Form.Group className="mb-3">
-              <Form.Label className="mb-1 text-muted">Comment</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={5}
-                value={formData.comment}
-                onChange={(e) => handleFromData("comment", e.target.value)}
-                required
-              />
-            </Form.Group> */}
+
             <div className="d-flex justify-content-end">
               <Button variant="primary" className="btn-sm" type="submit" disabled={buttonLoader}>
                 {buttonLoader ? "Adding..." : "Add Resources"}
