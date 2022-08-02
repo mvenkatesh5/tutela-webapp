@@ -218,7 +218,7 @@ const TreeView = (props: any) => {
   return (
     <>
       {props.data && props.data.length > 0 ? (
-        <div className="resource-tree-card">
+        <div className="resource-tree-card border">
           <TreeRenderView
             tree={props.data}
             level={0}

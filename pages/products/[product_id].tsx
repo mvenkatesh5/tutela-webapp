@@ -16,6 +16,9 @@ import Page from "@components/page";
 import Dropdown from "@components/new/Dropdown";
 import AddTopicCluster from "@components/new/AddTopicCluster";
 import UserSelectCalendarView from "@components/UserSelectDropdown";
+import AddResource from "@components/admin/product/AddResource";
+import MultiSelectDropdown from "@components/admin/product/multiSelectDropDown";
+import ResourceCard from "@components/admin/product/resourceCard";
 // swr
 import useSWR, { mutate } from "swr";
 // api services
@@ -26,6 +29,9 @@ import {
   PRODUCT_USER_DELETE_ENDPOINT,
   USER_ENDPOINT,
   PRODUCT_USER_ENDPOINT,
+  RESOURCE_ENDPOINT,
+  TAGS_ENDPOINT,
+  PRODUCT_RESOURCES_ENDPOINT,
 } from "@constants/routes";
 // layout
 import AdminLayout from "@layouts/adminLayout";
@@ -53,6 +59,7 @@ const BehaviorPage = () => {
     { name: "Resources", key: "resources" },
     { name: "Product Detail", key: "product" },
   ];
+  const strategy = [{ name: "Topics" }, { name: "Chapters" }, { name: "Classes" }];
   const members = [
     { name: "Riya", coins: "10" },
     { name: "Riya", coins: "10" },
@@ -68,7 +75,7 @@ const BehaviorPage = () => {
     { name: "Riya", coins: "10" },
     { name: "Varun kashyap", coins: "10" },
   ];
-  const [tabs, setTabs] = React.useState(tabsData[0].key);
+  const [tabs, setTabs] = React.useState(tabsData[2].key);
 
   const { data: product, error: productError } = useSWR(
     product_id ? PRODUCTS_WITH_ID_ENDPOINT(product_id) : null,
@@ -78,11 +85,20 @@ const BehaviorPage = () => {
 
   const { data: userList, error: userListError } = useSWR(USER_ENDPOINT, APIFetcher);
 
+  const { data: productResources, error: productResourcesError } = useSWR(
+    product_id ? PRODUCT_RESOURCES_ENDPOINT(product_id) : null,
+    (url) => APIFetcher(url),
+    { refreshInterval: 0 }
+  );
+
   const { data: productUsers, error: productUsersError } = useSWR(
     product_id ? PRODUCT_USER_ENDPOINT(product_id) : null,
     (url) => APIFetcher(url),
     { refreshInterval: 0 }
   );
+
+  const { data: resources, error: resourcesError } = useSWR(RESOURCE_ENDPOINT, APIFetcher);
+  const { data: tags, error: tagsError } = useSWR(TAGS_ENDPOINT, APIFetcher);
 
   const UserAddMentor = ({ children, valid = false, userRole, data }: any) => {
     const [formData, setFormData] = React.useState<any>();
@@ -270,7 +286,7 @@ const BehaviorPage = () => {
                 <div className="d-flex gap-2">
                   <PeopleTeam width="16px" />
                   <div>
-                    {product.users.length}
+                    {product.users.length}{" "}
                     <span className="text-muted">
                       {product.users.length == 1 ? "User" : "Users"}
                     </span>
@@ -279,9 +295,9 @@ const BehaviorPage = () => {
                 <div className="d-flex gap-2">
                   <FileTextOutline width="16px" />
                   <div>
-                    {product.resources.length}
+                    {productResources && productResources?.length}{" "}
                     <span className="text-muted">
-                      {product.resources.length == 1 ? "Resource" : "Resources"}
+                      {productResources && productResources.length == 1 ? "Resource" : "Resources"}
                     </span>
                   </div>
                 </div>
@@ -364,6 +380,49 @@ const BehaviorPage = () => {
                     <RenderCurrentUsers userRole={"student"} />
                   </div>
                 </div>
+              )}
+              {tabs == "resources" && (
+                <>
+                  <div className="d-flex flex-wrap align-items-center justify-content-between mt-5">
+                    <h3>Resources</h3>
+                    <div className="d-flex gap-3">
+                      <MultiSelectDropdown data={strategy} name="Student review strategy" />
+                      {tags && tags.length > 0 && (
+                        <MultiSelectDropdown data={tags} name="Classes, Chapters" />
+                      )}
+
+                      {resources && resources.length > 0 && (
+                        <AddResource
+                          product={product}
+                          resources={resources}
+                          productResources={product.resources}
+                        />
+                      )}
+                    </div>
+                  </div>
+                  {productResources && !userListError ? (
+                    <>
+                      {productResources && productResources.length > 0 ? (
+                        <>
+                          {productResources &&
+                            productResources.length > 0 &&
+                            productResources.map((data: any, index: any) => (
+                              <div
+                                key={`resources-index-${index}`}
+                                className="d-flex flex-wrap gap-4 mt-4 w-100"
+                              >
+                                <ResourceCard data={data} />
+                              </div>
+                            ))}
+                        </>
+                      ) : (
+                        <div className="text-center text-muted my-5">Resources not available</div>
+                      )}
+                    </>
+                  ) : (
+                    <div className="text-center text-muted my-5">Loading...</div>
+                  )}
+                </>
               )}
             </div>
           )}
