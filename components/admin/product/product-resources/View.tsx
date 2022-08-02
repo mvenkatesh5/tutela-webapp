@@ -22,7 +22,7 @@ const ProductResourceView = ({ product, resources, tags }: any) => {
           <ProductResourceStrategy
             product={product}
             tags={tags}
-            name="Classes, Chapters"
+            name="Teacher Review Strategy"
             productKey={`teacher_review_strategy`}
           />
 

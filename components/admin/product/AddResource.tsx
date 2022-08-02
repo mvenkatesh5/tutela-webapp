@@ -48,7 +48,7 @@ const AddResourceModal = ({ product, resources }: any) => {
         id: product?.id,
         resource_nodes: productResources,
       };
-      setButtonLoader(false);
+
       ProductsUpdate(productPayload)
         .then((res) => {
           mutate(

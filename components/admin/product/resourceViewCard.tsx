@@ -1,14 +1,8 @@
 import React from "react";
 // components
 import ResourceView from "@components/resources/userRender";
-// swr
-import useSWR from "swr";
-// api routes
-import { RESOURCE_WITH_NODE_ENDPOINT } from "@constants/routes";
-// api services
-import { APIFetcher } from "@lib/services";
 
-const ResourceViewCard = ({ resource_id, data }: any) => {
+const ResourceViewCard = ({ resource_id, productCategory }: any) => {
   const [notesToggle, setNotesToggle] = React.useState<any>("");
   const handleNotesToggle = (tree: any) => {
     setPdfToggle("");
@@ -23,11 +17,6 @@ const ResourceViewCard = ({ resource_id, data }: any) => {
     else setPdfToggle(pdfObject);
   };
 
-  const { data: productCategory, error: productCategoryError } = useSWR(
-    resource_id ? RESOURCE_WITH_NODE_ENDPOINT(resource_id) : null,
-    (url) => APIFetcher(url),
-    { refreshInterval: 0 }
-  );
   return (
     <>
       <div>
@@ -49,6 +38,7 @@ const ResourceViewCard = ({ resource_id, data }: any) => {
                   handleNotesToggle={handleNotesToggle}
                   pdfToggle={pdfToggle}
                   handlePdfToggle={handlePdfToggle}
+                  isTagValidationRRequired={true}
                 />
               ) : (
                 <div className="mt-0 mb-4 text-center text-secondary">

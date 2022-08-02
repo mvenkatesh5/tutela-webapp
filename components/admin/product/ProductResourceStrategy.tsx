@@ -34,6 +34,7 @@ const ProductResourceStrategy = ({ product, tags, name, productKey }: any) => {
     };
     productPayload[productKey] = updatedTags;
 
+    console.log("product", product);
     console.log("productPayload", productPayload);
 
     ProductsUpdate(productPayload)
