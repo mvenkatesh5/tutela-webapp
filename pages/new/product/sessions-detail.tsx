@@ -60,7 +60,7 @@ const TeacherFeedback = () => {
   return (
     <Page meta={meta}>
       <NewLayout sidebar={false}>
-        <div style={{ margin: "-15px" }} className="h-100 overflow-hidden">
+        <div className="h-100 overflow-hidden">
           <Row className="h-100">
             <Col className="border border-bottom-0 h-100 overflow-auto p-3 ps-4 pt-4" md={3}>
               <div className=" h-100">
@@ -223,7 +223,7 @@ const TeacherFeedback = () => {
               </div>
             </Col>
             <Col className="border p-4 pb-0 d-flex flex-column border-bottom-0" md={3}>
-              <div className="mt-auto border p-2 w-100 rounded d-flex justify-content-between">
+              <div className="mt-auto border p-2 w-100 rounded d-flex justify-content-between mb-3">
                 <div className="text-muted">message... </div>
                 <div className="text-muted">
                   <SendPlane width="20px" />

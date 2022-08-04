@@ -3,13 +3,14 @@ import React, { Fragment } from "react";
 import { PeopleTeam } from "@styled-icons/fluentui-system-filled/PeopleTeam";
 import { FileTextOutline } from "@styled-icons/evaicons-outline/FileTextOutline";
 // react-bootstrap
-import { Button, Image } from "react-bootstrap";
+import { Image } from "react-bootstrap";
 // constants
 import { META_DESCRIPTION } from "@constants/page";
 // components
 import Page from "@components/page";
 import Dropdown from "@components/new/Dropdown";
-import AddTopicCluster from "@components/new/AddTopicCluster";
+import AddTopicCluster from "@components/new/productDetail/AddTopicCluster";
+import TopicsTable from "@components/new/productDetail/TopicsTable";
 // layout
 import NewLayout from "@layouts/newLayout";
 
@@ -32,6 +33,7 @@ const BehaviorPage = () => {
     { name: "Members", key: "members" },
     { name: "Resources", key: "resources" },
     { name: "Product Detail", key: "product" },
+    { name: "Feedback Schema", key: "schema" },
   ];
   const members = [
     { name: "Riya", coins: "10" },
@@ -49,7 +51,7 @@ const BehaviorPage = () => {
     { name: "Varun kashyap", coins: "10" },
   ];
   const [tabs, setTabs] = React.useState(tabsData[0].key);
-
+  const schema = [{ name: "Classroom Score" }, { name: "Homework Score" }, { name: "Report" }];
   return (
     <Page meta={meta}>
       <NewLayout>
@@ -106,38 +108,6 @@ const BehaviorPage = () => {
                   <AddTopicCluster />
                 </div>
               </div>
-              <div className="border rounded">
-                <table className="mb-0 custom-table w-100">
-                  <thead className="bg-light">
-                    <tr>
-                      <th className="text-center">#</th>
-                      <th>Topic Name</th>
-                      <th>Column</th>
-                      <th>Column</th>
-                      <th>Column</th>
-                      <th>Column</th>
-                      <th>
-                        <div className="mb-1 p-2">...</div>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {productDetail &&
-                      productDetail.length > 0 &&
-                      productDetail.map((data: any, index: any) => (
-                        <tr key={`attendanceData-key-${index}`}>
-                          <td className="text-center">{index + 1}</td>
-                          <td>{data.name}</td>
-                          <td>data</td>
-                          <td>data</td>
-                          <td>data</td>
-                          <td>data</td>
-                          <td></td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
-              </div>
             </>
           )}
           {tabs == "members" && (
@@ -163,6 +133,20 @@ const BehaviorPage = () => {
                       <small>10</small>
                     </div>
                   ))}
+              </div>
+            </div>
+          )}
+          {tabs == "schema" && (
+            <div className="">
+              <h3>Feedback Schema</h3>
+              <div className="d-flex flex-wrap gap-3 mt-4">
+                {schema &&
+                  schema.map((data: any, index: any) => (
+                    <div key={index} className="px-3 p-1 bg-muted rounded-pill h-100">
+                      Classroom Score
+                    </div>
+                  ))}
+                <div className="px-2 p-1 bg-muted rounded-circle h-100">+</div>
               </div>
             </div>
           )}

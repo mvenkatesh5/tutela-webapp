@@ -30,7 +30,7 @@ const TeacherFeedback = () => {
   return (
     <Page meta={meta}>
       <NewLayout sidebar={false}>
-        <div style={{ margin: "-15px" }} className="h-100 overflow-hidden">
+        <div className="h-100 overflow-hidden">
           <div
             style={{ background: "#0052CC" }}
             className="p-4 text-white d-flex justify-content-between align-items-center"
