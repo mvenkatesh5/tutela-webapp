@@ -1,57 +1,44 @@
 import React from "react";
+// next imports
+import { useRouter } from "next/router";
 // bootstrap
 import { Col, Row, Image } from "react-bootstrap";
 // icons
 import { CheckCircleFill } from "@styled-icons/bootstrap/CheckCircleFill";
+// global imports
+import { datePreview } from "@constants/global";
 
-const SessionCard = ({ data, setSelected, selected, setStudentDetail }: any) => {
+const SessionCard = ({ data, currentSession, setStudentDetail }: any) => {
+  const router = useRouter();
+
   return (
     <div
       onClick={() => {
-        setSelected(data);
-        setStudentDetail(data.students[0]);
+        router.replace(
+          `/admin/session-feedback?session=${data?.id}${
+            data?.session_users.length > 0 && `&user=${data.session_users[0].user.id}`
+          }&product=96`,
+          undefined,
+          { shallow: true }
+        );
       }}
-      className={`my-4 p-2 rounded ${
-        data.id === selected.id ? "border-primary alert alert-primary text-black" : "bg-light"
+      className={`my-4 p-2 rounded cursor-pointer ${
+        data.id == currentSession
+          ? "border-primary alert alert-primary text-black"
+          : "bg-light border border-transparent"
       }`}
     >
       <div className="d-flex align-items-start gap-3">
-        <Image className="img-fluid rounded mt-1" src={data.image} width="40" alt="" />
+        <Image className="img-fluid rounded mt-1" src={"/bird.svg"} width="40" alt="" />
         <div className="h-100">
-          <div className="fw-medium text-lg">{data.name}</div>
+          <div className="fw-medium text-sm">{data.title}</div>
           <div className="d-flex gap-2 mt-2">
-            <div className="bg-muted rounded px-2 py-0 text-sm h-100">{data.timing}</div>
-            {data.progress && (
-              <>
-                {data.progress == 10 ? (
-                  <div className="alert alert-success p-0 px-1 text-sm mb-0 d-flex align-items-center gap-1">
-                    <CheckCircleFill width="14px" />
-                    <div>completed</div>
-                  </div>
-                ) : (
-                  <div className="alert alert-warning p-0 px-1 text-sm mb-0">
-                    {data.progress}/10
-                  </div>
-                )}
-              </>
-            )}
+            <div className="bg-muted rounded px-2 py-0 text-sm h-100">
+              {datePreview(data.start_datetime)}
+            </div>
           </div>
         </div>
       </div>
-      {data.id === selected.id && (
-        <div className="mt-3">
-          {data.topics &&
-            data.topics.map((topic: any, index: any) => (
-              <div
-                key={`topic-student-product-${index}`}
-                className="d-flex align-items-center gap-2 my-1"
-              >
-                <div className="p-2 h-100 bg-muted rounded"></div>
-                <div className=" ">{topic.name}</div>
-              </div>
-            ))}
-        </div>
-      )}
     </div>
   );
 };
