@@ -17,6 +17,7 @@ import Dropdown from "@components/new/Dropdown";
 import AddTopicCluster from "@components/new/productDetail/AddTopicCluster";
 import UserSelectCalendarView from "@components/UserSelectDropdown";
 import ProductResourceView from "@components/admin/product/product-resources/View";
+import FeedbackSchema from "@components/admin/product/FeedbackSchema";
 // swr
 import useSWR, { mutate } from "swr";
 // api services
@@ -56,10 +57,11 @@ const BehaviorPage = () => {
     { name: "Members", key: "members" },
     { name: "Resources", key: "resources" },
     { name: "Product Detail", key: "product" },
+    { name: "Feedback Schema", key: "product-feedback-schema" },
   ];
   const strategy = [{ name: "Topics" }, { name: "Chapters" }, { name: "Classes" }];
 
-  const [tabs, setTabs] = React.useState(tabsData[2].key);
+  const [tabs, setTabs] = React.useState(tabsData[4].key);
 
   const { data: resources, error: resourcesError } = useSWR(RESOURCE_ENDPOINT, APIFetcher);
   const { data: tags, error: tagsError } = useSWR(TAGS_ENDPOINT, APIFetcher);
@@ -368,6 +370,8 @@ const BehaviorPage = () => {
               {tabs == "resources" && (
                 <ProductResourceView tags={tags} resources={resources} product={product} />
               )}
+
+              {tabs == "product-feedback-schema" && <FeedbackSchema product={product} />}
             </div>
           )}
         </div>
