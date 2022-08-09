@@ -31,6 +31,12 @@
 .text-sm {
   font-size: 14px;
 }
+.fw-medium {
+  font-weight: 500;
+}
+.bg-muted{
+  background-color: #DFE1E6;
+}
 .custom-progress-bar {
   width: 100%;
 }
@@ -290,9 +296,8 @@
   box-shadow: none !important;
   background: none !important;
 }
-.plain-dropdown::after{
-  display: none !important; 
-
+.plain-dropdown::after {
+  display: none !important;
 }
 
 .report-header {

@@ -34,7 +34,7 @@ const NewLayout = ({ children, sidebar = true }: any) => {
             </div>
           )}
 
-          <div className="right-layout">{children}</div>
+          <div className="w-100 h-100">{children}</div>
         </div>
       </div>
     </div>

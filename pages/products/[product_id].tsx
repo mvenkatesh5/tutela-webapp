@@ -14,7 +14,7 @@ import { META_DESCRIPTION } from "@constants/page";
 // components
 import Page from "@components/page";
 import Dropdown from "@components/new/Dropdown";
-import AddTopicCluster from "@components/new/AddTopicCluster";
+import AddTopicCluster from "@components/new/productDetail/AddTopicCluster";
 import UserSelectCalendarView from "@components/UserSelectDropdown";
 import ProductResourceView from "@components/admin/product/product-resources/View";
 // swr
