@@ -2,11 +2,13 @@ import React from "react";
 // next imports
 import { useRouter } from "next/router";
 // react-bootstrap
-import { Container, Row, Col, Image, Card, Form, Dropdown } from "react-bootstrap";
+import { Container, Row, Col, Image, Card, Form, Dropdown, ProgressBar } from "react-bootstrap";
 // constants
 import { META_DESCRIPTION } from "@constants/page";
 // seo
 import Page from "@components/page";
+// icons
+import { CheveronDown } from "@styled-icons/zondicons/CheveronDown";
 // layout
 import AdminLayout from "@layouts/adminLayout";
 // components
@@ -97,6 +99,12 @@ const SessionFeedback = () => {
     { refreshInterval: 0 }
   );
 
+  const [activeTab, setActiveTab] = React.useState("unfinished ");
+  const tabs = [
+    { name: "Unfinished ", key: "unfinished " },
+    { name: "Finished", key: "finished" },
+  ];
+
   return (
     <Page meta={meta}>
       <AdminLayout>
@@ -104,9 +112,32 @@ const SessionFeedback = () => {
           <>
             {unReviewedSessions?.data && unReviewedSessions?.data.length > 0 ? (
               <div style={{ margin: "0px" }} className="h-100 w-100 overflow-hidden">
+                <div
+                  style={{ background: " #0052CC" }}
+                  className="border p-4 w-100 d-flex align-items-center justify-content-between text-white"
+                >
+                  <h4 className="my-3">Session Feedback</h4>
+                  <div>Skip for now</div>
+                </div>
                 <Row className="h-100 w-100 p-0 m-0">
-                  <Col className="h-100 overflow-auto pb-5" md={3}>
-                    <div className="px-3 pb-5">
+                  <Col className="h-100 overflow-auto pb-5 px-0" md={3}>
+                    <div className="d-flex gap-3 border-bottom px-3 pt-2">
+                      {tabs &&
+                        tabs.map((tab: any, index: number) => (
+                          <div
+                            key={`index-tabs-${index}`}
+                            onClick={() => setActiveTab(tab.key)}
+                            className={`p-2 cursor-pointer ${
+                              activeTab == tab.key
+                                ? "border-bottom text-primary border-primary border-2 fw-bold"
+                                : "text-muted fw-bold"
+                            } `}
+                          >
+                            {tab.name}
+                          </div>
+                        ))}
+                    </div>
+                    <div className="px-3 pb-5 px-4">
                       {unReviewedSessions?.data &&
                         unReviewedSessions?.data.map((data: any, index: any) => (
                           <div key={`meetings-${index}-index-data`}>
@@ -120,6 +151,7 @@ const SessionFeedback = () => {
                     style={{ borderLeft: "1px solid #eee", borderRight: "1px solid #eee" }}
                     md={3}
                   >
+                    <h4 className="mt-3 mb-3">Students</h4>
                     {currentSessionUsers() && currentSessionUsers()?.length > 0 && (
                       <>
                         {currentSessionUsers().map((_user: any, _idx: any) => (
@@ -156,7 +188,7 @@ const SessionFeedback = () => {
                     )}
                   </Col>
 
-                  <Col className="p-4 h-100 overflow-auto pb-5" md={6}>
+                  <Col className="p-4 pt-3 h-100 overflow-auto pb-5" md={6}>
                     <div className="d-flex align-items-center gap-2">
                       <Image
                         className="img-fluid rounded-circle"
@@ -167,9 +199,9 @@ const SessionFeedback = () => {
                       <div className="text-lg fw-medium flex-shrink-0 justify-content-end">
                         {currentUser()?.user?.first_name} {currentUser()?.user?.last_name}
                       </div>
-                      {/* <div className="ms-auto me-4 d-flex gap-3">
+                      <div className="ms-auto me-4 d-flex align-items-center gap-4">
                         <div style={{ width: "150px" }}>
-                          <div className="text-sm"> Reports : {studentDetail.progress}/6</div>
+                          <div className="text-xs fw-medium mb-1"> Reports : 2/6 </div>
                           <ProgressBar
                             style={{ height: " 6px" }}
                             variant="success"
@@ -181,9 +213,10 @@ const SessionFeedback = () => {
                           <Dropdown>
                             <Dropdown.Toggle
                               as="div"
-                              className="icon d-flex gap-2  plain-dropdown text-primary border-bottom border-primary"
+                              className="icon d-flex gap-2  plain-dropdown text-primary border-2 border-bottom border-primary text-sm"
                             >
-                              <div>Conducted Topics</div> <ChevronDown width="14px" />
+                              <div>Conducted Topics</div>
+                              <CheveronDown width="14px" />
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu className="content-wrapper p-0">
@@ -191,9 +224,9 @@ const SessionFeedback = () => {
                             </Dropdown.Menu>
                           </Dropdown>
                         </div>
-                      </div> */}
+                      </div>
                     </div>
-                    <div className="mt-2 pt-2 mb-5 border-top">
+                    <div className="mt-2 pt-2 mb-5">
                       {productDetails && !productDetailsError ? (
                         <>
                           {productDetails?.report_schema &&
