@@ -18,8 +18,6 @@ import ReportCard from "@components/session-feedback/ReportCard";
 import useSWR from "swr";
 // api routes
 import { TEACHER_SESSION_FEEDBACK_UN_REVIEWED_ENDPOINT } from "@constants/routes";
-// cookie
-import { getAuthenticationToken } from "@lib/cookie";
 // api services
 import { APIFetcher } from "@lib/services";
 // hoc
