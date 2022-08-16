@@ -16,7 +16,7 @@ import CalenderMonthView from "@components/admin/calenderviews/monthview";
 // layouts
 import AdminLayout from "@layouts/adminLayout";
 // api routes
-import { USER_ENDPOINT, USER_WITH_ID_ENDPOINT } from "@constants/routes";
+import { USER_ENDPOINT, USER_WITH_ID_ENDPOINT, PRODUCTS_ENDPOINT } from "@constants/routes";
 // api services
 import { SessionBulkCreate } from "@lib/services/sessionservice";
 import { APIFetcher, APIUpdater } from "@lib/services";
@@ -67,11 +67,15 @@ const BulkSchedules = () => {
     data: {},
     listeners: [],
     teachers: [],
+    product_selected: "",
     cornJobKind: "daily",
     cornJobKindValue: "everyday",
   });
   const handleSessionData = (value: any) => {
     setSessionData(value);
+  };
+  const handleProductListeners = (key: any, value: any) => {
+    setSessionData({ ...sessionData, product_selected: value });
   };
   const handleSessionListeners = (key: any, value: any) => {
     setSessionData({ ...sessionData, [key]: value });
@@ -223,6 +227,7 @@ const BulkSchedules = () => {
               const data = {
                 title: sessionData.title,
                 description: sessionData.description,
+                product: sessionData.product_selected,
                 start_datetime: new Date(newDate),
                 end_datetime: new Date(currentDate),
                 link: sessionData.link,
@@ -406,6 +411,10 @@ const BulkSchedules = () => {
     return false;
   };
 
+  const { data: productsList, error: productsListError } = useSWR(PRODUCTS_ENDPOINT, APIFetcher, {
+    refreshInterval: 0,
+  });
+
   const { data: userList, error: userListError } = useSWR(USER_ENDPOINT, APIFetcher);
 
   const meta = {
@@ -430,7 +439,32 @@ const BulkSchedules = () => {
                     view_end_date={true}
                     role={`admin`}
                   />
-                  <SessionUser users={userList} handleData={handleSessionListeners} />
+
+                  {productsList && productsList.length > 0 && (
+                    <Form.Group className="mb-3" controlId={`form-control-product-session-create`}>
+                      <Form.Label>Select Product</Form.Label>
+                      <Form.Control
+                        as="select"
+                        size="sm"
+                        className="mb-2"
+                        value={sessionData.product_selected}
+                        onChange={(e) => handleProductListeners("product_selected", e.target.value)}
+                      >
+                        <option value="">No Product Selected</option>
+                        {productsList &&
+                          productsList.length > 0 &&
+                          productsList.map((product: any, index: any) => (
+                            <option key={product.id} value={product.id}>
+                              {product.name}
+                            </option>
+                          ))}
+                      </Form.Control>
+                    </Form.Group>
+                  )}
+
+                  {userList && userList.length > 0 && (
+                    <SessionUser users={userList} handleData={handleSessionListeners} />
+                  )}
                   <Tabs
                     activeKey={sessionData.cornJobKind}
                     onSelect={(k) => handleSessionTabData(k)}
