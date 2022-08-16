@@ -33,9 +33,10 @@ const SessionCard = ({ data, currentSession, setStudentDetail }: any) => {
         <div className="h-100">
           <div className="fw-medium text-sm">{data.title}</div>
           <div className="d-flex gap-2 mt-2">
-            <div className="bg-muted rounded px-2 py-0 text-sm h-100">
+            <div className="bg-muted rounded px-2 py-0 text-xs h-100">
               {datePreview(data.start_datetime)}
             </div>
+            <div className="alert alert-warning p-0 rounded text-xs">8/10</div>
           </div>
         </div>
       </div>
