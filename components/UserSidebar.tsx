@@ -394,6 +394,29 @@ const UserSidebar = () => {
           </a>
         </Link>
       )}
+      {tokenDetails && tokenDetails.user && tokenDetails.user.role === 1 && (
+        <Link href="/session-feedback">
+          <a>
+            <OverlayTrigger
+              key={`right`}
+              placement={`right`}
+              overlay={<Tooltip id={`tooltip-right`}>Resources</Tooltip>}
+            >
+              <div
+                className={
+                  "sidebar-item-container " +
+                  (router.pathname.includes("/resources") ? "active" : "")
+                }
+              >
+                <div className="sidebar-icon">
+                  <Calendar />
+                </div>
+                <div className="sidebar-label">Un-reviewed Sessions</div>
+              </div>
+            </OverlayTrigger>
+          </a>
+        </Link>
+      )}
 
       {/* parent */}
       {tokenDetails && tokenDetails.user && tokenDetails.user.role === 3 && (

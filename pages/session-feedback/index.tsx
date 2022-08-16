@@ -10,7 +10,7 @@ import Page from "@components/page";
 // icons
 import { CheveronDown } from "@styled-icons/zondicons/CheveronDown";
 // layout
-import AdminLayout from "@layouts/adminLayout";
+import StudentLayout from "@layouts/studentLayout";
 // components
 import SessionCard from "@components/session-feedback/SessionCard";
 import ReportCard from "@components/session-feedback/ReportCard";
@@ -39,7 +39,7 @@ const SessionFeedback = () => {
   React.useEffect(() => {
     globalDispatch({
       type: "SIDEBAR_TOGGLE",
-      payload: false,
+      payload: true,
     });
   }, [globalDispatch]);
 
@@ -114,52 +114,53 @@ const SessionFeedback = () => {
 
   return (
     <Page meta={meta}>
-      <AdminLayout>
-        {unReviewedSessions && unReviewedSessions ? (
-          <>
-            {unReviewedSessions?.data && unReviewedSessions?.data.length > 0 ? (
-              <div
-                style={{ margin: "0px" }}
-                className="h-100 w-100 overflow-hidden d-flex flex-column"
-              >
+      <StudentLayout>
+        <div style={{ position: "relative", width: "100%", height: "100%" }}>
+          {unReviewedSessions && unReviewedSessions ? (
+            <>
+              {unReviewedSessions?.data && unReviewedSessions?.data.length > 0 ? (
                 <div
-                  style={{ background: " #0052CC", height: "80px" }}
-                  className="flex-shrink-0 border w-100 d-flex align-items-center justify-content-between text-white ps-3 pe-3"
-                >
-                  <h4 className="my-3">Session Feedback</h4>
-                  <div>Skip for now</div>
-                </div>
-
-                <div
-                  style={{
-                    position: "relative",
-                    width: "100%",
-                    height: "100%",
-                    display: "flex",
-                    overflow: "hidden",
-                  }}
+                  style={{ margin: "0px" }}
+                  className="h-100 w-100 overflow-hidden d-flex flex-column"
                 >
                   <div
+                    style={{ background: " #0052CC", height: "80px" }}
+                    className="flex-shrink-0 border w-100 d-flex align-items-center justify-content-between text-white ps-3 pe-3"
+                  >
+                    <h4 className="my-3">Session Feedback</h4>
+                    <div>Skip for now</div>
+                  </div>
+
+                  <div
                     style={{
-                      flexShrink: 0,
-                      width: "280px",
+                      position: "relative",
+                      width: "100%",
                       height: "100%",
-                      borderRight: "1px solid #eee",
+                      display: "flex",
+                      overflow: "hidden",
                     }}
-                    className="d-flex flex-column"
                   >
                     <div
                       style={{
-                        width: "100%",
+                        flexShrink: 0,
+                        width: "280px",
                         height: "100%",
+                        borderRight: "1px solid #eee",
                       }}
                       className="d-flex flex-column"
                     >
                       <div
-                        className="flex-shrink-0 align-items-center d-flex gap-3 border-bottom px-3"
-                        style={{ height: "50px" }}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                        }}
+                        className="d-flex flex-column"
                       >
-                        {tabs &&
+                        <div
+                          className="flex-shrink-0 align-items-center d-flex gap-3 border-bottom px-3"
+                          style={{ height: "0px" }}
+                        >
+                          {/* {tabs &&
                           tabs.map((tab: any, index: number) => (
                             <div
                               key={`index-tabs-${index}`}
@@ -172,109 +173,109 @@ const SessionFeedback = () => {
                             >
                               {tab.name}
                             </div>
-                          ))}
+                          ))} */}
+                        </div>
+                        <div
+                          style={{ width: "100%", height: "100%", overflowY: "auto" }}
+                          className="px-3"
+                        >
+                          {unReviewedSessions?.data &&
+                            unReviewedSessions?.data.map((data: any, index: any) => (
+                              <div key={`meetings-${index}-index-data`}>
+                                <SessionCard data={data} currentSession={session} />
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        flexShrink: 0,
+                        width: "280px",
+                        height: "100%",
+                        borderRight: "1px solid #eee",
+                      }}
+                      className="d-flex flex-column"
+                    >
+                      <div
+                        className="flex-shrink-0 align-items-center d-flex gap-3 border-bottom px-3"
+                        style={{ height: "50px" }}
+                      >
+                        Students
                       </div>
                       <div
                         style={{ width: "100%", height: "100%", overflowY: "auto" }}
                         className="px-3"
                       >
-                        {unReviewedSessions?.data &&
-                          unReviewedSessions?.data.map((data: any, index: any) => (
-                            <div key={`meetings-${index}-index-data`}>
-                              <SessionCard data={data} currentSession={session} />
-                            </div>
-                          ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div
-                    style={{
-                      flexShrink: 0,
-                      width: "280px",
-                      height: "100%",
-                      borderRight: "1px solid #eee",
-                    }}
-                    className="d-flex flex-column"
-                  >
-                    <div
-                      className="flex-shrink-0 align-items-center d-flex gap-3 border-bottom px-3"
-                      style={{ height: "50px" }}
-                    >
-                      Students
-                    </div>
-                    <div
-                      style={{ width: "100%", height: "100%", overflowY: "auto" }}
-                      className="px-3"
-                    >
-                      {currentSessionUsers() && currentSessionUsers()?.length > 0 && (
-                        <>
-                          {currentSessionUsers().map((_user: any, _idx: any) => (
-                            <div key={_idx}>
-                              {_user?.user.role === 0 && (
-                                <div
-                                  className={`cursor-pointer my-2 border rounded p-2 d-flex align-items-center gap-2 ${
-                                    _user.user.id == user
-                                      ? "border-primary alert alert-primary text-black"
-                                      : "bg-light"
-                                  }`}
-                                  onClick={() => {
-                                    router.replace(
-                                      `/session-feedback?session=${session}&user=${_user.user.id}`,
-                                      undefined,
-                                      { shallow: true }
-                                    );
-                                  }}
-                                >
-                                  <Image
-                                    className="img-fluid rounded-circle mt-1"
-                                    src={"/bird.svg"}
-                                    width="30"
-                                    alt=""
-                                  />
-                                  <div className="fw-medium">
-                                    {_user?.user.first_name} {_user?.user.last_name}
+                        {currentSessionUsers() && currentSessionUsers()?.length > 0 && (
+                          <>
+                            {currentSessionUsers().map((_user: any, _idx: any) => (
+                              <div key={_idx}>
+                                {_user?.user.role === 0 && (
+                                  <div
+                                    className={`cursor-pointer my-2 border rounded p-2 d-flex align-items-center gap-2 ${
+                                      _user.user.id == user
+                                        ? "border-primary alert alert-primary text-black"
+                                        : "bg-light"
+                                    }`}
+                                    onClick={() => {
+                                      router.replace(
+                                        `/session-feedback?session=${session}&user=${_user.user.id}`,
+                                        undefined,
+                                        { shallow: true }
+                                      );
+                                    }}
+                                  >
+                                    <Image
+                                      className="img-fluid rounded-circle mt-1"
+                                      src={"/bird.svg"}
+                                      width="30"
+                                      alt=""
+                                    />
+                                    <div className="fw-medium">
+                                      {_user?.user.first_name} {_user?.user.last_name}
+                                    </div>
                                   </div>
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                        </>
-                      )}
-                    </div>
-                  </div>
-
-                  <div
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <div
-                      className="flex-shrink-0 align-items-center d-flex gap-3 border-bottom px-3"
-                      style={{ height: "50px" }}
-                    >
-                      <Image
-                        className="img-fluid rounded-circle"
-                        src={"/bird.svg"}
-                        width="30"
-                        alt=""
-                      />
-                      <div className="text-lg fw-medium flex-shrink-0 justify-content-end">
-                        {currentUser()?.user?.first_name} {currentUser()?.user?.last_name}
+                                )}
+                              </div>
+                            ))}
+                          </>
+                        )}
                       </div>
-                      <div className="ms-auto me-4 d-flex align-items-center gap-4">
-                        <div style={{ width: "150px" }}>
-                          <div className="text-xs fw-medium mb-1"> Reports : 0/6 </div>
-                          <ProgressBar
-                            style={{ height: " 6px" }}
-                            variant="success"
-                            className="rounded-pill"
-                            now={0}
-                          />
+                    </div>
+
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        overflow: "hidden",
+                      }}
+                    >
+                      <div
+                        className="flex-shrink-0 align-items-center d-flex gap-3 border-bottom px-3"
+                        style={{ height: "50px" }}
+                      >
+                        <Image
+                          className="img-fluid rounded-circle"
+                          src={"/bird.svg"}
+                          width="30"
+                          alt=""
+                        />
+                        <div className="text-lg fw-medium flex-shrink-0 justify-content-end">
+                          {currentUser()?.user?.first_name} {currentUser()?.user?.last_name}
                         </div>
-                        <div className="plain-dropdown">
+                        <div className="ms-auto d-flex align-items-center gap-4">
+                          <div style={{ width: "150px" }}>
+                            <div className="text-xs fw-medium mb-1"> Reports : 0/6 </div>
+                            <ProgressBar
+                              style={{ height: " 6px" }}
+                              variant="success"
+                              className="rounded-pill"
+                              now={0}
+                            />
+                          </div>
+                          {/* <div className="plain-dropdown">
                           <Dropdown>
                             <Dropdown.Toggle
                               as="div"
@@ -288,51 +289,54 @@ const SessionFeedback = () => {
                               <div className="p-2">dropdown</div>
                             </Dropdown.Menu>
                           </Dropdown>
+                        </div> */}
                         </div>
                       </div>
-                    </div>
 
-                    <div
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        overflowY: "auto",
-                      }}
-                      className="px-3 py-3"
-                    >
-                      {productDetails ? (
-                        <>
-                          {productDetails?.report_schema &&
-                          productDetails?.report_schema?.data &&
-                          productDetails?.report_schema?.data.length > 0 ? (
-                            <ReportCard
-                              session={session}
-                              user={currentUser()}
-                              data={productDetails}
-                            />
-                          ) : (
-                            <div className="text-center pt-5 pb-5 w-100">
-                              No Report Schema available.
-                            </div>
-                          )}
-                        </>
-                      ) : (
-                        <div className="text-center pt-5 pb-5 w-100">No Product is available.</div>
-                      )}
+                      <div
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          overflowY: "auto",
+                        }}
+                        className="px-3 py-3"
+                      >
+                        {productDetails ? (
+                          <>
+                            {productDetails?.report_schema &&
+                            productDetails?.report_schema?.data &&
+                            productDetails?.report_schema?.data.length > 0 ? (
+                              <ReportCard
+                                session={session}
+                                user={currentUser()}
+                                data={productDetails}
+                              />
+                            ) : (
+                              <div className="text-center pt-5 pb-5 w-100">
+                                No Report Schema available.
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          <div className="text-center pt-5 pb-5 w-100">
+                            No Product is available.
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ) : (
-              <div className="text-center mt-5 mb-5 w-100">
-                No Scheduled sessions are available.
-              </div>
-            )}
-          </>
-        ) : (
-          <div className="text-center mt-5 mb-5 w-100">Loading...</div>
-        )}
-      </AdminLayout>
+              ) : (
+                <div className="text-center mt-5 mb-5 w-100">
+                  No Scheduled sessions are available.
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="text-center mt-5 mb-5 w-100">Loading...</div>
+          )}
+        </div>
+      </StudentLayout>
     </Page>
   );
 };
