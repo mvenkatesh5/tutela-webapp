@@ -15,14 +15,14 @@ const SessionCard = ({ data, currentSession, setStudentDetail }: any) => {
     <div
       onClick={() => {
         router.replace(
-          `/admin/session-feedback?session=${data?.id}${
+          `/session-feedback?session=${data?.id}${
             data?.session_users.length > 0 && `&user=${data.session_users[0].user.id}`
-          }&product=96`,
+          }`,
           undefined,
           { shallow: true }
         );
       }}
-      className={`my-4 p-2 rounded cursor-pointer ${
+      className={`my-2 p-2 rounded cursor-pointer ${
         data.id == currentSession
           ? "border-primary alert alert-primary text-black"
           : "bg-light border border-transparent"
@@ -36,7 +36,7 @@ const SessionCard = ({ data, currentSession, setStudentDetail }: any) => {
             <div className="bg-muted rounded px-2 py-0 text-xs h-100">
               {datePreview(data.start_datetime)}
             </div>
-            <div className="alert alert-warning p-0 rounded text-xs">8/10</div>
+            {/* <div className="alert alert-warning p-0 rounded text-xs">8/10</div> */}
           </div>
         </div>
       </div>
