@@ -100,8 +100,24 @@ const AdminSessionCard = (props: any) => {
                     <div className="badge border bg-light text-dark">
                       {datePreview(props.data.start_datetime)}
                     </div>
-                    <div className="badge bg-primary text-white ms-2">
-                      {props.data.kind === "ONLINE" ? "Online" : `Offline`}
+                    <div
+                      className="badge text-dark ms-2"
+                      style={{
+                        fontSize: `10px`,
+                        border: `2px solid ${
+                          props.data.kind === "ONLINE"
+                            ? `rgba(169, 211, 158)`
+                            : `rgba(200, 158, 211)`
+                        }`,
+                        borderRadius: "3px",
+                        backgroundColor: `${
+                          props.data.kind === "ONLINE"
+                            ? `rgba(169, 211, 158, 0.3)`
+                            : `rgba(200, 158, 211, 0.3)`
+                        }`,
+                      }}
+                    >
+                      {props.data.kind}
                     </div>
                   </div>
                   <div className="ms-auto">
@@ -128,8 +144,24 @@ const AdminSessionCard = (props: any) => {
                       {datePreview(props.data.start_datetime)}
                     </div>
 
-                    <div className="badge bg-primary text-white ms-2">
-                      {props.data.kind === "ONLINE" ? "Online" : `Offline`}
+                    <div
+                      className="badge text-dark ms-2"
+                      style={{
+                        fontSize: `10px`,
+                        border: `2px solid ${
+                          props.data.kind === "ONLINE"
+                            ? `rgba(169, 211, 158)`
+                            : `rgba(200, 158, 211)`
+                        }`,
+                        borderRadius: "3px",
+                        backgroundColor: `${
+                          props.data.kind === "ONLINE"
+                            ? `rgba(169, 211, 158, 0.3)`
+                            : `rgba(200, 158, 211, 0.3)`
+                        }`,
+                      }}
+                    >
+                      {props.data.kind}
                     </div>
                   </div>
                   <div className="ms-auto">
@@ -201,8 +233,22 @@ const AdminSessionCard = (props: any) => {
                 <Image className="img-fluid rounded me-3" src="/bird.svg" alt="" />
               </div>
               <div>
-                <div className="badge bg-primary text-white">
-                  {props.data.kind === "ONLINE" ? "Online" : `Offline`}
+                <div
+                  className="badge text-dark ms-2"
+                  style={{
+                    fontSize: `10px`,
+                    border: `2px solid ${
+                      props.data.kind === "ONLINE" ? `rgba(169, 211, 158)` : `rgba(200, 158, 211)`
+                    }`,
+                    borderRadius: "3px",
+                    backgroundColor: `${
+                      props.data.kind === "ONLINE"
+                        ? `rgba(169, 211, 158, 0.3)`
+                        : `rgba(200, 158, 211, 0.3)`
+                    }`,
+                  }}
+                >
+                  {props.data.kind}
                 </div>
                 <div className="heading">{props.data.title}</div>
                 <div className="description">
