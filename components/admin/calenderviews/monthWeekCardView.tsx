@@ -27,6 +27,9 @@ const CalendarWeekMonthCardDetailView = (props: any) => {
                       dayElement.end_datetime
                     )}`}
                   </div>
+                  <div className="badge bg-primary text-white">
+                    {props.data.kind === "ONLINE" ? "Online" : `Offline`}
+                  </div>
                   <div className="mt-1 mb-1">
                     {dayElement.session_users &&
                       dayElement.session_users.length > 0 &&

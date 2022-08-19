@@ -106,6 +106,9 @@ const CalendarWeekMonthCardDetailView = (props: any) => {
                 <div className="description">
                   <small>Ends At: {datePreview(props.data.end_datetime)}</small>
                 </div>
+                <div className="badge bg-primary text-white">
+                  {props.data.kind === "ONLINE" ? "Online" : `Offline`}
+                </div>
               </div>
             </div>
 

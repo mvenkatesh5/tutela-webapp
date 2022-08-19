@@ -47,6 +47,26 @@ const SessionFormView = (props: any) => {
               onChange={(e) => handleFormPayload("title", e.target.value)}
               required
             />
+            <div className="d-flex align-items-center gap-2 mt-2">
+              <Form.Check
+                name="schedule-session-check"
+                type="radio"
+                label="Online"
+                id="weekend"
+                value="ONLINE"
+                onChange={(e) => handleFormPayload("kind", "ONLINE")}
+                checked={formPayload.kind === "ONLINE"}
+              />
+              <Form.Check
+                name="schedule-session-check"
+                type="radio"
+                label="Offline"
+                id="weekend"
+                value="OFFLINE"
+                onChange={(e) => handleFormPayload("kind", "OFFLINE")}
+                checked={formPayload.kind === "OFFLINE"}
+              />
+            </div>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="session-create-description">

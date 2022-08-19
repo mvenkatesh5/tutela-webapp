@@ -22,7 +22,7 @@ import SessionReschedule from "@components/admin/sessions/SessionReschedule";
 // global imports
 import { datePreview } from "@constants/global";
 
-const SessionCard = (props: any) => {
+const AdminSessionCard = (props: any) => {
   const [studentImages, setStudentImages] = React.useState<any>();
   const [teacherImages, setTeacherImages] = React.useState<any>();
 
@@ -100,6 +100,9 @@ const SessionCard = (props: any) => {
                     <div className="badge border bg-light text-dark">
                       {datePreview(props.data.start_datetime)}
                     </div>
+                    <div className="badge bg-primary text-white ms-2">
+                      {props.data.kind === "ONLINE" ? "Online" : `Offline`}
+                    </div>
                   </div>
                   <div className="ms-auto">
                     <small>
@@ -123,6 +126,10 @@ const SessionCard = (props: any) => {
                     <div className="heading">{props.data.title}</div>
                     <div className="badge border bg-light text-dark">
                       {datePreview(props.data.start_datetime)}
+                    </div>
+
+                    <div className="badge bg-primary text-white ms-2">
+                      {props.data.kind === "ONLINE" ? "Online" : `Offline`}
                     </div>
                   </div>
                   <div className="ms-auto">
@@ -194,6 +201,9 @@ const SessionCard = (props: any) => {
                 <Image className="img-fluid rounded me-3" src="/bird.svg" alt="" />
               </div>
               <div>
+                <div className="badge bg-primary text-white">
+                  {props.data.kind === "ONLINE" ? "Online" : `Offline`}
+                </div>
                 <div className="heading">{props.data.title}</div>
                 <div className="description">
                   Starts At: {datePreview(props.data.start_datetime)}
@@ -365,4 +375,4 @@ const SessionCard = (props: any) => {
   );
 };
 
-export default SessionCard;
+export default AdminSessionCard;

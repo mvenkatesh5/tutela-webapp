@@ -68,6 +68,7 @@ const BulkSchedules = () => {
     listeners: [],
     teachers: [],
     product_selected: "",
+    kind: "ONLINE",
     cornJobKind: "daily",
     cornJobKindValue: "everyday",
   });
@@ -228,6 +229,7 @@ const BulkSchedules = () => {
                 title: sessionData.title,
                 description: sessionData.description,
                 product: sessionData.product_selected,
+                kind: sessionData.kind,
                 start_datetime: new Date(newDate),
                 end_datetime: new Date(currentDate),
                 link: sessionData.link,
