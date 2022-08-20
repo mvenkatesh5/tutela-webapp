@@ -128,7 +128,7 @@ const QuickMeetingsView = () => {
                             </div>
                             <div className="content">
                               <small>
-                                {data.data && data.data.zoom.start_url ? (
+                                {data?.data && data?.data?.zoom?.start_url ? (
                                   <a
                                     href={
                                       userRole === "admin"
@@ -149,7 +149,7 @@ const QuickMeetingsView = () => {
                             </div>
                           </div>
 
-                          {data.data && data.data.zoom.start_url && (
+                          {data.data && data?.data?.zoom?.start_url && (
                             <a
                               href={
                                 userRole === "admin"

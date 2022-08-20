@@ -55,6 +55,9 @@ const CalendarMonthCardView = (props: any) => {
                           )}`}
                         </div>
                         <div className="month-title">{dayElement.title}</div>
+                        <div className="badge bg-primary text-white">
+                          {dayElement.kind === "ONLINE" ? "Online" : `Offline`}
+                        </div>
                       </div>
                     </div>
                   </MonthWeekDropdownView>

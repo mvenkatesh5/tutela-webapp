@@ -20,6 +20,7 @@ import { CollapseLeft } from "@styled-icons/open-iconic/CollapseLeft";
 import { ExpandRight } from "@styled-icons/open-iconic/ExpandRight";
 import { Forum } from "@styled-icons/material/Forum";
 import { Announcement as AnnouncementIcon } from "@styled-icons/material-rounded/Announcement";
+import { ConvertRange } from "@styled-icons/fluentui-system-filled/ConvertRange";
 // global context provider
 import { globalContext } from "@contexts/global";
 
@@ -105,6 +106,11 @@ const Sidebar = () => {
       label: "Doubts",
       icon: <Forum />,
       href: "/doubts",
+    },
+    {
+      label: "Concerns",
+      icon: <ConvertRange />,
+      href: "/admin/concerns",
     },
   ];
 

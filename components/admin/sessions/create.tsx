@@ -40,6 +40,7 @@ const SessionCreateView = (props: any) => {
       listeners: [],
       teachers: [],
       product_selected: "",
+      kind: "ONLINE",
     });
   };
   const openModal = () => setModal(true);
@@ -56,6 +57,7 @@ const SessionCreateView = (props: any) => {
     listeners: [],
     teachers: [],
     product_selected: "",
+    kind: "ONLINE",
   });
   const handleSessionData = (value: any) => {
     setSessionData(value);
@@ -86,10 +88,13 @@ const SessionCreateView = (props: any) => {
       end_datetime: handleDatetime(sessionData.start_date, sessionData.end_time),
       link: sessionData.link,
       data: sessionData.data,
+      product: sessionData.product_selected,
+      kind: sessionData.kind,
     };
 
     SessionCreate(payload)
       .then((res) => {
+        console.log("res", res);
         createSessionUsers(res);
       })
       .catch((errors) => {

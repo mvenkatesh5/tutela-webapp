@@ -49,13 +49,21 @@ const Resources = () => {
         <AdminLayout>
           <div className="right-layout">
             <Container>
-              <ResourceCreateView>
-                <div className="d-flex ms-auto">
-                  <Button variant="outline-primary" className="mb-2 btn-sm ms-auto">
+              <div className="d-flex justify-content-end ms-auto gap-2">
+                <Link href="/resources/tags">
+                  <a>
+                    <Button variant="outline-primary" className="mb-2 btn-sm">
+                      Tags
+                    </Button>
+                  </a>
+                </Link>
+                <ResourceCreateView>
+                  <Button variant="outline-primary" className="mb-2 btn-sm">
                     Create Resource
                   </Button>
-                </div>
-              </ResourceCreateView>
+                </ResourceCreateView>
+              </div>
+
               {!resources && !resourcesError ? (
                 <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
               ) : (

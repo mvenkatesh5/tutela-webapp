@@ -1,7 +1,7 @@
 // Base URLS
 export const BASE_PROD = "https://tutelaotlp.herokuapp.com/";
 export const BASE_STAGING = "https://tutelaotlp-staging.herokuapp.com/";
-export const BASE_LOCAL = "http://127.0.0.1:8000/";
+export const BASE_LOCAL = "https://tutelaotlp-staging.herokuapp.com/";
 
 // default urls
 export const DEFAULT_ZOOM_URL = `https://zoom.us/j/2505542539?pwd=dXh0amx3TktJTEFTYk9OYUJ3YUNYUT09`;
@@ -100,6 +100,8 @@ export const PRODUCT_USER_DELETE_ENDPOINT = (user_bridge_id: any) =>
   `/api/products-users/${user_bridge_id}/`;
 export const PRODUCT_RESOURCES_ENDPOINT = (product_id: any) =>
   `/api/products/${product_id}/resources/`;
+// user side products
+export const PRODUCTS_WITH_USER_ID_ENDPOINT = (user_id: any) => `/api/users/${user_id}/products/`;
 
 // quick meetings
 export const QUICK_MEETINGS_ENDPOINT = `/api/quick-meetings`;
@@ -145,3 +147,20 @@ export const DOUBTS_WITH_ID_ENDPOINT = (doubt_id: any) => `/api/doubts/${doubt_i
 export const DOUBTS_WITH_REPLIES_ENDPOINT = (doubt_id: any) => `/api/doubts/${doubt_id}/replies/`;
 export const DOUBTS_ID_WITH_REPLIES_ID_ENDPOINT = (doubt_id: any, reply_id: any) =>
   `/api/doubts/${doubt_id}/replies/${reply_id}/`;
+
+// concern endpoints
+export const ALL_CONCERNS_ENDPOINT = `/api/concerns/all/`;
+export const CONCERN_ENDPOINT = `/api/concerns/`;
+export const CONCERN_WITH_ID_ENDPOINT = (concern_id: any) => `/api/concerns/${concern_id}`;
+
+export const COMMENT_WITH_CONCERN_ID_ENDPOINT = (concern_id: any) =>
+  `/api/concerns/${concern_id}/comments/`;
+export const CONCERN_ID_AND_COMMENT_ID_ENDPOINT = (concern_id: any, comment_id: any) =>
+  `/api/concerns/${concern_id}/comments/${comment_id}/`;
+
+// tags endpoints
+export const TAGS_ENDPOINT = `/api/tags/`;
+export const TAGS_WITH_ID_ENDPOINT = (tag_id: any) => `/api/tags/${tag_id}/`;
+
+// teacher session feedback
+export const TEACHER_SESSION_FEEDBACK_UN_REVIEWED_ENDPOINT = `/api/unreviewed-sessions/`;

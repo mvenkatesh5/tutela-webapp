@@ -14,16 +14,13 @@ import { logout } from "lib/cookie";
 // axios for go instance
 export const axiosInstance = axios.create();
 
-// if (process.env.APP_ENV === "production") {
-//   axios.defaults.baseURL = BASE_PROD;
-// } else if (process.env.APP_ENV === "staging") {
-//   axios.defaults.baseURL = BASE_STAGING;
-// } else {
-//   axios.defaults.baseURL = BASE_LOCAL;
-// }
-
-axios.defaults.baseURL = BASE_PROD;
-// axios.defaults.baseURL = BASE_LOCAL;
+if (process.env.APP_ENV === "production") {
+  axios.defaults.baseURL = BASE_PROD;
+} else if (process.env.APP_ENV === "staging") {
+  axios.defaults.baseURL = BASE_STAGING;
+} else {
+  axios.defaults.baseURL = BASE_LOCAL;
+}
 
 export function setAxiosHeader(token: string) {
   if (token) {

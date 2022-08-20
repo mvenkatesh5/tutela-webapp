@@ -47,6 +47,8 @@ const SessionEditView = (props: any) => {
         end_time: props.data.end_datetime ? new Date(props.data.end_datetime) : new Date(),
         link: props.data.link,
         data: props.data.data,
+        kind: props.data.kind,
+        product: props.data.product,
         session_users: props.data.session_users,
       });
     }
@@ -89,6 +91,7 @@ const SessionEditView = (props: any) => {
         session_id: sessionData.id,
         title: sessionData.title,
         description: sessionData.description,
+        kind: sessionData.kind,
         start_datetime: handleDatetime(sessionData.start_date, sessionData.start_time),
         end_datetime: handleDatetime(sessionData.start_date, sessionData.end_time),
         populate: "single",
@@ -110,6 +113,7 @@ const SessionEditView = (props: any) => {
         session_id: sessionData.id,
         title: sessionData.title,
         description: sessionData.description,
+        kind: sessionData.kind,
         start_datetime: handleDatetime(sessionData.start_date, sessionData.start_time),
         end_datetime: handleDatetime(sessionData.start_date, sessionData.end_time),
         populate: "multiple",

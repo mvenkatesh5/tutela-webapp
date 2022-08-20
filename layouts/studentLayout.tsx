@@ -63,9 +63,7 @@ const StudentLayout = (props: any) => {
           <div className={`t-side-bar ${globalState.sidebarToggle && "active"}`}>
             <UserSidebar />
           </div>
-          <div className="t-right-bar">
-            <div>{props.children}</div>
-          </div>
+          <div className="t-right-bar border">{props.children}</div>
         </div>
       </div>
       {globalState.unratedSessions && globalState.unratedSessions.length > 0 && (

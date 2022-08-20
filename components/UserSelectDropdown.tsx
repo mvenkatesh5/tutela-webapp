@@ -123,7 +123,7 @@ const SearchCheckbox = (props: any) => {
               </div>
             </div>
             <div className="search-dropdown-content">
-              {userOptions && userOptions.length > 0 && (
+              {props.userRole != "parent" && userOptions && userOptions.length > 0 && (
                 <div
                   className="search-dropdown-option"
                   onClick={() => handleUserOptions("clear", null, null)}

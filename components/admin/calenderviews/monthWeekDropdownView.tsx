@@ -106,6 +106,23 @@ const CalendarWeekMonthCardDetailView = (props: any) => {
                 <div className="description">
                   <small>Ends At: {datePreview(props.data.end_datetime)}</small>
                 </div>
+                <div
+                  className="badge text-dark ms-2"
+                  style={{
+                    fontSize: `10px`,
+                    border: `2px solid ${
+                      props.data.kind === "ONLINE" ? `rgba(169, 211, 158)` : `rgba(200, 158, 211)`
+                    }`,
+                    borderRadius: "3px",
+                    backgroundColor: `${
+                      props.data.kind === "ONLINE"
+                        ? `rgba(169, 211, 158, 0.3)`
+                        : `rgba(200, 158, 211, 0.3)`
+                    }`,
+                  }}
+                >
+                  {props.data.kind}
+                </div>
               </div>
             </div>
 

@@ -22,7 +22,7 @@ import SessionReschedule from "@components/admin/sessions/SessionReschedule";
 // global imports
 import { datePreview } from "@constants/global";
 
-const SessionCard = (props: any) => {
+const AdminSessionCard = (props: any) => {
   const [studentImages, setStudentImages] = React.useState<any>();
   const [teacherImages, setTeacherImages] = React.useState<any>();
 
@@ -100,6 +100,25 @@ const SessionCard = (props: any) => {
                     <div className="badge border bg-light text-dark">
                       {datePreview(props.data.start_datetime)}
                     </div>
+                    <div
+                      className="badge text-dark ms-2"
+                      style={{
+                        fontSize: `10px`,
+                        border: `2px solid ${
+                          props.data.kind === "ONLINE"
+                            ? `rgba(169, 211, 158)`
+                            : `rgba(200, 158, 211)`
+                        }`,
+                        borderRadius: "3px",
+                        backgroundColor: `${
+                          props.data.kind === "ONLINE"
+                            ? `rgba(169, 211, 158, 0.3)`
+                            : `rgba(200, 158, 211, 0.3)`
+                        }`,
+                      }}
+                    >
+                      {props.data.kind}
+                    </div>
                   </div>
                   <div className="ms-auto">
                     <small>
@@ -123,6 +142,26 @@ const SessionCard = (props: any) => {
                     <div className="heading">{props.data.title}</div>
                     <div className="badge border bg-light text-dark">
                       {datePreview(props.data.start_datetime)}
+                    </div>
+
+                    <div
+                      className="badge text-dark ms-2"
+                      style={{
+                        fontSize: `10px`,
+                        border: `2px solid ${
+                          props.data.kind === "ONLINE"
+                            ? `rgba(169, 211, 158)`
+                            : `rgba(200, 158, 211)`
+                        }`,
+                        borderRadius: "3px",
+                        backgroundColor: `${
+                          props.data.kind === "ONLINE"
+                            ? `rgba(169, 211, 158, 0.3)`
+                            : `rgba(200, 158, 211, 0.3)`
+                        }`,
+                      }}
+                    >
+                      {props.data.kind}
                     </div>
                   </div>
                   <div className="ms-auto">
@@ -194,6 +233,23 @@ const SessionCard = (props: any) => {
                 <Image className="img-fluid rounded me-3" src="/bird.svg" alt="" />
               </div>
               <div>
+                <div
+                  className="badge text-dark ms-2"
+                  style={{
+                    fontSize: `10px`,
+                    border: `2px solid ${
+                      props.data.kind === "ONLINE" ? `rgba(169, 211, 158)` : `rgba(200, 158, 211)`
+                    }`,
+                    borderRadius: "3px",
+                    backgroundColor: `${
+                      props.data.kind === "ONLINE"
+                        ? `rgba(169, 211, 158, 0.3)`
+                        : `rgba(200, 158, 211, 0.3)`
+                    }`,
+                  }}
+                >
+                  {props.data.kind}
+                </div>
                 <div className="heading">{props.data.title}</div>
                 <div className="description">
                   Starts At: {datePreview(props.data.start_datetime)}
@@ -365,4 +421,4 @@ const SessionCard = (props: any) => {
   );
 };
 
-export default SessionCard;
+export default AdminSessionCard;

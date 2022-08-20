@@ -15,6 +15,7 @@ const NewsCreateView = () => {
   const closeModal = () => {
     setModal(false);
     setNewsData({
+      image_url: "",
       title: "",
       description: "",
       link: "",
@@ -24,6 +25,7 @@ const NewsCreateView = () => {
   const openModal = () => setModal(true);
 
   const [newsData, setNewsData] = React.useState({
+    image_url: "",
     title: "",
     description: "",
     link: "",

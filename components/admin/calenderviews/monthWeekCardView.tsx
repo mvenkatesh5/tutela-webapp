@@ -27,6 +27,23 @@ const CalendarWeekMonthCardDetailView = (props: any) => {
                       dayElement.end_datetime
                     )}`}
                   </div>
+                  <div
+                    className="badge text-dark ms-2"
+                    style={{
+                      fontSize: `10px`,
+                      border: `2px solid ${
+                        props.data.kind === "ONLINE" ? `rgba(169, 211, 158)` : `rgba(200, 158, 211)`
+                      }`,
+                      borderRadius: "3px",
+                      backgroundColor: `${
+                        props.data.kind === "ONLINE"
+                          ? `rgba(169, 211, 158, 0.3)`
+                          : `rgba(200, 158, 211, 0.3)`
+                      }`,
+                    }}
+                  >
+                    {props.data?.kind}
+                  </div>
                   <div className="mt-1 mb-1">
                     {dayElement.session_users &&
                       dayElement.session_users.length > 0 &&
