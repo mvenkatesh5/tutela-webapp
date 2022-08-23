@@ -21,6 +21,7 @@ import { ExpandRight } from "@styled-icons/open-iconic/ExpandRight";
 import { Forum } from "@styled-icons/material/Forum";
 import { Announcement as AnnouncementIcon } from "@styled-icons/material-rounded/Announcement";
 import { ConvertRange } from "@styled-icons/fluentui-system-filled/ConvertRange";
+import { Contact } from "@styled-icons/boxicons-solid/Contact";
 // global context provider
 import { globalContext } from "@contexts/global";
 
@@ -111,6 +112,16 @@ const Sidebar = () => {
       label: "Concerns",
       icon: <ConvertRange />,
       href: "/admin/concerns",
+    },
+    {
+      label: "Contacts",
+      icon: <Contact />,
+      href: "/admin/contacts",
+    },
+    {
+      label: "Assessments",
+      icon: <Assessment />,
+      href: "/assessment",
     },
   ];
 
