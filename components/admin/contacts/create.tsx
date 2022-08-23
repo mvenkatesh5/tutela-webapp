@@ -15,19 +15,19 @@ const ContactsCreateView = () => {
   const closeModal = () => {
     setModal(false);
     setFormData({
-      image: "",
-      title: "",
-      link: "",
-      data: {},
+      name: "",
+      email: "",
+      phone: "",
+      message: "",
     });
   };
   const openModal = () => setModal(true);
 
   const [formData, setFormData] = React.useState({
-    image: "",
-    title: "",
-    link: "",
-    data: {},
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
   });
   const handleFormData = (value: any) => {
     setFormData(value);
@@ -59,6 +59,7 @@ const ContactsCreateView = () => {
 
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>
+          <h5>Create Contact</h5>
           <Form onSubmit={contactFormSubmit}>
             <ContactsForm data={formData} handleData={handleFormData} />
             <Button
