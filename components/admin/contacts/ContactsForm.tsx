@@ -18,32 +18,39 @@ const ContactsFormView = (props: any) => {
   return (
     <div>
       <Form.Group className="mb-2">
-        <Form.Label className="mb-1 text-muted">Title</Form.Label>
+        <Form.Label className="mb-1 text-muted">Name</Form.Label>
         <Form.Control
           type="text"
-          value={formPayload.title}
-          onChange={(e) => handleFormPayload("title", e.target.value)}
+          value={formPayload.name}
+          onChange={(e) => handleFormPayload("name", e.target.value)}
           required
         />
       </Form.Group>
-
       <Form.Group className="mb-2">
-        <Form.Label className="mb-1 text-muted">Image URL</Form.Label>
+        <Form.Label className="mb-1 text-muted">Email</Form.Label>
         <Form.Control
-          type="text"
-          value={formPayload.image}
-          onChange={(e) => handleFormPayload("image", e.target.value)}
+          type="email"
+          value={formPayload.email}
+          onChange={(e) => handleFormPayload("email", e.target.value)}
           required
         />
       </Form.Group>
-
+      <Form.Group className="mb-2">
+        <Form.Label className="mb-1 text-muted">Phone</Form.Label>
+        <Form.Control
+          type="text"
+          value={formPayload.phone}
+          onChange={(e) => handleFormPayload("phone", e.target.value)}
+          required
+        />
+      </Form.Group>
       <Form.Group className="mb-3">
-        <Form.Label className="mb-1 text-muted">Redirect url</Form.Label>
+        <Form.Label className="mb-1 text-muted">Message</Form.Label>
         <Form.Control
           as="textarea"
           rows={3}
-          value={formPayload.link}
-          onChange={(e) => handleFormPayload("link", e.target.value)}
+          value={formPayload.message}
+          onChange={(e) => handleFormPayload("message", e.target.value)}
           required
         />
       </Form.Group>

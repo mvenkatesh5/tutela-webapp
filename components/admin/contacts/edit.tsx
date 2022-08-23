@@ -58,6 +58,7 @@ const ContactsEditView = (props: any) => {
 
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>
+          <h5>Edit Contact</h5>
           <Form onSubmit={onFormSubmit}>
             {formData && (
               <div>
