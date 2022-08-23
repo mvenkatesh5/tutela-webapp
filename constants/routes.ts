@@ -164,3 +164,7 @@ export const TAGS_WITH_ID_ENDPOINT = (tag_id: any) => `/api/tags/${tag_id}/`;
 
 // teacher session feedback
 export const TEACHER_SESSION_FEEDBACK_UN_REVIEWED_ENDPOINT = `/api/unreviewed-sessions/`;
+
+// contacts
+export const CONTACT_ENDPOINT = `/api/contacts/`;
+export const CONTACT_WITH_ID_ENDPOINT = (contact_id: any) => `/api/contacts/${contact_id}/`;
