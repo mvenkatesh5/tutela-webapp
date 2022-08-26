@@ -15,7 +15,7 @@ import { logout } from "lib/cookie";
 export const axiosInstance = axios.create();
 
 let baseURL =
-  process.env.APP_ENV === "production"
+  process.env.NEXT_PUBLIC_APP_ENVIRONMENT === "production"
     ? BASE_PROD
     : BASE_STAGING;
 
