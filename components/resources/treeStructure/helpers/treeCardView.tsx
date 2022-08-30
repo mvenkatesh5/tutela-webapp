@@ -1,6 +1,7 @@
 import React from "react";
 // next imports
 import Link from "next/link";
+import { useRouter } from "next/router";
 // material icons
 import { ChevronDown } from "@styled-icons/boxicons-regular/ChevronDown";
 import { ChevronRight } from "@styled-icons/boxicons-regular/ChevronRight";
@@ -46,6 +47,9 @@ const TreeChildrenRenderView = ({
   handlePdfToggle,
   tags,
 }: any) => {
+  const router = useRouter();
+  const { resource_id } = router.query;
+
   const [dropdownToggle, setDropdownToggle] = React.useState<any>(true);
 
   const imageFileNameSplitRender = (value: any) => {
@@ -148,9 +152,42 @@ const TreeChildrenRenderView = ({
                 </div>
               )}
 
+              {admin && tree.data.kind != "SECTION" && (
+                <>
+                  {imageFileNameSplitRender(tree.data.data.url) === "PDF" && (
+                    <div className="text-sm" style={{ whiteSpace: "nowrap" }}>
+                      <Link
+                        href={`/resources/${resource_id}/assessment?resource_node_id=${tree?.id}`}
+                      >
+                        <a target="_blank" rel="noreferrer">
+                          Show answer sheet
+                        </a>
+                      </Link>
+                    </div>
+                  )}
+                </>
+              )}
+
+              {admin && tree.data.kind != "SECTION" && (
+                <>
+                  {imageFileNameSplitRender(tree.data.data.url) === "PDF" && (
+                    <div className="ms-3 text-sm" style={{ whiteSpace: "nowrap" }}>
+                      <Link
+                        href={`/resources/${resource_id}/submissions?resource_node_id=${tree?.id}`}
+                      >
+                        <a target="_blank" rel="noreferrer">
+                          View Submissions
+                        </a>
+                      </Link>
+                    </div>
+                  )}
+                </>
+              )}
+
               {admin && (
                 <Tags data={tree} root_node_id={root_node_id} add_to="children" tags={tags} />
               )}
+
               {admin && (
                 <div className="flex-item upload">
                   <TreeUploadView

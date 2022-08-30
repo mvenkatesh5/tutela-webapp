@@ -5,14 +5,13 @@ import OmrRenderQuestion from "./OmrRenderQuestion";
 const RenderOmr = ({
   data,
   handleData,
+  noOfQuestionInARow,
   multiple = false,
   // user response validation
   disabled = false,
   validity = false,
   userResponse,
 }: any) => {
-  let noOfQuestionInARow = 15;
-
   const [omrData, setOmrData] = React.useState<{ [x: string]: any }>();
 
   const handleOmrData = (

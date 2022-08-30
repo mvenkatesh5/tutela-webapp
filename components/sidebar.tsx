@@ -118,11 +118,11 @@ const Sidebar = () => {
       icon: <Contact />,
       href: "/admin/contacts",
     },
-    {
-      label: "Assessments",
-      icon: <Assessment />,
-      href: "/assessment",
-    },
+    // {
+    //   label: "Assessments",
+    //   icon: <Assessment />,
+    //   href: "/assessment",
+    // },
   ];
 
   return (
