@@ -148,7 +148,7 @@ const TreeView = (props: any) => {
                 href={`/user-resources/${root_node_id}/assessment?resource_node_id=${tree?.id}`}
               >
                 <a target="_blank" rel="noreferrer">
-                  Update Answers
+                  Take test
                 </a>
               </Link>
             </div>
