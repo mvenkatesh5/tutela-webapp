@@ -126,9 +126,7 @@ const TreeChildrenRenderView = ({
                     // <Link href={`/pdf-viewer/${tree.id}/`}>
                     //   <a target="_blank">{tree.data && tree.data.title}</a>
                     // </Link>
-                    <div>
-                      {tree.data && tree.data.title}-{tree.id}
-                    </div>
+                    <div>{tree.data && tree.data.title}</div>
                   ) : (
                     <>
                       {tree.data.data && tree.data.data.kind === "rich-text" ? (
@@ -152,37 +150,30 @@ const TreeChildrenRenderView = ({
                 </div>
               )}
 
-              {admin && tree.data.kind != "SECTION" && (
-                <>
-                  {imageFileNameSplitRender(tree.data.data.url) === "PDF" && (
-                    <div className="text-sm" style={{ whiteSpace: "nowrap" }}>
-                      <Link
-                        href={`/resources/${resource_id}/assessment?resource_node_id=${tree?.id}`}
-                      >
-                        <a target="_blank" rel="noreferrer">
-                          Show answer sheet
-                        </a>
-                      </Link>
-                    </div>
-                  )}
-                </>
+              {(tree.data.data.kind === "document_objective_answers" ||
+                tree.data.data.kind === "document_subjective_answers") && (
+                <div className="text-sm" style={{ whiteSpace: "nowrap" }}>
+                  <Link href={`/resources/${resource_id}/assessment?resource_node_id=${tree?.id}`}>
+                    <a target="_blank" rel="noreferrer">
+                      Show answer sheet
+                    </a>
+                  </Link>
+                </div>
               )}
 
-              {admin && tree.data.kind != "SECTION" && (
-                <>
-                  {imageFileNameSplitRender(tree.data.data.url) === "PDF" && (
-                    <div className="ms-3 text-sm" style={{ whiteSpace: "nowrap" }}>
-                      <Link
-                        href={`/resources/${resource_id}/submissions?resource_node_id=${tree?.id}`}
-                      >
-                        <a target="_blank" rel="noreferrer">
-                          View Submissions
-                        </a>
-                      </Link>
-                    </div>
-                  )}
-                </>
-              )}
+              {admin &&
+                (tree.data.data.kind === "document_objective_answers" ||
+                  tree.data.data.kind === "document_subjective_answers") && (
+                  <div className="ms-3 text-sm" style={{ whiteSpace: "nowrap" }}>
+                    <Link
+                      href={`/resources/${resource_id}/submissions?resource_node_id=${tree?.id}`}
+                    >
+                      <a target="_blank" rel="noreferrer">
+                        View Submissions
+                      </a>
+                    </Link>
+                  </div>
+                )}
 
               {admin && (
                 <Tags data={tree} root_node_id={root_node_id} add_to="children" tags={tags} />

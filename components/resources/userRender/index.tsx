@@ -141,6 +141,19 @@ const TreeView = (props: any) => {
             </div>
           )}
 
+          {(tree.data.data.kind === "document_objective_answers" ||
+            tree.data.data.kind === "document_subjective_answers") && (
+            <div className="text-sm" style={{ whiteSpace: "nowrap" }}>
+              <Link
+                href={`/user-resources/${root_node_id}/assessment?resource_node_id=${tree?.id}`}
+              >
+                <a target="_blank" rel="noreferrer">
+                  Update Answers
+                </a>
+              </Link>
+            </div>
+          )}
+
           {selectedTag && (
             <div
               className="text-xs flex-shrink-0 mx-2 px-2 rounded-pill fw-bold"

@@ -26,9 +26,19 @@ import { APIFetcher } from "@lib/services";
 const ResourceFormUpload = (props: any) => {
   const uploadFormat = [
     {
-      name: "Doc Upload",
+      name: "Document",
       icon: <File />,
       key: "document",
+    },
+    {
+      name: "Doc — Objective Answers",
+      icon: <File />,
+      key: "document_objective_answers",
+    },
+    {
+      name: "Doc — Subjective Answers",
+      icon: <File />,
+      key: "document_subjective_answers",
     },
     {
       name: "URL",
@@ -193,7 +203,9 @@ const ResourceFormUpload = (props: any) => {
                     onClick={() => openModal(upload.key)}
                   >
                     <div className="icon">{upload.icon}</div>
-                    <div className="text">{upload.name}</div>
+                    <div className="text" style={{ whiteSpace: "nowrap" }}>
+                      {upload.name}
+                    </div>
                   </div>
                 ))}
             </Dropdown.Menu>
@@ -256,7 +268,9 @@ const ResourceFormUpload = (props: any) => {
             </Form.Group>
 
             <div>
-              {modal === "document" ? (
+              {modal === "document" ||
+              modal === "document_objective_answers" ||
+              modal === "document_subjective_answers" ? (
                 <>
                   <Form.Control
                     ref={hiddenFileInput}
