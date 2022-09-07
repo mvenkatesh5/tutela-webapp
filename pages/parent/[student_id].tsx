@@ -131,11 +131,12 @@ const ChildDetail = () => {
                 </div>
                 <div className="border rounded mt-4 p-3 d-flex gap-2">
                   <div className="flex-shrink-0">
-                    <Image alt="" className="img-fluid d-block " src="/progress.svg" width="60" />
+                    {/* <Image alt="" className="img-fluid d-block " src="/progress.svg" width="60" /> */}
                   </div>
-                  <small className="text-danger">
-                    Attendance is below 80% , If this continues your ward will not be able to clear
-                    the actaul test with a good score.
+                  <small className="text-secondary">
+                    {/* Attendance is below 80% , If this continues your ward will not be able to clear
+                    the actaul test with a good score. */}
+                    Attendance will be available soon.
                   </small>
                 </div>
 

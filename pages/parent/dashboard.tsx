@@ -205,7 +205,7 @@ const StudentDetail = () => {
 
           <Row>
             <div className="px-2 mb-3">
-              <h4 className="">Good Evening, Rameshwar </h4>
+              <h4 className="">Hello There!</h4>
               <p className="text-muted">
                 Here is the list of things which will make you familiar with Tutela platform.
               </p>
