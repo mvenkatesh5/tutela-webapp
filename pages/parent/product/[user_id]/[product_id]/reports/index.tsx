@@ -313,15 +313,15 @@ const ProductReport = () => {
               mentor={getCurrentMentorDetails()}
             />
             <div className="container mx-auto mt-5">
-              <h5 className="fw-bold">Syllabus completion </h5>
+              <h5 className="fw-bold mb-3">Syllabus completion </h5>
               <div></div>
-              <ProgressBarElement percent={75} />
+              {/* <ProgressBarElement percent={0} /> */}
 
-              <div className="d-flex justify-content-between align-items-center mt-2">
+              {/* <div className="d-flex justify-content-between align-items-center mt-2">
                 <div className="text-muted">23 Jan 2022</div>
                 <div className="text-muted">23 May 2022</div>
-              </div>
-              <div className="d-flex gap-3 pt-4 mb-4">
+              </div> */}
+              {/* <div className="d-flex gap-3 pt-4 mb-4">
                 <div>
                   <Form.Group className="mb-3">
                     <Form.Control type="date" required />
@@ -331,7 +331,7 @@ const ProductReport = () => {
                 <Dropdown name="overview">
                   <div className="bg-light px-2 py-1">Overview</div>
                 </Dropdown>
-              </div>
+              </div> */}
 
               {/* <h5 className="mt-4 fw-bold">Mathematics</h5>
               <div className="text-muted">
