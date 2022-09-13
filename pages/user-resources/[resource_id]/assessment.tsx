@@ -16,6 +16,7 @@ import StudentLayout from "@layouts/studentLayout";
 // components
 const PDFRenderView = dynamic(import("@components/pdfRender"), { ssr: false });
 import RenderOmr from "@components/assessments/semi-online/OmrRender";
+import Timer from "@components/assessments/Timer";
 // api routes
 import { RESOURCE_NODE_ENDPOINT } from "@constants/routes";
 // api services
@@ -38,6 +39,7 @@ const ResourceTreeView = () => {
   );
 
   const [formData, setFormData] = React.useState({
+    time: 0,
     questions: 0,
     options: 0,
     points_per_question: 0,
@@ -61,7 +63,11 @@ const ResourceTreeView = () => {
     description: META_DESCRIPTION,
   };
 
-  resourceDetail && console.log(resourceDetail);
+  const convertMinutesToSeconds = (minutes: any) => {
+    let seconds = minutes * 60;
+    return seconds;
+  };
+  const handleTimerClose = () => {};
 
   return (
     <Page meta={meta}>
@@ -101,9 +107,20 @@ const ResourceTreeView = () => {
                           className="w-100 h-100 border-end px-3 d-flex flex-column"
                           style={{ overflow: "hidden" }}
                         >
-                          <div className="py-3 d-flex justify-content-between align-items-center">
+                          <div className="py-3 d-flex align-items-center gap-4">
                             <div>
                               <h6 className="m-0 p-0">User Answer</h6>
+                            </div>
+                            <div
+                              className="ms-auto"
+                              style={{ fontSize: "20px", fontWeight: "bold" }}
+                            >
+                              {formData?.time && formData?.time > 0 && (
+                                <Timer
+                                  initialTime={convertMinutesToSeconds(formData?.time)}
+                                  timeHandler={handleTimerClose}
+                                />
+                              )}
                             </div>
                             <div>
                               <Button variant="primary" size={"sm"}>

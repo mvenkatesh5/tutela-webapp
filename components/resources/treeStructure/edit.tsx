@@ -18,13 +18,17 @@ const ResourceEdit = (props: any) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [formData, setFormData] = React.useState<any>({ title: "" });
+  const [formData, setFormData] = React.useState<any>({ title: "", color: "" });
   const handleFormData = (key: any, value: any) => {
     setFormData({ ...formData, [key]: value });
   };
   React.useEffect(() => {
     if (props.data) {
-      setFormData({ ...formData, title: props.data.data.title ? props.data.data.title : "" });
+      setFormData({
+        ...formData,
+        title: props.data.data.title ? props.data.data.title : "",
+        color: props.data?.data?.data?.color ? props.data?.data?.data?.color : "#2e97d8",
+      });
     }
   }, [props.data]);
 
@@ -35,7 +39,7 @@ const ResourceEdit = (props: any) => {
   };
 
   const updateResource = () => {
-    const payload = { id: props.data.id, title: formData.title };
+    const payload = { id: props.data.id, title: formData.title, data: { color: formData.color } };
 
     ResourceNodeEdit(payload)
       .then((response) => {
@@ -76,6 +80,16 @@ const ResourceEdit = (props: any) => {
                   required
                   value={formData.title}
                   onChange={(e) => handleFormData("title", e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group controlId="resource-form-create.name" className="mb-2">
+                <Form.Label>Color</Form.Label>
+                <Form.Control
+                  type="color"
+                  placeholder="Enter resource color"
+                  required
+                  value={formData.color}
+                  onChange={(e) => handleFormData("color", e.target.value)}
                 />
               </Form.Group>
               <Button

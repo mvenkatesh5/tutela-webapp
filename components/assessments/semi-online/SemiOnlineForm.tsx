@@ -44,10 +44,23 @@ const SemiOnlineForm: React.FC<ISemiOnlineForm> = ({
 
   return (
     <>
-      <div className="py-3 d-flex justify-content-between">
+      <div className="py-3 d-flex gap-4 align-items-center">
         <div>
           <h6 className="m-0 p-0">Answer Key</h6>
           <div className="text-muted text-sm">* Please mark all correct answers</div>
+        </div>
+        <div className="ms-auto">
+          <Form.Group>
+            <Form.Label className="mb-1 text-muted text-sm">Timer (In Minutes)</Form.Label>
+            <Form.Control
+              size="sm"
+              type="number"
+              value={formData.time}
+              onChange={(e) => handleFormData("time", e.target.value)}
+              required
+              placeholder="time"
+            />
+          </Form.Group>
         </div>
         <div>
           <Button

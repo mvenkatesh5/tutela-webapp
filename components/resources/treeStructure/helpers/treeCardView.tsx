@@ -46,6 +46,7 @@ const TreeChildrenRenderView = ({
   pdfToggle,
   handlePdfToggle,
   tags,
+  handleAssessmentUserData,
 }: any) => {
   const router = useRouter();
   const { resource_id } = router.query;
@@ -126,7 +127,9 @@ const TreeChildrenRenderView = ({
                     // <Link href={`/pdf-viewer/${tree.id}/`}>
                     //   <a target="_blank">{tree.data && tree.data.title}</a>
                     // </Link>
-                    <div>{tree.data && tree.data.title}</div>
+                    <div>
+                      {tree.data && tree.data.title} - {tree.id}
+                    </div>
                   ) : (
                     <>
                       {tree.data.data && tree.data.data.kind === "rich-text" ? (
@@ -141,12 +144,22 @@ const TreeChildrenRenderView = ({
                       ) : (
                         <>
                           <a href={tree.data.data.url} target="_blank" rel="noreferrer">
-                            {tree.data.data.kind} : {tree.data && tree.data.title}
+                            {tree.data.data.kind} : {tree.data && tree.data.title} - {tree.id}
                           </a>
                         </>
                       )}
                     </>
                   )}
+                </div>
+              )}
+
+              {tree.data.kind === "SECTION" && (
+                <div
+                  className="text-sm hover-cursor text-primary"
+                  style={{ whiteSpace: "nowrap" }}
+                  onClick={() => handleAssessmentUserData(tree)}
+                >
+                  Attach Users
                 </div>
               )}
 
@@ -263,6 +276,7 @@ const TreeChildrenRenderView = ({
                   pdfToggle={pdfToggle}
                   handlePdfToggle={handlePdfToggle}
                   tags={tags}
+                  handleAssessmentUserData={handleAssessmentUserData}
                 />
               </div>
             )}

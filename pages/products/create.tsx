@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 // next imports
 import Link from "next/link";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 // icons
 import { PeopleTeam } from "@styled-icons/fluentui-system-filled/PeopleTeam";
 import { FileTextOutline } from "@styled-icons/evaicons-outline/FileTextOutline";
@@ -47,7 +47,6 @@ const ProductCreatePage = () => {
   const router = useRouter();
   const { data: usersList, error: usersListError } = useSWR(USER_ENDPOINT, APIFetcher);
   const { data: resourcesList, error: resourcesListError } = useSWR(RESOURCE_ENDPOINT, APIFetcher);
-
 
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
 

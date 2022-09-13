@@ -20,7 +20,11 @@ const ResourceCreateView = (props: any) => {
   };
   const handleShow = () => setShow(true);
 
-  const [formData, setFormData] = React.useState<any>({ storeType: "children", name: "" });
+  const [formData, setFormData] = React.useState<any>({
+    storeType: "children",
+    name: "",
+    color: "#2e97d8",
+  });
   const handleFormData = (key: any, value: any) => {
     setFormData({ ...formData, [key]: value });
   };
@@ -34,6 +38,7 @@ const ResourceCreateView = (props: any) => {
   const createResource = () => {
     let payload: any = {
       title: formData.name,
+      data: { bgColor: formData.color },
     };
 
     ResourceCreate(payload)
@@ -66,6 +71,16 @@ const ResourceCreateView = (props: any) => {
                   onChange={(e) => handleFormData("name", e.target.value)}
                 />
               </Form.Group>
+              {/* <Form.Group controlId="resource-form-create.name" className="mb-2">
+                <Form.Label>Color</Form.Label>
+                <Form.Control
+                  type="color"
+                  placeholder="Enter resource color"
+                  required
+                  value={formData.color}
+                  onChange={(e) => handleFormData("color", e.target.value)}
+                />
+              </Form.Group> */}
               <Button variant="outline-secondary" onClick={handleClose} className="btn-sm  me-2">
                 Close
               </Button>

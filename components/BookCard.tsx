@@ -3,7 +3,10 @@ import { Image } from "react-bootstrap";
 const BookCard = (props: any) => {
   return (
     <>
-      <div className="book-card-view">
+      <div
+        className="book-card-view"
+        style={props.data?.data?.color && { backgroundColor: props.data?.data?.color }}
+      >
         <div className="book-container">
           <div className="book-image">
             <Image

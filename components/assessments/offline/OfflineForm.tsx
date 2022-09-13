@@ -4,14 +4,14 @@ import { Row, Col, Form, Button } from "react-bootstrap";
 // uuid
 import { v4 as uuidV4 } from "uuid";
 
-interface IOnlineForm {
+interface IOfflineForm {
   formData: any;
   handleFormData: any;
   updateResource: any;
   buttonLoader: any;
 }
 
-const OnlineForm: React.FC<IOnlineForm> = ({
+const OfflineForm: React.FC<IOfflineForm> = ({
   formData,
   handleFormData,
   updateResource,
@@ -39,9 +39,22 @@ const OnlineForm: React.FC<IOnlineForm> = ({
 
   return (
     <>
-      <div className="py-3 d-flex justify-content-between">
+      <div className="py-3 d-flex gap-4 align-items-center">
         <div>
           <h6 className="m-0 p-0">Answer Key</h6>
+        </div>
+        <div className="ms-auto">
+          <Form.Group>
+            <Form.Label className="mb-1 text-muted text-sm">Timer (In Minutes)</Form.Label>
+            <Form.Control
+              size="sm"
+              type="number"
+              value={formData.time}
+              onChange={(e) => handleFormData("time", e.target.value)}
+              required
+              placeholder="time"
+            />
+          </Form.Group>
         </div>
         <div>
           <Button
@@ -133,4 +146,4 @@ const OnlineForm: React.FC<IOnlineForm> = ({
   );
 };
 
-export default OnlineForm;
+export default OfflineForm;

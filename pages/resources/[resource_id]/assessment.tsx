@@ -20,7 +20,7 @@ import AdminLayout from "@layouts/adminLayout";
 import Page from "@components/page";
 const PDFRenderView = dynamic(import("@components/pdfRender"), { ssr: false });
 import SemiOnlineForm from "@components/assessments/semi-online/SemiOnlineForm";
-import OnlineForm from "@components/assessments/online/OnlineForm";
+import OfflineForm from "@components/assessments/offline/OfflineForm";
 // api routes
 import { RESOURCE_NODE_ENDPOINT } from "@constants/routes";
 // api services
@@ -45,6 +45,7 @@ const ResourceAssessments: NextPage = () => {
   );
 
   const [formData, setFormData] = React.useState({
+    time: 0,
     questions: 0,
     options: 0,
     points_per_question: 0,
@@ -57,7 +58,9 @@ const ResourceAssessments: NextPage = () => {
   React.useEffect(() => {
     if (resourceDetail && resourceDetail?.data && resourceDetail?.data?.assessment_data) {
       console.log("resourceDetail?.data?.assessment_data", resourceDetail?.data?.assessment_data);
-      setFormData({ ...resourceDetail?.data?.assessment_data });
+      setFormData((prevData: any) => {
+        return { ...prevData, ...resourceDetail?.data?.assessment_data };
+      });
     }
   }, [resourceDetail]);
 
@@ -139,7 +142,7 @@ const ResourceAssessments: NextPage = () => {
                           />
                         )}
                         {resourceDetail?.data?.kind === "document_subjective_answers" && (
-                          <OnlineForm
+                          <OfflineForm
                             formData={formData}
                             handleFormData={handleFormData}
                             updateResource={updateResource}
