@@ -140,8 +140,26 @@ const UserDropdown = (props: any) => {
         {userOptions && userOptions.length > 0 ? (
           <div>
             {userOptions.map((user: any, index: any) => (
-              <div key={`user-options-${index}`} className="user-option-card">
-                <div className="content">{getCurrentUserName(user)}</div>
+              <div
+                key={`user-options-${index}`}
+                className="user-option-card"
+                style={{ overflow: "auto" }}
+              >
+                <div className="content me-2 text-primary">
+                  <div>{getCurrentUserName(user)}</div>
+                  <div className="mt-2">
+                    <Form.Group className="mb-3">
+                      <Form.Label className="mb-1 text-muted text-sm">Scheduled At</Form.Label>
+                      <Form.Control
+                        type="date"
+                        // value={formData.time}
+                        // onChange={(e) => handleFormData("time", e.target.value)}
+                        required
+                        placeholder="time"
+                      />
+                    </Form.Group>
+                  </div>
+                </div>
                 <div className="icon" onClick={() => handleUserOptions("remove", user, index)}>
                   <Times />
                 </div>

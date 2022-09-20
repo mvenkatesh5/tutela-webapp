@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 // material icons
 import { ArrowLeftShort } from "@styled-icons/bootstrap/ArrowLeftShort";
 // react bootstrap
-import { Container, Table, Button, Badge } from "react-bootstrap";
+import { Container, Table, Button, Badge, Form } from "react-bootstrap";
 // swr
 import useSWR, { mutate } from "swr";
 // pdf worker
@@ -93,7 +93,15 @@ const ResourceSubmissions: NextPage = () => {
                           <tr key={index}>
                             <th>{index + 1}</th>
                             <td>{user?.name}</td>
-                            <td>{datePreview(resourceDetail?.created)}</td>
+                            <td>
+                              <Form.Control
+                                type="date"
+                                // value={formData.time}
+                                // onChange={(e) => handleFormData("time", e.target.value)}
+                                required
+                                placeholder="time"
+                              />
+                            </td>
                             <td>{datePreview(resourceDetail?.updated)}</td>
                             <td className="text-sm">
                               {user?.results} /

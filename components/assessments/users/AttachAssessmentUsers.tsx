@@ -43,16 +43,6 @@ const AttachAssessmentUsers: React.FC<IAttachAssessmentUsers> = ({
         <Modal.Body>
           <h6 className="mb-3">Assessment Users and scheduled At</h6>
           <div className="mb-3">
-            <Form.Group className="mb-3">
-              <Form.Label className="mb-1 text-muted text-sm">Scheduled At</Form.Label>
-              <Form.Control
-                type="date"
-                // value={formData.time}
-                // onChange={(e) => handleFormData("time", e.target.value)}
-                required
-                placeholder="time"
-              />
-            </Form.Group>
             <Form.Group>
               <Form.Label className="mb-1 text-muted text-sm">Select Users</Form.Label>
               {users && users.length > 0 && (
@@ -66,6 +56,7 @@ const AttachAssessmentUsers: React.FC<IAttachAssessmentUsers> = ({
               )}
             </Form.Group>
           </div>
+
           <div className="d-flex gap-2">
             <Button variant="outline-secondary" className="btn-sm ms-auto" onClick={closeModal}>
               Close
