@@ -32,12 +32,20 @@ const DoubtsPageDetail = () => {
     description: META_DESCRIPTION,
   };
 
+  const doubtsList = [
+    { name: "Ask", type: "ask" },
+    { name: "Share", type: "share" },
+    { name: "Discuss", type: "discuss" },
+    { name: "Learn", type: "learn" },
+  ];
+
   const router = useRouter();
 
   const [buttonLoader, setButtonLoader] = React.useState<boolean>(false);
   const [formData, setFormData] = React.useState({
     text: "",
     description: "",
+    kind: "ask",
     attachments: [],
   });
   const handleFormData = (key: any, value: any) => {
@@ -93,6 +101,7 @@ const DoubtsPageDetail = () => {
   const submitDoubt = (fileAttachments: any) => {
     const payload = {
       text: formData.text,
+      kind: formData.kind,
       data: { description: formData.description, attachments: fileAttachments },
       allocated_to: teachers && teachers.length > 0 ? teachers[0] : "",
     };
@@ -153,6 +162,27 @@ const DoubtsPageDetail = () => {
                     onChange={(e) => handleFormData("description", e.target.value)}
                     required
                   />
+                </Form.Group>
+              </div>
+              <div>
+                <Form.Group className="mb-2">
+                  <Form.Label className="mb-1 text-muted">Kind</Form.Label>
+                  <Form.Control
+                    as="select"
+                    size="sm"
+                    className="mb-2"
+                    value={formData.kind}
+                    onChange={(e) => handleFormData("kind", e.target.value)}
+                  >
+                    <option value="">No Kind Selected</option>
+                    {doubtsList &&
+                      doubtsList.length > 0 &&
+                      doubtsList.map((doubtKind: any, index: any) => (
+                        <option key={doubtKind.type} value={doubtKind.type}>
+                          {doubtKind.name}
+                        </option>
+                      ))}
+                  </Form.Control>
                 </Form.Group>
               </div>
               <div>

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 // react bootstrap
-import { Image, Button, Modal, Form } from "react-bootstrap";
+import { Image, Button, Modal, Form, Tab, Nav } from "react-bootstrap";
 // material icons
 import { LinkAlt } from "@styled-icons/boxicons-regular";
 import { Users } from "@styled-icons/fa-solid";
@@ -16,11 +16,16 @@ import useSWR, { mutate } from "swr";
 // components
 import ZoomSessions from "@components/zoomsessions";
 import IconRow from "@components/iconRow";
+import SessionProductResourceView from "@components/admin/sessions/SessionProductResources";
+import SessionDoubts from "@components/admin/sessions/SessionDoubts";
 const ShakaPlayer = dynamic(() => import("@components/ShakaPlayer"), {
   ssr: false,
 });
 // api routes
-import { SESSION_ASSET_WITH_SESSION_ID_ENDPOINT } from "@constants/routes";
+import {
+  SESSION_ASSET_WITH_SESSION_ID_ENDPOINT,
+  PRODUCTS_WITH_ID_ENDPOINT,
+} from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 import {
@@ -264,6 +269,23 @@ const SessionDetailView = () => {
     }
   };
 
+  const tabList = [
+    { title: "Videos", value: "videos" },
+    { title: "Resources", value: "resources" },
+    { title: "Doubts", value: "doubts" },
+  ];
+  const [currentTab, setCurrentTab] = React.useState("videos");
+
+  console.log("sessionDetail", sessionDetail);
+
+  const { data: product, error: productError } = useSWR(
+    sessionDetail && sessionDetail?.product_id
+      ? PRODUCTS_WITH_ID_ENDPOINT(sessionDetail?.product_id)
+      : null,
+    (url) => APIFetcher(url),
+    { refreshInterval: 0 }
+  );
+
   return (
     <div>
       <div className="video-wrapper">
@@ -379,120 +401,158 @@ const SessionDetailView = () => {
                     </div>
                   </div>
                 </div>
-                <div className="middle-wrapper">
-                  <div className="middle-top-wrapper">
-                    {currentVideoRenderUrl && (
-                      <div className="video-container">
-                        <div className="iframe-container">
-                          {currentVideoRenderUrl.kind === "ZOOM_CLOUD" ? (
-                            <ShakaPlayer
-                              src={currentVideoRenderUrl.url}
-                              config={null}
-                              chromeLess={null}
-                              className={"h-100"}
-                              subtitle={null}
-                            />
-                          ) : (
-                            <iframe
-                              src={currentVideoRenderUrl.url}
-                              loading="lazy"
-                              allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-                              allowFullScreen={true}
-                            ></iframe>
-                          )}
-                        </div>
-                        <div className="video-heading">
-                          <div className="title">{currentVideoRenderUrl.title}</div>
-                          <div className="kind">{currentVideoRenderUrl.kind}</div>
-                        </div>
-                        {/* <div className="video-description">Video description</div> */}
-                      </div>
-                    )}
-                  </div>
 
-                  <div className="middle-bottom-wrapper">
-                    <div className="d-flex align-items-center gap-3">
-                      <div>
-                        <h5 className="m-0 p-0">All Videos</h5>
-                      </div>
-                      {userRole != "student" && (
+                <div className="middle-wrapper p-2">
+                  <Tab.Container defaultActiveKey={currentTab}>
+                    <Nav className="custom-nav-tabs-links" variant="pills">
+                      {tabList.map((item: any, index: any) => (
+                        <Nav.Item key={`nav-item-${index}`} className="cursor-pointer">
+                          <Nav.Link key={`nav-item-${item.key}`} eventKey={item.value}>
+                            <small>{item.title}</small>
+                          </Nav.Link>
+                        </Nav.Item>
+                      ))}
+                    </Nav>
+
+                    <Tab.Content className="mt-3">
+                      <Tab.Pane key={`videos`} eventKey={`videos`}>
                         <>
-                          <div className="ms-auto">
-                            <Button className="btn-sm" onClick={() => openModal(initialModalData)}>
-                              Upload Video
-                            </Button>
-                          </div>
-                          {sessionDetail && sessionDetail.data && sessionDetail.data.zoom && (
-                            <div>
-                              <Button
-                                className="btn-sm"
-                                disabled={fetchLoader}
-                                onClick={fetchZoomRecordings}
-                              >
-                                {fetchLoader ? "Fetching in progress..." : "Fetch Recordings"}
-                              </Button>
-                            </div>
-                          )}
-                        </>
-                      )}
-                    </div>
-                    {videoAssets && videoAssets.length > 0 ? (
-                      <>
-                        <div className="render-video-container">
-                          {videoAssets.map((item: any, index: any) => {
-                            if (!item.archived || tokenDetails?.user?.email === "admin1@sample.com")
-                              return (
-                                <div
-                                  key={`render-video-item-${index}`}
-                                  className={`render-video-item ${
-                                    currentVideoRenderUrl && currentVideoRenderUrl.id === item.id
-                                      ? "active"
-                                      : ""
-                                  }`}
-                                >
-                                  <div
-                                    className="image-container"
-                                    onClick={() => handleCurrentVideoRenderUrl(item)}
-                                  >
-                                    <Image
-                                      alt=""
-                                      src={item.thumbnail ? item.thumbnail : "/default-image.png"}
+                          <div className="middle-top-wrapper">
+                            {currentVideoRenderUrl && (
+                              <div className="video-container">
+                                <div className="iframe-container">
+                                  {currentVideoRenderUrl.kind === "ZOOM_CLOUD" ? (
+                                    <ShakaPlayer
+                                      src={currentVideoRenderUrl.url}
+                                      config={null}
+                                      chromeLess={null}
+                                      className={"h-100"}
+                                      subtitle={null}
                                     />
+                                  ) : (
+                                    <iframe
+                                      src={currentVideoRenderUrl.url}
+                                      loading="lazy"
+                                      allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+                                      allowFullScreen={true}
+                                    ></iframe>
+                                  )}
+                                </div>
+                                <div className="video-heading">
+                                  <div className="title">{currentVideoRenderUrl.title}</div>
+                                  <div className="kind">{currentVideoRenderUrl.kind}</div>
+                                </div>
+                                {/* <div className="video-description">Video description</div> */}
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="middle-bottom-wrapper">
+                            <div className="d-flex align-items-center gap-3">
+                              <div>
+                                <h5 className="m-0 p-0">All Videos</h5>
+                              </div>
+                              {userRole != "student" && (
+                                <>
+                                  <div className="ms-auto">
+                                    <Button
+                                      className="btn-sm"
+                                      onClick={() => openModal(initialModalData)}
+                                    >
+                                      Upload Video
+                                    </Button>
                                   </div>
-                                  <div
-                                    className="title"
-                                    onClick={() => handleCurrentVideoRenderUrl(item)}
-                                  >
-                                    {item.title}
-                                  </div>
-                                  {/* <div
+                                  {sessionDetail && sessionDetail.data && sessionDetail.data.zoom && (
+                                    <div>
+                                      <Button
+                                        className="btn-sm"
+                                        disabled={fetchLoader}
+                                        onClick={fetchZoomRecordings}
+                                      >
+                                        {fetchLoader
+                                          ? "Fetching in progress..."
+                                          : "Fetch Recordings"}
+                                      </Button>
+                                    </div>
+                                  )}
+                                </>
+                              )}
+                            </div>
+                            {videoAssets && videoAssets.length > 0 ? (
+                              <>
+                                <div className="render-video-container">
+                                  {videoAssets.map((item: any, index: any) => {
+                                    if (
+                                      !item.archived ||
+                                      tokenDetails?.user?.email === "admin1@sample.com"
+                                    )
+                                      return (
+                                        <div
+                                          key={`render-video-item-${index}`}
+                                          className={`render-video-item ${
+                                            currentVideoRenderUrl &&
+                                            currentVideoRenderUrl.id === item.id
+                                              ? "active"
+                                              : ""
+                                          }`}
+                                        >
+                                          <div
+                                            className="image-container"
+                                            onClick={() => handleCurrentVideoRenderUrl(item)}
+                                          >
+                                            <Image
+                                              alt=""
+                                              src={
+                                                item.thumbnail
+                                                  ? item.thumbnail
+                                                  : "/default-image.png"
+                                              }
+                                            />
+                                          </div>
+                                          <div
+                                            className="title"
+                                            onClick={() => handleCurrentVideoRenderUrl(item)}
+                                          >
+                                            {item.title}
+                                          </div>
+                                          {/* <div
                                     className="description"
                                     onClick={() => handleCurrentVideoRenderUrl(item)}
                                   >
                                     Video description
                                   </div> */}
-                                  {userRole != "student" && item.kind != "ZOOM_CLOUD" && (
-                                    <div className="button-container">
-                                      <Button
-                                        variant="outline-secondary"
-                                        className="btn-sm edit-button"
-                                        onClick={() => openModal(item)}
-                                      >
-                                        Edit
-                                      </Button>
-                                    </div>
-                                  )}
+                                          {userRole != "student" && item.kind != "ZOOM_CLOUD" && (
+                                            <div className="button-container">
+                                              <Button
+                                                variant="outline-secondary"
+                                                className="btn-sm edit-button"
+                                                onClick={() => openModal(item)}
+                                              >
+                                                Edit
+                                              </Button>
+                                            </div>
+                                          )}
+                                        </div>
+                                      );
+                                  })}
                                 </div>
-                              );
-                          })}
-                        </div>
-                      </>
-                    ) : (
-                      <div className="text-center text-secondary pt-5">
-                        No Assets are available.
-                      </div>
-                    )}
-                  </div>
+                              </>
+                            ) : (
+                              <div className="text-center text-secondary pt-5">
+                                No Assets are available.
+                              </div>
+                            )}
+                          </div>
+                        </>
+                      </Tab.Pane>
+                      <Tab.Pane key={`resources`} eventKey={`resources`}>
+                        <SessionProductResourceView product={product} />
+                      </Tab.Pane>
+                      <Tab.Pane key={`doubts`} eventKey={`doubts`}>
+                        <SessionDoubts />
+                      </Tab.Pane>
+                    </Tab.Content>
+                  </Tab.Container>
                 </div>
                 <div className="right-wrapper">No Chat is available.</div>
               </div>
@@ -500,6 +560,7 @@ const SessionDetailView = () => {
           </>
         )}
       </div>
+
       {/* modal */}
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>

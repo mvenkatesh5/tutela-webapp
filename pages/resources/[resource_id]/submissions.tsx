@@ -95,7 +95,7 @@ const ResourceSubmissions: NextPage = () => {
                             <td>{user?.name}</td>
                             <td>
                               <Form.Control
-                                type="date"
+                                type="datetime-local"
                                 // value={formData.time}
                                 // onChange={(e) => handleFormData("time", e.target.value)}
                                 required

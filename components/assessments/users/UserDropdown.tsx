@@ -151,7 +151,7 @@ const UserDropdown = (props: any) => {
                     <Form.Group className="mb-3">
                       <Form.Label className="mb-1 text-muted text-sm">Scheduled At</Form.Label>
                       <Form.Control
-                        type="date"
+                        type="datetime-local"
                         // value={formData.time}
                         // onChange={(e) => handleFormData("time", e.target.value)}
                         required
