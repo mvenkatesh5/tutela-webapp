@@ -29,7 +29,6 @@ const Messenger = ({ concern_id, concernComments, currentUser }: any) => {
           text: comment,
         },
       };
-
       setButtonLoader(true);
       ConcernComment.create(payload)
         .then((response) => {
@@ -70,9 +69,10 @@ const Messenger = ({ concern_id, concernComments, currentUser }: any) => {
         console.log(errors);
       });
   };
+
   return (
-    <div className="border rounded mt-4 d-flex flex-column p-3 pb-0 h-100">
-      <div className="overflow-auto">
+    <div className="border rounded d-flex flex-column p-3 pb-0 h-100">
+      <div>
         {concernComments && concernComments.length > 0 ? (
           <>
             {concernComments &&

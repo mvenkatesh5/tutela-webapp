@@ -84,7 +84,6 @@ const ReplyCreate = ({ doubt_id, currentUser, reply_id }: any) => {
       };
       setButtonLoader(true);
       DoubtRepliesCreate(doubt_id, payload)
-
         .then((response) => {
           setButtonLoader(false);
           handleEditor();

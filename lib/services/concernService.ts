@@ -16,14 +16,14 @@ export const Concern = {
       throw error.response.data;
     }
   },
-  // update: async (data: any) => {
-  //   try {
-  //     const response = await axios.put(CONCERN_WITH_ID_ENDPOINT(data?.id), data);
-  //     return response.data;
-  //   } catch (error: any) {
-  //     throw error.response.data;
-  //   }
-  // },
+  update: async (data: any) => {
+    try {
+      const response = await axios.put(CONCERN_WITH_ID_ENDPOINT(data?.id), data);
+      return response.data;
+    } catch (error: any) {
+      throw error.response.data;
+    }
+  },
   // delete: async (option_id: Number) => {
   //   try {
   //     const response = await axios.delete(CONCERN_WITH_ID_ENDPOINT(option_id));
