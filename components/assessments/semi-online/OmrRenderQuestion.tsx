@@ -8,6 +8,8 @@ const OmrRenderQuestion = ({
   handleData,
   disabled = false,
   multiple = false,
+  validity = false,
+  userResponse,
 }: any) => {
   return (
     <div style={{ position: "relative", display: "flex", alignItems: "center", gap: "10px" }}>
@@ -30,44 +32,58 @@ const OmrRenderQuestion = ({
           Object.keys(data).map((optionKey: string, IdxOption: number) => (
             <div
               key={optionKey}
-              style={
-                data[optionKey]
-                  ? {
-                      width: "24px",
-                      height: "24px",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      borderRadius: "100px",
-                      fontSize: "14px",
-                      border: "1px solid green",
-                      backgroundColor: "green",
-                      color: "white",
-                      cursor: "pointer",
-                      fontWeight: "bold",
-                    }
-                  : {
-                      width: "24px",
-                      height: "24px",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      borderRadius: "100px",
-                      fontSize: "14px",
-                      border: "1px solid #ccc",
-                      cursor: "pointer",
-                      fontWeight: "bold",
-                    }
-              }
-              className={`${
-                data[optionKey]
-                  ? "border-green-500 bg-green-500 text-white"
-                  : "border-gray-300 hover:bg-gray-200"
+              // style={
+              //   data[optionKey]
+              //     ? {
+              //         width: "24px",
+              //         height: "24px",
+              //         display: "flex",
+              //         justifyContent: "center",
+              //         alignItems: "center",
+              //         borderRadius: "100px",
+              //         fontSize: "14px",
+              //         cursor: "pointer",
+              //         fontWeight: "bold",
+              //         border: "1px solid green",
+              //         backgroundColor: "green",
+              //         color: "white",
+              //       }
+              //     : {
+              //         width: "24px",
+              //         height: "24px",
+              //         display: "flex",
+              //         justifyContent: "center",
+              //         alignItems: "center",
+              //         borderRadius: "100px",
+              //         fontSize: "14px",
+              //         cursor: "pointer",
+              //         fontWeight: "bold",
+              //         border: "1px solid #ccc",
+              //       }
+              // }
+              className={`omr-default-styling ${
+                validity
+                  ? userResponse?.data[questionKey]?.is_user_answered
+                    ? userResponse?.data[questionKey]?.is_correct &&
+                      userResponse?.data[questionKey]?.user_answers.includes(optionKey)
+                      ? `green `
+                      : userResponse?.data[questionKey]?.answers.includes(optionKey)
+                      ? `blue `
+                      : userResponse?.data[questionKey]?.user_answers.includes(optionKey)
+                      ? `red `
+                      : ``
+                    : userResponse?.data[questionKey]?.answers.includes(optionKey)
+                    ? `blue `
+                    : ``
+                  : data[optionKey]
+                  ? `green `
+                  : `border-gray-300 hover:bg-gray-200`
               }`}
               onClick={() => {
                 if (!disabled) handleData(rowKey, questionKey, optionKey, multiple);
               }}
             >
+              {console.log(optionKey)}
               {String.fromCharCode(IdxOption + "A".charCodeAt(0))}
             </div>
           ))}

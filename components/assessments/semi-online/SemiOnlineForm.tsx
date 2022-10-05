@@ -125,7 +125,12 @@ const SemiOnlineForm: React.FC<ISemiOnlineForm> = ({
         </Row>
       </div>
       <div className="w-100 h-100 py-4" style={{ overflow: "auto" }}>
-        <RenderOmr data={formData} handleData={handleFormData} noOfQuestionInARow={10} />
+        <RenderOmr
+          render_key={"omr_data"}
+          data={formData}
+          handleData={(value: any) => handleFormData("omr_data", value)}
+          noOfQuestionInARow={10}
+        />
       </div>
     </>
   );

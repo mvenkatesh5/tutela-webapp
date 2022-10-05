@@ -3,6 +3,7 @@ import React from "react";
 import OmrRenderQuestion from "./OmrRenderQuestion";
 
 const RenderOmr = ({
+  render_key,
   data,
   handleData,
   noOfQuestionInARow,
@@ -34,14 +35,14 @@ const RenderOmr = ({
     });
     setOmrData(omrObject);
 
-    let omrWatchObjectAnswers: any = { ...data?.answer_data };
+    let omrWatchObjectAnswers: any = { ...data?.[render_key] };
     omrWatchObjectAnswers[questionKey] = omrObject[rowKey][questionKey];
-    handleData("answer_data", omrWatchObjectAnswers);
+    handleData(omrWatchObjectAnswers);
   };
 
   React.useEffect(() => {
-    if (data && data?.answer_data) {
-      let omrList: any = { ...data?.answer_data };
+    if (data && data?.[render_key]) {
+      let omrList: any = { ...data?.[render_key] };
       let omrFinalList: any = {};
       let noOfRows = Math.ceil(parseInt(data?.questions) / noOfQuestionInARow);
       if (data?.questions) {
@@ -62,7 +63,7 @@ const RenderOmr = ({
         setOmrData(omrFinalList);
       }
     }
-  }, [data, data?.answer_data, noOfQuestionInARow]);
+  }, [data, render_key, data?.[render_key], noOfQuestionInARow]);
 
   return (
     <div style={{ position: "relative", width: "100%", height: "100%", overflow: "hidden" }}>
@@ -95,9 +96,9 @@ const RenderOmr = ({
                     questionIndex={questionIndex}
                     data={omrData[rowKey][questionKey]}
                     handleData={handleOmrData}
+                    multiple={multiple}
                     disabled={disabled}
                     validity={validity}
-                    multiple={multiple}
                     userResponse={userResponse}
                   />
                 </div>

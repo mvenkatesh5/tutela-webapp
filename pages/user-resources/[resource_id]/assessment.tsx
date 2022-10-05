@@ -17,6 +17,7 @@ import StudentLayout from "@layouts/studentLayout";
 const PDFRenderView = dynamic(import("@components/pdfRender"), { ssr: false });
 import RenderOmr from "@components/assessments/semi-online/OmrRender";
 import Timer from "@components/assessments/Timer";
+import AssessmentResultModalPreview from "@components/assessments/semi-online/results";
 // api routes
 import { RESOURCE_NODE_ENDPOINT } from "@constants/routes";
 // api services
@@ -53,7 +54,8 @@ const ResourceTreeView = () => {
     if (resourceDetail && resourceDetail?.data && resourceDetail?.data?.assessment_data) {
       setFormData({
         ...resourceDetail?.data?.assessment_data,
-        answer_data: resourceDetail?.data?.assessment_data?.omr_data,
+        omr_data: resourceDetail?.data?.assessment_data?.omr_data,
+        answer_data: resourceDetail?.data?.assessment_data?.answer_data,
       });
     }
   }, [resourceDetail]);
@@ -63,11 +65,15 @@ const ResourceTreeView = () => {
     description: META_DESCRIPTION,
   };
 
+  const [resultPreview, setResultPreview] = React.useState(false);
+
   const convertMinutesToSeconds = (minutes: any) => {
     let seconds = minutes * 60;
     return seconds;
   };
-  const handleTimerClose = () => {};
+  const handleTimerClose = () => {
+    setResultPreview(true);
+  };
 
   return (
     <Page meta={meta}>
@@ -123,7 +129,11 @@ const ResourceTreeView = () => {
                               )}
                             </div>
                             <div>
-                              <Button variant="primary" size={"sm"}>
+                              <Button
+                                variant="primary"
+                                size={"sm"}
+                                onClick={() => setResultPreview(true)}
+                              >
                                 Submit
                               </Button>
                             </div>
@@ -132,8 +142,9 @@ const ResourceTreeView = () => {
                           {resourceDetail?.data?.kind === "document_objective_answers" && (
                             <div className="w-100 h-100 py-4" style={{ overflow: "auto" }}>
                               <RenderOmr
+                                render_key={`answer_data`}
                                 data={formData}
-                                handleData={handleFormData}
+                                handleData={(value: any) => handleFormData("answer_data", value)}
                                 noOfQuestionInARow={10}
                               />
                             </div>
@@ -194,6 +205,10 @@ const ResourceTreeView = () => {
             )}
           </>
         </StudentLayout>
+
+        {resultPreview && (
+          <AssessmentResultModalPreview omrData={formData} handleModal={setResultPreview} />
+        )}
       </Worker>
     </Page>
   );
