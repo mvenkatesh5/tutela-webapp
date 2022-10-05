@@ -47,7 +47,7 @@ const AssessmentReview: React.FC<IAssessmentReview> = ({ omrData, handleModal })
             <>
               <div className="mb-3 d-flex align-items-center gap-4">
                 <div className="w-100" style={{ fontSize: "18px", fontWeight: "bold" }}>
-                  <div>Questions Attempted: {results?.totalQuestions}</div>
+                  <div>Total questions: {results?.totalQuestions}</div>
                   <div>Questions Answered: {results?.totalQuestions - results?.omitted}</div>
                   <div>Questions Un Answered: {results?.omitted}</div>
                   <div>Correct Answers: {results?.correctAns}</div>
