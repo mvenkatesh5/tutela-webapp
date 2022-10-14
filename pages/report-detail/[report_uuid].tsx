@@ -52,7 +52,7 @@ const ReportDetail = () => {
         UserReportPinConfirmation(reportPayload)
           .then((response) => {
             console.log(response);
-            setReportDetail({ type: "report", data: response });
+            setReportDetail({ type: "report", data: response?.data });
           })
           .catch((error) => {
             console.log(error);
@@ -205,12 +205,12 @@ const ReportDetail = () => {
                         </div>
                       )}
 
-                      {reportDetail?.data?.report.test_details &&
-                        reportDetail?.data?.report.test_details.length > 0 && (
+                      {reportDetail?.data?.report?.test_details &&
+                        reportDetail?.data?.report?.test_details.length > 0 && (
                           <div className="mb-3">
                             <h6>Test Details</h6>
                             <Row className="ms-1 me-1">
-                              {reportDetail?.data?.report.test_details.map(
+                              {reportDetail?.data?.report?.test_details.map(
                                 (element: any, index: any) => (
                                   <Col key={`report-test-details-${index}`} md={3} className="ps-0">
                                     <div
