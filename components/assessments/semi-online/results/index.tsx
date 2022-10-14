@@ -42,26 +42,62 @@ const AssessmentReview: React.FC<IAssessmentReview> = ({ omrData, handleModal })
         style={{ zIndex: 999999 }}
       >
         <Modal.Body>
-          <h6 className="mb-3">Assessment Results</h6>
+          <h5 className="m-0 p-0 mb-3">Assessment Results</h5>
           {results && (
             <>
-              <div className="mb-3 d-flex align-items-center gap-4">
-                <div className="w-100" style={{ fontSize: "18px", fontWeight: "bold" }}>
-                  <div>Total questions: {results?.totalQuestions}</div>
-                  <div>Questions Answered: {results?.totalQuestions - results?.omitted}</div>
-                  <div>Questions Un Answered: {results?.omitted}</div>
-                  <div>Correct Answers: {results?.correctAns}</div>
-                  <div>Wrong Answers: {results?.wrongAns}</div>
+              <div>
+                <div className="w-100 mb-4">
+                  <h6 className="m-0 p-0 mb-2">Overall Score</h6>
+                  <div className="d-flex gap-2">
+                    <div className="border p-2 w-100">
+                      <div style={{ fontSize: "26px", fontWeight: "bold" }}>
+                        {results?.totalQuestions}
+                      </div>
+                      <div style={{ fontSize: "16px" }}>Number of questions</div>
+                    </div>
+                    <div className="border p-2 w-100">
+                      <div style={{ fontSize: "26px", fontWeight: "bold" }}>
+                        {results?.totalQuestions - results?.omitted}
+                      </div>
+                      <div>Answered</div>
+                    </div>
+                    <div className="border p-2 w-100">
+                      <div style={{ fontSize: "26px", fontWeight: "bold" }}>{results?.omitted}</div>
+                      <div>Un Answered</div>
+                    </div>
+                  </div>
                 </div>
-                <div className="w-100">
-                  <RenderOmr
-                    render_key={`answer_data`}
-                    data={omrData}
-                    noOfQuestionInARow={10}
-                    disabled={true}
-                    validity={true}
-                    userResponse={results}
-                  />
+
+                <div className="w-100 mb-4">
+                  <h6 className="m-0 p-0 mb-2">User Answered Results</h6>
+                  <div className="d-flex gap-2">
+                    <div className="border p-2 w-100 text-success">
+                      <div style={{ fontSize: "26px", fontWeight: "bold" }}>
+                        {results?.correctAns}
+                      </div>
+                      <div>Correct Answers</div>
+                    </div>
+                    <div className="border p-2 w-100 text-danger">
+                      <div style={{ fontSize: "26px", fontWeight: "bold" }}>
+                        {results?.wrongAns}
+                      </div>
+                      <div>Wrong Answers</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="w-100 mb-4">
+                  <h6 className="m-0 p-0">Question wise summary</h6>
+                  <div className="mt-3">
+                    <RenderOmr
+                      render_key={`answer_data`}
+                      data={omrData}
+                      noOfQuestionInARow={10}
+                      disabled={true}
+                      validity={true}
+                      userResponse={results}
+                    />
+                  </div>
                 </div>
               </div>
             </>

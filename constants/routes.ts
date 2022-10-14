@@ -7,6 +7,9 @@ export const BASE_LOCAL = "https://tutelaotlp-staging.herokuapp.com/";
 export const DEFAULT_ZOOM_URL = `https://zoom.us/j/2505542539?pwd=dXh0amx3TktJTEFTYk9OYUJ3YUNYUT09`;
 export const S3_ENDPOINT = `/api/files/`;
 
+// user report public endpoints
+export const USER_REPORT_UUID_VERIFICATION = (uuid: any) => `/api/users/protected-reports/${uuid}/`;
+
 // authentication
 export const AUTH_LOGIN = `/login/`;
 export const AUTH_SIGNUP = `/signup/`;
