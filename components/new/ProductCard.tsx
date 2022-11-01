@@ -9,7 +9,7 @@ import { ThreeDotsVertical } from "@styled-icons/bootstrap/ThreeDotsVertical";
 import { Circle } from "@styled-icons/entypo/Circle";
 import { PeopleTeam } from "@styled-icons/fluentui-system-filled/PeopleTeam";
 // components
-import ProductEditView from "@components/admin/product/edit";
+import ProductEditView from "@components/admin/product/editModal";
 import ProductDeleteView from "@components/admin/product/delete";
 
 const Product = ({ data, user_id, productsList, users, resources, view, student_id }: any) => {

@@ -14,6 +14,7 @@ import { META_DESCRIPTION } from "@constants/page";
 // components
 import Page from "@components/page";
 import Dropdown from "@components/new/Dropdown";
+import ProductEdit from "@components/admin/product/edit";
 import AddTopicCluster from "@components/new/productDetail/AddTopicCluster";
 import UserSelectCalendarView from "@components/UserSelectDropdown";
 import ProductResourceView from "@components/admin/product/product-resources/View";
@@ -53,15 +54,15 @@ const BehaviorPage = () => {
   ];
 
   const tabsData = [
-    { name: "Topics Included", key: "topics" },
+    { name: "Product Detail", key: "product" },
     { name: "Members", key: "members" },
     { name: "Resources", key: "resources" },
-    { name: "Product Detail", key: "product" },
     { name: "Feedback Schema", key: "product-feedback-schema" },
+    // { name: "Topics Included", key: "topics" },
   ];
   const strategy = [{ name: "Topics" }, { name: "Chapters" }, { name: "Classes" }];
 
-  const [tabs, setTabs] = React.useState(tabsData[4].key);
+  const [tabs, setTabs] = React.useState(tabsData[0].key);
 
   const { data: resources, error: resourcesError } = useSWR(RESOURCE_ENDPOINT, APIFetcher);
   const { data: tags, error: tagsError } = useSWR(TAGS_ENDPOINT, APIFetcher);
@@ -353,6 +354,9 @@ const BehaviorPage = () => {
                   </div>
                 </>
               )}
+
+              {tabs == "product" && <ProductEdit data={product} />}
+
               {tabs == "members" && (
                 <div className="mt-4">
                   <h4>Members</h4>
