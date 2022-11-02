@@ -50,7 +50,7 @@ const ResourcePermission = (props: any) => {
   return (
     <Dropdown>
       <Dropdown.Toggle className="text-button text-black d-flex align-items-center gap-2 plain-dropdown">
-        <div className="d-flex align-items-center gap-2 border rounded px-1">
+        <div className="d-flex align-items-center gap-2 border rounded px-1 text-sm">
           <div
             className="py-2 px-2 rounded"
             style={{

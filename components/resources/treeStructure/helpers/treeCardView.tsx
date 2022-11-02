@@ -1,6 +1,7 @@
 import React from "react";
 // next imports
 import Link from "next/link";
+import { useRouter } from "next/router";
 // material icons
 import { ChevronDown } from "@styled-icons/boxicons-regular/ChevronDown";
 import { ChevronRight } from "@styled-icons/boxicons-regular/ChevronRight";
@@ -45,7 +46,11 @@ const TreeChildrenRenderView = ({
   pdfToggle,
   handlePdfToggle,
   tags,
+  handleAssessmentUserData,
 }: any) => {
+  const router = useRouter();
+  const { resource_id } = router.query;
+
   const [dropdownToggle, setDropdownToggle] = React.useState<any>(true);
 
   const imageFileNameSplitRender = (value: any) => {
@@ -123,7 +128,7 @@ const TreeChildrenRenderView = ({
                     //   <a target="_blank">{tree.data && tree.data.title}</a>
                     // </Link>
                     <div>
-                      {tree.data && tree.data.title}-{tree.id}
+                      {tree.data && tree.data.title} - {tree.id}
                     </div>
                   ) : (
                     <>
@@ -139,7 +144,7 @@ const TreeChildrenRenderView = ({
                       ) : (
                         <>
                           <a href={tree.data.data.url} target="_blank" rel="noreferrer">
-                            {tree.data.data.kind} : {tree.data && tree.data.title}
+                            {tree.data.data.kind} : {tree.data && tree.data.title} - {tree.id}
                           </a>
                         </>
                       )}
@@ -148,9 +153,45 @@ const TreeChildrenRenderView = ({
                 </div>
               )}
 
+              {tree.data.kind === "SECTION" && (
+                <div
+                  className="text-sm hover-cursor text-primary"
+                  style={{ whiteSpace: "nowrap" }}
+                  onClick={() => handleAssessmentUserData(tree)}
+                >
+                  Attach Users
+                </div>
+              )}
+
+              {(tree.data.data.kind === "document_objective_answers" ||
+                tree.data.data.kind === "document_subjective_answers") && (
+                <div className="text-sm" style={{ whiteSpace: "nowrap" }}>
+                  <Link href={`/resources/${resource_id}/assessment?resource_node_id=${tree?.id}`}>
+                    <a target="_blank" rel="noreferrer">
+                      Show answer sheet
+                    </a>
+                  </Link>
+                </div>
+              )}
+
+              {admin &&
+                (tree.data.data.kind === "document_objective_answers" ||
+                  tree.data.data.kind === "document_subjective_answers") && (
+                  <div className="ms-3 text-sm" style={{ whiteSpace: "nowrap" }}>
+                    <Link
+                      href={`/resources/${resource_id}/submissions?resource_node_id=${tree?.id}`}
+                    >
+                      <a target="_blank" rel="noreferrer">
+                        View Submissions
+                      </a>
+                    </Link>
+                  </div>
+                )}
+
               {admin && (
                 <Tags data={tree} root_node_id={root_node_id} add_to="children" tags={tags} />
               )}
+
               {admin && (
                 <div className="flex-item upload">
                   <TreeUploadView
@@ -235,6 +276,7 @@ const TreeChildrenRenderView = ({
                   pdfToggle={pdfToggle}
                   handlePdfToggle={handlePdfToggle}
                   tags={tags}
+                  handleAssessmentUserData={handleAssessmentUserData}
                 />
               </div>
             )}

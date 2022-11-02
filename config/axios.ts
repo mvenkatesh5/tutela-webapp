@@ -13,13 +13,17 @@ import { logout } from "lib/cookie";
 
 // axios for go instance
 export const axiosInstance = axios.create();
+export const axiosPublicInstance = axios.create();
 
 let baseURL =
   process.env.NEXT_PUBLIC_APP_ENVIRONMENT === "production"
     ? BASE_PROD
-    : BASE_STAGING;
+    : process.env.NEXT_PUBLIC_APP_ENVIRONMENT === "development"
+    ? BASE_STAGING
+    : BASE_LOCAL;
 
 axios.defaults.baseURL = baseURL;
+axiosPublicInstance.defaults.baseURL = baseURL;
 
 export function setAxiosHeader(token: string) {
   if (token) {

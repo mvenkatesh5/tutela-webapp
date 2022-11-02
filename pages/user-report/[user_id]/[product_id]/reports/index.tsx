@@ -3,7 +3,18 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 // react bootstrap
-import { Container, Badge, Card, Tab, Nav, Row, Col, Button } from "react-bootstrap";
+import {
+  Container,
+  Badge,
+  Card,
+  Tab,
+  Nav,
+  Row,
+  Col,
+  Button,
+  OverlayTrigger,
+  Tooltip,
+} from "react-bootstrap";
 // material icons
 import { ArrowLeftShort } from "@styled-icons/bootstrap/ArrowLeftShort";
 // swr
@@ -34,11 +45,36 @@ import {
 // hoc
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 
+const ToolTip = ({ children, content, position = "right" }: any) => {
+  return (
+    <OverlayTrigger
+      key={position}
+      placement={position}
+      overlay={<Tooltip id={`tooltip-${position}-${content}`}>{content}</Tooltip>}
+    >
+      <div>{children}</div>
+    </OverlayTrigger>
+  );
+};
+
+const CopyText = ({ children, text }: any) => {
+  const [status, setStatus] = React.useState(false);
+
+  const copyText = () => {
+    navigator.clipboard.writeText(text);
+    setStatus(true);
+    setTimeout(() => {
+      setStatus(false);
+    }, 1000);
+  };
+
+  return <div onClick={copyText}>{status ? "Copied" : children}</div>;
+};
+
 const UserAdminReportsView = () => {
   const router = useRouter();
 
   const defaultImageUrl = "/default-image.png";
-
 
   React.useEffect(() => {
     if (getAuthenticationToken()) {
@@ -70,6 +106,7 @@ const UserAdminReportsView = () => {
 
   const RenderTabContent = ({ view }: any) => {
     const [currentReports, setCurrentReports] = React.useState<any>();
+    const [revealPin, setRevealPin] = React.useState<any>(null);
 
     React.useEffect(() => {
       if (userReports && userReports.length > 0) {
@@ -112,7 +149,47 @@ const UserAdminReportsView = () => {
                   borderRadius: "4px",
                 }}
               >
-                {report.title && <h4>{report.title}</h4>}
+                <div className="d-flex align-items-center justify-content-between">
+                  <div className="d-flex gap-2">
+                    <div>{report.title && <h5 className="m-0 p-0">{report.title}</h5>}</div>
+                    {revealPin === report.id && (
+                      <>
+                        <div>-</div>
+                        <ToolTip
+                          position="top"
+                          content="Click here to copy the pin."
+                          copyText={`${report?.pin}`}
+                        >
+                          <CopyText text={`${report?.pin}`}>
+                            <b className="text-primary cursor-pointer">{report?.pin}</b>
+                          </CopyText>
+                        </ToolTip>
+                      </>
+                    )}
+                  </div>
+                  <div className="d-flex align-items-center gap-2">
+                    <ToolTip position="top" content="Click here to copy the URL.">
+                      <CopyText
+                        text={`https://${window && window?.location?.host}/report-detail/${
+                          report?.uuid
+                        }`}
+                      >
+                        <small className="text-primary cursor-pointer">Copy</small>
+                      </CopyText>
+                    </ToolTip>
+                    <Link
+                      href={`https://${window && window?.location?.host}/report-detail/${
+                        report?.uuid
+                      }`}
+                    >
+                      <a target="_blank" className="text-primary">
+                        <ToolTip position="top" content="Preview URL.">
+                          {report?.uuid}
+                        </ToolTip>
+                      </a>
+                    </Link>
+                  </div>
+                </div>
 
                 {report?.report?.content && (
                   <div className="mt-3">
@@ -225,6 +302,17 @@ const UserAdminReportsView = () => {
                         view={tabKey}
                       />
                     </div>
+                    {report?.pin && (
+                      <div>
+                        <Button
+                          variant="outline-secondary"
+                          className="btn-sm"
+                          onClick={() => setRevealPin(revealPin ? null : report.id)}
+                        >
+                          {revealPin == report.id ? "Hide Pin" : "Reveal Pin"}
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -298,13 +386,8 @@ const UserAdminReportsView = () => {
     };
   };
 
-
   const [currentUser, setCurrentUser] = React.useState<any>();
   const [userRole, setUserRole] = React.useState<any>();
-  // console.log("userDetailList", userDetailList);
-  console.log("userProductResourceList", userProductResourceList);
-  // console.log("productDetail", productDetail);
-  // console.log("reportList", reportList);
 
   return (
     <Page meta={meta}>

@@ -15,10 +15,11 @@ import { Worker } from "@react-pdf-viewer/core";
 import ResourceView from "@components/resources/treeStructure/view";
 import ResourceCreateView from "@components/resources/treeStructure/create";
 const PDFRenderView = dynamic(import("@components/pdfRender"), { ssr: false });
+import AttachAssessmentUsers from "@components/assessments/users/AttachAssessmentUsers";
 // layouts
 import PdfViewerLayout from "@layouts/pdfViewerLayout";
 // api routes
-import { RESOURCE_WITH_NODE_ENDPOINT, TAGS_ENDPOINT } from "@constants/routes";
+import { RESOURCE_WITH_NODE_ENDPOINT, TAGS_ENDPOINT, USER_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 // hoc
@@ -39,12 +40,18 @@ const ResourceTreeView = () => {
     else setPdfToggle(pdfObject);
   };
 
+  const [assessmentUserData, setAssessmentUserData] = React.useState<any>(null);
+  const handleAssessmentUserData = (data: any) => {
+    setAssessmentUserData(data);
+  };
+
   const { data: productCategory, error: productCategoryError } = useSWR(
     resource_id ? RESOURCE_WITH_NODE_ENDPOINT(resource_id) : null,
     (url) => APIFetcher(url),
     { refreshInterval: 0 }
   );
 
+  const { data: users, error: usersError } = useSWR(USER_ENDPOINT, APIFetcher);
   const { data: tags, error: tagsError } = useSWR(TAGS_ENDPOINT, APIFetcher);
 
   const meta = {
@@ -109,6 +116,7 @@ const ResourceTreeView = () => {
                         pdfToggle={pdfToggle}
                         handlePdfToggle={handlePdfToggle}
                         tags={tags}
+                        handleAssessmentUserData={handleAssessmentUserData}
                       />
                     </>
                   ) : (
@@ -134,6 +142,13 @@ const ResourceTreeView = () => {
           </PdfViewerLayout>
         </Worker>
       </div>
+      {assessmentUserData && (
+        <AttachAssessmentUsers
+          resource={assessmentUserData}
+          handleAssessmentUserData={handleAssessmentUserData}
+          users={users}
+        />
+      )}
     </Page>
   );
 };

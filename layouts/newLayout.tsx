@@ -33,7 +33,6 @@ const NewLayout = ({ children, sidebar = true }: any) => {
               <SidebarView />
             </div>
           )}
-
           <div className="w-100 h-100" style={{ overflow: "auto" }}>
             {children}
           </div>
