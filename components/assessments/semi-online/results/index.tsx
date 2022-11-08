@@ -1,35 +1,45 @@
 import React from "react";
+// next imports
+import { useRouter } from "next/router";
 // react bootstrap
 import { Modal, Button } from "react-bootstrap";
 // components
 import RenderOmr from "@components/assessments/semi-online/OmrRender";
-// assessment helpers
-import { assessmentSemiOnlineValidate } from "../../helpers/assessment-validation";
 
 interface IAssessmentReview {
   omrData: any;
+  result: any;
   handleModal: any;
+  type?: "user" | "admin";
 }
 
-const AssessmentReview: React.FC<IAssessmentReview> = ({ omrData, handleModal }) => {
+const AssessmentReview: React.FC<IAssessmentReview> = ({
+  omrData,
+  result,
+  handleModal,
+  type = "user",
+}) => {
+  const router = useRouter();
   const [results, setResults] = React.useState<any>(null);
 
   const [modal, setModal] = React.useState(false);
   const closeModal = () => {
-    setModal(false);
-    handleModal(false);
-    setResults(null);
+    if (type === "user") {
+      router.push(`/user-resources/${omrData?.resource_id}`);
+    } else {
+      setModal(false);
+      handleModal(false);
+      setResults(null);
+    }
   };
   const openModal = () => setModal(true);
 
   React.useEffect(() => {
-    if (omrData) {
+    if (omrData && result) {
       openModal();
-      let assessmentResults = assessmentSemiOnlineValidate(omrData);
-      console.log("assessmentResults", assessmentResults);
-      setResults(assessmentResults);
+      setResults(result);
     }
-  }, [omrData]);
+  }, [omrData, result]);
 
   return (
     <div>
@@ -84,6 +94,19 @@ const AssessmentReview: React.FC<IAssessmentReview> = ({ omrData, handleModal })
                       <div>Wrong Answers</div>
                     </div>
                   </div>
+                </div>
+
+                <div className="w-100 mb-4 d-flex flex-column">
+                  <h6 className="m-0 p-0">Note:</h6>
+                  <small className="text-success">
+                    <b>Green: Represents a correct answer</b>
+                  </small>
+                  <small className="text-danger">
+                    <b>Red: Represents a wrong answer</b>
+                  </small>
+                  <small className="text-primary">
+                    <b>Blue: Represents a actual answer</b>
+                  </small>
                 </div>
 
                 <div className="w-100 mb-4">

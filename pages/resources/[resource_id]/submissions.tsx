@@ -20,10 +20,15 @@ import AdminLayout from "@layouts/adminLayout";
 import Page from "@components/page";
 const PDFRenderView = dynamic(import("@components/pdfRender"), { ssr: false });
 import RenderOmr from "@components/assessments/semi-online/OmrRender";
+import AssessmentResultModalPreview from "@components/assessments/semi-online/results";
 // global imports
 import { datePreview } from "@constants/global";
 // api routes
-import { RESOURCE_ASSESSMENT_USER_ALLOCATION, USER_ENDPOINT } from "@constants/routes";
+import {
+  RESOURCE_ASSESSMENT_USER_ALLOCATION,
+  RESOURCE_NODE_ENDPOINT,
+  USER_ENDPOINT,
+} from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 import { ResourceNodeEdit } from "@lib/services/resource.service";
@@ -47,6 +52,35 @@ const ResourceSubmissions: NextPage = () => {
     (url) => APIFetcher(url),
     { refreshInterval: 0 }
   );
+  const { data: resourceDetail, error: resourceDetailError } = useSWR(
+    resource_node_id ? [RESOURCE_NODE_ENDPOINT(resource_node_id), resource_node_id] : null,
+    (url) => APIFetcher(url),
+    { refreshInterval: 0, revalidateOnFocus: false }
+  );
+
+  const [formData, setFormData] = React.useState({
+    time: 0,
+    questions: 0,
+    options: 0,
+    points_per_question: 0,
+    omr_data: null,
+    answer_data: null,
+  });
+  const handleFormData = (key: string, value: any) => {
+    setFormData({ ...formData, [key]: value });
+  };
+  React.useEffect(() => {
+    if (resourceDetail && resourceDetail?.data && resourceDetail?.data?.assessment_data) {
+      setFormData({
+        ...resourceDetail?.data?.assessment_data,
+        resource_id: resource_id,
+        omr_data: resourceDetail?.data?.assessment_data?.omr_data,
+        answer_data: resourceDetail?.data?.assessment_data?.answer_data,
+      });
+    }
+  }, [resourceDetail, resource_id]);
+
+  const [resultPreview, setResultPreview] = React.useState<any>(null);
 
   const bindZero = (value: any) => {
     if (value > 9) return value;
@@ -105,7 +139,7 @@ const ResourceSubmissions: NextPage = () => {
                       <th>Submitted at </th>
                       <th>Results</th>
                       <th>Status</th>
-                      {/* <th>View</th> */}
+                      <th>Results</th>
                       {/* <th>Reset</th> */}
                     </tr>
                   </thead>
@@ -127,13 +161,12 @@ const ResourceSubmissions: NextPage = () => {
                               />
                             </td>
                             <td>
-                              {resourceAssessmentUserDetail?.completed_at
-                                ? datePreview(resourceAssessmentUserDetail?.completed_at)
-                                : "-"}
+                              {user?.completed_at != null ? datePreview(user?.completed_at) : "-"}
                             </td>
                             <td className="text-sm">
-                              {user?.score ? user?.score : "-"} /
-                              {resourceAssessmentUserDetail?.data?.assessment_data?.results || 100}
+                              {user?.score
+                                ? `${user?.score}/${user.work_submission_data?.max_score}`
+                                : "-"}
                             </td>
                             <td>
                               {user?.completed_at ? (
@@ -142,9 +175,19 @@ const ResourceSubmissions: NextPage = () => {
                                 <Badge className="bg-danger">Not Started</Badge>
                               )}
                             </td>
-                            {/* <td>
-                              <Button size="sm">View</Button>
-                            </td> */}
+                            <td>
+                              {user?.completed_at ? (
+                                <Button
+                                  variant="outline-primary"
+                                  size="sm"
+                                  onClick={() => setResultPreview(user.work_submission_data)}
+                                >
+                                  View
+                                </Button>
+                              ) : (
+                                "-"
+                              )}
+                            </td>
                             {/* <td>
                               <Button size="sm">Reset</Button>
                             </td> */}
@@ -164,6 +207,12 @@ const ResourceSubmissions: NextPage = () => {
             )}
           </Container>
         </div>
+        <AssessmentResultModalPreview
+          omrData={formData}
+          result={resultPreview}
+          handleModal={setResultPreview}
+          type="admin"
+        />
       </AdminLayout>
     </Page>
   );

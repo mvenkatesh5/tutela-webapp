@@ -61,6 +61,11 @@ const generateOmrReviewPayload = (score: any = 0, answer_key: any, user_answer_k
 
 export const assessmentSemiOnlineValidate = (omr_data: any) => {
   let payload = {};
-  payload = generateOmrReviewPayload(0, omr_data?.omr_data, omr_data?.answer_data);
+  console.log("omr_data", omr_data);
+  payload = generateOmrReviewPayload(
+    omr_data?.score || 1,
+    omr_data?.omr_data,
+    omr_data?.answer_data
+  );
   return payload;
 };
