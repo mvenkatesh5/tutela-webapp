@@ -42,7 +42,6 @@ const ResourceTreeView = () => {
 
   const [assessmentUserData, setAssessmentUserData] = React.useState<any>(null);
   const handleAssessmentUserData = (data: any) => {
-    console.log("data", data);
     setAssessmentUserData(data);
   };
 

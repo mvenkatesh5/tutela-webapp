@@ -5,6 +5,8 @@ import { Button, Form, Modal } from "react-bootstrap";
 import UserDropdown from "./UserDropdown";
 // api services
 import { CreateResourceUserAllocation } from "@lib/services/resource.service";
+// global context provider
+import { globalContext } from "@contexts/global";
 
 interface IAttachAssessmentUsers {
   resource?: any;
@@ -17,6 +19,8 @@ const AttachAssessmentUsers: React.FC<IAttachAssessmentUsers> = ({
   handleAssessmentUserData,
   users,
 }) => {
+  const [globalState, globalDispatch] = React.useContext(globalContext);
+
   const [modal, setModal] = React.useState(false);
   const closeModal = () => {
     setModal(false);
@@ -70,10 +74,19 @@ const AttachAssessmentUsers: React.FC<IAttachAssessmentUsers> = ({
         .then((response) => {
           console.log(response);
           setButtonLoader(false);
+          handleAssessmentUserData(null);
+          globalDispatch({
+            type: "ADD_TOAST_ALERT",
+            payload: { kind: "success", description: "Added user successfully." },
+          });
         })
         .catch((error) => {
           console.log(error);
           setButtonLoader(false);
+          globalDispatch({
+            type: "ADD_TOAST_ALERT",
+            payload: { kind: "warning", description: "Something went wrong. PLease check later." },
+          });
         });
     } else {
       alert("Please select user and teachers");
