@@ -23,7 +23,7 @@ import RenderOmr from "@components/assessments/semi-online/OmrRender";
 // global imports
 import { datePreview } from "@constants/global";
 // api routes
-import { RESOURCE_NODE_ENDPOINT } from "@constants/routes";
+import { RESOURCE_ASSESSMENT_USER_ALLOCATION, USER_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 import { ResourceNodeEdit } from "@lib/services/resource.service";
@@ -39,20 +39,42 @@ const ResourceSubmissions: NextPage = () => {
   const router = useRouter();
   const { resource_id, resource_node_id } = router.query;
 
-  const { data: resourceDetail, error: resourceDetailError } = useSWR(
-    resource_node_id ? [RESOURCE_NODE_ENDPOINT(resource_node_id), resource_node_id] : null,
+  const { data: users, error: usersError } = useSWR(USER_ENDPOINT, APIFetcher);
+  const { data: resourceAssessmentUserDetail, error: resourceAssessmentUserDetailError } = useSWR(
+    resource_node_id && users
+      ? [RESOURCE_ASSESSMENT_USER_ALLOCATION(resource_node_id), resource_node_id]
+      : null,
     (url) => APIFetcher(url),
     { refreshInterval: 0 }
   );
 
-  let users = [
-    { name: "user 1", status: "not_started", results: 10 },
-    { name: "user 2", status: "started", results: 20 },
-    { name: "user 3", status: "not_started", results: 30 },
-    { name: "user 4", status: "completed", results: 12 },
-  ];
+  const bindZero = (value: any) => {
+    if (value > 9) return value;
+    else return `0${value}`;
+  };
 
-  console.log("resourceDetail", resourceDetail);
+  const dateFormat = (date: any) => {
+    const d = new Date(date);
+    let year = d.getFullYear();
+    let month = d.getMonth();
+    let day = d.getDate();
+    let hour = d.getHours();
+    let minutes = d.getMinutes();
+    let returnDate = `${bindZero(year)}-${bindZero(month)}-${bindZero(day)}T${bindZero(
+      hour
+    )}:${bindZero(minutes)}`;
+    return returnDate;
+  };
+
+  const getCurrentUserName = (user_id: any) => {
+    if (users && users.length > 0) {
+      const currentData: any = users.find(
+        (element: any, i: any) => element.id === parseInt(user_id)
+      );
+      if (currentData) return `${currentData.first_name} ${currentData.last_name}`;
+      // (${currentData.email})
+    }
+  };
 
   return (
     <Page meta={meta}>
@@ -71,59 +93,61 @@ const ResourceSubmissions: NextPage = () => {
             </div>
           </div>
           <Container>
-            {resourceDetail && !resourceDetailError ? (
+            {resourceAssessmentUserDetail && !resourceAssessmentUserDetailError ? (
               <div className="w-100 text-center text-muted py-3">
                 <Table bordered style={{ whiteSpace: "nowrap" }}>
                   <thead>
                     <tr>
                       <th>S.no</th>
-                      <th>Student Name</th>
+                      <th>Teacher</th>
+                      <th>Student</th>
                       <th>Scheduled at </th>
                       <th>Submitted at </th>
                       <th>Results</th>
                       <th>Status</th>
-                      <th>View</th>
-                      <th>Reset</th>
+                      {/* <th>View</th> */}
+                      {/* <th>Reset</th> */}
                     </tr>
                   </thead>
                   <tbody>
-                    {users && users.length > 0 ? (
+                    {resourceAssessmentUserDetail && resourceAssessmentUserDetail.length > 0 ? (
                       <>
-                        {users.map((user: any, index: any) => (
+                        {resourceAssessmentUserDetail.map((user: any, index: any) => (
                           <tr key={index}>
                             <th>{index + 1}</th>
-                            <td>{user?.name}</td>
+                            <td>{getCurrentUserName(user?.teacher)}</td>
+                            <td>{getCurrentUserName(user?.student)}</td>
                             <td>
                               <Form.Control
                                 type="datetime-local"
-                                // value={formData.time}
-                                // onChange={(e) => handleFormData("time", e.target.value)}
+                                value={dateFormat(user?.scheduled_at)}
+                                onChange={(e) => console.log("time", e.target.value)}
                                 required
                                 placeholder="time"
                               />
                             </td>
-                            <td>{datePreview(resourceDetail?.updated)}</td>
+                            <td>
+                              {resourceAssessmentUserDetail?.completed_at
+                                ? datePreview(resourceAssessmentUserDetail?.completed_at)
+                                : "-"}
+                            </td>
                             <td className="text-sm">
-                              {user?.results} /
-                              {resourceDetail?.data?.assessment_data?.results || 100}
+                              {user?.score ? user?.score : "-"} /
+                              {resourceAssessmentUserDetail?.data?.assessment_data?.results || 100}
                             </td>
                             <td>
-                              {user?.status === "not_started" && (
+                              {user?.completed_at ? (
+                                <Badge className="bg-success">Completed</Badge>
+                              ) : (
                                 <Badge className="bg-danger">Not Started</Badge>
                               )}
-                              {user?.status === "started" && (
-                                <Badge className="bg-warning">Started</Badge>
-                              )}
-                              {user?.status === "completed" && (
-                                <Badge className="bg-success">Completed</Badge>
-                              )}
                             </td>
-                            <td>
+                            {/* <td>
                               <Button size="sm">View</Button>
-                            </td>
-                            <td>
+                            </td> */}
+                            {/* <td>
                               <Button size="sm">Reset</Button>
-                            </td>
+                            </td> */}
                           </tr>
                         ))}
                       </>

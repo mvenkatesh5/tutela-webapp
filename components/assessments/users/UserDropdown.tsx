@@ -9,7 +9,7 @@ const UserDropdown = (props: any) => {
   const [searchInput, setSearchInput] = React.useState<any>("");
   const [focusToggle, setFocusToggle] = React.useState<any>(false);
   // user answers
-  const [userOptions, SetUserOptions] = React.useState<any>([]);
+  const [userOptions, setUserOptions] = React.useState<any>([]);
 
   const validateUserOptions = (search: any) => {
     let currentUsers: any = [];
@@ -45,7 +45,7 @@ const UserDropdown = (props: any) => {
 
   React.useEffect(() => {
     if (props.data && props.data.length > 0) {
-      SetUserOptions(props.data);
+      setUserOptions(props.data);
     }
   }, [props.data]);
 
@@ -61,16 +61,36 @@ const UserDropdown = (props: any) => {
   const handleUserOptions = (key: any, id: any, index: any) => {
     if (key === "add") {
       let payload: any = [...userOptions, id];
-      SetUserOptions(payload);
+      setUserOptions(payload);
       props.handleData(payload);
+      // adding user date payload
+      if (props.role === 0) {
+        let datePayload = {
+          student_id: id,
+          datetime: null,
+        };
+        props.handleDates([...props.dates, datePayload]);
+      }
       setSearchInput("");
       setFocusToggle(false);
     } else {
       let payload: any = userOptions.filter((_: any, i: any) => index != i);
-      SetUserOptions(payload);
+      setUserOptions(payload);
       props.handleData(payload);
+      if (props.role === 0) {
+        props.handleDates(props.dates.filter((_: any, i: any) => _.student_id != id));
+      }
     }
     validateUserOptions(null);
+  };
+
+  const handleUpdateUserDate = (id: any, date: any) => {
+    let currentIndex = props.dates.findIndex((d: any) => d.student_id === id);
+    if (currentIndex >= 0) {
+      let currentDates = [...props.dates];
+      currentDates[currentIndex].datetime = date;
+      props.handleDates(currentDates);
+    }
   };
 
   const getCurrentUserName = (user_id: any) => {
@@ -139,32 +159,57 @@ const UserDropdown = (props: any) => {
       <div className="search-user-options">
         {userOptions && userOptions.length > 0 ? (
           <div>
-            {userOptions.map((user: any, index: any) => (
-              <div
-                key={`user-options-${index}`}
-                className="user-option-card"
-                style={{ overflow: "auto" }}
-              >
-                <div className="content me-2 text-primary">
-                  <div>{getCurrentUserName(user)}</div>
-                  <div className="mt-2">
-                    <Form.Group className="mb-3">
-                      <Form.Label className="mb-1 text-muted text-sm">Scheduled At</Form.Label>
-                      <Form.Control
-                        type="datetime-local"
-                        // value={formData.time}
-                        // onChange={(e) => handleFormData("time", e.target.value)}
-                        required
-                        placeholder="time"
-                      />
-                    </Form.Group>
+            {props.role === 0 && (
+              <>
+                {props?.dates.map((user: any, index: any) => (
+                  <div
+                    key={`user-options-${index}`}
+                    className="user-option-card"
+                    style={{ overflow: "auto" }}
+                  >
+                    <div className="content me-2 text-primary">
+                      <div>{getCurrentUserName(user?.student_id)}</div>
+                      <div className="mt-2">
+                        <Form.Group className="mb-3">
+                          <Form.Label className="mb-1 text-muted text-sm">Scheduled At</Form.Label>
+                          <Form.Control
+                            type="datetime-local"
+                            value={user?.datetime}
+                            onChange={(e) => handleUpdateUserDate(user?.student_id, e.target.value)}
+                            required
+                            placeholder="time"
+                          />
+                        </Form.Group>
+                      </div>
+                    </div>
+                    <div
+                      className="icon"
+                      onClick={() => handleUserOptions("remove", user?.student_id, index)}
+                    >
+                      <Times />
+                    </div>
                   </div>
-                </div>
-                <div className="icon" onClick={() => handleUserOptions("remove", user, index)}>
-                  <Times />
-                </div>
-              </div>
-            ))}
+                ))}
+              </>
+            )}
+            {props.role === 1 && (
+              <>
+                {userOptions.map((user: any, index: any) => (
+                  <div
+                    key={`user-options-${index}`}
+                    className="user-option-card"
+                    style={{ overflow: "auto" }}
+                  >
+                    <div className="content me-2 text-primary">
+                      <div>{getCurrentUserName(user)}</div>
+                    </div>
+                    <div className="icon" onClick={() => handleUserOptions("remove", user, index)}>
+                      <Times />
+                    </div>
+                  </div>
+                ))}
+              </>
+            )}
           </div>
         ) : (
           <div className="text-muted text-center">

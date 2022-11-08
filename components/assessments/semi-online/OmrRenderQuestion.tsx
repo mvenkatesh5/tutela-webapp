@@ -83,7 +83,6 @@ const OmrRenderQuestion = ({
                 if (!disabled) handleData(rowKey, questionKey, optionKey, multiple);
               }}
             >
-              {console.log(optionKey)}
               {String.fromCharCode(IdxOption + "A".charCodeAt(0))}
             </div>
           ))}

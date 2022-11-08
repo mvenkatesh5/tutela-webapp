@@ -159,6 +159,26 @@ a {
   }
 }
 
+.assessment-default-layout {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  & .top-bar {
+    flex-shrink: 0;
+    height: 65px;
+  }
+  & .bottom-bar {
+    min-height: 400px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+  }
+}
+
 // navbar
 .t-navbar-root {
   .navbar-brand,

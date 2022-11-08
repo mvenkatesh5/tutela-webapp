@@ -12,7 +12,7 @@ import { Container, Button, Row, Col } from "react-bootstrap";
 // pdf worker
 import { Worker } from "@react-pdf-viewer/core";
 // layouts
-import StudentLayout from "@layouts/studentLayout";
+import AssessmentLayout from "@layouts/AssessmentLayout";
 // components
 const PDFRenderView = dynamic(import("@components/pdfRender"), { ssr: false });
 import RenderOmr from "@components/assessments/semi-online/OmrRender";
@@ -33,10 +33,18 @@ const ResourceTreeView = () => {
   const router = useRouter();
   const { resource_id, resource_node_id } = router.query;
 
+  const { data: resourceUserAssessment, error: resourceUserAssessmentError } = useSWR(
+    resource_node_id ? [RESOURCE_NODE_ENDPOINT(resource_node_id), resource_node_id] : null,
+    (url) => APIFetcher(url),
+    { refreshInterval: 0, revalidateOnFocus: false }
+  );
+
+  console.log("resourceUserAssessment", resourceUserAssessment);
+
   const { data: resourceDetail, error: resourceDetailError } = useSWR(
     resource_node_id ? [RESOURCE_NODE_ENDPOINT(resource_node_id), resource_node_id] : null,
     (url) => APIFetcher(url),
-    { refreshInterval: 0 }
+    { refreshInterval: 0, revalidateOnFocus: false }
   );
 
   const [formData, setFormData] = React.useState({
@@ -66,6 +74,11 @@ const ResourceTreeView = () => {
   };
 
   const [resultPreview, setResultPreview] = React.useState(false);
+  const handleAssessmentComplete = () => {
+    let payload = {
+      score: 10,
+    };
+  };
 
   const convertMinutesToSeconds = (minutes: any) => {
     let seconds = minutes * 60;
@@ -78,14 +91,14 @@ const ResourceTreeView = () => {
   return (
     <Page meta={meta}>
       <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
-        <StudentLayout assessmentSidebar={true}>
+        <AssessmentLayout>
           <>
             {resourceDetail && !resourceDetailError ? (
               <>
                 {resourceDetail && resourceDetail?.id ? (
                   <div className="w-100 h-100 d-flex flex-column" style={{ overflow: "hidden" }}>
                     <div className="border-bottom p-4">
-                      <div className="container d-flex justify-content-between align-items-center">
+                      <div className="container-fluid d-flex justify-content-between align-items-center">
                         <div className="d-flex gap-2 align-items-center">
                           <Link href={`/user-resources/${resource_id}/`}>
                             <a>
@@ -94,15 +107,31 @@ const ResourceTreeView = () => {
                           </Link>
                           <h5 className="m-0 p-0">{resourceDetail?.title}</h5>
                         </div>
-                        <div></div>
+                        <div className="d-flex gap-3">
+                          <div className="ms-auto" style={{ fontSize: "20px", fontWeight: "bold" }}>
+                            {formData?.time && formData?.time > 0 && (
+                              <Timer
+                                initialTime={convertMinutesToSeconds(formData?.time)}
+                                timeHandler={handleTimerClose}
+                              />
+                            )}
+                          </div>
+                          <div>
+                            <Button
+                              variant="primary"
+                              size={"sm"}
+                              onClick={() => setResultPreview(true)}
+                            >
+                              Submit
+                            </Button>
+                          </div>
+                        </div>
                       </div>
                     </div>
+
                     <div className="w-100 h-100" style={{ overflow: "hidden" }}>
-                      <div className="container d-flex w-100 h-100 align-items-center">
+                      <div className="container-fluid d-flex w-100 h-100 align-items-center">
                         <div className="w-100 h-100 border-end px-3 d-flex flex-column">
-                          <div className="py-3">
-                            <h6 className="m-0 p-0">{resourceDetail?.title}</h6>
-                          </div>
                           <div className="w-100 h-100 pb-3" style={{ overflow: "hidden" }}>
                             {resourceDetail?.data?.url && (
                               <PDFRenderView pdf_url={resourceDetail?.data?.url} />
@@ -111,32 +140,10 @@ const ResourceTreeView = () => {
                         </div>
                         <div
                           className="w-100 h-100 border-end px-3 d-flex flex-column"
-                          style={{ overflow: "hidden" }}
+                          style={{ overflow: "hidden", maxWidth: "450px" }}
                         >
-                          <div className="py-3 d-flex align-items-center gap-4">
-                            <div>
-                              <h6 className="m-0 p-0">User Answer</h6>
-                            </div>
-                            <div
-                              className="ms-auto"
-                              style={{ fontSize: "20px", fontWeight: "bold" }}
-                            >
-                              {formData?.time && formData?.time > 0 && (
-                                <Timer
-                                  initialTime={convertMinutesToSeconds(formData?.time)}
-                                  timeHandler={handleTimerClose}
-                                />
-                              )}
-                            </div>
-                            <div>
-                              <Button
-                                variant="primary"
-                                size={"sm"}
-                                onClick={() => setResultPreview(true)}
-                              >
-                                Submit
-                              </Button>
-                            </div>
+                          <div className="py-3">
+                            <h6 className="m-0 p-0">User Answer</h6>
                           </div>
 
                           {resourceDetail?.data?.kind === "document_objective_answers" && (
@@ -204,7 +211,7 @@ const ResourceTreeView = () => {
               <div className="w-100 text-center text-muted py-5">Loading...</div>
             )}
           </>
-        </StudentLayout>
+        </AssessmentLayout>
 
         {resultPreview && (
           <AssessmentResultModalPreview omrData={formData} handleModal={setResultPreview} />

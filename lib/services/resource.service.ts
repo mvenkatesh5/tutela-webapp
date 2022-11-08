@@ -7,6 +7,8 @@ import {
   USER_RESOURCE_ENDPOINT,
   USER_RESOURCE_WITH_ID_ENDPOINT,
   RESOURCE_NODE_ENDPOINT,
+  RESOURCE_ASSESSMENT_USER_ALLOCATION,
+  RESOURCE_ASSESSMENT_USER_DETAILS,
 } from "@constants/routes";
 
 export const ResourceCreate = async (data: any) => {
@@ -71,6 +73,26 @@ export const AttachResourceToUserPromise = async (data: any) => {
 export const RemoveResourceFromUser = async (id: any) => {
   try {
     const response = await axios.delete(USER_RESOURCE_WITH_ID_ENDPOINT(id));
+    return response.data;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
+export const CreateResourceUserAllocation = async (data: any) => {
+  try {
+    const response = await axios.post(
+      RESOURCE_ASSESSMENT_USER_ALLOCATION(data?.node_id),
+      data.data
+    );
+    return response.data;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+export const UpdateResourceUserAllocation = async (data: any) => {
+  try {
+    const response = await axios.put(RESOURCE_ASSESSMENT_USER_ALLOCATION(data?.node_id), data.data);
     return response.data;
   } catch (error: any) {
     throw error.response.data;

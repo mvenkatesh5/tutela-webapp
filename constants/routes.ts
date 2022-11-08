@@ -121,6 +121,8 @@ export const USER_RESOURCE_VIEW_ENDPOINT = (user_id: any) => `/api/users/${user_
 export const USER_RESOURCE_ENDPOINT = `/api/resources-users/`;
 export const USER_RESOURCE_WITH_ID_ENDPOINT = (resource_id: any) =>
   `/api/resources-users/${resource_id}/`;
+export const RESOURCE_ASSESSMENT_USER_ALLOCATION = (node_id: any) => `/api/users-nodes/${node_id}/`;
+export const RESOURCE_ASSESSMENT_USER_DETAILS = (node_id: any) => `/api/students/nodes/${node_id}/`;
 
 // notes
 export const NOTES_ENDPOINT = `/api/notes/`;
