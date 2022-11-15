@@ -112,108 +112,111 @@ const ResourceSubmissions: NextPage = () => {
 
   return (
     <Page meta={meta}>
-      <AdminLayout>
-        <div className="w-100 h-100 d-flex flex-column" style={{ overflow: "hidden" }}>
-          <div className="border-bottom p-4">
-            <div className="container d-flex justify-content-between align-items-center">
-              <div className="d-flex gap-2 align-items-center">
-                <Link href={`/resources/${resource_id}/`}>
-                  <a>
-                    <ArrowLeftShort width="24px" />
-                  </a>
-                </Link>
-                <h5 className="m-0 p-0">User Submissions</h5>
+      <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
+        <AdminLayout>
+          <div className="w-100 h-100 d-flex flex-column" style={{ overflow: "hidden" }}>
+            <div className="border-bottom p-4">
+              <div className="container d-flex justify-content-between align-items-center">
+                <div className="d-flex gap-2 align-items-center">
+                  <Link href={`/resources/${resource_id}/`}>
+                    <a>
+                      <ArrowLeftShort width="24px" />
+                    </a>
+                  </Link>
+                  <h5 className="m-0 p-0">User Submissions</h5>
+                </div>
               </div>
             </div>
-          </div>
-          <Container>
-            {resourceAssessmentUserDetail && !resourceAssessmentUserDetailError ? (
-              <div className="w-100 text-center text-muted py-3">
-                <Table bordered style={{ whiteSpace: "nowrap" }}>
-                  <thead>
-                    <tr>
-                      <th>S.no</th>
-                      <th>Teacher</th>
-                      <th>Student</th>
-                      <th>Scheduled at </th>
-                      <th>Submitted at </th>
-                      <th>Results</th>
-                      <th>Status</th>
-                      <th>Results</th>
-                      {/* <th>Reset</th> */}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {resourceAssessmentUserDetail && resourceAssessmentUserDetail.length > 0 ? (
-                      <>
-                        {resourceAssessmentUserDetail.map((user: any, index: any) => (
-                          <tr key={index}>
-                            <th>{index + 1}</th>
-                            <td>{getCurrentUserName(user?.teacher)}</td>
-                            <td>{getCurrentUserName(user?.student)}</td>
-                            <td>
-                              <Form.Control
-                                type="datetime-local"
-                                value={dateFormat(user?.scheduled_at)}
-                                onChange={(e) => console.log("time", e.target.value)}
-                                required
-                                placeholder="time"
-                              />
-                            </td>
-                            <td>
-                              {user?.completed_at != null ? datePreview(user?.completed_at) : "-"}
-                            </td>
-                            <td className="text-sm">
-                              {user?.score
-                                ? `${user?.score}/${user.work_submission_data?.max_score}`
-                                : "-"}
-                            </td>
-                            <td>
-                              {user?.completed_at ? (
-                                <Badge className="bg-success">Completed</Badge>
-                              ) : (
-                                <Badge className="bg-danger">Not Started</Badge>
-                              )}
-                            </td>
-                            <td>
-                              {user?.completed_at ? (
-                                <Button
-                                  variant="outline-primary"
-                                  size="sm"
-                                  onClick={() => setResultPreview(user.work_submission_data)}
-                                >
-                                  View
-                                </Button>
-                              ) : (
-                                "-"
-                              )}
-                            </td>
-                            {/* <td>
+            <Container>
+              {resourceAssessmentUserDetail && !resourceAssessmentUserDetailError ? (
+                <div className="w-100 text-center text-muted py-3">
+                  <Table bordered style={{ whiteSpace: "nowrap" }}>
+                    <thead>
+                      <tr>
+                        <th>S.no</th>
+                        <th>Teacher</th>
+                        <th>Student</th>
+                        <th>Scheduled at </th>
+                        <th>Submitted at </th>
+                        <th>Results</th>
+                        <th>Status</th>
+                        <th>Results</th>
+                        {/* <th>Reset</th> */}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {resourceAssessmentUserDetail && resourceAssessmentUserDetail.length > 0 ? (
+                        <>
+                          {resourceAssessmentUserDetail.map((user: any, index: any) => (
+                            <tr key={index}>
+                              <th>{index + 1}</th>
+                              <td>{getCurrentUserName(user?.teacher)}</td>
+                              <td>{getCurrentUserName(user?.student)}</td>
+                              <td>
+                                <Form.Control
+                                  type="datetime-local"
+                                  value={dateFormat(user?.scheduled_at)}
+                                  onChange={(e) => console.log("time", e.target.value)}
+                                  required
+                                  placeholder="time"
+                                />
+                              </td>
+                              <td>
+                                {user?.completed_at != null ? datePreview(user?.completed_at) : "-"}
+                              </td>
+                              <td className="text-sm">
+                                {user?.score
+                                  ? `${user?.score}/${user.work_submission_data?.max_score}`
+                                  : "-"}
+                              </td>
+                              <td>
+                                {user?.completed_at ? (
+                                  <Badge className="bg-success">Completed</Badge>
+                                ) : (
+                                  <Badge className="bg-danger">Not Started</Badge>
+                                )}
+                              </td>
+                              <td>
+                                {user?.completed_at ? (
+                                  <Button
+                                    variant="outline-primary"
+                                    size="sm"
+                                    onClick={() => setResultPreview(user.work_submission_data)}
+                                  >
+                                    View
+                                  </Button>
+                                ) : (
+                                  "-"
+                                )}
+                              </td>
+                              {/* <td>
                               <Button size="sm">Reset</Button>
                             </td> */}
-                          </tr>
-                        ))}
-                      </>
-                    ) : (
-                      <div className="w-100 text-center text-muted py-5">
-                        No users are attached.
-                      </div>
-                    )}
-                  </tbody>
-                </Table>
-              </div>
-            ) : (
-              <div className="w-100 text-center text-muted py-5">Loading...</div>
-            )}
-          </Container>
-        </div>
-        <AssessmentResultModalPreview
-          omrData={formData}
-          result={resultPreview}
-          handleModal={setResultPreview}
-          type="admin"
-        />
-      </AdminLayout>
+                            </tr>
+                          ))}
+                        </>
+                      ) : (
+                        <div className="w-100 text-center text-muted py-5">
+                          No users are attached.
+                        </div>
+                      )}
+                    </tbody>
+                  </Table>
+                </div>
+              ) : (
+                <div className="w-100 text-center text-muted py-5">Loading...</div>
+              )}
+            </Container>
+          </div>
+          <AssessmentResultModalPreview
+            resourceDetail={resourceDetail}
+            omrData={formData}
+            result={resultPreview}
+            handleModal={setResultPreview}
+            type="admin"
+          />
+        </AdminLayout>
+      </Worker>
     </Page>
   );
 };

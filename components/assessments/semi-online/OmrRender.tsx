@@ -69,6 +69,7 @@ const RenderOmr = ({
     <div style={{ position: "relative", width: "100%", height: "100%", overflow: "hidden" }}>
       {omrData && (
         <div
+          className="px-3"
           style={{
             display: "flex",
             gap: "40px",

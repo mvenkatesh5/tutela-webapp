@@ -18,6 +18,7 @@ const PDFRenderView = dynamic(import("@components/pdfRender"), { ssr: false });
 import RenderOmr from "@components/assessments/semi-online/OmrRender";
 import Timer from "@components/assessments/Timer";
 import AssessmentResultModalPreview from "@components/assessments/semi-online/results";
+import ResultPreview from "@components/assessments/semi-online/results/Preview";
 import { assessmentSemiOnlineValidate } from "@components/assessments/helpers/assessment-validation";
 // api routes
 import { RESOURCE_NODE_ENDPOINT, RESOURCE_ASSESSMENT_USER_DETAILS } from "@constants/routes";
@@ -81,6 +82,18 @@ const ResourceTreeView = () => {
   };
 
   const [resultPreview, setResultPreview] = React.useState<any>(null);
+  const [resultCompletionPreview, setResultCompletionPreview] = React.useState<any>(null);
+
+  React.useEffect(() => {
+    if (
+      resourceUserAssessment &&
+      resourceUserAssessment?.completed_at != null &&
+      resourceUserAssessment?.work_submission_data
+    ) {
+      setResultCompletionPreview(resourceUserAssessment?.work_submission_data);
+    }
+  }, [resourceUserAssessment]);
+
   const handleAssessmentComplete = () => {
     let assessmentResults: any = assessmentSemiOnlineValidate(formData);
     setResultPreview(assessmentResults);
@@ -119,18 +132,23 @@ const ResourceTreeView = () => {
             {resourceDetail && !resourceDetailError ? (
               <>
                 {resourceUserAssessment && resourceUserAssessment?.completed_at != null ? (
-                  <h5 className="m-0 p-0 py-5 text-center block w-100">
-                    Test is already taken.
-                    <div>
-                      <Link href={`/user-resources/${resource_id}/`}>
-                        <a>
-                          <Button size="sm" className="mt-2">
-                            Back to Resources
-                          </Button>
-                        </a>
-                      </Link>
+                  <div className="w-100 h-100" style={{ overflow: "auto" }}>
+                    <div className="container">
+                      <div className="py-5 d-flex align-items-center">
+                        <Link href={`/user-resources/${resource_id}/`}>
+                          <a>
+                            <ArrowLeftShort width="32px" />
+                          </a>
+                        </Link>
+                        <h5 className="m-0 p-0">Test completed successfully.</h5>
+                      </div>
+                      <ResultPreview
+                        resourceDetail={resourceDetail}
+                        omrData={formData}
+                        results={resultCompletionPreview}
+                      />
                     </div>
-                  </h5>
+                  </div>
                 ) : (
                   <>
                     {resourceDetail && resourceDetail?.id ? (
@@ -184,7 +202,7 @@ const ResourceTreeView = () => {
                             </div>
                             <div
                               className="w-100 h-100 border-end px-3 d-flex flex-column"
-                              style={{ overflow: "hidden", maxWidth: "450px" }}
+                              style={{ overflow: "hidden", maxWidth: "260px" }}
                             >
                               <div className="py-3">
                                 <h6 className="m-0 p-0">User Answer</h6>
@@ -198,7 +216,7 @@ const ResourceTreeView = () => {
                                     handleData={(value: any) =>
                                       handleFormData("answer_data", value)
                                     }
-                                    noOfQuestionInARow={10}
+                                    noOfQuestionInARow={1000}
                                   />
                                 </div>
                               )}
@@ -263,6 +281,7 @@ const ResourceTreeView = () => {
 
         {resultPreview && (
           <AssessmentResultModalPreview
+            resourceDetail={resourceDetail}
             omrData={formData}
             result={resultPreview}
             handleModal={setResultPreview}
