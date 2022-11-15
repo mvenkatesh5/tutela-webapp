@@ -22,6 +22,8 @@ import { getAuthenticationToken } from "@lib/cookie";
 // api services
 import { Concern } from "@lib/services/concernService";
 import { APIFetcher } from "@lib/services";
+// global imports
+import { datePreview } from "@constants/global";
 // hoc
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 
@@ -191,6 +193,21 @@ const Messages = () => {
                                 <div className="mt-2 fw-bold cursor-pointer">{data.title}</div>
                               )}
                               {data.description && <div className="mt-2">{data.description}</div>}
+                              <div>
+                                {data?.user_detail?.email && (
+                                  <div className="mt-2 text-sm" style={{ whiteSpace: "nowrap" }}>
+                                    by{" "}
+                                    <span className="text-primary">{data?.user_detail?.email}</span>
+                                    ,
+                                  </div>
+                                )}
+
+                                {data.created && (
+                                  <div className="text-sm" style={{ whiteSpace: "nowrap" }}>
+                                    {datePreview(data.created)}
+                                  </div>
+                                )}
+                              </div>
 
                               <div className="mt-2">
                                 <Button
