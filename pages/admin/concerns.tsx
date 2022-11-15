@@ -159,7 +159,7 @@ const Messages = () => {
                             <div
                               onClick={() => handleCurrentConcern(data.id)}
                               key={`index-concern-i-${index}`}
-                              className={`p-3 cursor-pointer overflow-auto ${
+                              className={`p-3 cursor-pointer overflow-hidden overflow-y-auto ${
                                 filteredConcerns.length - 1 != index && "border-bottom"
                               } ${data.id == concern_id ? "concern-scroll-into-view" : ""}`}
                               style={
@@ -170,23 +170,29 @@ const Messages = () => {
                                   : {}
                               }
                             >
-                              <div className="d-flex align-items-center justify-content-between gap-2">
-                                {data.student_detail && (
-                                  <small
-                                    className="flex-shrink-0 text-sm bg-primary text-white rounded"
+                              <div className="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                                <div>
+                                  {data.student_detail && (
+                                    <div
+                                      className="flex-shrink-0 text-sm bg-primary text-white rounded"
+                                      style={{ padding: "2px 6px" }}
+                                    >
+                                      {data?.student_detail?.email}
+                                      {data?.student_detail.first_name &&
+                                        `(${data?.student_detail.first_name} ${data?.student_detail.last_name})`}
+                                    </div>
+                                  )}
+                                </div>
+                                <div>
+                                  <div
+                                    className={`flex-shrink-0 text-sm ${
+                                      data.status === "resolved" ? `bg-success` : `bg-danger`
+                                    } bg-success text-white rounded`}
                                     style={{ padding: "2px 6px" }}
                                   >
-                                    {data?.student_detail?.email}
-                                  </small>
-                                )}
-                                <small
-                                  className={`flex-shrink-0 ${
-                                    data.status === "resolved" ? `bg-success` : `bg-danger`
-                                  } bg-success text-white rounded`}
-                                  style={{ padding: "2px 6px" }}
-                                >
-                                  {data.status}
-                                </small>
+                                    {data.status}
+                                  </div>
+                                </div>
                               </div>
 
                               {data.title && (
@@ -197,7 +203,11 @@ const Messages = () => {
                                 {data?.user_detail?.email && (
                                   <div className="mt-2 text-sm" style={{ whiteSpace: "nowrap" }}>
                                     by{" "}
-                                    <span className="text-primary">{data?.user_detail?.email}</span>
+                                    <span className="text-primary">
+                                      {data?.user_detail?.email}
+                                      {data?.user_detail.first_name &&
+                                        `(${data?.user_detail.first_name} ${data?.user_detail.last_name})`}
+                                    </span>
                                     ,
                                   </div>
                                 )}
