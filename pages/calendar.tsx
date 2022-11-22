@@ -232,7 +232,7 @@ const CalendarView = () => {
                     </div>
                   </div>
                   <div className="divider"></div>
-                  {userRole != "student" && (
+                  {userRole != "student" && userRole != "teacher" && (
                     <div style={{ marginLeft: "10px" }} className="calendar-session-create">
                       <SessionCreateView
                         users={userList}

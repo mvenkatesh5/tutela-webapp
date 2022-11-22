@@ -15,8 +15,10 @@ import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 import { dateTimeFormat } from "@constants/global";
 // layouts
 import AdminLayout from "@layouts/adminLayout";
+// components
+import Pagination from "@components/Pagination";
 // api routes
-import { USER_ENDPOINT, USER_WITH_ID_ENDPOINT } from "@constants/routes";
+import { USER_ENDPOINT, USER_PAGINATION_ENDPOINT, USER_WITH_ID_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher, APIUpdater } from "@lib/services";
 import { UserUpdate } from "@lib/services/userService";
@@ -33,7 +35,7 @@ const UserDetails = () => {
   const [searchContent, setSearchContent] = React.useState<any>();
 
   const is_teacher: any = router.query.t;
-  const { data: userList, error: userListError } = useSWR(USER_ENDPOINT, APIFetcher);
+  // const { data: userList, error: userListError } = useSWR(USER_ENDPOINT, APIFetcher);
 
   const handleUserRole = (user: any, role: any) => {
     const payload = { id: user.id, role: role };
@@ -112,13 +114,27 @@ const UserDetails = () => {
       });
   };
 
+  let perPageCount = 50;
+  const [cursor, setCursor] = React.useState<any>(`50:0:0`);
+  const [totalPages, setTotalPages] = React.useState<any>();
+
+  const { data: userPaginationList, error: userPaginationListError } = useSWR(
+    [`${USER_PAGINATION_ENDPOINT}?per_page=${perPageCount}&cursor=${cursor}`, `user-${cursor}`],
+    APIFetcher
+  );
+  React.useEffect(() => {
+    if (userPaginationList) {
+      setTotalPages(userPaginationList.total_pages);
+    }
+  }, [userPaginationList]);
+
   return (
     <Page meta={meta}>
       <div>
         <AdminLayout>
           <div className="right-layout">
             <Container>
-              <div className="d-flex align-items-center mt-2 mb-3">
+              <div className="d-flex align-items-center mt-2">
                 <div>
                   <h5 className="m-0 p-0">Users</h5>
                 </div>
@@ -130,6 +146,15 @@ const UserDetails = () => {
                     onChange={(e: any) => setSearchContent(e.target.value)}
                   />
                 </div>
+              </div>
+              <div className="mb-3 mt-2">
+                <Pagination
+                  data={userPaginationList}
+                  cursor={cursor}
+                  setCursor={setCursor}
+                  count={perPageCount}
+                  totalPages={totalPages}
+                />
               </div>
               <Table bordered style={{ whiteSpace: "nowrap" }}>
                 <thead>
@@ -148,9 +173,10 @@ const UserDetails = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {userList &&
-                    userList.length > 0 &&
-                    userList.map((users: any, i: any) => {
+                  {userPaginationList &&
+                    userPaginationList?.results &&
+                    userPaginationList?.results.length > 0 &&
+                    userPaginationList?.results.map((users: any, i: any) => {
                       console.log(users);
                       if (validateIsTeacherRouter(users) && validateSearch(users)) {
                         return (

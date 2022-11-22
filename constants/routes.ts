@@ -22,6 +22,7 @@ export const ZOOM_RECORDINGS_GO_ENDPOINT = `https://tutela.edison.video/api/down
 
 // users
 export const USER_ENDPOINT = `/api/users/`;
+export const USER_PAGINATION_ENDPOINT = `/api/users/paginations/`;
 export const USER_WITH_ID_ENDPOINT = (user_id: any) => `/api/users/${user_id}/`;
 export const USER_PRODUCT_RESOURCE_VIEW_ENDPOINT = (user_id: any) =>
   `/api/users/${user_id}/detail/`;

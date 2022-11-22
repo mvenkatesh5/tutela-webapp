@@ -162,7 +162,7 @@ const UserSidebar = () => {
           </a>
         </Link>
       )}
-      {tokenDetails && tokenDetails.user && tokenDetails.user.role === 0 && (
+      {/* {tokenDetails && tokenDetails.user && tokenDetails.user.role === 0 && (
         <Link href="/videos">
           <a>
             <OverlayTrigger
@@ -183,7 +183,7 @@ const UserSidebar = () => {
             </OverlayTrigger>
           </a>
         </Link>
-      )}
+      )} */}
 
       {/* teacher */}
       {tokenDetails && tokenDetails.user && tokenDetails.user.role === 1 && (
