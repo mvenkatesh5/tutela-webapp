@@ -18,8 +18,23 @@ import {
 import { AddProductUnderUser, RemoveProductUnderUser } from "@lib/services/productsService";
 import { AttachResourceToUserPromise } from "@lib/services/resource.service";
 import { APIFetcher } from "@lib/services";
+// cookie
+import { getAuthenticationToken } from "@lib/cookie";
 
 const UserProductView = (props: any) => {
+  const [userRole, setUserRole] = React.useState<any>();
+  React.useEffect(() => {
+    if (getAuthenticationToken()) {
+      let details: any = getAuthenticationToken();
+      details = details ? JSON.parse(details) : null;
+      if (details) {
+        if (details.info.role === 2) setUserRole("admin");
+        else if (details.info.role === 1) setUserRole("teacher");
+        else setUserRole("student");
+      }
+    }
+  }, []);
+
   const [modalProductResources, setModalProductResources] = React.useState<any>();
 
   const [mentorToggle, setMentorToggle] = React.useState<boolean>(false);
@@ -142,7 +157,7 @@ const UserProductView = (props: any) => {
   const cancelProductResourcesAttachToUser = () => {
     if (modalProductResources && sessionMentors) {
       attachProductToUserRequest(modalProductResources);
-    }
+    } else closeModal();
   };
 
   const attachProductToUserRequest = (product: any) => {
@@ -285,9 +300,11 @@ const UserProductView = (props: any) => {
                       </div>
                     )}
                   </div>
-                  <div className="icon" onClick={() => openDeleteModal(data.id)}>
-                    <Times />
-                  </div>
+                  {userRole && userRole != "teacher" && (
+                    <div className="icon" onClick={() => openDeleteModal(data.id)}>
+                      <Times />
+                    </div>
+                  )}
                 </div>
               ))}
           </div>
@@ -315,6 +332,7 @@ const UserProductView = (props: any) => {
           <h6>Resources:</h6>
           <ol>{modalProductResources && renderModalResourceBinding()}</ol>
           <Button
+            type="button"
             variant="outline-primary"
             className="btn-sm"
             style={{ marginRight: "10px" }}
@@ -324,6 +342,7 @@ const UserProductView = (props: any) => {
             {buttonLoader ? "Processing..." : "Continue"}
           </Button>
           <Button
+            type="button"
             variant="outline-secondary"
             className="btn-sm"
             onClick={cancelProductResourcesAttachToUser}
@@ -338,6 +357,7 @@ const UserProductView = (props: any) => {
         <Modal.Body>
           <h5 className="mb-3">Do you want to delete the product.</h5>
           <Button
+            type="button"
             variant="outline-primary"
             className="btn-sm"
             style={{ marginRight: "10px" }}
@@ -347,6 +367,7 @@ const UserProductView = (props: any) => {
             {buttonLoader ? "Processing..." : "Confirm"}
           </Button>
           <Button
+            type="button"
             variant="outline-secondary"
             className="btn-sm"
             disabled={buttonLoader}

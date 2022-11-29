@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 // react bootstrap
-import { Container, Table, Form } from "react-bootstrap";
+import { Container, Table, Form, Button } from "react-bootstrap";
 // swr
 import useSWR, { mutate } from "swr";
 // blueprint
@@ -32,10 +32,7 @@ import { META_DESCRIPTION } from "@constants/page";
 const UserDetails = () => {
   const router = useRouter();
 
-  const [searchContent, setSearchContent] = React.useState<any>();
-
   const is_teacher: any = router.query.t;
-  // const { data: userList, error: userListError } = useSWR(USER_ENDPOINT, APIFetcher);
 
   const handleUserRole = (user: any, role: any) => {
     const payload = { id: user.id, role: role };
@@ -74,18 +71,6 @@ const UserDetails = () => {
     }
   };
 
-  const validateSearch = (user: any) => {
-    if (user && searchContent) {
-      if (user.username.includes(searchContent)) return true;
-      else if (user.first_name.includes(searchContent)) return true;
-      else if (user.last_name.includes(searchContent)) return true;
-      else if (user.email.includes(searchContent)) return true;
-      else return false;
-    } else {
-      return true;
-    }
-  };
-
   const meta = {
     title: "Users",
     description: META_DESCRIPTION,
@@ -114,17 +99,53 @@ const UserDetails = () => {
       });
   };
 
+  const [users, setUsers] = React.useState<any>();
+
+  const [firstName, setFirstName] = React.useState("");
+  const [lastName, setLastName] = React.useState("");
+  const [role, setRole] = React.useState("");
+  const [buttonLoader, setButtonLoader] = React.useState(false);
+
+  const handleSearch = async () => {
+    setButtonLoader(true);
+    await mutate(
+      [`${USER_PAGINATION_ENDPOINT}?per_page=${perPageCount}&cursor=${cursor}`, `user-${cursor}`],
+      APIFetcher(
+        `${USER_PAGINATION_ENDPOINT}?per_page=${perPageCount}&cursor=${cursor}
+        ${firstName ? `&first_name=${firstName}` : ``}
+        ${lastName ? `&last_name=${lastName}` : ``}
+        ${role ? `&role=${role}` : ``}`
+      ),
+      false
+    );
+    setButtonLoader(false);
+  };
+
+  const handleClearSearch = async () => {
+    setButtonLoader(true);
+    setFirstName("");
+    setRole("");
+    await mutate([
+      `${USER_PAGINATION_ENDPOINT}?per_page=${perPageCount}&cursor=${cursor}`,
+      `user-${cursor}`,
+    ]);
+    setButtonLoader(false);
+  };
+
   let perPageCount = 50;
   const [cursor, setCursor] = React.useState<any>(`50:0:0`);
   const [totalPages, setTotalPages] = React.useState<any>();
 
   const { data: userPaginationList, error: userPaginationListError } = useSWR(
-    [`${USER_PAGINATION_ENDPOINT}?per_page=${perPageCount}&cursor=${cursor}`, `user-${cursor}`],
+    cursor
+      ? [`${USER_PAGINATION_ENDPOINT}?per_page=${perPageCount}&cursor=${cursor}`, `user-${cursor}`]
+      : null,
     APIFetcher
   );
   React.useEffect(() => {
     if (userPaginationList) {
       setTotalPages(userPaginationList.total_pages);
+      setUsers(userPaginationList);
     }
   }, [userPaginationList]);
 
@@ -138,115 +159,189 @@ const UserDetails = () => {
                 <div>
                   <h5 className="m-0 p-0">Users</h5>
                 </div>
-                <div className="ms-auto">
-                  <Form.Control
-                    type="text"
-                    placeholder="Search user"
-                    value={searchContent}
-                    onChange={(e: any) => setSearchContent(e.target.value)}
-                  />
+                <div className="ms-auto"></div>
+              </div>
+
+              <div className="mb-3 mt-2 d-flex align-items-center gap-3">
+                <div>
+                  <Form.Group>
+                    <Form.Label className="mb-1 text-muted">First name</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={firstName}
+                      size="sm"
+                      onChange={(e) => setFirstName(e.target.value)}
+                      required
+                      placeholder="Enter First name"
+                    />
+                  </Form.Group>
+                </div>
+                <div>
+                  <Form.Group>
+                    <Form.Label className="mb-1 text-muted">Last name</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={lastName}
+                      size="sm"
+                      onChange={(e) => setLastName(e.target.value)}
+                      required
+                      placeholder="Enter Last name"
+                    />
+                  </Form.Group>
+                </div>
+                <div>
+                  <Form.Group>
+                    <Form.Label className="mb-1 text-muted">Role</Form.Label>
+                    <Form.Control
+                      as="select"
+                      required
+                      size="sm"
+                      value={role}
+                      onChange={(e) => setRole(e.target.value)}
+                    >
+                      <option value="">Select user role</option>
+                      <option value="0">Learner</option>
+                      <option value="1">Teacher</option>
+                      <option value="2">Admin</option>
+                      <option value="3">Parent</option>
+                    </Form.Control>
+                  </Form.Group>
+                </div>
+                <div className="mt-auto">
+                  <Button
+                    variant="outline-primary"
+                    className="btn-sm"
+                    disabled={buttonLoader}
+                    onClick={handleSearch}
+                  >
+                    {buttonLoader ? "Processing..." : "Search"}
+                  </Button>
+                </div>
+                <div className="mt-auto">
+                  <Button
+                    variant="outline-secondary"
+                    className="btn-sm"
+                    disabled={buttonLoader}
+                    onClick={handleClearSearch}
+                  >
+                    {buttonLoader ? "Processing..." : "Clear"}
+                  </Button>
                 </div>
               </div>
-              <div className="mb-3 mt-2">
-                <Pagination
-                  data={userPaginationList}
-                  cursor={cursor}
-                  setCursor={setCursor}
-                  count={perPageCount}
-                  totalPages={totalPages}
-                />
-              </div>
-              <Table bordered style={{ whiteSpace: "nowrap" }}>
-                <thead>
-                  <tr>
-                    {!is_teacher && <th className="text-center">#</th>}
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Date Joined</th>
-                    <th>Last Login</th>
-                    <th>Last Logout</th>
-                    <th>Status</th>
-                    <th>Role</th>
-                    <th>TimeZone</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {userPaginationList &&
-                    userPaginationList?.results &&
-                    userPaginationList?.results.length > 0 &&
-                    userPaginationList?.results.map((users: any, i: any) => {
-                      console.log(users);
-                      if (validateIsTeacherRouter(users) && validateSearch(users)) {
-                        return (
-                          <tr key={i}>
-                            {!is_teacher && <td className="text-center">{i + 1}</td>}
-                            <td className="heading">
-                              <Link
-                                href={`/users/${
-                                  users.role === 1 ? `${users.id}/teacher` : users.id
-                                }`}
-                              >
-                                <a target="_blank">{users.first_name}</a>
-                              </Link>
-                            </td>
-                            <td className="heading">{users.last_name}</td>
-                            <td className="heading">{users.username}</td>
-                            <td className="description">{users.email}</td>
-                            <td className="description text-center">
-                              {users.date_joined ? dateTimeFormat(users.date_joined) : "-"}
-                            </td>
-                            <td className="description text-center">
-                              {users.last_login ? dateTimeFormat(users.last_login) : "-"}
-                            </td>
-                            <td className="description text-center">
-                              {users.last_login ? dateTimeFormat(users.last_login) : "-"}
-                            </td>
-                            <td className="description text-center">
-                              <button
-                                type="button"
-                                className={`btn ${
-                                  users.is_active ? "btn-danger" : "btn-success"
-                                } btn-sm w-100`}
-                                onClick={() => updateUserActiveStatus(users.id, !users.is_active)}
-                              >
-                                {users.is_active ? "Deactivate" : "Activate"}
-                              </button>
-                            </td>
-                            <td>
-                              <Form.Group
-                                controlId="exampleForm.ControlSelect1"
-                                style={{ minWidth: "200px" }}
-                              >
-                                <Form.Control
-                                  as="select"
-                                  value={users.role}
-                                  onChange={(e) => handleUserRole(users, e.target.value)}
-                                >
-                                  <option value="0">Learner</option>
-                                  <option value="1">Teacher</option>
-                                  <option value="2">Admin</option>
-                                  <option value="3">Parent</option>
-                                </Form.Control>
-                              </Form.Group>
-                            </td>
-                            <td className="description">
-                              <TimezonePicker
-                                className="timezone-root"
-                                valueDisplayFormat="composite"
-                                value={users.timezone}
-                                onChange={(value) => {
-                                  handleUserTimezone(users, value);
-                                }}
-                              />
-                            </td>
-                          </tr>
-                        );
-                      }
-                    })}
-                </tbody>
-              </Table>
+
+              {userPaginationList && !userPaginationListError ? (
+                <>
+                  {users && users?.results && users?.results.length > 0 ? (
+                    <div>
+                      <div className="mb-3 mt-2">
+                        <Pagination
+                          data={userPaginationList}
+                          cursor={cursor}
+                          setCursor={setCursor}
+                          count={perPageCount}
+                          totalPages={totalPages}
+                        />
+                      </div>
+
+                      <div style={{ overflow: "hidden", overflowX: "auto" }}>
+                        <Table bordered style={{ whiteSpace: "nowrap" }}>
+                          <thead>
+                            <tr>
+                              {!is_teacher && <th className="text-center">#</th>}
+                              <th>First Name</th>
+                              <th>Last Name</th>
+                              <th>Username</th>
+                              <th>Email</th>
+                              <th>Date Joined</th>
+                              <th>Last Login</th>
+                              <th>Last Logout</th>
+                              <th>Status</th>
+                              <th>Role</th>
+                              <th>TimeZone</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {users?.results.map((users: any, i: any) => {
+                              if (validateIsTeacherRouter(users)) {
+                                return (
+                                  <tr key={i}>
+                                    {!is_teacher && <td className="text-center">{i + 1}</td>}
+                                    <td className="heading">
+                                      <Link
+                                        href={`/users/${
+                                          users.role === 1 ? `${users.id}/teacher` : users.id
+                                        }`}
+                                      >
+                                        <a target="_blank">{users.first_name}</a>
+                                      </Link>
+                                    </td>
+                                    <td className="heading">{users.last_name}</td>
+                                    <td className="heading">{users.username}</td>
+                                    <td className="description">{users.email}</td>
+                                    <td className="description text-center">
+                                      {users.date_joined ? dateTimeFormat(users.date_joined) : "-"}
+                                    </td>
+                                    <td className="description text-center">
+                                      {users.last_login ? dateTimeFormat(users.last_login) : "-"}
+                                    </td>
+                                    <td className="description text-center">
+                                      {users.last_login ? dateTimeFormat(users.last_login) : "-"}
+                                    </td>
+                                    <td className="description text-center">
+                                      <button
+                                        type="button"
+                                        className={`btn ${
+                                          users.is_active ? "btn-danger" : "btn-success"
+                                        } btn-sm w-100`}
+                                        onClick={() =>
+                                          updateUserActiveStatus(users.id, !users.is_active)
+                                        }
+                                      >
+                                        {users.is_active ? "Deactivate" : "Activate"}
+                                      </button>
+                                    </td>
+                                    <td>
+                                      <Form.Group
+                                        controlId="exampleForm.ControlSelect1"
+                                        style={{ minWidth: "200px" }}
+                                      >
+                                        <Form.Control
+                                          as="select"
+                                          value={users.role}
+                                          onChange={(e) => handleUserRole(users, e.target.value)}
+                                        >
+                                          <option value="0">Learner</option>
+                                          <option value="1">Teacher</option>
+                                          <option value="2">Admin</option>
+                                          <option value="3">Parent</option>
+                                        </Form.Control>
+                                      </Form.Group>
+                                    </td>
+                                    <td className="description">
+                                      <TimezonePicker
+                                        className="timezone-root"
+                                        valueDisplayFormat="composite"
+                                        value={users.timezone}
+                                        onChange={(value) => {
+                                          handleUserTimezone(users, value);
+                                        }}
+                                      />
+                                    </td>
+                                  </tr>
+                                );
+                              }
+                            })}
+                          </tbody>
+                        </Table>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="text-center text-muted mt-5 mb-5">No Users are available.</div>
+                  )}
+                </>
+              ) : (
+                <div className="text-center text-muted mt-5 mb-5">Loading...</div>
+              )}
             </Container>
           </div>
         </AdminLayout>
