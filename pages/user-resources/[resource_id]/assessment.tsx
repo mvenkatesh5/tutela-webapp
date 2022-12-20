@@ -44,10 +44,8 @@ const ResourceTreeView = () => {
     { refreshInterval: 0, revalidateOnFocus: false }
   );
 
-  console.log("resourceUserAssessment", resourceUserAssessment);
-
   const { data: resourceDetail, error: resourceDetailError } = useSWR(
-    resourceUserAssessment && resource_node_id
+    resourceUserAssessment && resourceUserAssessment?.resource_node && resource_node_id
       ? [RESOURCE_NODE_ENDPOINT(resource_node_id), resource_node_id]
       : null,
     (url) => APIFetcher(url),
@@ -129,148 +127,183 @@ const ResourceTreeView = () => {
       <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
         <AssessmentLayout>
           <>
-            {resourceDetail && !resourceDetailError ? (
+            {/* validation for the user access */}
+            {resourceUserAssessment && !resourceUserAssessmentError ? (
               <>
-                {resourceUserAssessment && resourceUserAssessment?.completed_at != null ? (
-                  <div className="w-100 h-100" style={{ overflow: "auto" }}>
-                    <div className="container">
-                      <div className="py-5 d-flex align-items-center">
-                        <Link href={`/user-resources/${resource_id}/`}>
-                          <a>
-                            <ArrowLeftShort width="32px" />
-                          </a>
-                        </Link>
-                        <h5 className="m-0 p-0">Test completed successfully.</h5>
-                      </div>
-                      <ResultPreview
-                        resourceDetail={resourceDetail}
-                        omrData={formData}
-                        results={resultCompletionPreview}
-                      />
-                    </div>
-                  </div>
-                ) : (
+                {resourceUserAssessment && resourceUserAssessment?.resource_node ? (
                   <>
-                    {resourceDetail && resourceDetail?.id ? (
-                      <div
-                        className="w-100 h-100 d-flex flex-column"
-                        style={{ overflow: "hidden" }}
-                      >
-                        <div className="border-bottom p-4">
-                          <div className="container-fluid d-flex justify-content-between align-items-center">
-                            <div className="d-flex gap-2 align-items-center">
-                              <Link href={`/user-resources/${resource_id}/`}>
-                                <a>
-                                  <ArrowLeftShort width="24px" />
-                                </a>
-                              </Link>
-                              <h5 className="m-0 p-0">{resourceDetail?.title}</h5>
-                            </div>
-                            <div className="d-flex gap-3">
-                              <div
-                                className="ms-auto"
-                                style={{ fontSize: "20px", fontWeight: "bold" }}
-                              >
-                                {formData?.time && formData?.time > 0 && (
-                                  <Timer
-                                    initialTime={convertMinutesToSeconds(formData?.time)}
-                                    timeHandler={handleTimerClose}
-                                  />
-                                )}
+                    {resourceDetail && !resourceDetailError ? (
+                      <>
+                        {resourceUserAssessment && resourceUserAssessment?.completed_at != null ? (
+                          <div className="w-100 h-100" style={{ overflow: "auto" }}>
+                            <div className="container">
+                              <div className="py-5 d-flex align-items-center">
+                                <Link href={`/user-resources/${resource_id}/`}>
+                                  <a>
+                                    <ArrowLeftShort width="32px" />
+                                  </a>
+                                </Link>
+                                <h5 className="m-0 p-0">Test completed successfully.</h5>
                               </div>
-                              <div>
-                                <Button
-                                  variant="primary"
-                                  size={"sm"}
-                                  onClick={handleAssessmentComplete}
-                                >
-                                  Submit
-                                </Button>
-                              </div>
+                              <ResultPreview
+                                resourceDetail={resourceDetail}
+                                omrData={formData}
+                                results={resultCompletionPreview}
+                              />
                             </div>
                           </div>
-                        </div>
-
-                        <div className="w-100 h-100" style={{ overflow: "hidden" }}>
-                          <div className="container-fluid d-flex w-100 h-100 align-items-center">
-                            <div className="w-100 h-100 border-end px-3 d-flex flex-column">
-                              <div className="w-100 h-100 pb-3" style={{ overflow: "hidden" }}>
-                                {resourceDetail?.data?.url && (
-                                  <PDFRenderView pdf_url={resourceDetail?.data?.url} />
-                                )}
-                              </div>
-                            </div>
-                            <div
-                              className="w-100 h-100 border-end px-3 d-flex flex-column"
-                              style={{ overflow: "hidden", maxWidth: "260px" }}
-                            >
-                              <div className="py-3">
-                                <h6 className="m-0 p-0">User Answer</h6>
-                              </div>
-
-                              {resourceDetail?.data?.kind === "document_objective_answers" && (
-                                <div className="w-100 h-100 py-4" style={{ overflow: "auto" }}>
-                                  <RenderOmr
-                                    render_key={`answer_data`}
-                                    data={formData}
-                                    handleData={(value: any) =>
-                                      handleFormData("answer_data", value)
-                                    }
-                                    noOfQuestionInARow={1000}
-                                  />
-                                </div>
-                              )}
-                              {resourceDetail?.data?.kind === "document_subjective_answers" && (
-                                <div>
-                                  <div className="w-100 h-100 py-4" style={{ overflow: "auto" }}>
-                                    {formData?.omr_data &&
-                                      Object.keys(formData?.omr_data) &&
-                                      Object.keys(formData?.omr_data).map(
-                                        (rowKey: string, rowIndex: number) => (
-                                          <div
-                                            key={rowIndex}
-                                            className="mb-2"
-                                            style={{
-                                              position: "relative",
-                                              display: "flex",
-                                              alignItems: "center",
-                                              gap: "10px",
-                                            }}
-                                          >
-                                            <div
-                                              style={{
-                                                display: "flex",
-                                                justifyContent: "center",
-                                                alignItems: "center",
-                                                gap: "10px",
-                                                fontSize: "14px",
-                                                fontWeight: "bold",
-                                                minWidth: "22px",
-                                              }}
-                                            >
-                                              {rowIndex + 1}.
-                                            </div>
-                                            <div>
-                                              <Button variant="outline-primary" size="sm">
-                                                Upload Answer
-                                              </Button>
-                                            </div>
-                                          </div>
-                                        )
-                                      )}
+                        ) : (
+                          <>
+                            {resourceDetail && resourceDetail?.id ? (
+                              <div
+                                className="w-100 h-100 d-flex flex-column"
+                                style={{ overflow: "hidden" }}
+                              >
+                                <div className="border-bottom p-4">
+                                  <div className="container-fluid d-flex justify-content-between align-items-center">
+                                    <div className="d-flex gap-2 align-items-center">
+                                      <Link href={`/user-resources/${resource_id}/`}>
+                                        <a>
+                                          <ArrowLeftShort width="24px" />
+                                        </a>
+                                      </Link>
+                                      <h5 className="m-0 p-0">{resourceDetail?.title}</h5>
+                                    </div>
+                                    <div className="d-flex gap-3">
+                                      <div
+                                        className="ms-auto"
+                                        style={{ fontSize: "20px", fontWeight: "bold" }}
+                                      >
+                                        {formData?.time && formData?.time > 0 && (
+                                          <Timer
+                                            initialTime={convertMinutesToSeconds(formData?.time)}
+                                            timeHandler={handleTimerClose}
+                                          />
+                                        )}
+                                      </div>
+                                      <div>
+                                        <Button
+                                          variant="primary"
+                                          size={"sm"}
+                                          onClick={handleAssessmentComplete}
+                                        >
+                                          Submit
+                                        </Button>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+
+                                <div className="w-100 h-100" style={{ overflow: "hidden" }}>
+                                  <div className="container-fluid d-flex w-100 h-100 align-items-center">
+                                    <div className="w-100 h-100 border-end px-3 d-flex flex-column">
+                                      <div
+                                        className="w-100 h-100 pb-3"
+                                        style={{ overflow: "hidden" }}
+                                      >
+                                        {resourceDetail?.data?.url && (
+                                          <PDFRenderView pdf_url={resourceDetail?.data?.url} />
+                                        )}
+                                      </div>
+                                    </div>
+                                    <div
+                                      className="w-100 h-100 border-end px-3 d-flex flex-column"
+                                      style={{ overflow: "hidden", maxWidth: "260px" }}
+                                    >
+                                      <div className="py-3">
+                                        <h6 className="m-0 p-0">User Answer</h6>
+                                      </div>
+
+                                      {resourceDetail?.data?.kind ===
+                                        "document_objective_answers" && (
+                                        <div
+                                          className="w-100 h-100 py-4"
+                                          style={{ overflow: "auto" }}
+                                        >
+                                          <RenderOmr
+                                            render_key={`answer_data`}
+                                            data={formData}
+                                            handleData={(value: any) =>
+                                              handleFormData("answer_data", value)
+                                            }
+                                            noOfQuestionInARow={1000}
+                                          />
+                                        </div>
+                                      )}
+                                      {resourceDetail?.data?.kind ===
+                                        "document_subjective_answers" && (
+                                        <div>
+                                          <div
+                                            className="w-100 h-100 py-4"
+                                            style={{ overflow: "auto" }}
+                                          >
+                                            {formData?.omr_data &&
+                                              Object.keys(formData?.omr_data) &&
+                                              Object.keys(formData?.omr_data).map(
+                                                (rowKey: string, rowIndex: number) => (
+                                                  <div
+                                                    key={rowIndex}
+                                                    className="mb-2"
+                                                    style={{
+                                                      position: "relative",
+                                                      display: "flex",
+                                                      alignItems: "center",
+                                                      gap: "10px",
+                                                    }}
+                                                  >
+                                                    <div
+                                                      style={{
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        alignItems: "center",
+                                                        gap: "10px",
+                                                        fontSize: "14px",
+                                                        fontWeight: "bold",
+                                                        minWidth: "22px",
+                                                      }}
+                                                    >
+                                                      {rowIndex + 1}.
+                                                    </div>
+                                                    <div>
+                                                      <Button variant="outline-primary" size="sm">
+                                                        Upload Answer
+                                                      </Button>
+                                                    </div>
+                                                  </div>
+                                                )
+                                              )}
+                                          </div>
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="w-100 text-center text-muted py-5">
+                                No resource are available.
+                              </div>
+                            )}
+                          </>
+                        )}
+                      </>
                     ) : (
-                      <div className="w-100 text-center text-muted py-5">
-                        No resource are available.
-                      </div>
+                      <div className="w-100 text-center text-muted py-5">Loading...</div>
                     )}
                   </>
+                ) : (
+                  <div className="w-100 text-center text-muted py-5">
+                    <div>
+                      Don{"'"}t have permission to access this test. Please contact your teacher.
+                    </div>
+                    <Link href={`/user-resources/${resource_id}/`}>
+                      <a>
+                        <Button variant="primary" size={"sm"} className="mt-4">
+                          Back to resources
+                        </Button>
+                      </a>
+                    </Link>
+                  </div>
                 )}
               </>
             ) : (

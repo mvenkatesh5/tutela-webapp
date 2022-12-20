@@ -69,7 +69,7 @@ const ResourceTreeView = () => {
     { refreshInterval: 0 }
   );
 
-  const { data: productCategory, error: productCategoryError } = useSWR(
+  const { data: resourceDetail, error: resourceDetailError } = useSWR(
     resourceNode ? RESOURCE_WITH_NODE_ENDPOINT(resourceNode.resource_node) : null,
     (url) => APIFetcher(url),
     { refreshInterval: 0 }
@@ -137,23 +137,23 @@ const ResourceTreeView = () => {
               </>
             }
           >
-            {!productCategory ? (
+            {!resourceDetail ? (
               <div className="text-center mt- 5 mb-5">Loading.....</div>
             ) : (
               <div>
                 <Container className="pt-3 pb-3">
                   <h5 className="mb-4">
-                    Resource {productCategory && productCategory.tree[0].data.title}
+                    Resource {resourceDetail && resourceDetail.tree[0].data.title}
                   </h5>
-                  {productCategory &&
-                  productCategory.tree &&
-                  productCategory.tree.length > 0 &&
-                  productCategory.tree[0] &&
-                  productCategory.tree[0].children ? (
+                  {resourceDetail &&
+                  resourceDetail.tree &&
+                  resourceDetail.tree.length > 0 &&
+                  resourceDetail.tree[0] &&
+                  resourceDetail.tree[0].children ? (
                     <ResourceView
-                      data={productCategory.tree[0].children}
+                      data={resourceDetail.tree[0].children}
                       root_node_id={resource_id}
-                      currentProduct={productCategory}
+                      currentProduct={resourceDetail}
                       resourceNode={resourceNode}
                       user={tokenDetails}
                       notesToggle={notesToggle}
