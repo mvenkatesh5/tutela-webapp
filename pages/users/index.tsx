@@ -101,8 +101,8 @@ const UserDetails = () => {
 
   const [users, setUsers] = React.useState<any>();
 
-  const [firstName, setFirstName] = React.useState("");
-  const [lastName, setLastName] = React.useState("");
+  const [search, setSearch] = React.useState("");
+
   const [role, setRole] = React.useState("");
   const [buttonLoader, setButtonLoader] = React.useState(false);
 
@@ -112,8 +112,7 @@ const UserDetails = () => {
       [`${USER_PAGINATION_ENDPOINT}?per_page=${perPageCount}&cursor=${cursor}`, `user-${cursor}`],
       APIFetcher(
         `${USER_PAGINATION_ENDPOINT}?per_page=${perPageCount}&cursor=${cursor}
-        ${firstName ? `&first_name=${firstName}` : ``}
-        ${lastName ? `&last_name=${lastName}` : ``}
+        ${search ? `&search=${search}` : ``}
         ${role ? `&role=${role}` : ``}`
       ),
       false
@@ -123,7 +122,7 @@ const UserDetails = () => {
 
   const handleClearSearch = async () => {
     setButtonLoader(true);
-    setFirstName("");
+    setSearch("");
     setRole("");
     await mutate([
       `${USER_PAGINATION_ENDPOINT}?per_page=${perPageCount}&cursor=${cursor}`,
@@ -165,27 +164,14 @@ const UserDetails = () => {
               <div className="mb-3 mt-2 d-flex align-items-center gap-3">
                 <div>
                   <Form.Group>
-                    <Form.Label className="mb-1 text-muted">First name</Form.Label>
+                    <Form.Label className="mb-1 text-muted">Search by</Form.Label>
                     <Form.Control
                       type="text"
-                      value={firstName}
+                      value={search}
                       size="sm"
-                      onChange={(e) => setFirstName(e.target.value)}
+                      onChange={(e) => setSearch(e.target.value)}
                       required
-                      placeholder="Enter First name"
-                    />
-                  </Form.Group>
-                </div>
-                <div>
-                  <Form.Group>
-                    <Form.Label className="mb-1 text-muted">Last name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={lastName}
-                      size="sm"
-                      onChange={(e) => setLastName(e.target.value)}
-                      required
-                      placeholder="Enter Last name"
+                      placeholder="name, email, username"
                     />
                   </Form.Group>
                 </div>
