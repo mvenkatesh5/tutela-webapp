@@ -21,6 +21,8 @@ export const setAuthenticationToken = (token_details: any) => {
   if (token_details) {
     const token = token_details ? JSON.stringify(token_details) : "";
     cookie.set("token_details", token);
+    cookie.set("user_id", token_details.user.id);
+    cookie.set("token", token_details.access_token);
     setAxiosHeader(token_details.access_token);
   }
 };
@@ -32,6 +34,8 @@ export const getAuthenticationToken = () => {
 
 export const removeAuthenticationToken = () => {
   cookie.remove("token_details");
+  cookie.remove("user_id");
+  cookie.remove("token");
 };
 
 // removing all user tokens
