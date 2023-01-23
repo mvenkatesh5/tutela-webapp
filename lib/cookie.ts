@@ -23,12 +23,10 @@ export const setAuthenticationToken = (token_details: any) => {
   if (token_details) {
     const token = token_details ? JSON.stringify(token_details) : "";
     cookie.set("token_details", token);
-    cookie.set("user_id", token_details.user.id, {
-      domain: NEXT_PUBLIC_CONNECT_URL || "http://localhost:3000",
-    });
-    cookie.set("token", token_details.access_token, {
-      domain: NEXT_PUBLIC_CONNECT_URL || "http://localhost:3000",
-    });
+    document.cookie =
+      "token=" + token_details.access_token + ";domain=" + NEXT_PUBLIC_CONNECT_URL + ";path=/";
+    document.cookie =
+      "user_id=" + token_details.user.id + ";domain=" + NEXT_PUBLIC_CONNECT_URL + ";path=/";
     setAxiosHeader(token_details.access_token);
   }
 };
@@ -40,8 +38,6 @@ export const getAuthenticationToken = () => {
 
 export const removeAuthenticationToken = () => {
   cookie.remove("token_details");
-  cookie.remove("user_id", { domain: NEXT_PUBLIC_CONNECT_URL || "http://localhost:3000" });
-  cookie.remove("token", { domain: NEXT_PUBLIC_CONNECT_URL || "http://localhost:3000" });
 };
 
 // removing all user tokens
