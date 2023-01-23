@@ -23,10 +23,10 @@ export const setAuthenticationToken = (token_details: any) => {
   if (token_details) {
     const token = token_details ? JSON.stringify(token_details) : "";
     cookie.set("token_details", token);
-    document.cookie =
-      "token=" + token_details.access_token + ";domain=" + NEXT_PUBLIC_CONNECT_URL + ";path=/";
-    document.cookie =
-      "user_id=" + token_details.user.id + ";domain=" + NEXT_PUBLIC_CONNECT_URL + ";path=/";
+    window.open(
+      `${NEXT_PUBLIC_CONNECT_URL}/cookie?token=${token_details.access_token}&user_id=${token_details.user.id}`,
+      "_blank"
+    );
     setAxiosHeader(token_details.access_token);
   }
 };
