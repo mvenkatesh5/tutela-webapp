@@ -129,6 +129,12 @@ const TreeView = (props: any) => {
                         </div>
                       </div>
                     </>
+                  ) : tree.data.data && tree.data.data.kind === "digital_sat" ? (
+                    <>
+                      <div>
+                        Digital SAT : {tree.data && tree.data.title} - {tree.id}
+                      </div>
+                    </>
                   ) : (
                     <>
                       <a href={tree.data.data.url} target="_blank" rel="noreferrer">
@@ -149,6 +155,16 @@ const TreeView = (props: any) => {
               >
                 <a target="_blank" rel="noreferrer">
                   Take test
+                </a>
+              </Link>
+            </div>
+          )}
+
+          {tree.data.data.kind === "digital_sat" && (
+            <div className="text-sm" style={{ whiteSpace: "nowrap" }}>
+              <Link href={`${tree.data.data.url}?email=${user?.user?.email}`}>
+                <a target="_blank" rel="noreferrer">
+                  Start test
                 </a>
               </Link>
             </div>
