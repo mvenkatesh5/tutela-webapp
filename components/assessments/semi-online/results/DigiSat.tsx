@@ -100,12 +100,12 @@ export default function DigitalSAT({ resourceDetail, selectedUser }: IResultPrev
                           ? selectedData?.section_score_data[getSection("reading")] || 0
                           : 0
                       ] +
-                        digitalSatData?.reading[
+                        digitalSatData?.writing[
                           getSection("writing") !== 0
                             ? selectedData?.section_score_data[getSection("writing")] || 0
                             : 0
                         ] +
-                        digitalSatData?.reading[
+                        digitalSatData?.maths[
                           getSection("maths") !== 0
                             ? selectedData?.section_score_data[getSection("maths")] || 0
                             : 0
@@ -160,7 +160,7 @@ export default function DigitalSAT({ resourceDetail, selectedUser }: IResultPrev
                         Scaled score :{" "}
                         <strong>
                           {
-                            digitalSatData?.reading[
+                            digitalSatData?.writing[
                               getSection("writing") !== 0
                                 ? selectedData?.section_score_data[getSection("writing")] || 0
                                 : 0
@@ -189,7 +189,7 @@ export default function DigitalSAT({ resourceDetail, selectedUser }: IResultPrev
                         Scaled score :{" "}
                         <strong>
                           {
-                            digitalSatData?.reading[
+                            digitalSatData?.maths[
                               getSection("maths") !== 0
                                 ? selectedData?.section_score_data[getSection("maths")] || 0
                                 : 0
