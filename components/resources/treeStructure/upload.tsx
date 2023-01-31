@@ -41,6 +41,11 @@ const ResourceFormUpload = (props: any) => {
       key: "document_subjective_answers",
     },
     {
+      name: "Digital SAT",
+      icon: <File />,
+      key: "digital_sat",
+    },
+    {
       name: "URL",
       icon: <Link />,
       key: "url",
@@ -72,7 +77,7 @@ const ResourceFormUpload = (props: any) => {
     setModal("");
   };
   const openModal = (value: string) => {
-    setFormData({ ...formData, kind: value, url: "", content: "" });
+    setFormData({ ...formData, kind: value, url: "", content: "", sat_token: "" });
     setModal(value);
   };
 
@@ -131,11 +136,17 @@ const ResourceFormUpload = (props: any) => {
 
   const createFileUploadTree = () => {
     if (props.upload_new) {
+      let formPayload: any = null;
+      if (modal === "digital_sat") {
+        formPayload = { ...formData, sat_token: formData.url.split("/")[5] };
+      } else {
+        formPayload = formData;
+      }
       let payload: any = null;
       payload = addFileNodeAsChild(
         props.data.id,
         formData.title ? formData.title : extractFileNameFromUrl(formData.url),
-        formData
+        formPayload
       );
       setButtonLoader(true);
       ResourceNodeOperation(payload)
@@ -158,7 +169,17 @@ const ResourceFormUpload = (props: any) => {
           console.log(error);
         });
     } else {
-      const payload = { id: props.data.id, title: formData.title, data: formData };
+      let formPayload: any = null;
+      if (modal === "digital_sat") {
+        formPayload = { ...formData, sat_token: formData.url.split("/")[5] };
+      } else {
+        formPayload = formData;
+      }
+      const payload = {
+        id: props.data.id,
+        title: formData.title,
+        data: formPayload,
+      };
       setButtonLoader(true);
 
       ResourceNodeEdit(payload)
@@ -294,10 +315,12 @@ const ResourceFormUpload = (props: any) => {
                     </Button>
                   )}
                 </>
-              ) : modal === "url" ? (
+              ) : modal === "url" || modal === "digital_sat" ? (
                 <>
                   <Form.Group className="mb-3" controlId="resources-modal-url-editor">
-                    <Form.Label>Enter File URL</Form.Label>
+                    <Form.Label>
+                      {modal === "digital_sat" ? "Enter URL" : "Enter File URL"}
+                    </Form.Label>
                     <Form.Control
                       as="textarea"
                       rows={3}

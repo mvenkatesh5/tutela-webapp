@@ -141,6 +141,12 @@ const TreeChildrenRenderView = ({
                             </div>
                           </div>
                         </>
+                      ) : tree.data.data && tree.data.data.kind === "digital_sat" ? (
+                        <>
+                          <div className="d-flex align-items-center">
+                            Digital SAT : {tree.data && tree.data.title} - {tree.id}
+                          </div>
+                        </>
                       ) : (
                         <>
                           <a href={tree.data.data.url} target="_blank" rel="noreferrer">
@@ -176,7 +182,8 @@ const TreeChildrenRenderView = ({
 
               {admin &&
                 (tree.data.data.kind === "document_objective_answers" ||
-                  tree.data.data.kind === "document_subjective_answers") && (
+                  tree.data.data.kind === "document_subjective_answers" ||
+                  tree.data.data.kind === "digital_sat") && (
                   <div className="ms-3 text-sm" style={{ whiteSpace: "nowrap" }}>
                     <Link
                       href={`/resources/${resource_id}/submissions?resource_node_id=${tree?.id}`}
