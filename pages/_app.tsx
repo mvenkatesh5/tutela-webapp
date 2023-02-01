@@ -8,8 +8,12 @@ import Head from "next/head";
 import "config/axios";
 // context provider
 import { GlobalContextProvider } from "@contexts/global";
+import { MeetContextProvider } from "@contexts/MeetContextProvider";
+import { AppStateProvider } from "@contexts/AppStateProvider";
+import { MeetingProvider, lightTheme } from "amazon-chime-sdk-component-library-react";
 // components
 import ToastAlert from "@components/alert";
+import { ThemeProvider } from "styled-components";
 const CrispWithNoSSR = dynamic(() => import("@constants/scripts/crisp"), { ssr: false });
 // styles
 import "@styles/app.scss";
@@ -34,9 +38,18 @@ export default function App({ Component, pageProps }: AppProps) {
       <SSRProvider>
         <OverlayProvider>
           <GlobalContextProvider>
-            <CrispWithNoSSR />
-            <ToastAlert />
-            <Component {...pageProps} />
+            <AppStateProvider>
+              <MeetContextProvider>
+                <ThemeProvider theme={lightTheme}>
+                  <CrispWithNoSSR />
+                  <ToastAlert />
+                  {/* @ts-ignore */}
+                  <MeetingProvider>
+                    <Component {...pageProps} />
+                  </MeetingProvider>
+                </ThemeProvider>
+              </MeetContextProvider>
+            </AppStateProvider>
           </GlobalContextProvider>
           {/* <ResizeHandler /> */}
           <NProgress />
