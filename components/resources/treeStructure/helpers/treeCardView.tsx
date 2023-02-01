@@ -19,6 +19,7 @@ import { ClipboardNotes } from "@styled-icons/foundation/ClipboardNotes";
 import { BookReader } from "@styled-icons/boxicons-regular/BookReader";
 import { EyeFill } from "@styled-icons/bootstrap/EyeFill";
 import { EyeWithLine } from "@styled-icons/entypo/EyeWithLine";
+import { LaptopChromebook } from "@styled-icons/material-rounded/LaptopChromebook";
 // react beautiful dnd
 import { Draggable } from "react-beautiful-dnd";
 // components
@@ -104,6 +105,10 @@ const TreeChildrenRenderView = ({
               {tree.data.kind === "SECTION" ? (
                 <div className="flex-item">
                   <Folder />
+                </div>
+              ) : tree.data.data.kind === "digital_sat" ? (
+                <div className="flex-item" style={{ color: "#0077C8" }}>
+                  <LaptopChromebook />
                 </div>
               ) : (
                 <div className="flex-item">
