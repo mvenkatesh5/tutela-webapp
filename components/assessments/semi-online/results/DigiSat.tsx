@@ -41,7 +41,7 @@ export default function DigitalSAT({ resourceDetail, selectedUser }: IResultPrev
       const payload = {
         email: userDetailList?.email,
         assessment_uuid: resourceDetail?.data?.sat_token,
-        tenant_name: "deepak",
+        tenant_name: "digitalsat",
       };
 
       FetchEdisonAssessmentResult(payload)
