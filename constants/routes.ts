@@ -2,7 +2,7 @@
 export const BASE_PROD = "https://tutelaotlp.herokuapp.com/";
 export const BASE_STAGING = "https://tutelaotlp-staging.herokuapp.com/";
 export const BASE_LOCAL = "https://tutelaotlp-staging.herokuapp.com/";
-export const EDISON_ASSESSMENT_BASE_URL = `https://edisonapi-stage.herokuapp.com/`;
+export const EDISON_ASSESSMENT_BASE_URL = `https://api.edison.cx/`;
 
 // default urls
 export const DEFAULT_ZOOM_URL = `https://zoom.us/j/2505542539?pwd=dXh0amx3TktJTEFTYk9OYUJ3YUNYUT09`;
