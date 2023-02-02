@@ -1,7 +1,4 @@
 import React from "react";
-// next imports
-import dynamic from "next/dynamic";
-// components
 // data
 import { digitalSatData } from "@components/data/digital-sat";
 // react bootstrap
@@ -43,7 +40,6 @@ export default function DigitalSAT({ resourceDetail, selectedUser }: IResultPrev
         assessment_uuid: resourceDetail?.data?.sat_token,
         tenant_name: "digitalsat",
       };
-
       FetchEdisonAssessmentResult(payload)
         .then((response) => {
           setAssessmentResponse(response?.assessment_sessions);
