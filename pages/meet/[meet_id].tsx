@@ -47,11 +47,11 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
   const [localUserInfo, setLocalUserInfo] = useState<UserObjInterface | any>(
     userInfo
       ? {
-          userId: userInfo.id,
-          userName: userInfo.username,
-          userEmail: userInfo.email,
-          firstName: userInfo.first_name,
-          isActive: userInfo.is_active,
+          userId: userInfo.user.id,
+          userName: userInfo.user.username,
+          userEmail: userInfo.user.email,
+          firstName: userInfo.user.first_name,
+          isActive: userInfo.user.is_active,
         }
       : null
   );
@@ -59,13 +59,14 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
   useEffect(() => {
     const initiateMeetSession = async () => {
       const deviceController = new DefaultDeviceController(logger);
-      let id = userInfo.id.toString();
-      const userId = (id?.length < 2 ? "0" : "") + userInfo.id;
+      let id = userInfo.user.id.toString();
+      const userId = (id?.length < 2 ? "0" : "") + userInfo.user.id;
 
       const session = await createMeetingSession(meet_id.toString(), userId, deviceController)
         .then((re) => re)
         .catch((e) => {
-          router.replace("/");
+          router.replace("/meet");
+          console.log(e);
           return null;
         });
       const meetingOptions = {
@@ -88,11 +89,11 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
   }, [meet_id, localUserInfo]);
 
   return (
-    <div className="relative h-screen w-screen flex flex-col">
+    <div className="tw-relative tw-h-screen tw-w-screen ">
       {status == 0 ? (
         <LoadingScreen />
       ) : (
-        <div className="relative overflow-hidden flex justify-center align-middle h-full">
+        <div className="tw-relative tw-overflow-hidden tw-flex tw-justify-center tw-align-middle tw-h-screen tw-w-full tw-flex-col">
           <VideoTiles
             localAttendeeId={localAttendeeId}
             localUserId={localUserId}

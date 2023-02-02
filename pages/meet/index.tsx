@@ -4,6 +4,7 @@ import React, { useState, ChangeEvent, useEffect } from "react";
 import axios from "axios";
 import cookie from "js-cookie";
 import { fetchUserData } from "@components/meet-chime/helpers/auth";
+import { v4 as uuid4 } from "uuid";
 // import { convertCookieStringToObject } from "lib/meet/cookie";
 
 type userSchema = {
@@ -50,46 +51,46 @@ const IndexPage: NextPage<userSchema | any> = ({ userInfo }) => {
   };
 
   return (
-    <div className="h-[100vh] w-full relative">
+    <div className="tw-h-[100vh] tw-w-full tw-relative">
       {/* container */}
-      <div className="h-full w-full">
+      <div className="tw-h-full tw-w-full">
         {/* navbar */}
-        <nav className="h-[50px] w-full flex justify-start items-center p-8">
+        <nav className="tw-h-[50px] tw-w-full tw-flex tw-justify-start tw-items-center tw-p-8">
           <div>
             <button onClick={() => router.push("/")}>
-              <h3 className="text-2xl font-medium">Tutela Connect</h3>
+              <h3 className="tw-text-2xl tw-font-medium">Tutela Connect</h3>
             </button>
           </div>
         </nav>
         {/* main */}
-        <main className="flex flex-col justify-center items-center md:items-start gap-8 mt-12 md:mt-24  w-full px-4 md:px-8">
+        <main className="tw-flex tw-flex-col tw-justify-center tw-items-center md:tw-items-start tw-gap-8 tw-mt-12 md:tw-mt-24  tw-w-full tw-px-4 md:tw-px-8">
           <div>
-            <h3 className="text-2xl md:text-3xl text-center">
+            <h3 className="tw-text-2xl md:tw-text-3xl tw-text-center">
               Welcome {localUserInfo ? localUserInfo.userName : ""} To Tutela Connect
             </h3>
-            <p className="mt-2 text-sm md:text-md text-center">
+            <p className="tw-mt-2 tw-text-sm md:tw-text-md tw-text-center">
               Start New Meeting Or Enter a Existing Meeting Code.
             </p>
           </div>
-          <div className="flex flex-col-reverse md:flex-row gap-6">
+          <div className="tw-flex tw-flex-col-reverse md:tw-flex-row gap-6">
             <div>
               <button
-                className="w-full text-[16px] px-[24px] py-[8px] rounded-[4px] bg-blue-700 text-white font-bold outline-none "
-                onClick={() => handleJoin(generateRandomString(8))}
+                className="tw-w-full tw-text-[16px] tw-px-[24px] tw-py-[8px] tw-rounded-[4px] tw-bg-blue-700 tw-text-white tw-font-bold tw-outline-none "
+                onClick={() => handleJoin(uuid4().toString())}
               >
                 New Meeting
               </button>
             </div>
-            <div className="flex">
-              <div className="relative">
+            <div className="tw-flex">
+              <div className="tw-relative">
                 <input
-                  className="flex box-border w-[200px] h-full px-4 py-2 rounded-[5px] border-[1px] border-[#e2e2e2] border-solid"
+                  className="tw-flex tw-box-border tw-w-[200px] tw-h-full tw-px-4 tw-py-2 tw-rounded-[5px] tw-border-[1px] tw-border-[#e2e2e2] tw-border-solid"
                   type="text"
                   placeholder="Enter a meeting code"
                   onChange={handleChange}
                 />
                 {isCodeInValid && roomId ? (
-                  <span className="absolute text-xs text-center w-full mt-1 font-semibold text-red-900">
+                  <span className="tw-absolute tw-text-xs tw-text-center tw-w-full tw-mt-1 tw-font-semibold tw-text-red-900">
                     Enter Min 6 Character Code
                   </span>
                 ) : (
@@ -100,7 +101,7 @@ const IndexPage: NextPage<userSchema | any> = ({ userInfo }) => {
               <div>
                 <button
                   id="joinBtn"
-                  className="w-full text-[16px] px-[24px] py-[8px] rounded-[4px] text-blue-700  font-bold border-1 border-black "
+                  className="tw-w-full tw-text-[16px] tw-px-[24px] tw-py-[8px] tw-rounded-[4px] tw-text-blue-700  tw-font-bold tw-border-1 tw-border-black "
                   onClick={() => handleJoin(roomId)}
                   disabled={isCodeInValid}
                 >

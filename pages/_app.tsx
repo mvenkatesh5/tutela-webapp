@@ -16,6 +16,7 @@ import ToastAlert from "@components/alert";
 import { ThemeProvider } from "styled-components";
 const CrispWithNoSSR = dynamic(() => import("@constants/scripts/crisp"), { ssr: false });
 // styles
+import "@styles/main.css";
 import "@styles/app.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 

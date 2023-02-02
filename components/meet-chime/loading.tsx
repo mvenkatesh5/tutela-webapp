@@ -3,7 +3,7 @@ import React from "react";
 
 const LoadingScreen = () => {
   return (
-    <div className="flex w-full h-full justify-center items-center">
+    <div className="tw-flex tw-w-screen tw-h-screen tw-justify-center tw-items-center">
       <Heading level={4}>Loading</Heading>
       <Spinner height="4rem" width="4rem" />
     </div>

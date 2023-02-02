@@ -1,33 +1,28 @@
 // next imports
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from "next";
 // chime sdk
-import AWS from 'aws-sdk';
+import AWS from "aws-sdk";
 // uuid
-import { v4 as uuidV4 } from 'uuid';
+import { v4 as uuidV4 } from "uuid";
 // middleware
-import { isMeetValid } from 'lib/meet/middleware';
+import { isMeetValid } from "@components/meet-chime/helpers/middleware";
 
-const { T_AWS_ACCESS_KEY_ID = '', T_AWS_SECRET_ACCESS_KEY = '' } = process.env;
+const { T_AWS_ACCESS_KEY_ID = "", T_AWS_SECRET_ACCESS_KEY = "" } = process.env;
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
   const { room, userId } = await req.body;
   const { method } = req;
   switch (method) {
-    case 'POST':
+    case "POST":
       try {
         // Initialize aws credentials
-        AWS.config.credentials = new AWS.Credentials(
-          T_AWS_ACCESS_KEY_ID,
-          T_AWS_SECRET_ACCESS_KEY
-        );
+        AWS.config.credentials = new AWS.Credentials(T_AWS_ACCESS_KEY_ID, T_AWS_SECRET_ACCESS_KEY);
 
         // Initializing chime instance
-        const chime = new AWS.Chime({ region: 'us-east-1' });
-        chime.endpoint = new AWS.Endpoint(
-          'https://service.chime.aws.amazon.com'
-        );
+        const chime = new AWS.Chime({ region: "us-east-1" });
+        chime.endpoint = new AWS.Endpoint("https://service.chime.aws.amazon.com");
         const chimeMedia = new AWS.ChimeSDKMediaPipelines({
-          region: 'us-east-1',
+          region: "us-east-1",
         });
         const meetingList = await chime.listMeetings().promise();
 
@@ -45,13 +40,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
           attendeeResponse = await chime
             .createAttendee({
               MeetingId: meetingRoomExists?.MeetingId?.toString(),
-              ExternalUserId: `${(userId.length < 2 ? '0' : '') + userId}`,
+              ExternalUserId: `${(userId.length < 2 ? "0" : "") + userId}`,
             })
             .promise();
 
           return res.status(200).json({
-            status: 'attendee_created',
-            message: 'Attendee added successfully.',
+            status: "attendee_created",
+            message: "Attendee added successfully.",
             meetingResponse: meetingResponse,
             attendeeResponse: attendeeResponse,
           });
@@ -59,7 +54,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
           meetingResponse = await chime
             .createMeeting({
               ClientRequestToken: uuidV4(),
-              MediaRegion: 'us-east-1',
+              MediaRegion: "us-east-1",
               ExternalMeetingId: room.toString(),
             })
             .promise();
@@ -68,7 +63,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
             attendeeResponse = await chime
               .createAttendee({
                 MeetingId: meetingResponse.Meeting.MeetingId.toString(),
-                ExternalUserId: `${(userId.length < 2 ? '0' : '') + userId}`,
+                ExternalUserId: `${(userId.length < 2 ? "0" : "") + userId}`,
               })
               .promise();
 
@@ -76,31 +71,31 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
 
             const params = {
               SinkArn: `arn:aws:s3:::tutela-connect-recordings/${meet_id}`,
-              SinkType: 'S3Bucket',
+              SinkType: "S3Bucket",
               SourceArn: `arn:aws:chime::140372967108:meeting:${meet_id}`,
-              SourceType: 'ChimeSdkMeeting',
+              SourceType: "ChimeSdkMeeting",
               ChimeSdkMeetingConfiguration: {
                 ArtifactsConfiguration: {
                   Audio: {
-                    MuxType: 'AudioWithCompositedVideo',
+                    MuxType: "AudioWithCompositedVideo",
                   },
                   Content: {
-                    State: 'Disabled',
-                    MuxType: 'ContentOnly',
+                    State: "Disabled",
+                    MuxType: "ContentOnly",
                   },
                   Video: {
-                    State: 'Disabled',
-                    MuxType: 'VideoOnly',
+                    State: "Disabled",
+                    MuxType: "VideoOnly",
                   },
                   CompositedVideo: {
                     GridViewConfiguration: {
-                      ContentShareLayout: 'Vertical',
+                      ContentShareLayout: "Vertical",
                       PresenterOnlyConfiguration: {
-                        PresenterPosition: 'TopLeft',
+                        PresenterPosition: "TopLeft",
                       },
                     },
-                    Layout: 'GridView',
-                    Resolution: 'HD',
+                    Layout: "GridView",
+                    Resolution: "HD",
                   },
                 },
               },
@@ -114,7 +109,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
                   .createMediaConcatenationPipeline({
                     Sinks: [
                       {
-                        Type: 'S3Bucket',
+                        Type: "S3Bucket",
                         S3BucketSinkConfiguration: {
                           Destination: `arn:aws:s3:::tutela-connect-records/${meet_id}`,
                         },
@@ -123,32 +118,31 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
 
                     Sources: [
                       {
-                        Type: 'MediaCapturePipeline',
+                        Type: "MediaCapturePipeline",
                         MediaCapturePipelineSourceConfiguration: {
-                          MediaPipelineArn:
-                            response?.MediaCapturePipeline?.MediaPipelineArn,
+                          MediaPipelineArn: response?.MediaCapturePipeline?.MediaPipelineArn,
                           ChimeSdkMeetingConfiguration: {
                             ArtifactsConfiguration: {
                               Audio: {
-                                State: 'Enabled',
+                                State: "Enabled",
                               },
                               Video: {
-                                State: 'Enabled',
+                                State: "Enabled",
                               },
                               Content: {
-                                State: 'Enabled',
+                                State: "Enabled",
                               },
                               DataChannel: {
-                                State: 'Enabled',
+                                State: "Enabled",
                               },
                               TranscriptionMessages: {
-                                State: 'Enabled',
+                                State: "Enabled",
                               },
                               MeetingEvents: {
-                                State: 'Enabled',
+                                State: "Enabled",
                               },
                               CompositedVideo: {
-                                State: 'Enabled',
+                                State: "Enabled",
                               },
                             },
                           },
@@ -166,32 +160,32 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
           }
         }
 
-        console.log('recordResponse', recordResponse);
-        console.log('meetingResponse', meetingResponse);
-        console.log('attendeeResponse', attendeeResponse);
+        console.log("recordResponse", recordResponse);
+        console.log("meetingResponse", meetingResponse);
+        console.log("attendeeResponse", attendeeResponse);
 
         if (meetingResponse != null && attendeeResponse != null)
           return res.status(200).json({
-            status: 'meeting_created',
-            message: 'Meeting created successfully.',
+            status: "meeting_created",
+            message: "Meeting created successfully.",
             meetingResponse: meetingResponse,
             attendeeResponse: attendeeResponse,
             recordResponse: recordResponse,
           });
         else
           return res.status(400).json({
-            status: 'meeting_not_created',
-            message: 'Meeting not created.',
+            status: "meeting_not_created",
+            message: "Meeting not created.",
           });
       } catch (e: any) {
         return res.status(500).json({
-          status: 'meeting_not_created',
-          message: 'Meeting not created.',
+          status: "meeting_not_created",
+          message: "Meeting not created.",
         });
       }
 
     default:
-      res.setHeader('Allow', ['POST']);
+      res.setHeader("Allow", ["POST"]);
       res.status(405).end(`Method ${method} Not Allowed`);
   }
 };

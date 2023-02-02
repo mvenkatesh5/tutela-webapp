@@ -19,6 +19,7 @@ export function useAppState(): AppStateValue {
     throw new Error("useAppState must be used within AppStateProvider");
   }
   return state;
+  
 }
 
 export function AppStateProvider({ children }: Props) {

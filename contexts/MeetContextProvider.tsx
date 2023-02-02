@@ -24,6 +24,7 @@ const contextReducer = (state: any, action: any) => {
       };
     case "VIDEO_TOGGLE":
       return {
+        
         ...state,
         videoToggle: action.payload,
       };

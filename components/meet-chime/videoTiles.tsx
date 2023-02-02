@@ -9,7 +9,7 @@ import {
 import axios from "axios";
 import Tiles from "./tiles";
 import RemoteContent from "@components/meet-chime/remote-content";
-
+import { axiosChimeInstance } from "@config/axios";
 interface VideoTilesProps {
   localAttendeeId: string;
   localUserId: string;
@@ -37,8 +37,8 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
     const fetchList = async () => {
-      const response = await axios
-        .post(`/api/meet-attendees/`, {
+      const response = await axiosChimeInstance
+        .post(`/api/meet/meet-attendees/`, {
           params: { meetingId: internalMeetingId },
         })
         .then((res) => {
@@ -58,17 +58,20 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
   return (
     <>
       <div
-        className="w-full h-[90%] p-2 rounded relative"
-        style={{ display: sharingAttendeeId != null ? "none" : "inherit" }}
+        className="tw-w-full tw-h-screen tw-p-2 tw-rounded tw-relative "
+        style={{
+          display: sharingAttendeeId != null ? "none" : "inherit",
+        }}
       >
         <VideoGrid
-          className="gap-4 rounded  "
+          className="tw-gap-4 tw-rounded  tw-h-screen"
           style={{
             display: "flex",
             flexWrap: "wrap",
             justifyContent: "center",
             alignItems: "center",
             overflow: "hidden",
+            padding: "1.2em",
           }}
         >
           {currentTiles?.map((data, i) => {
@@ -87,17 +90,17 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
           })}
         </VideoGrid>
         {tilesPerPage < attendeeArr.length && (
-          <div className="flex justify-end items-center absolute top-5 right-5 gap-2">
+          <div className="tw-flex tw-justify-end tw-items-center tw-absolute tw-top-5 tw-right-5 tw-gap-2">
             <button
               disabled={currentPage == 1}
-              className=" border border-gray-400 bg-gray-300 font-bold  p-2 rounded-full text-gray-600 "
+              className="tw-border tw-border-gray-400 tw-bg-gray-300 tw-font-bold  tw-p-2 tw-rounded-full tw-text-gray-600 tw-bg-none "
               onClick={() => setCurrentPage((previous) => previous - 1)}
             >
               <Arrow width="1.5rem" direction="left" />
             </button>
             <button
               disabled={currentPage == Math.ceil(attendeeArr.length / tilesPerPage)}
-              className=" border border-gray-400 bg-gray-300 font-bold  p-2 rounded-full text-gray-600 "
+              className="tw-border tw-border-gray-400 tw-bg-gray-300 tw-font-bold  tw-p-2 tw-rounded-full tw-text-gray-600 tw-bg-none"
               onClick={() => setCurrentPage((previous) => previous + 1)}
             >
               <Arrow width="1.5rem" direction="right" />
@@ -107,12 +110,12 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
       </div>
 
       <div
-        className="grid gap-3 h-[90%] w-full relative grid-cols-4 grid-row-1"
+        className="tw-grid tw-gap-3 tw-h-[90%] tw-w-full tw-relative tw-grid-cols-4 tw-grid-row-1"
         style={{ display: sharingAttendeeId == null ? "none" : "grid" }}
       >
-        <div className="md:col-span-3 sm:col-span-4 p-3">
+        <div className="md:tw-col-span-3 sm:tw-col-span-4 tw-p-3">
           <VideoGrid
-            className="rounded-2xl "
+            className="tw-rounded-2xl "
             style={{
               display: "flex",
               flexWrap: "wrap",
@@ -121,12 +124,14 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
               overflow: "hidden",
             }}
           >
-            <div className={`relative justify-center items-center flex h-full w-full`}>
+            <div
+              className={`tw-relative tw-justify-center tw-items-center tw-flex tw-h-full tw-w-full`}
+            >
               <RemoteContent chimeAttendeeID={sharingAttendeeId} name="Loading" />
             </div>
           </VideoGrid>
         </div>
-        <div className="col-span-1 overflow-x-hidden overflow-y-auto p-3 ">
+        <div className="tw-col-span-1 tw-overflow-x-hidden tw-overflow-y-auto tw-p-3 ">
           {attendeeArr?.map((data, i) => {
             const { AttendeeId, ExternalUserId } = data;
             return (

@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const createRecordingSession = async (meet_id: string) => {
   const response = await axios
-    .post(`/api/recording-session`, {
+    .post(`/lib/services/meet/recording-session`, {
       params: { meet_id: meet_id },
     })
     .then((res) => res)
@@ -19,7 +19,7 @@ export const stopRecordingSession = async (
   pipelineArn: string
 ) => {
   const response = await axios
-    .put(`/api/recording-session`, {
+    .put(`/lib/services/meet/recording-session`, {
       params: {
         pipelineId: media_pipeline_id,
         meet_id: meet_id,

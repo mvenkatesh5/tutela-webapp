@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   useAttendeeStatus,
   ScreenShare,
   Microphone,
-} from 'amazon-chime-sdk-component-library-react';
+} from "amazon-chime-sdk-component-library-react";
 // components
-import RemoteVid from 'components/stream/remote';
+import RemoteVid from "@components/meet-chime/remote";
 
 interface TilesProps {
   AttendeeId: string;
@@ -26,18 +26,18 @@ const Tiles: React.FC<TilesProps> = ({
   const { sharingContent, muted } = useAttendeeStatus(AttendeeId);
 
   let hw;
-  if (length == 1) hw = 'h-full w-full';
-  else if (length == 2) hw = 'h-full w-[43%]';
-  else if (length == 3) hw = 'h-[25vw] w-[30vw]';
-  else hw = 'h-[20vw] w-[25vw]';
+  if (length == 1) hw = "tw-h-full tw-w-full";
+  else if (length == 2) hw = "tw-h-full tw-w-[43%]";
+  else if (length == 3) hw = "tw-h-[25vw] tw-w-[30vw]";
+  else hw = "tw-h-[20vw] tw-w-[25vw]";
 
   if (sharingContent) {
-    console.log('this is from tiles sharing content attendee id', AttendeeId);
+    console.log("this is from tiles sharing content attendee id", AttendeeId);
   }
 
   return (
     <div
-      className={`relative justify-center items-center flex ${hw}`}
+      className={`tw-relative tw-justify-center tw-items-center tw-flex ${hw}`}
       style={{ ...style }}
     >
       <RemoteVid
@@ -46,17 +46,17 @@ const Tiles: React.FC<TilesProps> = ({
         localAttendeeId={localAttendeeId}
       />
 
-      <div className='absolute flex gap-2 top-5 right-5'>
+      <div className="tw-absolute tw-flex tw-gap-2 tw-top-5 tw-right-5">
         <ScreenShare
-          width='1.8rem'
-          className='bg-gray-200 p-1 rounded-full'
-          style={{ display: sharingContent ? 'block' : 'none' }}
+          width="1.8rem"
+          className="tw-bg-gray-200 tw-p-1 tw-rounded-full"
+          style={{ display: sharingContent ? "block" : "none" }}
         />
         <Microphone
-          width='1.8rem'
+          width="1.8rem"
           muted={muted}
-          className='bg-gray-200 p-1 rounded-full'
-          style={{ display: muted ? 'block' : 'none' }}
+          className="tw-bg-gray-200 tw-p-1 tw-rounded-full"
+          style={{ display: muted ? "block" : "none" }}
         />
       </div>
     </div>

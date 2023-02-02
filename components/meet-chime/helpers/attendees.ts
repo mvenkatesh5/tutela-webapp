@@ -1,9 +1,9 @@
 // axios
-import axios from 'axios';
+import { axiosChimeInstance } from "@config/axios";
 
 export const getMeetingAttendees = async (meetingId: string) => {
-  const response = await axios
-    .post(`/api/meet-attendees/`, {
+  const response = await axiosChimeInstance
+    .post(`/api/meet/meet-attendees/`, {
       params: { meetingId: meetingId },
     })
     .then((res) => res)
@@ -12,13 +12,10 @@ export const getMeetingAttendees = async (meetingId: string) => {
   return response;
 };
 
-export const removeMeetingAttendee = async (
-  meetingId: string,
-  attendeeId: string
-) => {
+export const removeMeetingAttendee = async (meetingId: string, attendeeId: string) => {
   // console.log('this is attendee id', attendeeId);
-  const response = await axios
-    .post('/api/end-session/', {
+  const response = await axiosChimeInstance
+    .post("/api/meet/end-session/", {
       params: {
         meetingId: meetingId,
         attendeeId: attendeeId,

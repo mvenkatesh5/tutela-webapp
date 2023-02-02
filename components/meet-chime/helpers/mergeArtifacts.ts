@@ -1,12 +1,9 @@
 // axios
-import axios from 'axios';
+import { axiosChimeInstance } from "@config/axios";
 
-export const mergeArtifacts = async (
-  chunk_dest: string,
-  pipelineArn: string
-) => {
-  const response = await axios
-    .post(`/api/artifact-merge-pipeline`, {
+export const mergeArtifacts = async (chunk_dest: string, pipelineArn: string) => {
+  const response = await axiosChimeInstance
+    .post(`/api/meet/artifact-merge-pipeline`, {
       params: { chunk_dest: chunk_dest, pipelineArn: pipelineArn },
     })
     .then((res) => res)

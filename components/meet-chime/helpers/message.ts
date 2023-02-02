@@ -1,5 +1,5 @@
 // axios
-import axios from 'axios';
+import { axiosChimeInstance } from "@config/axios";
 
 export const createMessageChannel = async (
   AppInstanceArn: string,
@@ -7,8 +7,8 @@ export const createMessageChannel = async (
   ClientRequestToken: string,
   Name: string
 ) => {
-  const response = await axios
-    .post(`/api/message-channel`, {
+  const response = await axiosChimeInstance
+    .post(`/api/meet/message-channel`, {
       params: {
         AppInstanceArn: AppInstanceArn,
         ChimeBearer: ChimeBearer,
@@ -22,12 +22,9 @@ export const createMessageChannel = async (
   return response;
 };
 
-export const deleteMessageChannel = async (
-  channelArn: string,
-  ChimeBearer: string
-) => {
-  const response = await axios
-    .delete(`/api/message-channel`, {
+export const deleteMessageChannel = async (channelArn: string, ChimeBearer: string) => {
+  const response = await axiosChimeInstance
+    .delete(`/api/meet/message-channel`, {
       params: {
         ChannelArn: channelArn,
         ChimeBearer: ChimeBearer,
@@ -44,8 +41,8 @@ export const sendMessage = async (
   ClientRequestToken: string,
   message: string
 ) => {
-  const response = await axios
-    .post(`/api/chat`, {
+  const response = await axiosChimeInstance
+    .post(`/api/meet/chat`, {
       params: {
         ChannelArn: ChannelArn,
         ChimeBearer: ChimeBearer,
@@ -59,12 +56,9 @@ export const sendMessage = async (
   return response;
 };
 
-export const fetchMessages = async (
-  ChannelArn: string,
-  ChimeBearer: string
-) => {
-  const response = await axios
-    .get(`/api/chat`, {
+export const fetchMessages = async (ChannelArn: string, ChimeBearer: string) => {
+  const response = await axiosChimeInstance
+    .get(`/api/meet/chat`, {
       params: {
         ChannelArn: ChannelArn,
         ChimeBearer: ChimeBearer,
