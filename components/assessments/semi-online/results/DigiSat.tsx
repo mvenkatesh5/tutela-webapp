@@ -30,7 +30,7 @@ export default function DigitalSAT({ resourceDetail, selectedUser, user }: IResu
   const router = useRouter();
   const [assessmentResponse, setAssessmentResponse] = React.useState<any>();
   const [loader, setLoader] = React.useState(false);
-  const [resultMode, setResultMode] = React.useState(false);
+  const [resultMode, setResultMode] = React.useState(true);
   const [selectedData, setSelectedData] = React.useState<any>();
 
   const { data: userDetailList, error: userDetailListError } = useSWR(
@@ -138,55 +138,31 @@ export default function DigitalSAT({ resourceDetail, selectedUser, user }: IResu
                       className="text-center mb-2"
                       style={{ fontSize: "19px", fontWeight: "bold" }}
                     >
-                      Reading
+                      Reading and Writing
                     </div>
 
                     <div className="d-flex justify-content-around">
                       <div style={{ fontSize: "20px" }}>
                         Scaled score :{" "}
                         <strong>
-                          {
+                          {digitalSatData?.writing[
+                            getSection("writing") !== 0
+                              ? selectedData?.section_score_data[getSection("writing")] || 0
+                              : 0
+                          ] +
                             digitalSatData?.reading[
                               getSection("reading") !== 0
                                 ? selectedData?.section_score_data[getSection("reading")] || 0
                                 : 0
-                            ]
-                          }{" "}
+                            ]}{" "}
                         </strong>
                       </div>
                       <div style={{ fontSize: "20px" }}>
                         Raw score :{" "}
                         <strong>
-                          {selectedData?.section_score_data[getSection("reading")] || 0}
-                        </strong>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="border p-2 w-100">
-                    <div
-                      className="text-center mb-2"
-                      style={{ fontSize: "19px", fontWeight: "bold" }}
-                    >
-                      Writing
-                    </div>
-
-                    <div className="d-flex justify-content-around">
-                      <div style={{ fontSize: "20px" }}>
-                        Scaled score :{" "}
-                        <strong>
-                          {
-                            digitalSatData?.writing[
-                              getSection("writing") !== 0
-                                ? selectedData?.section_score_data[getSection("writing")] || 0
-                                : 0
-                            ]
-                          }{" "}
-                        </strong>
-                      </div>
-                      <div style={{ fontSize: "20px" }}>
-                        Raw score :{" "}
-                        <strong>
-                          {selectedData?.section_score_data[getSection("writing")] || 0}
+                          {selectedData?.section_score_data[getSection("writing")] ||
+                            0 + selectedData?.section_score_data[getSection("reading")] ||
+                            0}
                         </strong>
                       </div>
                     </div>
