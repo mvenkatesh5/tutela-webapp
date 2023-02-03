@@ -57,7 +57,7 @@ export default function DigitalSAT({ resourceDetail, selectedUser, user }: IResu
           setLoader(false);
         });
     }
-  }, [resourceDetail?.data?.kind]);
+  }, [resourceDetail?.data?.kind, resourceDetail?.data?.sat_token, userDetailList]);
 
   const getSection = (type: string) => {
     let newSection: number = 0;
