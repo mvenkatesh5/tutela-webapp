@@ -234,6 +234,7 @@ const TreeView = (props: any) => {
           selectedUser={props?.user?.user?.id}
           modal={submissionsModal}
           setModal={setSubmissionsModal}
+          user={true}
         />
       </>
     );
