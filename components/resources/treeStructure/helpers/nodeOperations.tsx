@@ -42,7 +42,7 @@ export const deleteNode = (node_id: any) => {
 };
 
 export const addFileNodeAsChild = (node_id: any, name: any, url_content: any) => {
-  const data = {
+  let data = {
     node_id: node_id,
     operation: "add",
     title: name,

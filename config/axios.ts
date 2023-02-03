@@ -7,6 +7,7 @@ import {
   BASE_LOCAL,
   BASE_PROD,
   ZOOM_RECORDINGS_GO_ENDPOINT,
+  EDISON_ASSESSMENT_BASE_URL,
 } from "@constants/routes";
 // cookie helpers
 import { logout } from "lib/cookie";
@@ -14,6 +15,7 @@ import { logout } from "lib/cookie";
 // axios for go instance
 export const axiosInstance = axios.create();
 export const axiosPublicInstance = axios.create();
+export const axiosEdisonInstance = axios.create();
 
 let baseURL =
   process.env.NEXT_PUBLIC_APP_ENVIRONMENT === "production"
@@ -24,6 +26,7 @@ let baseURL =
 
 axios.defaults.baseURL = baseURL;
 axiosPublicInstance.defaults.baseURL = baseURL;
+axiosEdisonInstance.defaults.baseURL = EDISON_ASSESSMENT_BASE_URL;
 
 export function setAxiosHeader(token: string) {
   if (token) {

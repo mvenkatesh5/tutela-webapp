@@ -2,6 +2,7 @@
 export const BASE_PROD = "https://tutelaotlp.herokuapp.com/";
 export const BASE_STAGING = "https://tutelaotlp-staging.herokuapp.com/";
 export const BASE_LOCAL = "https://tutelaotlp-staging.herokuapp.com/";
+export const EDISON_ASSESSMENT_BASE_URL = `https://api.edison.cx/`;
 
 // default urls
 export const DEFAULT_ZOOM_URL = `https://zoom.us/j/2505542539?pwd=dXh0amx3TktJTEFTYk9OYUJ3YUNYUT09`;
@@ -174,3 +175,7 @@ export const TEACHER_SESSION_FEEDBACK_UN_REVIEWED_ENDPOINT = `/api/unreviewed-se
 // contacts
 export const CONTACT_ENDPOINT = `/api/contacts/`;
 export const CONTACT_WITH_ID_ENDPOINT = (contact_id: any) => `/api/contacts/${contact_id}/`;
+
+//Edison assessment
+export const EDISON_ASSESSMENT_ENDPOINT = `/api/receive-assessment-results/`;
+export const AUTHENTICATE_EDISON_USER_ENDPOINT = `/api/authenticate-edison-user/`;

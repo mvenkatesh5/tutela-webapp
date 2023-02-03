@@ -19,6 +19,7 @@ import { ClipboardNotes } from "@styled-icons/foundation/ClipboardNotes";
 import { BookReader } from "@styled-icons/boxicons-regular/BookReader";
 import { EyeFill } from "@styled-icons/bootstrap/EyeFill";
 import { EyeWithLine } from "@styled-icons/entypo/EyeWithLine";
+import { LaptopChromebook } from "@styled-icons/material-rounded/LaptopChromebook";
 // react beautiful dnd
 import { Draggable } from "react-beautiful-dnd";
 // components
@@ -105,6 +106,10 @@ const TreeChildrenRenderView = ({
                 <div className="flex-item">
                   <Folder />
                 </div>
+              ) : tree.data.data.kind === "digital_sat" ? (
+                <div className="flex-item" style={{ color: "#0077C8" }}>
+                  <LaptopChromebook />
+                </div>
               ) : (
                 <div className="flex-item">
                   {imageFileNameSplitRender(tree.data.data.url) === "PNG" ? (
@@ -139,6 +144,12 @@ const TreeChildrenRenderView = ({
                             <div>
                               <SlateEditor readOnly={true} initialValue={tree.data.data.content} />
                             </div>
+                          </div>
+                        </>
+                      ) : tree.data.data && tree.data.data.kind === "digital_sat" ? (
+                        <>
+                          <div className="d-flex align-items-center">
+                            Digital SAT : {tree.data && tree.data.title} - {tree.id}
                           </div>
                         </>
                       ) : (
@@ -176,7 +187,8 @@ const TreeChildrenRenderView = ({
 
               {admin &&
                 (tree.data.data.kind === "document_objective_answers" ||
-                  tree.data.data.kind === "document_subjective_answers") && (
+                  tree.data.data.kind === "document_subjective_answers" ||
+                  tree.data.data.kind === "digital_sat") && (
                   <div className="ms-3 text-sm" style={{ whiteSpace: "nowrap" }}>
                     <Link
                       href={`/resources/${resource_id}/submissions?resource_node_id=${tree?.id}`}

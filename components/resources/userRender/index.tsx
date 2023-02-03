@@ -11,9 +11,11 @@ import { FileBlank } from "@styled-icons/boxicons-regular/FileBlank";
 import { FilePdf } from "@styled-icons/boxicons-solid/FilePdf";
 import { ClipboardNotes } from "@styled-icons/foundation/ClipboardNotes";
 import { BookReader } from "@styled-icons/boxicons-regular/BookReader";
+import { LaptopChromebook } from "@styled-icons/material-rounded/LaptopChromebook";
 // components
 import ResourceNotesView from "@components/notes/view";
 import { SlateEditor } from "@components/SlateEditor";
+import SubmissionsModal from "@components/resources/userResources/SubmissionsModal";
 // swr
 import useSWR from "swr";
 // api routes
@@ -24,7 +26,7 @@ import { APIFetcher } from "@lib/services";
 const TreeView = (props: any) => {
   const TreeChildrenRenderView = ({ tree, level, t_children, root_node_id, user }: any) => {
     const [dropdownToggle, setDropdownToggle] = React.useState<any>(true);
-
+    const [submissionsModal, setSubmissionsModal] = React.useState<any>(false);
     const imageFileNameSplitRender = (value: any) => {
       let splitValue = value.split("/");
       if (splitValue && splitValue.length > 0) {
@@ -69,7 +71,6 @@ const TreeView = (props: any) => {
       var b = parseInt(color.substring(4, 6), 16); // hexToB
       return r * 0.299 + g * 0.587 + b * 0.114 > 186 ? darkColor : lightColor;
     };
-
     return (
       <>
         <div className="flex" style={{ paddingLeft: `${t_children}px` }}>
@@ -84,6 +85,10 @@ const TreeView = (props: any) => {
           {tree.data.kind === "SECTION" ? (
             <div className="flex-item">
               <Folder />
+            </div>
+          ) : tree.data.data.kind === "digital_sat" ? (
+            <div className="flex-item" style={{ color: "#0077C8" }}>
+              <LaptopChromebook />
             </div>
           ) : (
             <div className="flex-item">
@@ -129,6 +134,12 @@ const TreeView = (props: any) => {
                         </div>
                       </div>
                     </>
+                  ) : tree.data.data && tree.data.data.kind === "digital_sat" ? (
+                    <>
+                      <div>
+                        Digital SAT : {tree.data && tree.data.title} - {tree.id}
+                      </div>
+                    </>
                   ) : (
                     <>
                       <a href={tree.data.data.url} target="_blank" rel="noreferrer">
@@ -151,6 +162,27 @@ const TreeView = (props: any) => {
                   Take test
                 </a>
               </Link>
+            </div>
+          )}
+
+          {tree.data.data.kind === "digital_sat" && (
+            <div className="flex gap-2 items-center">
+              <div className="text-sm" style={{ whiteSpace: "nowrap" }}>
+                <div
+                  style={{ color: "#0077C8" }}
+                  className="cursor-pointer"
+                  onClick={() => setSubmissionsModal(true)}
+                >
+                  View Submissions
+                </div>
+              </div>
+              <div className="text-sm" style={{ whiteSpace: "nowrap" }}>
+                <Link href={`${tree.data.data.url}?email=${user?.user?.email}`}>
+                  <a target="_blank" rel="noreferrer">
+                    Start test
+                  </a>
+                </Link>
+              </div>
             </div>
           )}
 
@@ -197,6 +229,13 @@ const TreeView = (props: any) => {
             />
           </div>
         )}
+        <SubmissionsModal
+          resourceDetail={tree.data}
+          selectedUser={props?.user?.user?.id}
+          modal={submissionsModal}
+          setModal={setSubmissionsModal}
+          user={true}
+        />
       </>
     );
   };

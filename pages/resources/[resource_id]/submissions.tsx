@@ -110,6 +110,8 @@ const ResourceSubmissions: NextPage = () => {
     }
   };
 
+  const [selectedUser, setSelectedUser] = React.useState<any>(null);
+
   return (
     <Page meta={meta}>
       <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
@@ -140,7 +142,9 @@ const ResourceSubmissions: NextPage = () => {
                         <th>Submitted at </th>
                         <th>Results</th>
                         <th>Status</th>
-                        <th>Results</th>
+                        <th>
+                          {resourceDetail?.data?.kind === "digital_sat" ? "Submissions" : "Results"}
+                        </th>
                         {/* <th>Reset</th> */}
                       </tr>
                     </thead>
@@ -183,7 +187,20 @@ const ResourceSubmissions: NextPage = () => {
                                     size="sm"
                                     onClick={() => setResultPreview(user.work_submission_data)}
                                   >
-                                    View
+                                    {resourceDetail?.data?.kind === "digital_sat"
+                                      ? "Submissions"
+                                      : "View"}
+                                  </Button>
+                                ) : resourceDetail?.data?.kind === "digital_sat" ? (
+                                  <Button
+                                    variant="outline-primary"
+                                    size="sm"
+                                    onClick={() => {
+                                      setResultPreview(user.work_submission_data);
+                                      setSelectedUser(user?.student);
+                                    }}
+                                  >
+                                    Submissions
                                   </Button>
                                 ) : (
                                   "-"
@@ -214,6 +231,7 @@ const ResourceSubmissions: NextPage = () => {
             result={resultPreview}
             handleModal={setResultPreview}
             type="admin"
+            selectedUser={selectedUser}
           />
         </AdminLayout>
       </Worker>
