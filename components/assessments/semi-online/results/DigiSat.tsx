@@ -30,7 +30,7 @@ export default function DigitalSAT({ resourceDetail, selectedUser, user }: IResu
   const router = useRouter();
   const [assessmentResponse, setAssessmentResponse] = React.useState<any>();
   const [loader, setLoader] = React.useState(false);
-  const [resultMode, setResultMode] = React.useState(true);
+  const [resultMode, setResultMode] = React.useState(false);
   const [selectedData, setSelectedData] = React.useState<any>();
 
   const { data: userDetailList, error: userDetailListError } = useSWR(
