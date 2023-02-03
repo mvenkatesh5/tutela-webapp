@@ -1,4 +1,6 @@
 import React from "react";
+// next imports
+import { useRouter } from "next/router";
 // data
 import { digitalSatData } from "@components/data/digital-sat";
 // react bootstrap
@@ -10,7 +12,10 @@ import { datePreview, secondsToHms } from "@constants/global";
 // swr
 import useSWR from "swr";
 // services
-import { FetchEdisonAssessmentResult } from "@lib/services/resource.service";
+import {
+  FetchEdisonAssessmentResult,
+  EdisonUserAuthentication,
+} from "@lib/services/resource.service";
 import { APIFetcher } from "@lib/services";
 // api routes
 import { USER_WITH_ID_ENDPOINT } from "@constants/routes";
@@ -18,9 +23,11 @@ import { USER_WITH_ID_ENDPOINT } from "@constants/routes";
 interface IResultPreview {
   resourceDetail: any;
   selectedUser?: number;
+  user?: boolean;
 }
 
-export default function DigitalSAT({ resourceDetail, selectedUser }: IResultPreview) {
+export default function DigitalSAT({ resourceDetail, selectedUser, user }: IResultPreview) {
+  const router = useRouter();
   const [assessmentResponse, setAssessmentResponse] = React.useState<any>();
   const [loader, setLoader] = React.useState(false);
   const [resultMode, setResultMode] = React.useState(false);
@@ -61,6 +68,19 @@ export default function DigitalSAT({ resourceDetail, selectedUser }: IResultPrev
     return newSection;
   };
 
+  const RedirectToDetailedReport = () => {
+    const payload = {
+      allotment_id: selectedData?.allotment,
+    };
+    EdisonUserAuthentication(payload)
+      .then((response) => {
+        router.push(response?.redirect_url);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
       {assessmentResponse && assessmentResponse?.length > 0 ? (
@@ -73,7 +93,6 @@ export default function DigitalSAT({ resourceDetail, selectedUser }: IResultPrev
               >
                 <ArrowLeft width="16px" /> Go Back
               </div>
-
               <div className="w-100 mb-4">
                 <h6 className="m-0 p-0 mb-2">User Answered Results</h6>
                 <div className="d-flex gap-2">
@@ -226,6 +245,17 @@ export default function DigitalSAT({ resourceDetail, selectedUser }: IResultPrev
                   </div>
                 </div>
               </div>
+              {user && (
+                <Button
+                  variant="outline-primary"
+                  size="sm"
+                  onClick={() => {
+                    RedirectToDetailedReport();
+                  }}
+                >
+                  View detail report
+                </Button>
+              )}
             </>
           ) : (
             <>

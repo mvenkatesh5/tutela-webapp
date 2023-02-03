@@ -11,6 +11,7 @@ import {
   RESOURCE_ASSESSMENT_USER_ALLOCATION,
   RESOURCE_ASSESSMENT_USER_DETAILS,
   EDISON_ASSESSMENT_ENDPOINT,
+  AUTHENTICATE_EDISON_USER_ENDPOINT,
 } from "@constants/routes";
 
 export const ResourceCreate = async (data: any) => {
@@ -104,6 +105,15 @@ export const UpdateResourceUserAllocation = async (data: any) => {
 export const FetchEdisonAssessmentResult = async (data: any) => {
   try {
     const response = await axiosEdisonInstance.post(EDISON_ASSESSMENT_ENDPOINT, data);
+    return response.data;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
+export const EdisonUserAuthentication = async (data: any) => {
+  try {
+    const response = await axiosEdisonInstance.post(AUTHENTICATE_EDISON_USER_ENDPOINT, data);
     return response.data;
   } catch (error: any) {
     throw error.response.data;

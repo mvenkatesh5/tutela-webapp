@@ -11,6 +11,7 @@ interface IAssessmentReview {
   modal?: any;
   setModal?: any;
   selectedUser?: number;
+  user?:boolean;
 }
 
 const SubmissionModal: React.FC<IAssessmentReview> = ({
@@ -18,6 +19,7 @@ const SubmissionModal: React.FC<IAssessmentReview> = ({
   selectedUser,
   modal,
   setModal,
+  user,
 }) => {
   const router = useRouter();
   const [results, setResults] = React.useState<any>(null);
@@ -40,7 +42,11 @@ const SubmissionModal: React.FC<IAssessmentReview> = ({
         <Modal.Body>
           <h5 className="m-0 p-0 mb-3">Assessment Results</h5>
           <>
-            <DigiSatPreview resourceDetail={resourceDetail} selectedUser={selectedUser} />
+            <DigiSatPreview
+              resourceDetail={resourceDetail}
+              selectedUser={selectedUser}
+              user={user}
+            />
           </>
           <div className="d-flex justify-content-end">
             <Button variant="outline-secondary" size="sm" className="" onClick={closeModal}>

@@ -178,3 +178,4 @@ export const CONTACT_WITH_ID_ENDPOINT = (contact_id: any) => `/api/contacts/${co
 
 //Edison assessment
 export const EDISON_ASSESSMENT_ENDPOINT = `/api/receive-assessment-results/`;
+export const AUTHENTICATE_EDISON_USER_ENDPOINT = `/api/authenticate-edison-user/`;
