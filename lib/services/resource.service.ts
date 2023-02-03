@@ -113,7 +113,7 @@ export const FetchEdisonAssessmentResult = async (data: any) => {
 
 export const EdisonUserAuthentication = async (data: any) => {
   try {
-    const response = await axiosEdisonInstance.post(AUTHENTICATE_EDISON_USER_ENDPOINT, data);
+    const response = await axios.post(AUTHENTICATE_EDISON_USER_ENDPOINT, data);
     return response.data;
   } catch (error: any) {
     throw error.response.data;
