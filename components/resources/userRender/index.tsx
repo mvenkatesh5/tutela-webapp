@@ -19,12 +19,18 @@ import SubmissionsModal from "@components/resources/userResources/SubmissionsMod
 // swr
 import useSWR from "swr";
 // api routes
-import { TAGS_WITH_ID_ENDPOINT } from "@constants/routes";
+import { TAGS_WITH_ID_ENDPOINT, RESOURCE_ASSESSMENT_USER_DETAILS } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 
 const TreeView = (props: any) => {
   const TreeChildrenRenderView = ({ tree, level, t_children, root_node_id, user }: any) => {
+    const { data: resourceUserAssessment, error: resourceUserAssessmentError } = useSWR(
+      tree?.id ? [RESOURCE_ASSESSMENT_USER_DETAILS(tree?.id), tree?.id] : null,
+      (url) => APIFetcher(url),
+      { refreshInterval: 0, revalidateOnFocus: false }
+    );
+    //currentProduct.tree[0].id
     const [dropdownToggle, setDropdownToggle] = React.useState<any>(true);
     const [submissionsModal, setSubmissionsModal] = React.useState<any>(false);
     const imageFileNameSplitRender = (value: any) => {
@@ -166,24 +172,33 @@ const TreeView = (props: any) => {
           )}
 
           {tree.data.data.kind === "digital_sat" && (
-            <div className="flex gap-2 items-center">
-              <div className="text-sm" style={{ whiteSpace: "nowrap" }}>
-                <div
-                  style={{ color: "#0077C8" }}
-                  className="cursor-pointer"
-                  onClick={() => setSubmissionsModal(true)}
-                >
-                  View Submissions
+            <>
+              {resourceUserAssessment &&
+              resourceUserAssessment.message !== "User can access this node" ? (
+                <div className="flex gap-2 items-center">
+                  <div className="text-sm" style={{ whiteSpace: "nowrap" }}>
+                    <div
+                      style={{ color: "#0077C8" }}
+                      className="cursor-pointer"
+                      onClick={() => setSubmissionsModal(true)}
+                    >
+                      View Submissions
+                    </div>
+                  </div>
+                  <div className="text-sm" style={{ whiteSpace: "nowrap" }}>
+                    <Link href={`${tree.data.data.url}?email=${user?.user?.email}`}>
+                      <a target="_blank" rel="noreferrer">
+                        Start test
+                      </a>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-              <div className="text-sm" style={{ whiteSpace: "nowrap" }}>
-                <Link href={`${tree.data.data.url}?email=${user?.user?.email}`}>
-                  <a target="_blank" rel="noreferrer">
-                    Start test
-                  </a>
-                </Link>
-              </div>
-            </div>
+              ) : (
+                <div style={{ whiteSpace: "nowrap" }} className="text-sm">
+                  No access. Contact Admin.
+                </div>
+              )}
+            </>
           )}
 
           {selectedTag && (
