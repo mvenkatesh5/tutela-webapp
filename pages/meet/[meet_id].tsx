@@ -11,6 +11,7 @@ import {
 } from "amazon-chime-sdk-component-library-react";
 // helpers
 import { createMeetingSession } from "@components/meet-chime/helpers";
+import { updateChimeSession } from "@components/meet-chime/helpers/chime-session";
 import { fetchUserData } from "@components/meet-chime/helpers/auth";
 // components
 import LoadingScreen from "@components/meet-chime/loading";
@@ -62,10 +63,10 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
       let id = userInfo.user.id.toString();
       const userId = (id?.length < 2 ? "0" : "") + userInfo.user.id;
 
-      const session = await createMeetingSession(meet_id.toString(), userId, deviceController)
+      const session = await updateChimeSession(meet_id.toString(), userId)
         .then((re) => re)
         .catch((e) => {
-          router.replace("/meet");
+          router.replace("/calendar");
           console.log(e);
           return null;
         });
@@ -80,7 +81,7 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
         // console.log(session);
         setLocalAttendeeId(session.configuration.credentials?.attendeeId);
         setLocalUserId(session.configuration?.credentials?.externalUserId);
-        setInternalMeetingId(session.configuration.meetingId);
+        setInternalMeetingId(meet_id);
       }
     };
 

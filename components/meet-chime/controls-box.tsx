@@ -121,37 +121,37 @@ const Controls: React.FC<ControlProps> = ({ meet_id, user, attendee, internalMee
     onClick: () => toggleAudio(),
   };
 
-  const recordButtonProps = {
-    icon: <Record />,
-    label: recording ? "Stop" : "Record",
-    onClick: async () => {
-      if (!recording && recordingResponse == null) {
-        const record = await createRecordingSession(internalMeetId);
-        if (record) {
-          setRecording(true);
-          setRecordingResponse(record?.response);
-        }
-      } else {
-        const stopRecording = await stopRecordingSession(
-          recordingResponse?.MediaCapturePipeline?.MediaPipelineId,
-          internalMeetId,
-          recordingResponse?.MediaCapturePipeline?.MediaPipelineArn
-        );
-        if (stopRecording) {
-          setRecording(false);
-          setRecordingResponse(null);
-        }
-      }
-    },
-  };
+  // const recordButtonProps = {
+  //   icon: <Record />,
+  //   label: recording ? "Stop" : "Record",
+  //   onClick: async () => {
+  //     if (!recording && recordingResponse == null) {
+  //       const record = await createRecordingSession(internalMeetId);
+  //       if (record) {
+  //         setRecording(true);
+  //         setRecordingResponse(record?.response);
+  //       }
+  //     } else {
+  //       const stopRecording = await stopRecordingSession(
+  //         recordingResponse?.MediaCapturePipeline?.MediaPipelineId,
+  //         internalMeetId,
+  //         recordingResponse?.MediaCapturePipeline?.MediaPipelineArn
+  //       );
+  //       if (stopRecording) {
+  //         setRecording(false);
+  //         setRecordingResponse(null);
+  //       }
+  //     }
+  //   },
+  // };
 
   const endButtonProps = {
     icon: <Phone />,
     onClick: async () => {
-      await router.push("/meet");
+      await router.push("/calendar");
       await removeMeetingAttendee(internalMeetId, attendee)
-        .then((res) => res)
-        .catch((e) => e);
+        .then((res) => console.log("end meet", res))
+        .catch((e) => console.log("end meet error", e));
       await meetingManager.leave();
     },
     label: "End",

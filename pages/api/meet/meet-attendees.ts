@@ -20,8 +20,14 @@ const getAttendees = async (req: NextApiRequest, res: NextApiResponse) => {
         const chime = new AWS.Chime({ region: "us-east-1" });
         chime.endpoint = new AWS.Endpoint("https://service.chime.aws.amazon.com");
 
+        const meetings = await chime.listMeetings().promise();
+
+        const meetingRoomExists = (meetings.Meetings || []).find(
+          (it) => it.ExternalMeetingId === meetingId
+        );
+
         const meetingAttendees = await chime
-          .listAttendees({ MeetingId: meetingId })
+          .listAttendees({ MeetingId: meetingRoomExists?.MeetingId?.toString() || "" })
           .promise()
           .then((res: any) =>
             res?.Attendees?.filter((attendee: any) => {
