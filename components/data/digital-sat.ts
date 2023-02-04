@@ -230,6 +230,11 @@ export const assessmentResultRenderGenerator = (assessment: any = null) => {
         );
       }
 
+      let scaledScore = digitalSatData["math"];
+      assessmentPayload.sectional_score.math.total_scaled_score = scaledScore
+        ? scaledScore[`${assessmentPayload.sectional_score.math.total_score}`]
+        : 0;
+
       assessmentPayload.total_score =
         assessmentPayload?.sectional_score?.reading.total_score +
         assessmentPayload?.sectional_score?.writing.total_score +
