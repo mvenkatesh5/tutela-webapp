@@ -2,7 +2,7 @@ import React from "react";
 // next imports
 import { useRouter } from "next/router";
 // data
-import { digitalSatData } from "@components/data/digital-sat";
+import { assessmentResultRenderGenerator } from "@components/data/digital-sat";
 // react bootstrap
 import { Table, Button } from "react-bootstrap";
 // style icons
@@ -28,10 +28,11 @@ interface IResultPreview {
 
 export default function DigitalSAT({ resourceDetail, selectedUser, user }: IResultPreview) {
   const router = useRouter();
-  const [assessmentResponse, setAssessmentResponse] = React.useState<any>();
+
   const [loader, setLoader] = React.useState(false);
-  const [resultMode, setResultMode] = React.useState(false);
-  const [selectedData, setSelectedData] = React.useState<any>();
+  const [assessmentResponse, setAssessmentResponse] = React.useState<any>();
+
+  const [assessmentDetailPreview, setAssessmentDetailPreview] = React.useState<any>(null);
 
   const { data: userDetailList, error: userDetailListError } = useSWR(
     selectedUser ? USER_WITH_ID_ENDPOINT(selectedUser) : null,
@@ -47,10 +48,13 @@ export default function DigitalSAT({ resourceDetail, selectedUser, user }: IResu
         assessment_uuid: resourceDetail?.data?.sat_token,
         tenant_name: "digitalsat",
       };
+
       FetchEdisonAssessmentResult(payload)
         .then((response) => {
-          setAssessmentResponse(response?.assessment_sessions);
           setLoader(false);
+          if (response && response?.assessment_sessions) {
+            setAssessmentResponse(assessmentResultRenderGenerator(response));
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -59,18 +63,9 @@ export default function DigitalSAT({ resourceDetail, selectedUser, user }: IResu
     }
   }, [resourceDetail?.data?.kind, resourceDetail?.data?.sat_token, userDetailList]);
 
-  const getSection = (type: string) => {
-    let newSection: number = 0;
-    newSection =
-      selectedData?.section_info_data?.info?.find((data: any) =>
-        data?.info?.name?.toLowerCase().includes(type)
-      )?.section || 0;
-    return newSection;
-  };
-
   const RedirectToDetailedReport = () => {
     const payload = {
-      allotment_id: selectedData?.allotment,
+      allotment_id: assessmentResponse?.allotment,
     };
     EdisonUserAuthentication(payload)
       .then((response) => {
@@ -85,10 +80,10 @@ export default function DigitalSAT({ resourceDetail, selectedUser, user }: IResu
     <>
       {assessmentResponse && assessmentResponse?.length > 0 ? (
         <>
-          {resultMode ? (
+          {assessmentDetailPreview != null ? (
             <>
               <div
-                onClick={() => setResultMode(false)}
+                onClick={() => setAssessmentDetailPreview(null)}
                 className="cursor-pointer d-flex gap-2 aline-items-center mb-2 text-primary"
               >
                 <ArrowLeft width="16px" /> Go Back
@@ -98,38 +93,25 @@ export default function DigitalSAT({ resourceDetail, selectedUser, user }: IResu
                 <div className="d-flex gap-2">
                   <div className="border p-2 w-100 text-success">
                     <div style={{ fontSize: "26px", fontWeight: "bold" }}>
-                      {selectedData?.total_correct}
+                      {assessmentDetailPreview?.total_correct}
                     </div>
                     <div>Correct Answers</div>
                   </div>
                   <div className="border p-2 w-100 text-danger">
                     <div style={{ fontSize: "26px", fontWeight: "bold" }}>
-                      {selectedData?.total_incorrect}
+                      {assessmentDetailPreview?.total_incorrect}
                     </div>
                     <div>Wrong Answers</div>
                   </div>
                   <div className="border p-2 w-100 text-primary">
                     <div style={{ fontSize: "26px", fontWeight: "bold" }}>
-                      {digitalSatData?.reading[
-                        getSection("reading") !== 0
-                          ? selectedData?.section_score_data[getSection("reading")] || 0
-                          : 0
-                      ] +
-                        digitalSatData?.writing[
-                          getSection("writing") !== 0
-                            ? selectedData?.section_score_data[getSection("writing")] || 0
-                            : 0
-                        ] +
-                        digitalSatData?.maths[
-                          getSection("maths") !== 0
-                            ? selectedData?.section_score_data[getSection("maths")] || 0
-                            : 0
-                        ]}
+                      {assessmentDetailPreview?.total_scaled_score}
                     </div>
                     <div>Total Score</div>
                   </div>
                 </div>
               </div>
+
               <div className="w-100 mb-4">
                 <h6 className="m-0 p-0 mb-2">Section Score</h6>
                 <div className="d-flex gap-2">
@@ -145,28 +127,22 @@ export default function DigitalSAT({ resourceDetail, selectedUser, user }: IResu
                       <div style={{ fontSize: "20px" }}>
                         Scaled score :{" "}
                         <strong>
-                          {digitalSatData?.writing[
-                            getSection("writing") !== 0
-                              ? selectedData?.section_score_data[getSection("writing")] || 0
-                              : 0
-                          ] +
-                            digitalSatData?.reading[
-                              getSection("reading") !== 0
-                                ? selectedData?.section_score_data[getSection("reading")] || 0
-                                : 0
-                            ]}{" "}
+                          <strong>
+                            {assessmentDetailPreview?.sectional_score?.reading?.total_scaled_score +
+                              assessmentDetailPreview?.sectional_score?.writing?.total_scaled_score}
+                          </strong>
                         </strong>
                       </div>
                       <div style={{ fontSize: "20px" }}>
                         Raw score :{" "}
                         <strong>
-                          {selectedData?.section_score_data[getSection("writing")] ||
-                            0 + selectedData?.section_score_data[getSection("reading")] ||
-                            0}
+                          {assessmentDetailPreview?.sectional_score?.reading?.total_score +
+                            assessmentDetailPreview?.sectional_score?.writing?.total_score}
                         </strong>
                       </div>
                     </div>
                   </div>
+
                   <div className="border p-2 w-100">
                     <div
                       className="text-center mb-2"
@@ -179,48 +155,44 @@ export default function DigitalSAT({ resourceDetail, selectedUser, user }: IResu
                       <div style={{ fontSize: "20px" }}>
                         Scaled score :{" "}
                         <strong>
-                          {
-                            digitalSatData?.maths[
-                              getSection("maths") !== 0
-                                ? selectedData?.section_score_data[getSection("maths")] || 0
-                                : 0
-                            ]
-                          }{" "}
+                          {assessmentDetailPreview?.sectional_score?.math?.total_scaled_score}
                         </strong>
                       </div>
                       <div style={{ fontSize: "20px" }}>
                         Raw score :{" "}
                         <strong>
-                          {selectedData?.section_score_data[getSection("maths")] || 0}
+                          {assessmentDetailPreview?.sectional_score?.math?.total_score}
                         </strong>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+
               <div className="w-100 mb-4">
                 <h6 className="m-0 p-0 mb-2">Overall Details</h6>
                 <div className="d-flex gap-2">
                   <div className="border p-2 w-100">
                     <div style={{ fontSize: "26px", fontWeight: "bold" }}>
-                      {selectedData?.total_questions}
+                      {assessmentDetailPreview?.total_questions}
                     </div>
                     <div style={{ fontSize: "16px" }}>Number of questions</div>
                   </div>
                   <div className="border p-2 w-100">
                     <div style={{ fontSize: "26px", fontWeight: "bold" }}>
-                      {selectedData?.total_answered}
+                      {assessmentDetailPreview?.total_answered}
                     </div>
                     <div>Answered</div>
                   </div>
                   <div className="border p-2 w-100">
                     <div style={{ fontSize: "26px", fontWeight: "bold" }}>
-                      {selectedData?.total_unanswered}
+                      {assessmentDetailPreview?.total_unanswered}
                     </div>
                     <div>Unanswered</div>
                   </div>
                 </div>
               </div>
+
               {user && (
                 <Button
                   variant="outline-primary"
@@ -250,20 +222,19 @@ export default function DigitalSAT({ resourceDetail, selectedUser, user }: IResu
                   <tbody>
                     {assessmentResponse && assessmentResponse.length > 0 ? (
                       <>
-                        {assessmentResponse.map((data: any, index: any) => (
+                        {assessmentResponse.map((_assessmentData: any, index: any) => (
                           <tr key={index}>
                             <th>{index + 1}</th>
-                            <td>{datePreview(data.submitted_at)}</td>
-                            <td>{data.total_answered}</td>
-                            <td>{data.total_correct}</td>
-                            <td>{secondsToHms(data.total_time)}</td>
+                            <td>{datePreview(_assessmentData.submitted_at)}</td>
+                            <td>{_assessmentData.total_answered}</td>
+                            <td>{_assessmentData.total_correct}</td>
+                            <td>{secondsToHms(_assessmentData.total_time)}</td>
                             <td>
                               <Button
                                 variant="outline-primary"
                                 size="sm"
                                 onClick={() => {
-                                  setSelectedData(data);
-                                  setResultMode(true);
+                                  setAssessmentDetailPreview(_assessmentData);
                                 }}
                               >
                                 View details
@@ -274,7 +245,7 @@ export default function DigitalSAT({ resourceDetail, selectedUser, user }: IResu
                       </>
                     ) : (
                       <div className="w-100 text-center text-muted py-5">
-                        No users are attached.
+                        No user responses are available.
                       </div>
                     )}
                   </tbody>
