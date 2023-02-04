@@ -129,7 +129,7 @@ const ResourceSubmissions: NextPage = () => {
                 </div>
               </div>
             </div>
-            <Container>
+            <Container style={{ overflow: "hidden", overflowY: "auto" }}>
               {resourceAssessmentUserDetail && !resourceAssessmentUserDetailError ? (
                 <div className="w-100 text-center text-muted py-3">
                   <Table bordered style={{ whiteSpace: "nowrap" }}>
