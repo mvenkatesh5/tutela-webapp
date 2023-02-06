@@ -139,9 +139,14 @@ const ResourceSubmissions: NextPage = () => {
                         <th>Teacher</th>
                         <th>Student</th>
                         <th>Scheduled at </th>
-                        <th>Submitted at </th>
-                        <th>Results</th>
-                        <th>Status</th>
+                        {resourceDetail?.data?.kind !== "digital_sat" && (
+                          <>
+                            <th>Submitted at </th>
+                            <th>Results</th>
+                            <th>Status</th>
+                          </>
+                        )}
+
                         <th>
                           {resourceDetail?.data?.kind === "digital_sat" ? "Submissions" : "Results"}
                         </th>
@@ -165,21 +170,28 @@ const ResourceSubmissions: NextPage = () => {
                                   placeholder="time"
                                 />
                               </td>
-                              <td>
-                                {user?.completed_at != null ? datePreview(user?.completed_at) : "-"}
-                              </td>
-                              <td className="text-sm">
-                                {user?.score
-                                  ? `${user?.score}/${user.work_submission_data?.max_score}`
-                                  : "-"}
-                              </td>
-                              <td>
-                                {user?.completed_at ? (
-                                  <Badge className="bg-success">Completed</Badge>
-                                ) : (
-                                  <Badge className="bg-danger">Not Started</Badge>
-                                )}
-                              </td>
+
+                              {resourceDetail?.data?.kind !== "digital_sat" && (
+                                <>
+                                  <td>
+                                    {user?.completed_at != null
+                                      ? datePreview(user?.completed_at)
+                                      : "-"}
+                                  </td>
+                                  <td className="text-sm">
+                                    {user?.score
+                                      ? `${user?.score}/${user.work_submission_data?.max_score}`
+                                      : "-"}
+                                  </td>
+                                  <td>
+                                    {user?.completed_at ? (
+                                      <Badge className="bg-success">Completed</Badge>
+                                    ) : (
+                                      <Badge className="bg-danger">Not Started</Badge>
+                                    )}
+                                  </td>
+                                </>
+                              )}
                               <td>
                                 {user?.completed_at ? (
                                   <Button
