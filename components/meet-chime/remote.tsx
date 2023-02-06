@@ -58,8 +58,6 @@ const RemoteVid = ({
   const { videoEnabled } = useAttendeeStatus(chimeAttendeeID);
   const { attendeeIdToTileId } = useRemoteVideoTileState();
 
-  console.log(`video enabled for ${chimeAttendeeID} ?`, videoEnabled);
-
   return (
     <div className="tw-relative tw-bg-[#1b1c20] tw-h-full tw-w-full tw-flex tw-justify-center tw-items-center tw-rounded-3xl tw-overflow-hidden tw-cursor-pointer">
       {videoEnabled ? (

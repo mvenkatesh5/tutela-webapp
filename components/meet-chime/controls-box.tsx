@@ -170,36 +170,28 @@ const Controls: React.FC<ControlProps> = ({ meet_id, user, attendee, internalMee
 
   return (
     <>
-      <ControlBar
-        showLabels={true}
-        responsive={true}
-        layout="undocked-horizontal"
-        className="tw-flex tw-justify-center tw-items-center tw-gap-3 sm:tw-gap-4 tw-h-full tw-w-full tw-px-4 "
-      >
-        <div className="tw-flex tw-justify-center tw-items-center tw-w-14">
+      <div className="tw-flex tw-justify-center tw-items-center  tw-w-full  tw-bg-gray-200 tw-h-[10%] ">
+        <div className="tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle">
           <ControlBarButton {...muteButtonProps} />
         </div>
-        <div className="tw-flex tw-justify-center tw-items-center tw-w-14">
+        <div className="tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle">
           {/* <ControlBarButton {...videoButtonProps} /> */}
           <VideoInputControl />
         </div>
-        <div className="tw-flex tw-justify-center tw-items-center tw-w-14">
+        <div className="tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle">
           <ControlBarButton {...screenButtonProps} />
         </div>
-        {/* <div className='tw-flex tw-justify-center tw-items-center tw-w-14'>
-          <ControlBarButton {...recordButtonProps} />
-        </div> */}
-        <div className="tw-flex tw-justify-center tw-items-center tw-w-14">
+        <div className="tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle">
           <ControlBarButton {...soundButtonProps} />
         </div>
 
-        <div className="tw-flex tw-justify-center tw-items-center tw-w-14">
+        <div className="tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle">
           <ControlBarButton {...endButtonProps} />
         </div>
-        {/* <div className='tw-flex tw-justify-center tw-items-center tw-w-14 tw-absolute tw-right-10'>
+        {/* <div className='tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle tw-absolute tw-right-10'>
           <ControlBarButton {...chatButtonProps} />
         </div> */}
-      </ControlBar>
+      </div>
 
       <Dialog
         open={open}

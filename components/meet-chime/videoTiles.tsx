@@ -29,6 +29,16 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
   const [tilesPerPage, setTilesPerPage] = useState<number>(6);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [sharingUser, setSharingUser] = useState<any>(null);
+  // calculating inner width
+  let count = 0;
+  useEffect(() => {
+    if (window.innerWidth < 600) count = 2;
+    else if (window.innerWidth > 600 && window.innerWidth < 1024) count = 4;
+    else if (window.innerWidth >= 1024) count = 6;
+
+    setCurrentPage(1);
+    setTilesPerPage(count);
+  }, [window.innerWidth]);
 
   const { sharingAttendeeId } = useContentShareState();
 
@@ -58,13 +68,13 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
   return (
     <>
       <div
-        className="tw-w-full tw-h-screen tw-p-2 tw-rounded tw-relative "
+        className="tw-w-full tw-p-2 tw-rounded tw-relative xs:tw-h-[100%] md:tw-h-screen"
         style={{
           display: sharingAttendeeId != null ? "none" : "inherit",
         }}
       >
         <VideoGrid
-          className="tw-gap-4 tw-rounded  tw-h-screen"
+          className="tw-gap-4 tw-rounded tw-h-screen tw-w-full "
           style={{
             display: "flex",
             flexWrap: "wrap",
@@ -76,15 +86,13 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
         >
           {currentTiles?.map((data, i) => {
             const { AttendeeId, ExternalUserId } = data;
-            // const { sharingContent } = useAttendeeStatus(AttendeeId);
-            // if (sharingContent) setSharingUser(data);
             return (
               <Tiles
                 key={i}
                 AttendeeId={AttendeeId}
                 externalUser={ExternalUserId}
                 localAttendeeId={localAttendeeId}
-                length={attendeeArr.length}
+                length={currentTiles.length}
               />
             );
           })}
@@ -113,7 +121,7 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
         className="tw-grid tw-gap-3 tw-h-[90%] tw-w-full tw-relative tw-grid-cols-4 tw-grid-row-1"
         style={{ display: sharingAttendeeId == null ? "none" : "grid" }}
       >
-        <div className="md:tw-col-span-3 sm:tw-col-span-4 tw-p-3">
+        <div className="lg:tw-col-span-3 xs:tw-col-span-4 tw-p-3">
           <VideoGrid
             className="tw-rounded-2xl "
             style={{
@@ -131,7 +139,7 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
             </div>
           </VideoGrid>
         </div>
-        <div className="tw-col-span-1 tw-overflow-x-hidden tw-overflow-y-auto tw-p-3 ">
+        <div className="xs:tw-hidden lg:tw-block lg:tw-col-span-1 tw-overflow-x-hidden tw-overflow-y-auto tw-p-3 ">
           {attendeeArr?.map((data, i) => {
             const { AttendeeId, ExternalUserId } = data;
             return (
