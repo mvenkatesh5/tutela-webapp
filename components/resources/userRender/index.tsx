@@ -16,23 +16,20 @@ import { LaptopChromebook } from "@styled-icons/material-rounded/LaptopChromeboo
 import ResourceNotesView from "@components/notes/view";
 import { SlateEditor } from "@components/SlateEditor";
 import SubmissionsModal from "@components/resources/userResources/SubmissionsModal";
+import DigiSatTestModal from "../userResources/DigiSatTestModal";
 // swr
 import useSWR from "swr";
 // api routes
-import { TAGS_WITH_ID_ENDPOINT, RESOURCE_ASSESSMENT_USER_DETAILS } from "@constants/routes";
+import { TAGS_WITH_ID_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 
 const TreeView = (props: any) => {
   const TreeChildrenRenderView = ({ tree, level, t_children, root_node_id, user }: any) => {
-    const { data: resourceUserAssessment, error: resourceUserAssessmentError } = useSWR(
-      tree?.id ? [RESOURCE_ASSESSMENT_USER_DETAILS(tree?.id), tree?.id] : null,
-      (url) => APIFetcher(url),
-      { refreshInterval: 0, revalidateOnFocus: false }
-    );
-    //currentProduct.tree[0].id
     const [dropdownToggle, setDropdownToggle] = React.useState<any>(true);
     const [submissionsModal, setSubmissionsModal] = React.useState<any>(false);
+    const [digiSatModal, setDigiSatModal] = React.useState<any>(false);
+
     const imageFileNameSplitRender = (value: any) => {
       let splitValue = value.split("/");
       if (splitValue && splitValue.length > 0) {
@@ -173,31 +170,25 @@ const TreeView = (props: any) => {
 
           {tree.data.data.kind === "digital_sat" && (
             <>
-              {resourceUserAssessment &&
-              resourceUserAssessment.message !== "User can access this node" ? (
-                <div className="flex gap-2 items-center">
-                  <div className="text-sm" style={{ whiteSpace: "nowrap" }}>
-                    <div
-                      style={{ color: "#0077C8" }}
-                      className="cursor-pointer"
-                      onClick={() => setSubmissionsModal(true)}
-                    >
-                      View Submissions
-                    </div>
-                  </div>
-                  <div className="text-sm" style={{ whiteSpace: "nowrap" }}>
-                    <Link href={`${tree.data.data.url}?email=${user?.user?.email}`}>
-                      <a target="_blank" rel="noreferrer">
-                        Start test
-                      </a>
-                    </Link>
+              <div className="flex gap-2 items-center">
+                <div className="text-sm" style={{ whiteSpace: "nowrap" }}>
+                  <div
+                    style={{ color: "#0077C8" }}
+                    className="cursor-pointer"
+                    onClick={() => setSubmissionsModal(true)}
+                  >
+                    View Submissions
                   </div>
                 </div>
-              ) : (
-                <div style={{ whiteSpace: "nowrap" }} className="text-sm">
-                  No access. Contact Admin.
+                <div
+                  className="text-sm cursor-pointer"
+                  style={{ whiteSpace: "nowrap", color: "#0077C8" }}
+                >
+                  <div onClick={() => setDigiSatModal(true)} className="">
+                    Start test
+                  </div>
                 </div>
-              )}
+              </div>
             </>
           )}
 
@@ -250,6 +241,12 @@ const TreeView = (props: any) => {
           modal={submissionsModal}
           setModal={setSubmissionsModal}
           user={true}
+        />
+        <DigiSatTestModal
+          treeId={tree?.id}
+          modal={digiSatModal}
+          setModal={setDigiSatModal}
+          href={`${tree.data.data.url}?email=${user?.user?.email}`}
         />
       </>
     );
