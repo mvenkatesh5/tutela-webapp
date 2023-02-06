@@ -16,6 +16,7 @@ import { logout } from "lib/cookie";
 export const axiosInstance = axios.create();
 export const axiosPublicInstance = axios.create();
 export const axiosEdisonInstance = axios.create();
+export const axiosChimeInstance = axios.create();
 
 let baseURL =
   process.env.NEXT_PUBLIC_APP_ENVIRONMENT === "production"
