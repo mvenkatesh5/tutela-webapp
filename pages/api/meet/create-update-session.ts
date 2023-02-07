@@ -141,7 +141,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
             createMeetingResponse?.Meeting?.ExternalMeetingId?.toString(),
           ExternalMeetId: createMeetingResponse?.Meeting?.ExternalMeetingId,
           MeetingId: meet_id,
-          MediaPipelineId: recordResponse?.MediaCapturePipeline?.MediaPipelineId,
+          MediaPipelineId: concatMediaResponse?.MediaConcatenationPipeline?.MediaPipelineId,
           MeetingResponse: createMeetingResponse,
         };
 

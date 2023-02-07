@@ -51,7 +51,6 @@ const ZoomSession = (props: any) => {
     setChimeButtonLoader(true);
     createChimeSession()
       .then((res) => {
-        console.log("this is response", res);
         updateChimeSession(res);
         setChimeData(res);
         setChimeButtonLoader(false);
@@ -90,16 +89,16 @@ const ZoomSession = (props: any) => {
         chime: response,
       },
       link: response.start_url,
-      // recording_files: {
-      //   data: [
-      //     {
-      //       uuid: response.MeetingId,
-      //       medium: "CHIME_CLOUD",
-      //       file_type: "MP4",
-      //       recording_link: `https://tutela-connect-records.s3.ap-south-1.amazonaws.com/${response?.MeetingId}/composited-video/${response?.MediaPipelineId}.mp4`,
-      //     },
-      //   ],
-      // },
+      recording_files: {
+        data: [
+          {
+            uuid: response.MeetingId,
+            medium: "CHIME_CLOUD",
+            file_type: "MP4",
+            recording_link: `https://tutela-connect-records.s3.ap-south-1.amazonaws.com/${response?.MeetingId}/composited-video/${response?.MediaPipelineId}.mp4`,
+          },
+        ],
+      },
     };
     SessionUpdate(payload)
       .then((response) => {
@@ -164,34 +163,6 @@ const ZoomSession = (props: any) => {
   const SessionDetailModal = ({ data }: any) => {
     return (
       <div className="zoom-settings-dropdown-wrapper">
-        {/* <Button className="btn-sm start-meeting" onClick={() => setOpenModel(!openModel)}>
-          Start Meeting
-        </Button> */}
-        {/* 
-        <Dialog
-          open={openModel}
-          onClose={() => setOpenModel(false)}
-          className="tw-container tw-absolute  tw-bg-white tw-p-5 tw-rounded-md tw-shadow-2xl tw-z-10 tw-top-[50%] tw-left-[50%] tw-translate-x-[-50%] tw-translate-y-[-50%] tw-h-[20vw] tw-w-[25vw] tw-box-border tw-border-black"
-          style={{ border: "0.5px solid grey" }}
-        >
-          <div className="title-header tw-text-xl tw-font-bold">{props?.data?.title}</div>
-          <small className="text-muted tw-mt-5 tw-p-1">
-            {props.data && datePreview(props?.data?.start_datetime)}
-          </small>
-
-          <div className="tw-mt-2 tw-h-[60%] tw-p-2 tw-relative tw-overflow-x-hidden tw-overflow-y-auto ">
-            <p className="text-muted m-0 p-0">{props.data && props.data.description}</p>
-          </div>
-          <div className="tw-relative tw-flex tw-justify-center tw-items-center tw-p-2 tw-w-full  ">
-            <Button className="btn-sm start-meeting tw-mx-3" onClick={zoomSubmit}>
-              Start Zoom Meet
-            </Button>
-            <Button className="btn-sm start-meeting tw-mx-3" onClick={chimeSubmit}>
-              Start Chime Meet
-            </Button>
-          </div>
-        </Dialog> */}
-
         <Dropdown
           style={{ position: "relative" }}
           onToggle={(value: any) => {
@@ -290,7 +261,9 @@ const ZoomSession = (props: any) => {
                       <div
                         onClick={() => {
                           if (!loader)
-                            userAttendanceRedirection(zoomData?.join_url || props.data.link);
+                            userAttendanceRedirection(
+                              zoomData?.join_url || chimeData?.start_url || props.data.link
+                            );
                         }}
                       >
                         <Badge className="bg-success hover-cursor">Join Meeting</Badge>
@@ -305,7 +278,7 @@ const ZoomSession = (props: any) => {
                       time={convertTimeToSeconds(props.data.start_datetime)}
                     >
                       <a
-                        href={zoomData?.start_url || props.data.link}
+                        href={zoomData?.start_url || chimeData?.start_url || props.data.link}
                         target="_blank"
                         rel="noreferrer"
                       >
