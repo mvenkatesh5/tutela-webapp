@@ -7,17 +7,12 @@ import { v4 as uuidV4 } from "uuid";
 // middleware
 import { isMeetValid } from "@components/meet-chime/helpers/middleware";
 
-const {
-  T_AWS_ACCESS_KEY_ID = "",
-  T_AWS_SECRET_ACCESS_KEY = "",
-} = process.env;
+const { T_AWS_ACCESS_KEY_ID = "", T_AWS_SECRET_ACCESS_KEY = "" } = process.env;
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
-  console.log("in this api");
   const { room = "", userId = "" } = await req.body;
   const { method, url } = req;
   const { host } = req.headers;
-
 
   // Initialize aws credentials
   AWS.config.credentials = new AWS.Credentials(T_AWS_ACCESS_KEY_ID, T_AWS_SECRET_ACCESS_KEY);
@@ -136,8 +131,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
           .promise();
 
         response = {
-          start_url:
-            host + "/meet/" + createMeetingResponse?.Meeting?.ExternalMeetingId?.toString(),
+          start_url: "/meet/" + createMeetingResponse?.Meeting?.ExternalMeetingId?.toString(),
           ExternalMeetId: createMeetingResponse?.Meeting?.ExternalMeetingId,
           MeetingId: meet_id,
           MediaPipelineId: concatMediaResponse?.MediaConcatenationPipeline?.MediaPipelineId,
