@@ -10,13 +10,14 @@ import { isMeetValid } from "@components/meet-chime/helpers/middleware";
 const {
   T_AWS_ACCESS_KEY_ID = "",
   T_AWS_SECRET_ACCESS_KEY = "",
-  NEXT_PUBLIC_FE_URL = "",
 } = process.env;
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
   console.log("in this api");
   const { room = "", userId = "" } = await req.body;
-  const { method } = req;
+  const { method, url } = req;
+  const { host } = req.headers;
+
 
   // Initialize aws credentials
   AWS.config.credentials = new AWS.Credentials(T_AWS_ACCESS_KEY_ID, T_AWS_SECRET_ACCESS_KEY);
@@ -136,9 +137,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
 
         response = {
           start_url:
-            NEXT_PUBLIC_FE_URL +
-            "/meet/" +
-            createMeetingResponse?.Meeting?.ExternalMeetingId?.toString(),
+            host + "/meet/" + createMeetingResponse?.Meeting?.ExternalMeetingId?.toString(),
           ExternalMeetId: createMeetingResponse?.Meeting?.ExternalMeetingId,
           MeetingId: meet_id,
           MediaPipelineId: concatMediaResponse?.MediaConcatenationPipeline?.MediaPipelineId,
