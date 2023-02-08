@@ -26,7 +26,7 @@ import { Dialog } from "@headlessui/react";
 import ChatWindow from "./chatWindow";
 const { NEXT_PUBLIC_WS_URL } = process.env;
 // lib
-import { removeMeetingAttendee } from "@components/meet-chime/helpers/attendees";
+import { leaveMeeting, deleteMeeting } from "@components/meet-chime/helpers/chime-session";
 import {
   createRecordingSession,
   stopRecordingSession,
@@ -37,9 +37,11 @@ type ControlProps = {
   user: any;
   attendee: string;
   internalMeetId: string;
+  hostId?: any;
 };
 
-const Controls: React.FC<ControlProps> = ({ meet_id, user, attendee, internalMeetId }) => {
+const Controls: React.FC<ControlProps> = ({ meet_id, user, attendee, internalMeetId, hostId }) => {
+  console.log("this is user", user);
   const router = useRouter();
   const meetingManager = useMeetingManager();
   const { muted, toggleMute } = useToggleLocalMute();
@@ -54,8 +56,6 @@ const Controls: React.FC<ControlProps> = ({ meet_id, user, attendee, internalMee
   const [chatSocket, setChatSocket] = useState<any>(undefined);
   const [messages, setMessages] = useState();
   const [chatMessage, setChatMessage] = useState<string>("");
-  const [recording, setRecording] = useState<boolean>(false);
-  const [recordingResponse, setRecordingResponse] = useState<any>(null);
 
   const host = NEXT_PUBLIC_WS_URL || "ws://127.0.0.1:8000";
 
@@ -121,41 +121,49 @@ const Controls: React.FC<ControlProps> = ({ meet_id, user, attendee, internalMee
     onClick: () => toggleAudio(),
   };
 
-  // const recordButtonProps = {
-  //   icon: <Record />,
-  //   label: recording ? "Stop" : "Record",
-  //   onClick: async () => {
-  //     if (!recording && recordingResponse == null) {
-  //       const record = await createRecordingSession(internalMeetId);
-  //       if (record) {
-  //         setRecording(true);
-  //         setRecordingResponse(record?.response);
-  //       }
-  //     } else {
-  //       const stopRecording = await stopRecordingSession(
-  //         recordingResponse?.MediaCapturePipeline?.MediaPipelineId,
-  //         internalMeetId,
-  //         recordingResponse?.MediaCapturePipeline?.MediaPipelineArn
-  //       );
-  //       if (stopRecording) {
-  //         setRecording(false);
-  //         setRecordingResponse(null);
-  //       }
-  //     }
-  //   },
-  // };
+  const endButtonHostProps = {
+    icon: <Phone />,
+    onClick: async () => {
+      await router.push("/calendar");
+      await leaveMeeting(internalMeetId, attendee)
+        .then((res) => res)
+        .catch((e) => e);
+
+      await meetingManager.leave();
+    },
+
+    label: "Leave Meeting",
+    popOver: [
+      {
+        onClick: async () => {
+          await router.push({
+            pathname: "/calendar",
+            query: { id: internalMeetId },
+          });
+          await deleteMeeting(internalMeetId, attendee)
+            .then((res) => res)
+            .catch((e) => e);
+          await meetingManager.leave();
+        },
+        children: <span> End Meeting for All</span>,
+      },
+    ],
+  };
 
   const endButtonProps = {
     icon: <Phone />,
     onClick: async () => {
       await router.push("/calendar");
-      await removeMeetingAttendee(internalMeetId, attendee)
-        .then((res) => console.log("end meet", res))
-        .catch((e) => console.log("end meet error", e));
+      await leaveMeeting(internalMeetId, attendee)
+        .then((res) => res)
+        .catch((e) => e);
+
       await meetingManager.leave();
     },
-    label: "End",
+
+    label: "Leave Meeting",
   };
+
   const chatButtonProps = {
     icon: open ? <Clear /> : <Chat />,
     label: "Chat",
@@ -186,7 +194,11 @@ const Controls: React.FC<ControlProps> = ({ meet_id, user, attendee, internalMee
         </div>
 
         <div className="tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle">
-          <ControlBarButton {...endButtonProps} />
+          {"0" + user.userId.toString() === hostId?.toString() ? (
+            <ControlBarButton {...endButtonHostProps} />
+          ) : (
+            <ControlBarButton {...endButtonProps} />
+          )}
         </div>
         {/* <div className='tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle tw-absolute tw-right-10'>
           <ControlBarButton {...chatButtonProps} />

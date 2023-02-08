@@ -38,13 +38,14 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
   }
   const router = useRouter();
   const status = useMeetingStatus();
-  console.log("Status", status);
+  // console.log("props", props);
   const { meet_id } = router.query as { meet_id: string };
   const [meetingSession, setMeetingSession] = useState<any>(null);
   const meetingManager = useMeetingManager();
   const [localAttendeeId, setLocalAttendeeId] = useState<any>(null);
   const [localUserId, setLocalUserId] = useState<any>(null);
   const [internalMeetingId, setInternalMeetingId] = useState<any>(null);
+  const [host, setHost] = useState<any>(null);
   const [localUserInfo, setLocalUserInfo] = useState<UserObjInterface | any>(
     userInfo
       ? {
@@ -66,7 +67,12 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
       const session = await updateChimeSession(meet_id.toString(), userId)
         .then((re) => re)
         .catch((e) => {
-          router.replace("/calendar");
+          router.push({
+            pathname: "/calendar",
+            // query: {
+            //   id : meet_id.toString()
+            // },
+          });
           console.log(e);
           return null;
         });
@@ -74,11 +80,11 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
         deviceLabels: DeviceLabels.AudioAndVideo,
       };
       if (session) {
+        setHost(session.meetingRoomExists.Meeting?.MeetingHostId);
         await meetingManager.join(session.configuration, meetingOptions);
         await meetingManager.start();
 
         setMeetingSession(session.configuration);
-        // console.log(session);
         setLocalAttendeeId(session.configuration.credentials?.attendeeId);
         setLocalUserId(session.configuration?.credentials?.externalUserId);
         setInternalMeetingId(meet_id);
@@ -106,6 +112,7 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
             internalMeetId={internalMeetingId}
             user={localUserInfo}
             attendee={localAttendeeId}
+            hostId={host}
           />
         </div>
       )}

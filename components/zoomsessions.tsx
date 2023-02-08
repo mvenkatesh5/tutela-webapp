@@ -21,6 +21,7 @@ import { createChimeSession } from "@components/meet-chime/helpers/chime-session
 import { SESSION_ENDPOINT } from "@constants/routes";
 // global imports
 import { getCurrentUser } from "@constants/global";
+import Cookies from "js-cookie";
 
 const ZoomSession = (props: any) => {
   // const router = useRouter();
@@ -32,13 +33,26 @@ const ZoomSession = (props: any) => {
   const [openModel, setOpenModel] = useState<boolean>(false);
   const [loader, setLoader] = React.useState<any>(false);
   const [currentUser, setCurrentUser] = React.useState<any>();
+  const urlParams = new URLSearchParams(window.location.search);
+  const meetingId = urlParams.get("id");
 
   React.useEffect(() => {
     let authDetail = getCurrentUser();
     if (authDetail) setCurrentUser(authDetail);
+
+    if (meetingId === props?.data?.data?.chime?.MeetingId) {
+      const payload = {
+        id: props.data.id,
+        end_datetime: new Date(),
+      };
+      SessionUpdate(payload)
+        .then((r) => r)
+        .catch((e) => e);
+    }
   }, []);
 
   React.useEffect(() => {
+    console.log(props);
     if (props.data && props.data.data && props.data.data.zoom) {
       setZoomData(props.data.data.zoom);
     }
@@ -49,14 +63,17 @@ const ZoomSession = (props: any) => {
 
   const chimeSubmit = () => {
     setChimeButtonLoader(true);
-    createChimeSession()
+    createChimeSession(currentUser.user.id)
       .then((res) => {
         updateChimeSession(res);
         setChimeData(res);
         setChimeButtonLoader(false);
         setDropdownToggle(false);
       })
-      .catch((e) => console.log("this is error", e));
+      .catch((e) => {
+        setChimeButtonLoader(false);
+        console.log("this is error", e);
+      });
   };
 
   const zoomSubmit = () => {
@@ -309,7 +326,7 @@ const ZoomSession = (props: any) => {
             </div>
           ) : (
             <small>
-              {(zoomData && zoomData.host_id) || (chimeData && chimeData.ExternalMeetId) ? (
+              {(zoomData && zoomData.host_id) || (chimeData && chimeData.MeetingId) ? (
                 <Badge className="bg-success">Conducted!</Badge>
               ) : (
                 <Badge className="bg-warning">Not conducted!</Badge>

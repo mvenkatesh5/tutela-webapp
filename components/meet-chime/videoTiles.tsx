@@ -10,6 +10,8 @@ import axios from "axios";
 import Tiles from "./tiles";
 import RemoteContent from "@components/meet-chime/remote-content";
 import { axiosChimeInstance } from "@config/axios";
+import { useRouter } from "next/router";
+
 interface VideoTilesProps {
   localAttendeeId: string;
   localUserId: string;
@@ -23,12 +25,11 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
   internalMeetingId,
   userObj,
 }) => {
+  const router = useRouter();
   const [attendeeArr, setAttendeeArr] = useState([]);
-  const { tiles, tileIdToAttendeeId, size } = useRemoteVideoTileState();
-  const [activeAttendeeArr, setActiveAttendeeArr] = useState([""]);
   const [tilesPerPage, setTilesPerPage] = useState<number>(6);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [sharingUser, setSharingUser] = useState<any>(null);
+
   // calculating inner width
   let count = 0;
   useEffect(() => {
@@ -51,8 +52,14 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
         .post(`/api/meet/meet-attendees/`, {
           params: { meetingId: internalMeetingId },
         })
-        .then((res) => {
+        .then(async (res) => {
           const arr = res.data.meetingAttendees;
+          if (!arr) {
+            await router.push({
+              pathname: "/calendar",
+              // query: { id: internalMeetingId },
+            });
+          }
           const newArr = arr.filter((item: any) => item !== localAttendeeId);
           setAttendeeArr(newArr);
         })

@@ -17,17 +17,9 @@ const getAttendees = async (req: NextApiRequest, res: NextApiResponse) => {
         // Initialize aws credentials
         AWS.config.credentials = new AWS.Credentials(T_AWS_ACCESS_KEY_ID, T_AWS_SECRET_ACCESS_KEY);
         // Initializing chime instance
-        const chime = new AWS.Chime({ region: "us-east-1" });
-        chime.endpoint = new AWS.Endpoint("https://service.chime.aws.amazon.com");
-
-        const meetings = await chime.listMeetings().promise();
-
-        const meetingRoomExists = (meetings.Meetings || []).find(
-          (it) => it.ExternalMeetingId === meetingId
-        );
-
+        const chime = new AWS.ChimeSDKMeetings({ region: "us-east-1" });
         const meetingAttendees = await chime
-          .listAttendees({ MeetingId: meetingRoomExists?.MeetingId?.toString() || "" })
+          .listAttendees({ MeetingId: meetingId })
           .promise()
           .then((res: any) =>
             res?.Attendees?.filter((attendee: any) => {

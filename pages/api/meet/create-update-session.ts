@@ -6,12 +6,13 @@ import AWS from "aws-sdk";
 import { v4 as uuidV4 } from "uuid";
 // middleware
 import { isMeetValid } from "@components/meet-chime/helpers/middleware";
+import Cookies from "js-cookie";
 
 const { T_AWS_ACCESS_KEY_ID = "", T_AWS_SECRET_ACCESS_KEY = "" } = process.env;
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
   const { room = "", userId = "" } = await req.body;
-  const { method, url } = req;
+  const { method } = req;
   const { host } = req.headers;
 
   // Initialize aws credentials
@@ -20,6 +21,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
   // Initializing chime instance
   const chime = new AWS.Chime({ region: "us-east-1" });
   chime.endpoint = new AWS.Endpoint("https://service.chime.aws.amazon.com");
+  const chimeMeetings = new AWS.ChimeSDKMeetings({ region: "us-east-1" });
   const chimeMedia = new AWS.ChimeSDKMediaPipelines({
     region: "us-east-1",
   });
@@ -34,9 +36,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
           ClientRequestToken: uuidV4().toString(),
           MediaRegion: "us-east-1",
           ExternalMeetingId: uuidV4().toString(),
+          MeetingHostId : '0' + userId.toString() ,
+          MeetingFeatures: {
+            Audio: {
+              EchoReduction: "AVAILABLE",
+            },
+          },
         };
 
-        const createMeetingResponse = await chime.createMeeting(createMeetingParams).promise();
+        const createMeetingResponse = await chimeMeetings.createMeeting(createMeetingParams).promise();
 
         // starting the meeting record
         const meet_id = createMeetingResponse?.Meeting?.MeetingId;
@@ -131,13 +139,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
           .promise();
 
         response = {
-          start_url: "/meet/" + createMeetingResponse?.Meeting?.ExternalMeetingId?.toString(),
-          ExternalMeetId: createMeetingResponse?.Meeting?.ExternalMeetingId,
+          start_url: "/meet/" + createMeetingResponse?.Meeting?.MeetingId?.toString(),
+          HostId : createMeetingResponse?.Meeting?.MeetingHostId?.toString() ,
           MeetingId: meet_id,
           MediaPipelineId: concatMediaResponse?.MediaConcatenationPipeline?.MediaPipelineId,
           MeetingResponse: createMeetingResponse,
         };
 
+        console.log("this is response", response);
         return res.status(200).json({
           status: "meet_created",
           message: "Meeting created successfully",
@@ -154,24 +163,27 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
       }
     case "PUT": {
       try {
-        const meetingList = await chime.listMeetings().promise();
+        // const meetingList = await chime.listMeetings().promise();
 
         // checking the meeting room status
-        const meetingRoomExists = (meetingList.Meetings || []).find(
-          (it) => it.ExternalMeetingId === room
-        );
+        // const meetingRoomExists = (meetingList.Meetings || []).find(
+        //   (it) => it.ExternalMeetingId === room
+        // );
+
+        const meetingRoomExists = await chimeMeetings.getMeeting({MeetingId : room}).promise()
 
         let response: any = null;
-        if (meetingRoomExists && meetingRoomExists?.MeetingId) {
-          const attendeeResponse = await chime
+        if (meetingRoomExists && meetingRoomExists?.Meeting?.MeetingId) {
+          const attendeeResponse = await chimeMeetings
             .createAttendee({
-              MeetingId: meetingRoomExists?.MeetingId?.toString(),
+              MeetingId: room,
               ExternalUserId: `${(userId.length < 2 ? "0" : "") + userId}`,
             })
             .promise();
           response = { meetingRoomExists, attendeeResponse };
         }
 
+        console.log("this is response", response);
         return res.status(200).json({
           status: "attendee_created",
           message: "Attendee added successfully",
