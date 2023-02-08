@@ -51,7 +51,7 @@ const SessionUser = (props: any) => {
             data={sessionUsers}
             handleData={handleSessionUsers}
             role={0}
-            validInput={props.users.length}
+            validInput={props?.users?.length}
           />
         </Form.Group>
 

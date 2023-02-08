@@ -8,12 +8,12 @@ import {
 
 import { axiosChimeInstance } from "@config/axios";
 
-export const createChimeSession = async () => {
+export const createChimeSession = async (userId: string) => {
   console.log("in this helpers");
   const res = await axiosChimeInstance
     .post(`/api/meet/create-update-session`, {
       room: "string",
-      userId: "string",
+      userId: userId,
     })
     .then((r) => r)
     .catch((e) => e);
@@ -30,8 +30,32 @@ export const updateChimeSession = async (room: string, userId: string) => {
     userId: userId,
   });
   const { meetingRoomExists, attendeeResponse } = res.data.response;
-  // console.log("this is response", );
+  console.log("this is response", meetingRoomExists);
 
   const configuration = new MeetingSessionConfiguration(meetingRoomExists, attendeeResponse);
-  return { configuration };
+  return { configuration, meetingRoomExists };
+};
+
+export const leaveMeeting = async (meetingId: string, attendeeId: string) => {
+  const res = await axiosChimeInstance.post(`/api/meet/leave-meet`, {
+    params: {
+      meetingId: meetingId,
+      attendeeId: attendeeId,
+    },
+  });
+
+  console.log("this is response", res);
+  return res;
+};
+
+export const deleteMeeting = async (meetingId: string, attendeeId: string) => {
+  const res = await axiosChimeInstance.post(`/api/meet/delete-session`, {
+    params: {
+      meetingId: meetingId,
+      attendeeId: attendeeId,
+    },
+  });
+  console.log("this is response", res);
+
+  return res;
 };
