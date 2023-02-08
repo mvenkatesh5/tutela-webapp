@@ -63,9 +63,9 @@ export default function DigitalSAT({ resourceDetail, selectedUser, user }: IResu
     }
   }, [resourceDetail?.data?.kind, resourceDetail?.data?.sat_token, userDetailList]);
 
-  const RedirectToDetailedReport = () => {
+  const RedirectToDetailedReport = (allotment: any) => {
     const payload = {
-      allotment_id: assessmentResponse?.allotment,
+      allotment_id: allotment,
     };
     EdisonUserAuthentication(payload)
       .then((response) => {
@@ -198,7 +198,7 @@ export default function DigitalSAT({ resourceDetail, selectedUser, user }: IResu
                   variant="outline-primary"
                   size="sm"
                   onClick={() => {
-                    RedirectToDetailedReport();
+                    RedirectToDetailedReport(assessmentDetailPreview.allotment);
                   }}
                 >
                   View detail report
