@@ -46,6 +46,7 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
   const [localUserId, setLocalUserId] = useState<any>(null);
   const [internalMeetingId, setInternalMeetingId] = useState<any>(null);
   const [host, setHost] = useState<any>(null);
+  const [attendeeArr, setAttendeeArr] = useState([]);
   const [localUserInfo, setLocalUserInfo] = useState<UserObjInterface | any>(
     userInfo
       ? {
@@ -106,6 +107,8 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
             localUserId={localUserId}
             internalMeetingId={internalMeetingId}
             userObj={localUserInfo}
+            attendeeArr={attendeeArr}
+            setAttendee={(data: any) => setAttendeeArr(data)}
           />
           <Controls
             meet_id={meet_id}
@@ -113,6 +116,7 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
             user={localUserInfo}
             attendee={localAttendeeId}
             hostId={host}
+            attendeeArr={attendeeArr}
           />
         </div>
       )}

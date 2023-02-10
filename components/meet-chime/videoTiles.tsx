@@ -17,6 +17,8 @@ interface VideoTilesProps {
   localUserId: string;
   internalMeetingId: string;
   userObj: any;
+  attendeeArr: Array<any>;
+  setAttendee: Function;
 }
 
 const VideoTiles: React.FC<VideoTilesProps> = ({
@@ -24,9 +26,11 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
   localUserId,
   internalMeetingId,
   userObj,
+  attendeeArr,
+  setAttendee,
 }) => {
   const router = useRouter();
-  const [attendeeArr, setAttendeeArr] = useState([]);
+  // const [attendeeArr, setAttendeeArr] = useState([]);
   const [tilesPerPage, setTilesPerPage] = useState<number>(6);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
@@ -61,7 +65,7 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
             });
           }
           const newArr = arr.filter((item: any) => item !== localAttendeeId);
-          setAttendeeArr(newArr);
+          setAttendee(newArr);
         })
         .catch((error) => console.log(error));
     };

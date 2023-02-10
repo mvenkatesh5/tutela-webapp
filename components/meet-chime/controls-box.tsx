@@ -20,17 +20,17 @@ import {
   useLocalAudioOutput,
   Sound,
   VideoInputControl,
+  Attendees,
 } from "amazon-chime-sdk-component-library-react";
+import { Offcanvas } from "react-bootstrap";
 import { useRouter } from "next/router";
 import { Dialog } from "@headlessui/react";
+// Components
 import ChatWindow from "./chatWindow";
+import Participant from "./Participant";
 const { NEXT_PUBLIC_WS_URL } = process.env;
 // lib
 import { leaveMeeting, deleteMeeting } from "@components/meet-chime/helpers/chime-session";
-import {
-  createRecordingSession,
-  stopRecordingSession,
-} from "@components/meet-chime/helpers/record";
 
 type ControlProps = {
   meet_id: string;
@@ -38,10 +38,18 @@ type ControlProps = {
   attendee: string;
   internalMeetId: string;
   hostId?: any;
+  attendeeArr: Array<any>;
 };
 
-const Controls: React.FC<ControlProps> = ({ meet_id, user, attendee, internalMeetId, hostId }) => {
-  console.log("this is user", user);
+const Controls: React.FC<ControlProps> = ({
+  meet_id,
+  user,
+  attendee,
+  internalMeetId,
+  hostId,
+  attendeeArr,
+}) => {
+  // console.log("this is users", attendeeArr);
   const router = useRouter();
   const meetingManager = useMeetingManager();
   const { muted, toggleMute } = useToggleLocalMute();
@@ -49,6 +57,7 @@ const Controls: React.FC<ControlProps> = ({ meet_id, user, attendee, internalMee
   const { toggleContentShare } = useContentShareControls();
   const { isLocalUserSharing } = useContentShareState();
   const { isAudioOn, toggleAudio } = useLocalAudioOutput();
+  const [showParticipants, setShowParticipants] = useState(false);
 
   const [open, setOpen] = useState(false);
   const [messageList, setMessageList] = useState([]);
@@ -170,6 +179,11 @@ const Controls: React.FC<ControlProps> = ({ meet_id, user, attendee, internalMee
     onClick: () => setOpen(!open),
   };
 
+  const participantsButtonProps = {
+    icon: <Attendees />,
+    label: "Participants",
+    onClick: () => setShowParticipants(!showParticipants),
+  };
   useEffect(() => {
     muted ? "" : toggleMute();
 
@@ -178,7 +192,7 @@ const Controls: React.FC<ControlProps> = ({ meet_id, user, attendee, internalMee
 
   return (
     <>
-      <div className="tw-flex tw-justify-center tw-items-center  tw-w-full  tw-bg-gray-200 tw-h-[10%] ">
+      <div className="tw-flex tw-justify-center tw-items-center tw-w-full tw-bg-gray-200 tw-h-[10%] tw-px-3 ">
         <div className="tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle">
           <ControlBarButton {...muteButtonProps} />
         </div>
@@ -189,10 +203,13 @@ const Controls: React.FC<ControlProps> = ({ meet_id, user, attendee, internalMee
         <div className="tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle">
           <ControlBarButton {...screenButtonProps} />
         </div>
+
         <div className="tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle">
           <ControlBarButton {...soundButtonProps} />
         </div>
-
+        <div className="tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle">
+          <ControlBarButton {...participantsButtonProps} />
+        </div>
         <div className="tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle">
           {"0" + user.userId.toString() === hostId?.toString() ? (
             <ControlBarButton {...endButtonHostProps} />
@@ -200,43 +217,75 @@ const Controls: React.FC<ControlProps> = ({ meet_id, user, attendee, internalMee
             <ControlBarButton {...endButtonProps} />
           )}
         </div>
+
+        {/* <div className="sm:tw-flex tw-absolute tw-right-10 xs:tw-hidden ">
+          <ControlBarButton {...chatButtonProps} />
+          <ControlBarButton {...participantsButtonProps} />
+        </div> */}
         {/* <div className='tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle tw-absolute tw-right-10'>
           <ControlBarButton {...chatButtonProps} />
         </div> */}
       </div>
 
-      <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
-        className="tw-absolute tw-z-50 tw-bottom-20 md:tw-right-10 sm:tw-right-0 "
-        style={{
-          background: "white",
-          padding: "1em",
-          borderRadius: "10px",
-          border: "2px solid black",
-          boxSizing: "border-box",
-          boxShadow: "2px 3px 15px black",
-        }}
-      >
-        <Dialog.Panel>
-          <Dialog.Title className="tw-font-bold tw-text-lg tw-flex tw-justify-between">
-            Chat{" "}
-            <IconButton
-              label="Clear"
-              icon={<Clear />}
-              iconSize="md"
-              onClick={() => setOpen(false)}
-            />
-          </Dialog.Title>
+      {showParticipants && (
+        <Offcanvas
+          show={showParticipants}
+          onHide={() => setShowParticipants(false)}
+          backdrop={true}
+          responsive="lg"
+          style={{
+            margin: "1em",
+            padding: "1em",
+            borderRadius: "1em",
+            boxSizing: "border-box",
+            boxShadow: "2px 4px 35px black",
+          }}
+        >
+          <Offcanvas.Header closeButton>
+            <span className="tw-font-bold tw-text-2xl">Participants</span>
+          </Offcanvas.Header>
+          <Offcanvas.Body className="tw-overflow-y-auto ">
+            {attendeeArr?.map((data: any, i) => (
+              <Participant attendee={data} key={i} />
+            ))}
+          </Offcanvas.Body>
+        </Offcanvas>
+      )}
 
-          <ChatWindow
-            meet_id={meet_id}
-            messageList={messageList}
-            sendMessage={(e: any) => sendMessage(e)}
-            user={user}
-          />
-        </Dialog.Panel>
-      </Dialog>
+      {open && (
+        <Dialog
+          open={open}
+          onClose={() => setOpen(false)}
+          className="tw-absolute tw-z-50 tw-bottom-20 md:tw-right-10 sm:tw-right-0 "
+          style={{
+            background: "white",
+            padding: "1em",
+            borderRadius: "10px",
+            border: "2px solid black",
+            boxSizing: "border-box",
+            boxShadow: "2px 3px 15px black",
+          }}
+        >
+          <Dialog.Panel>
+            <Dialog.Title className="tw-font-bold tw-text-lg tw-flex tw-justify-between">
+              Chat{" "}
+              <IconButton
+                label="Clear"
+                icon={<Clear />}
+                iconSize="md"
+                onClick={() => setOpen(false)}
+              />
+            </Dialog.Title>
+
+            <ChatWindow
+              meet_id={meet_id}
+              messageList={messageList}
+              sendMessage={(e: any) => sendMessage(e)}
+              user={user}
+            />
+          </Dialog.Panel>
+        </Dialog>
+      )}
     </>
   );
 };
