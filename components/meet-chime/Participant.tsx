@@ -61,7 +61,7 @@ const Participant: React.FC<ParticipantProps> = ({ attendee }) => {
           )}
         </div>
       </div>
-      <div className=" tw-text-xl tw-pt-1">
+      <div className=" tw-text-lg tw-pt-1">
         {user?.first_name?.charAt(0)?.toUpperCase() + user?.first_name?.slice(1)}
       </div>
       <div className="tw-absolute tw-flex tw-gap-2 tw-top-3 tw-right-5">

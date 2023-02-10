@@ -162,6 +162,7 @@ const Controls: React.FC<ControlProps> = ({
   const endButtonProps = {
     icon: <Phone />,
     onClick: async () => {
+      console.log('this is from control box')
       await router.push("/calendar");
       await leaveMeeting(internalMeetId, attendee)
         .then((res) => res)
