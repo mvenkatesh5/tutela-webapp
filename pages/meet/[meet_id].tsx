@@ -8,6 +8,7 @@ import {
   useMeetingStatus,
   useRemoteVideoTileState,
   VideoGrid,
+  // MeetingManager
 } from "amazon-chime-sdk-component-library-react";
 // helpers
 import { createMeetingSession } from "@components/meet-chime/helpers";
@@ -42,6 +43,7 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
   const { meet_id } = router.query as { meet_id: string };
   const [meetingSession, setMeetingSession] = useState<any>(null);
   const meetingManager = useMeetingManager();
+  const { audioVideoDidStop, meetingStatus } = useMeetingManager();
   const [localAttendeeId, setLocalAttendeeId] = useState<any>(null);
   const [localUserId, setLocalUserId] = useState<any>(null);
   const [internalMeetingId, setInternalMeetingId] = useState<any>(null);
@@ -59,6 +61,10 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
       : null
   );
 
+  if (meetingStatus == 3) {
+    router.push("/calendar");
+  }
+
   useEffect(() => {
     const initiateMeetSession = async () => {
       const deviceController = new DefaultDeviceController(logger);
@@ -68,6 +74,7 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
       const session = await updateChimeSession(meet_id.toString(), userId)
         .then((re) => re)
         .catch((e) => {
+          console.log("this is from meeting id");
           router.push({
             pathname: "/calendar",
             // query: {

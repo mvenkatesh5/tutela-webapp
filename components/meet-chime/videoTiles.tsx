@@ -5,6 +5,7 @@ import {
   Arrow,
   useAttendeeStatus,
   useContentShareState,
+  MeetingStatus,
 } from "amazon-chime-sdk-component-library-react";
 import axios from "axios";
 import Tiles from "./tiles";
@@ -58,18 +59,16 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
         })
         .then(async (res) => {
           const arr = res.data.meetingAttendees;
-          if (!arr) {
-            await router.push({
-              pathname: "/calendar",
-              // query: { id: internalMeetingId },
-            });
+          if (!arr && MeetingStatus.Ended) {
+            router.push("/calendar");
           }
           const newArr = arr.filter((item: any) => item !== localAttendeeId);
+
           setAttendee(newArr);
         })
         .catch((error) => console.log(error));
     };
-    fetchList();
+    if (internalMeetingId) fetchList();
   });
 
   const indexOfLastTile = currentPage * tilesPerPage;
@@ -109,17 +108,17 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
           })}
         </VideoGrid>
         {tilesPerPage < attendeeArr.length && (
-          <div className="tw-flex tw-justify-end tw-items-center tw-absolute tw-top-5 tw-right-5 tw-gap-2">
+          <div className="tw-flex tw-justify-end tw-items-center tw-absolute tw-top-2 tw-right-2 tw-gap-2">
             <button
               disabled={currentPage == 1}
-              className="tw-border tw-border-gray-400 tw-bg-gray-300 tw-font-bold  tw-p-2 tw-rounded-full tw-text-gray-600 tw-bg-none "
+              className=" tw-bg-zinc-800 tw-font-bold  tw-p-2 tw-rounded-full tw-text-white tw-bg-none tw-box-border tw-shadow-lg tw-shadow-slate-900 tw-drop-shadow-lg tw-border-hidden "
               onClick={() => setCurrentPage((previous) => previous - 1)}
             >
               <Arrow width="1.5rem" direction="left" />
             </button>
             <button
               disabled={currentPage == Math.ceil(attendeeArr.length / tilesPerPage)}
-              className="tw-border tw-border-gray-400 tw-bg-gray-300 tw-font-bold  tw-p-2 tw-rounded-full tw-text-gray-600 tw-bg-none"
+              className=" tw-bg-zinc-800 tw-font-bold  tw-p-2 tw-rounded-full tw-text-white tw-bg-none tw-box-border tw-shadow-lg tw-shadow-slate-900 tw-drop-shadow-lg tw-border-hidden "
               onClick={() => setCurrentPage((previous) => previous + 1)}
             >
               <Arrow width="1.5rem" direction="right" />
