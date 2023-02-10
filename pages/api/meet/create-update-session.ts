@@ -19,8 +19,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
   AWS.config.credentials = new AWS.Credentials(T_AWS_ACCESS_KEY_ID, T_AWS_SECRET_ACCESS_KEY);
 
   // Initializing chime instance
-  const chime = new AWS.Chime({ region: "us-east-1" });
-  chime.endpoint = new AWS.Endpoint("https://service.chime.aws.amazon.com");
   const chimeMeetings = new AWS.ChimeSDKMeetings({ region: "us-east-1" });
   const chimeMedia = new AWS.ChimeSDKMediaPipelines({
     region: "us-east-1",
@@ -36,7 +34,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
           ClientRequestToken: uuidV4().toString(),
           MediaRegion: "us-east-1",
           ExternalMeetingId: uuidV4().toString(),
-          MeetingHostId : '0' + userId.toString() ,
+          MeetingHostId: "0" + userId.toString(),
           MeetingFeatures: {
             Audio: {
               EchoReduction: "AVAILABLE",
@@ -44,7 +42,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
           },
         };
 
-        const createMeetingResponse = await chimeMeetings.createMeeting(createMeetingParams).promise();
+        const createMeetingResponse = await chimeMeetings
+          .createMeeting(createMeetingParams)
+          .promise();
 
         // starting the meeting record
         const meet_id = createMeetingResponse?.Meeting?.MeetingId;
@@ -69,12 +69,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
               CompositedVideo: {
                 GridViewConfiguration: {
                   ContentShareLayout: "Vertical",
-                  PresenterOnlyConfiguration: {
-                    PresenterPosition: "TopLeft",
-                  },
+                  // PresenterOnlyConfiguration: {
+                  //   PresenterPosition: "TopLeft",
+                  // },
                 },
                 Layout: "GridView",
-                Resolution: "HD",
+                Resolution: "FHD",
               },
             },
           },
@@ -140,7 +140,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
 
         response = {
           start_url: "/meet/" + createMeetingResponse?.Meeting?.MeetingId?.toString(),
-          HostId : createMeetingResponse?.Meeting?.MeetingHostId?.toString() ,
+          HostId: createMeetingResponse?.Meeting?.MeetingHostId?.toString(),
           MeetingId: meet_id,
           MediaPipelineId: concatMediaResponse?.MediaConcatenationPipeline?.MediaPipelineId,
           MeetingResponse: createMeetingResponse,
@@ -170,7 +170,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
         //   (it) => it.ExternalMeetingId === room
         // );
 
-        const meetingRoomExists = await chimeMeetings.getMeeting({MeetingId : room}).promise()
+        const meetingRoomExists = await chimeMeetings.getMeeting({ MeetingId: room }).promise();
 
         let response: any = null;
         if (meetingRoomExists && meetingRoomExists?.Meeting?.MeetingId) {
