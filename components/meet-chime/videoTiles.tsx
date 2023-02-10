@@ -6,6 +6,7 @@ import {
   useAttendeeStatus,
   useContentShareState,
   MeetingStatus,
+  useMeetingManager,
 } from "amazon-chime-sdk-component-library-react";
 import axios from "axios";
 import Tiles from "./tiles";
@@ -34,6 +35,7 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
   // const [attendeeArr, setAttendeeArr] = useState([]);
   const [tilesPerPage, setTilesPerPage] = useState<number>(6);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const meetingManager = useMeetingManager();
 
   // calculating inner width
   let count = 0;
@@ -60,16 +62,16 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
         .then(async (res) => {
           const arr = res.data.meetingAttendees;
           if (!arr && MeetingStatus.Ended) {
-            router.push("/calendar");
+            await router.push("/calendar");
+            await meetingManager.leave();
           }
           const newArr = arr.filter((item: any) => item !== localAttendeeId);
-
           setAttendee(newArr);
         })
         .catch((error) => console.log(error));
     };
     if (internalMeetingId) fetchList();
-  });
+  }, [attendeeArr]);
 
   const indexOfLastTile = currentPage * tilesPerPage;
   const indexOfFirstTile = indexOfLastTile - tilesPerPage;
