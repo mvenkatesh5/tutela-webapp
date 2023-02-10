@@ -6,12 +6,20 @@ import axios from "axios";
 import Cookies from "js-cookie";
 // env
 const { NEXT_PUBLIC_BE_URL } = process.env;
+// chime
+import {
+  useAttendeeStatus,
+  ScreenShare,
+  Microphone,
+} from "amazon-chime-sdk-component-library-react";
 
 interface ParticipantProps {
   attendee: any;
 }
 
 const Participant: React.FC<ParticipantProps> = ({ attendee }) => {
+  const { sharingContent, muted } = useAttendeeStatus(attendee.AttendeeId);
+
   const [user, setUser] = useState({ first_name: "Loading", photo: null });
   useEffect(() => {
     const fetchData = async () => {
@@ -55,6 +63,19 @@ const Participant: React.FC<ParticipantProps> = ({ attendee }) => {
       </div>
       <div className=" tw-text-xl tw-pt-1">
         {user?.first_name?.charAt(0)?.toUpperCase() + user?.first_name?.slice(1)}
+      </div>
+      <div className="tw-absolute tw-flex tw-gap-2 tw-top-3 tw-right-5">
+        <ScreenShare
+          width="1.8rem"
+          className="tw-bg-gray-200 tw-p-1 tw-rounded-full"
+          style={{ display: sharingContent ? "block" : "none" }}
+        />
+        <Microphone
+          width="1.8rem"
+          muted={muted}
+          className="tw-bg-gray-200 tw-p-1 tw-rounded-full"
+          style={{ display: muted ? "block" : "none" }}
+        />
       </div>
     </div>
   );
