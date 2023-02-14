@@ -216,7 +216,7 @@ const SessionDetailView = () => {
       sessionDetail.recording_files.data.map((data: any) => {
         const payload = {
           id: data.uuid,
-          title: "Zoom recording",
+          title: data.medium == "CHIME_CLOUD" ? "Chime Recording" : "Zoom Recording",
           thumbnail: data.thumbnail,
           kind: data.medium,
           url: data.recording_link,
@@ -421,7 +421,8 @@ const SessionDetailView = () => {
                             {currentVideoRenderUrl && (
                               <div className="video-container">
                                 <div className="iframe-container">
-                                  {currentVideoRenderUrl.kind === "ZOOM_CLOUD" ? (
+                                  {currentVideoRenderUrl.kind === "ZOOM_CLOUD" ||
+                                  currentVideoRenderUrl.kind === "CHIME_CLOUD" ? (
                                     <ShakaPlayer
                                       src={currentVideoRenderUrl.url}
                                       config={null}
