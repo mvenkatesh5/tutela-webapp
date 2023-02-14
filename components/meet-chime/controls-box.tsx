@@ -193,7 +193,7 @@ const Controls: React.FC<ControlProps> = ({
 
   return (
     <>
-      <div className="tw-flex tw-justify-center tw-items-center tw-w-full tw-bg-gray-200 tw-h-[10%] tw-px-3 ">
+      <div className="tw-flex tw-justify-center tw-items-center tw-w-full tw-bg-gray-200 tw-h-[10%] tw-px-3 tw-relative ">
         <div className="">
           <ControlBarButton {...muteButtonProps} />
         </div>
@@ -201,7 +201,7 @@ const Controls: React.FC<ControlProps> = ({
           {/* <ControlBarButton {...videoButtonProps} /> */}
           <VideoInputControl />
         </div>
-        <div className="xs:tw-hidden md:tw-hidden lg:tw-flex ">
+        <div className="xs:tw-hidden md:tw-flex ">
           <ControlBarButton {...screenButtonProps} />
         </div>
 
@@ -230,17 +230,20 @@ const Controls: React.FC<ControlProps> = ({
 
       {showParticipants && (
         <Offcanvas
+          scroll={true}
           show={showParticipants}
           onHide={() => setShowParticipants(false)}
           backdrop={true}
-          responsive="lg"
+          placement="start"
+          as="div"
           style={{
-            margin: "1em",
+            // margin: "1em",
             padding: "1em",
             borderRadius: "1em",
             boxSizing: "border-box",
             boxShadow: "2px 4px 35px black",
           }}
+          className="tw-my-[1em] sm:tw-mx-[1em]"
         >
           <Offcanvas.Header closeButton>
             <span className="tw-font-bold tw-text-2xl">Participants</span>
