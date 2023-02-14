@@ -162,7 +162,7 @@ const Controls: React.FC<ControlProps> = ({
   const endButtonProps = {
     icon: <Phone />,
     onClick: async () => {
-      console.log('this is from control box')
+      console.log("this is from control box");
       await router.push("/calendar");
       await leaveMeeting(internalMeetId, attendee)
         .then((res) => res)
@@ -194,24 +194,24 @@ const Controls: React.FC<ControlProps> = ({
   return (
     <>
       <div className="tw-flex tw-justify-center tw-items-center tw-w-full tw-bg-gray-200 tw-h-[10%] tw-px-3 ">
-        <div className="tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle">
+        <div className="">
           <ControlBarButton {...muteButtonProps} />
         </div>
-        <div className="tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle">
+        <div className="">
           {/* <ControlBarButton {...videoButtonProps} /> */}
           <VideoInputControl />
         </div>
-        <div className="tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle">
+        <div className="xs:tw-hidden md:tw-hidden lg:tw-flex ">
           <ControlBarButton {...screenButtonProps} />
         </div>
 
-        <div className="tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle">
+        <div className="">
           <ControlBarButton {...soundButtonProps} />
         </div>
-        <div className="tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle">
+        <div className="">
           <ControlBarButton {...participantsButtonProps} />
         </div>
-        <div className="tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle">
+        <div className="">
           {"0" + user.userId.toString() === hostId?.toString() ? (
             <ControlBarButton {...endButtonHostProps} />
           ) : (
