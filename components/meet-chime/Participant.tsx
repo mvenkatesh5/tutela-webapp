@@ -48,7 +48,7 @@ const Participant: React.FC<ParticipantProps> = ({ attendee }) => {
   }, [attendee]);
 
   return (
-    <div className="tw-flex tw-gap-3 tw-w-full tw-relative tw-my-1 tw-overflow-hidden tw-p-2 tw-rounded-md hover:tw-bg-slate-100 tw-border-slate-200  tw-items-center ">
+    <div className="tw-flex tw-gap-3 tw-w-full tw-relative tw-my-1 tw-overflow-hidden tw-p-2 tw-rounded-md hover:tw-bg-gray-100 tw-border-slate-200  tw-items-center ">
       <div className="tw-flex tw-justify-center tw-items-center tw-relative tw-overflow-hidden ">
         <div className="tw-flex tw-justify-center tw-items-center tw-rounded-full tw-text-sm tw-h-[2em] tw-w-[2em] tw-bg-gray-600 tw-text-white tw-font-semibold ">
           {user?.photo ? (
