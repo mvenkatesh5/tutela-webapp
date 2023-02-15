@@ -7,6 +7,7 @@ import {
 } from "amazon-chime-sdk-js";
 
 import { axiosChimeInstance } from "@config/axios";
+import Cookies from "js-cookie";
 
 export const createChimeSession = async (userId: string) => {
   console.log("in this helpers");
@@ -45,6 +46,7 @@ export const leaveMeeting = async (meetingId: string, attendeeId: string) => {
   });
 
   console.log("this is response", res);
+  Cookies.remove("local_id");
   return res;
 };
 
@@ -56,6 +58,6 @@ export const deleteMeeting = async (meetingId: string, attendeeId: string) => {
     },
   });
   console.log("this is response", res);
-
+  Cookies.remove("local_id");
   return res;
 };

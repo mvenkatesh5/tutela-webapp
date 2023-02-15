@@ -83,6 +83,7 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
         className="tw-w-full tw-p-2 tw-rounded tw-relative xs:tw-h-[100%] md:tw-h-screen"
         style={{
           display: sharingAttendeeId != null ? "none" : "inherit",
+
         }}
       >
         <VideoGrid
@@ -94,6 +95,7 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
             alignItems: "center",
             overflow: "hidden",
             padding: "1.2em",
+            background:"None"
           }}
         >
           {currentTiles?.map((data, i) => {

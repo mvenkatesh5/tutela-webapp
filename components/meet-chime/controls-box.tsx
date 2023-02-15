@@ -149,9 +149,7 @@ const Controls: React.FC<ControlProps> = ({
             pathname: "/calendar",
             query: { id: internalMeetId },
           });
-          await deleteMeeting(internalMeetId, attendee)
-            .then((res) => res)
-            .catch((e) => e);
+          deleteMeeting(internalMeetId, attendee)
           await meetingManager.leave();
         },
         children: <span> End Meeting for All</span>,
@@ -162,13 +160,10 @@ const Controls: React.FC<ControlProps> = ({
   const endButtonProps = {
     icon: <Phone />,
     onClick: async () => {
-      console.log("this is from control box");
-      await router.push("/calendar");
       await leaveMeeting(internalMeetId, attendee)
-        .then((res) => res)
-        .catch((e) => e);
-
       await meetingManager.leave();
+      router.push("/calendar");
+      
     },
 
     label: "Leave Meeting",
