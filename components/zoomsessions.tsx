@@ -23,8 +23,11 @@ import { SESSION_ENDPOINT } from "@constants/routes";
 import { getCurrentUser } from "@constants/global";
 import Cookies from "js-cookie";
 
+import { useMeetingManager } from "amazon-chime-sdk-component-library-react";
+
 const ZoomSession = (props: any) => {
   // const router = useRouter();
+  const meetingManager = useMeetingManager();
   const [zoomData, setZoomData] = React.useState<any>();
   const [chimeData, setChimeData] = React.useState<any>();
   const [buttonLoader, setButtonLoader] = React.useState<any>(false);
@@ -64,7 +67,8 @@ const ZoomSession = (props: any) => {
   const chimeSubmit = () => {
     setChimeButtonLoader(true);
     createChimeSession(currentUser.user.id)
-      .then((res) => {
+      .then(async (res) => {
+        // await meetingManager.start();
         updateChimeSession(res);
         setChimeData(res);
         setChimeButtonLoader(false);

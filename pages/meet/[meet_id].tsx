@@ -67,57 +67,15 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
       : null
   );
 
-  if (meetingStatus == 3) {
-    router.push("/calendar");
+  if (meetingStatus == 3 ) {
+    router.replace('/calendar')
   }
-
-  // useEffect(() => {
-  //   console.log("page refresh");
-  //   if (meet_id && local) {
-  //     leaveMeeting(meet_id, local);
-  //     meetingManager.leave();
-  //   }
-  // }, [, meet_id]);
-
-  // useEffect(() => {
-  //   const initiateMeetSession = async () => {
-  //     const deviceController = new DefaultDeviceController(logger);
-  //     let id = userInfo.user.id.toString();
-  //     const userId = (id?.length < 2 ? "0" : "") + userInfo.user.id;
-
-  //     const session = await updateChimeSession(meet_id.toString(), userId)
-  //       .then((re) => re)
-  //       .catch((e) => {
-  //         console.log("this is from meeting id");
-  //         router.push({
-  //           pathname: "/calendar",
-  //           // query: {
-  //           //   id : meet_id.toString()
-  //           // },
-  //         });
-  //         console.log(e);
-  //         return null;
-  //       });
-  //     const meetingOptions = {
-  //       deviceLabels: DeviceLabels.AudioAndVideo,
-  //     };
-  //     if (session) {
-  //       setHost(session.meetingRoomExists.Meeting?.MeetingHostId);
-  //       await meetingManager.join(session.configuration, meetingOptions);
-  //       await meetingManager.start();
-
-  //       setMeetingSession(session.configuration);
-  //       setLocalAttendeeId(session.configuration.credentials?.attendeeId);
-  //       setLocalUserId(session.configuration?.credentials?.externalUserId);
-  //       setInternalMeetingId(meet_id);
-  //     }
-  //   };
-
-  //   if (meet_id && localUserInfo) initiateMeetSession();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [meet_id, localUserInfo]);
-
+  if (meetingStatus == 4) {
+    window.location.reload;
+  }
+ 
   useEffect(() => {
+    console.log("this is status", status);
     const getMembers = async () => {
       await axiosChimeInstance
         .post("/api/meet/meet-attendees/", {
@@ -131,7 +89,7 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
         })
         .catch((e) => {
           console.log("this is error", e);
-          router.push("/calendar");
+          router.replace('/calendar')
         });
     };
 
@@ -152,7 +110,7 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
       .then((re) => re)
       .catch((e) => {
         console.log("this is from meeting id");
-        router.push({
+        router.replace({
           pathname: "/calendar",
           // query: {
           //   id : meet_id.toString()
@@ -168,7 +126,6 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
       setHost(session.meetingRoomExists.Meeting?.MeetingHostId);
       await meetingManager.join(session.configuration, meetingOptions);
       await meetingManager.start();
-
       setMeetingSession(session.configuration);
       setLocalAttendeeId(session.configuration.credentials?.attendeeId);
       setLocalUserId(session.configuration?.credentials?.externalUserId);
@@ -189,7 +146,7 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
           <div className="tw-h-[15em] tw-w-[25em] tw-bg-white tw-rounded-xl tw-p-8 tw-text-center tw-flex tw-items-center tw-justify-center tw-shadow-black tw-shadow-2xl  tw-border-4 ">
             <div className="tw-relative ">
               {attendeeArr.length != 0 ? (
-                <h5>{attendeeArr.length} Member(s) found in this room</h5>
+                <h5>{attendeeArr.length} Member(s) already joined in this room</h5>
               ) : (
                 <h5>No Members available in this room</h5>
               )}
@@ -198,7 +155,7 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
                   {" "}
                   Join Meeting
                 </Button>
-                <Button variant="danger" onClick={() => router.push("/calendar")}>
+                <Button variant="danger" onClick={() => router.replace('/calendar')}>
                   {" "}
                   Leave Meeting
                 </Button>
@@ -208,7 +165,7 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
         </div>
       ) : (
         <div className="tw-relative tw-overflow-hidden tw-flex tw-justify-center tw-align-middle tw-h-screen tw-w-full tw-flex-col ">
-          {status == 0 && _.isEmpty(attendeeArr) ? (
+          {status == 0 ? (
             <LoadingScreen />
           ) : (
             <>

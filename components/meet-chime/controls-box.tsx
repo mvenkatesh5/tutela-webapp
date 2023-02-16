@@ -133,8 +133,8 @@ const Controls: React.FC<ControlProps> = ({
   const endButtonHostProps = {
     icon: <Phone />,
     onClick: async () => {
-      await router.push("/calendar");
-      await leaveMeeting(internalMeetId, attendee)
+      await router.replace("/calendar");
+      leaveMeeting(internalMeetId, attendee)
         .then((res) => res)
         .catch((e) => e);
 
@@ -145,7 +145,7 @@ const Controls: React.FC<ControlProps> = ({
     popOver: [
       {
         onClick: async () => {
-          await router.push({
+          await router.replace({
             pathname: "/calendar",
             query: { id: internalMeetId },
           });
@@ -160,9 +160,10 @@ const Controls: React.FC<ControlProps> = ({
   const endButtonProps = {
     icon: <Phone />,
     onClick: async () => {
-      await leaveMeeting(internalMeetId, attendee)
+      router.replace("/calendar");
+      leaveMeeting(internalMeetId, attendee)
       await meetingManager.leave();
-      router.push("/calendar");
+      
       
     },
 
