@@ -62,8 +62,8 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
         .then(async (res) => {
           const arr = res.data.meetingAttendees;
           if (!arr && MeetingStatus.Ended) {
-            await router.push("/calendar");
             await meetingManager.leave();
+            router.replace("/calendar");
           }
           const newArr = arr.filter((item: any) => item !== localAttendeeId);
           setAttendee(newArr);

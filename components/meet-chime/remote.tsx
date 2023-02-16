@@ -4,6 +4,7 @@ import {
   RemoteVideo,
   useAttendeeStatus,
   useRemoteVideoTileState,
+  useMeetingStatus,
 } from "amazon-chime-sdk-component-library-react";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -28,6 +29,8 @@ const RemoteVid = ({
 }) => {
   // const [firstName, setFirstName] = useState<string>('Loading');
   const [user, setUser] = useState({ first_name: "Loading", photo: null });
+  const status = useMeetingStatus();
+  console.log("this is meeting status", status);
 
   useEffect(() => {
     const fetchData = async () => {
