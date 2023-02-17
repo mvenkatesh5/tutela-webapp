@@ -11,6 +11,8 @@ import {
   VideoGrid,
   // MeetingManager
 } from "amazon-chime-sdk-component-library-react";
+
+import { DefaultMeetingSession } from "amazon-chime-sdk-js";
 // helpers
 import { createMeetingSession } from "@components/meet-chime/helpers";
 import { leaveMeeting, updateChimeSession } from "@components/meet-chime/helpers/chime-session";
@@ -45,7 +47,6 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
   const status = useMeetingStatus();
   // console.log("props", props);
   const { meet_id } = router.query as { meet_id: string };
-  const [meetingSession, setMeetingSession] = useState<any>(null);
   const meetingManager = useMeetingManager();
   const { audioVideoDidStop, meetingStatus } = useMeetingManager();
   const [localAttendeeId, setLocalAttendeeId] = useState<any>(null);
@@ -124,7 +125,6 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
       setHost(session.meetingRoomExists.Meeting?.MeetingHostId);
       await meetingManager.join(session.configuration, meetingOptions);
       await meetingManager.start();
-      setMeetingSession(session.configuration);
       setLocalAttendeeId(session.configuration.credentials?.attendeeId);
       setLocalUserId(session.configuration?.credentials?.externalUserId);
       Cookies.set("local_id", session.configuration.credentials?.attendeeId || "");

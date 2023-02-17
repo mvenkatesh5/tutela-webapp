@@ -4,10 +4,12 @@ import {
   MeetingSessionConfiguration,
   ConsoleLogger,
   LogLevel,
+  DefaultMeetingSession,
 } from "amazon-chime-sdk-js";
 
 import { axiosChimeInstance } from "@config/axios";
 import Cookies from "js-cookie";
+const logger = new ConsoleLogger("Logger", LogLevel.INFO);
 
 export const createChimeSession = async (userId: string) => {
   console.log("in this helpers");
@@ -22,6 +24,7 @@ export const createChimeSession = async (userId: string) => {
   const { MeetingResponse } = res.data.response;
 
   const configuration = new MeetingSessionConfiguration(MeetingResponse);
+
   return { configuration, ...res.data.response };
 };
 
