@@ -67,13 +67,13 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
       : null
   );
 
-  if (meetingStatus == 3 ) {
-    router.replace('/calendar')
+  if (meetingStatus == 3) {
+    router.replace("/calendar");
   }
   if (meetingStatus == 4) {
     window.location.reload;
   }
- 
+
   useEffect(() => {
     console.log("this is status", status);
     const getMembers = async () => {
@@ -89,13 +89,14 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
         })
         .catch((e) => {
           console.log("this is error", e);
-          router.replace('/calendar')
+          router.replace("/calendar");
         });
     };
 
     if (meet_id && local) {
       leaveMeeting(meet_id, local);
       getMembers();
+      setOpenJoin(true);
     } else if (meet_id) {
       getMembers();
     }
@@ -112,9 +113,6 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
         console.log("this is from meeting id");
         router.replace({
           pathname: "/calendar",
-          // query: {
-          //   id : meet_id.toString()
-          // },
         });
         console.log(e);
         return null;
@@ -137,10 +135,6 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
 
   return (
     <div className="tw-relative tw-h-screen tw-w-screen ">
-      {/* {status == 0 && _.isEmpty(attendeeArr) ? (
-        <LoadingScreen />
-      ) : ( */}
-      {/* <> */}
       {openJoin ? (
         <div className="tw-relative tw-h-screen tw-w-screen tw-bg-white tw-flex tw-justify-center tw-items-center tw-p-5 ">
           <div className="tw-h-[15em] tw-w-[25em] tw-bg-white tw-rounded-xl tw-p-8 tw-text-center tw-flex tw-items-center tw-justify-center tw-shadow-black tw-shadow-2xl  tw-border-4 ">
@@ -155,7 +149,7 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
                   {" "}
                   Join Meeting
                 </Button>
-                <Button variant="danger" onClick={() => router.replace('/calendar')}>
+                <Button variant="danger" onClick={() => router.replace("/calendar")}>
                   {" "}
                   Leave Meeting
                 </Button>
@@ -171,9 +165,7 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
             <>
               <VideoTiles
                 localAttendeeId={localAttendeeId}
-                localUserId={localUserId}
                 internalMeetingId={internalMeetingId}
-                userObj={localUserInfo}
                 attendeeArr={attendeeArr}
                 setAttendee={(data: any) => setAttendeeArr(data)}
               />
@@ -189,8 +181,6 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
           )}
         </div>
       )}
-      {/* </> */}
-      {/* )} */}
     </div>
   );
 };

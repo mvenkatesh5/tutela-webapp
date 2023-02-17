@@ -5,10 +5,12 @@ import {
   useAttendeeStatus,
   useRemoteVideoTileState,
   useMeetingStatus,
+  useLocalVideo,
 } from "amazon-chime-sdk-component-library-react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
+import _ from "lodash";
 const { NEXT_PUBLIC_BE_URL } = process.env;
 
 const RemoteVid = ({
@@ -30,6 +32,8 @@ const RemoteVid = ({
   // const [firstName, setFirstName] = useState<string>('Loading');
   const [user, setUser] = useState({ first_name: "Loading", photo: null });
   const status = useMeetingStatus();
+  const { isVideoEnabled } = useLocalVideo();
+
   console.log("this is meeting status", status);
 
   useEffect(() => {
@@ -47,7 +51,6 @@ const RemoteVid = ({
         })
         .then((response) => {
           setUser(response.data);
-          // response.data
         })
         .catch((error) => {
           console.log(error);
@@ -59,7 +62,16 @@ const RemoteVid = ({
   }, [currentId]);
 
   const { videoEnabled } = useAttendeeStatus(chimeAttendeeID);
-  const { attendeeIdToTileId } = useRemoteVideoTileState();
+
+  const { attendeeIdToTileId, tiles } = useRemoteVideoTileState();
+
+  console.log("this is tiles", tiles);
+
+  if (videoEnabled) {
+    const id = attendeeIdToTileId[chimeAttendeeID];
+    // if (!id) videoEnabled = false;
+    console.log("video enabled by", user.first_name);
+  }
 
   return (
     <div className="tw-relative tw-bg-[#1b1c20] tw-h-full tw-w-full tw-flex tw-justify-center tw-items-center tw-rounded-3xl tw-overflow-hidden tw-cursor-pointer">
@@ -73,7 +85,7 @@ const RemoteVid = ({
         </>
       ) : (
         <div className="tw-flex tw-justify-center tw-items-center tw-w-[10rem] tw-h-[10rem] tw-bg-gray-600 tw-rounded-full tw-text-5xl tw-text-white tw-font-semibold tw-relative tw-overflow-hidden">
-          {user?.photo ? (
+          {user.photo ? (
             <img
               src={user.photo}
               className="tw-relative tw-block tw-ml-auto tw-mr-auto tw-w-[100%] tw-h-[100%] tw-object-cover"

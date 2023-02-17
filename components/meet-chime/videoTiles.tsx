@@ -16,18 +16,14 @@ import { useRouter } from "next/router";
 
 interface VideoTilesProps {
   localAttendeeId: string;
-  localUserId: string;
   internalMeetingId: string;
-  userObj: any;
   attendeeArr: Array<any>;
   setAttendee: Function;
 }
 
 const VideoTiles: React.FC<VideoTilesProps> = ({
   localAttendeeId,
-  localUserId,
   internalMeetingId,
-  userObj,
   attendeeArr,
   setAttendee,
 }) => {
@@ -65,6 +61,7 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
             await meetingManager.leave();
             router.replace("/calendar");
           }
+          // setAttendee(arr);
           const newArr = arr.filter((item: any) => item !== localAttendeeId);
           setAttendee(newArr);
         })
@@ -83,7 +80,6 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
         className="tw-w-full tw-p-2 tw-rounded tw-relative xs:tw-h-[100%] md:tw-h-screen"
         style={{
           display: sharingAttendeeId != null ? "none" : "inherit",
-
         }}
       >
         <VideoGrid
@@ -95,7 +91,7 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
             alignItems: "center",
             overflow: "hidden",
             padding: "1.2em",
-            background:"None"
+            background: "None",
           }}
         >
           {currentTiles?.map((data, i) => {
