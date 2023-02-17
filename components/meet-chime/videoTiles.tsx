@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
-  useRemoteVideoTileState,
   VideoGrid,
   Arrow,
-  useAttendeeStatus,
   useContentShareState,
   MeetingStatus,
   useMeetingManager,
@@ -28,7 +26,6 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
   setAttendee,
 }) => {
   const router = useRouter();
-  // const [attendeeArr, setAttendeeArr] = useState([]);
   const [tilesPerPage, setTilesPerPage] = useState<number>(6);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const meetingManager = useMeetingManager();
@@ -74,6 +71,18 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
   const indexOfFirstTile = indexOfLastTile - tilesPerPage;
   const currentTiles = attendeeArr.slice(indexOfFirstTile, indexOfLastTile);
 
+  const getTileState = (attendeeId: string) => {
+    const videoTileStates = meetingManager.audioVideo
+      ?.getAllVideoTiles()
+      .map((item: any) => item.tileState);
+
+    const tileState = videoTileStates?.filter(
+      (tile: any) => tile.boundAttendeeId == attendeeId
+    )?.[0];
+
+    return tileState;
+  };
+
   return (
     <>
       <div
@@ -96,12 +105,13 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
         >
           {currentTiles?.map((data, i) => {
             const { AttendeeId, ExternalUserId } = data;
+
             return (
               <Tiles
                 key={i}
+                tileState={getTileState(AttendeeId)}
                 AttendeeId={AttendeeId}
                 externalUser={ExternalUserId}
-                localAttendeeId={localAttendeeId}
                 length={currentTiles.length}
               />
             );
@@ -156,8 +166,8 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
               <Tiles
                 key={i}
                 AttendeeId={AttendeeId}
+                tileState={getTileState(AttendeeId)}
                 externalUser={ExternalUserId}
-                localAttendeeId={localAttendeeId}
                 length={1}
                 style={{
                   height: "25vh",

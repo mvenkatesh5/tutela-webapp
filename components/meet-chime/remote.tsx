@@ -1,40 +1,15 @@
-import {
-  Attendees,
-  LocalVideo,
-  RemoteVideo,
-  useAttendeeStatus,
-  useRemoteVideoTileState,
-  useMeetingStatus,
-  useLocalVideo,
-} from "amazon-chime-sdk-component-library-react";
-import axios from "axios";
-import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
-import _ from "lodash";
+// aws-sdk
+import { LocalVideo, RemoteVideo } from "amazon-chime-sdk-component-library-react";
+// axios
+import axios from "axios";
+// cookie
+import Cookies from "js-cookie";
+// env
 const { NEXT_PUBLIC_BE_URL } = process.env;
 
-const RemoteVid = ({
-  chimeAttendeeID,
-  currentId,
-  localAttendeeId,
-  localUserId,
-  userObj,
-}: // currentUserInfo,
-{
-  chimeAttendeeID: any;
-  currentId: any;
-  localAttendeeId: any;
-  localUserId?: any;
-  userObj?: any;
-
-  // currentUserInfo: any;
-}) => {
-  // const [firstName, setFirstName] = useState<string>('Loading');
+const RemoteVid = ({ currentId, tileState }: { currentId: any; tileState?: any }) => {
   const [user, setUser] = useState({ first_name: "Loading", photo: null });
-  const status = useMeetingStatus();
-  const { isVideoEnabled } = useLocalVideo();
-
-  console.log("this is meeting status", status);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,26 +36,14 @@ const RemoteVid = ({
     if (currentId) fetchData();
   }, [currentId]);
 
-  const { videoEnabled } = useAttendeeStatus(chimeAttendeeID);
-
-  const { attendeeIdToTileId, tiles } = useRemoteVideoTileState();
-
-  console.log("this is tiles", tiles);
-
-  if (videoEnabled) {
-    const id = attendeeIdToTileId[chimeAttendeeID];
-    // if (!id) videoEnabled = false;
-    console.log("video enabled by", user.first_name);
-  }
-
   return (
     <div className="tw-relative tw-bg-[#1b1c20] tw-h-full tw-w-full tw-flex tw-justify-center tw-items-center tw-rounded-3xl tw-overflow-hidden tw-cursor-pointer">
-      {videoEnabled ? (
+      {tileState && tileState?.boundVideoStream?.active ? (
         <>
-          {chimeAttendeeID == localAttendeeId ? (
+          {tileState?.localTile ? (
             <LocalVideo className="tw-relative" />
           ) : (
-            <RemoteVideo tileId={attendeeIdToTileId[chimeAttendeeID]} className="tw-relative" />
+            <RemoteVideo tileId={tileState.tileId} className="tw-relative" />
           )}
         </>
       ) : (

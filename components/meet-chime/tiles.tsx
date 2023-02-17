@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+// aws-sdk
 import {
   useAttendeeStatus,
   ScreenShare,
@@ -9,19 +10,17 @@ import RemoteVid from "@components/meet-chime/remote";
 
 interface TilesProps {
   AttendeeId: string;
-  userObj?: any;
   externalUser: string;
-  localAttendeeId: string;
   length: number;
   style?: any;
+  tileState?: any;
 }
 const Tiles: React.FC<TilesProps> = ({
   AttendeeId,
-  userObj,
   externalUser,
-  localAttendeeId,
   style,
   length,
+  tileState,
 }) => {
   const { sharingContent, muted } = useAttendeeStatus(AttendeeId);
 
@@ -41,11 +40,7 @@ const Tiles: React.FC<TilesProps> = ({
       className={`tw-relative tw-justify-center tw-items-center tw-flex ${hw} `}
       style={{ ...style }}
     >
-      <RemoteVid
-        chimeAttendeeID={AttendeeId}
-        currentId={externalUser}
-        localAttendeeId={localAttendeeId}
-      />
+      <RemoteVid tileState={tileState} currentId={externalUser} />
 
       <div className="tw-absolute tw-flex tw-gap-2 tw-top-5 tw-right-5">
         <ScreenShare

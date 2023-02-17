@@ -142,7 +142,7 @@ const Controls: React.FC<ControlProps> = ({
     popOver: [
       {
         onClick: async () => {
-          router.replace({
+          await router.replace({
             pathname: "/calendar",
             query: { id: internalMeetId },
           });
