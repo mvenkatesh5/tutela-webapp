@@ -133,11 +133,8 @@ const Controls: React.FC<ControlProps> = ({
   const endButtonHostProps = {
     icon: <Phone />,
     onClick: async () => {
-      await router.push("/calendar");
-      await leaveMeeting(internalMeetId, attendee)
-        .then((res) => res)
-        .catch((e) => e);
-
+      router.replace("/calendar");
+      leaveMeeting(internalMeetId, attendee)
       await meetingManager.leave();
     },
 
@@ -145,13 +142,11 @@ const Controls: React.FC<ControlProps> = ({
     popOver: [
       {
         onClick: async () => {
-          await router.push({
+          await router.replace({
             pathname: "/calendar",
             query: { id: internalMeetId },
           });
-          await deleteMeeting(internalMeetId, attendee)
-            .then((res) => res)
-            .catch((e) => e);
+          deleteMeeting(internalMeetId, attendee)
           await meetingManager.leave();
         },
         children: <span> End Meeting for All</span>,
@@ -162,13 +157,9 @@ const Controls: React.FC<ControlProps> = ({
   const endButtonProps = {
     icon: <Phone />,
     onClick: async () => {
-      console.log("this is from control box");
-      await router.push("/calendar");
-      await leaveMeeting(internalMeetId, attendee)
-        .then((res) => res)
-        .catch((e) => e);
-
-      await meetingManager.leave();
+      router.replace("/calendar");
+      leaveMeeting(internalMeetId, attendee)
+      await meetingManager.leave();      
     },
 
     label: "Leave Meeting",

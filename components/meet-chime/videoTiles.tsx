@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
-  useRemoteVideoTileState,
   VideoGrid,
   Arrow,
-  useAttendeeStatus,
   useContentShareState,
   MeetingStatus,
   useMeetingManager,
@@ -16,23 +14,18 @@ import { useRouter } from "next/router";
 
 interface VideoTilesProps {
   localAttendeeId: string;
-  localUserId: string;
   internalMeetingId: string;
-  userObj: any;
   attendeeArr: Array<any>;
   setAttendee: Function;
 }
 
 const VideoTiles: React.FC<VideoTilesProps> = ({
   localAttendeeId,
-  localUserId,
   internalMeetingId,
-  userObj,
   attendeeArr,
   setAttendee,
 }) => {
   const router = useRouter();
-  // const [attendeeArr, setAttendeeArr] = useState([]);
   const [tilesPerPage, setTilesPerPage] = useState<number>(6);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const meetingManager = useMeetingManager();
@@ -62,9 +55,10 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
         .then(async (res) => {
           const arr = res.data.meetingAttendees;
           if (!arr && MeetingStatus.Ended) {
-            await router.push("/calendar");
             await meetingManager.leave();
+            router.replace("/calendar");
           }
+          // setAttendee(arr);
           const newArr = arr.filter((item: any) => item !== localAttendeeId);
           setAttendee(newArr);
         })
@@ -76,6 +70,18 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
   const indexOfLastTile = currentPage * tilesPerPage;
   const indexOfFirstTile = indexOfLastTile - tilesPerPage;
   const currentTiles = attendeeArr.slice(indexOfFirstTile, indexOfLastTile);
+
+  const getTileState = (attendeeId: string) => {
+    const videoTileStates = meetingManager.audioVideo
+      ?.getAllVideoTiles()
+      .map((item: any) => item.tileState);
+
+    const tileState = videoTileStates?.filter(
+      (tile: any) => tile.boundAttendeeId == attendeeId
+    )?.[0];
+
+    return tileState;
+  };
 
   return (
     <>
@@ -94,16 +100,18 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
             alignItems: "center",
             overflow: "hidden",
             padding: "1.2em",
+            background: "None",
           }}
         >
           {currentTiles?.map((data, i) => {
             const { AttendeeId, ExternalUserId } = data;
+
             return (
               <Tiles
                 key={i}
+                tileState={getTileState(AttendeeId)}
                 AttendeeId={AttendeeId}
                 externalUser={ExternalUserId}
-                localAttendeeId={localAttendeeId}
                 length={currentTiles.length}
               />
             );
@@ -158,8 +166,8 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
               <Tiles
                 key={i}
                 AttendeeId={AttendeeId}
+                tileState={getTileState(AttendeeId)}
                 externalUser={ExternalUserId}
-                localAttendeeId={localAttendeeId}
                 length={1}
                 style={{
                   height: "25vh",

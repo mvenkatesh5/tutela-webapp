@@ -35,11 +35,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
           MediaRegion: "us-east-1",
           ExternalMeetingId: uuidV4().toString(),
           MeetingHostId: "0" + userId.toString(),
-          MeetingFeatures: {
-            Audio: {
-              EchoReduction: "AVAILABLE",
-            },
-          },
+          // MeetingFeatures: {
+          //   Audio: {
+          //     EchoReduction: "AVAILABLE",
+          //   },
+          // },
         };
 
         const createMeetingResponse = await chimeMeetings
@@ -74,7 +74,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
                   // },
                 },
                 Layout: "GridView",
-                Resolution: "FHD",
+                Resolution: "HD",
               },
             },
           },

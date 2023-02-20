@@ -1,32 +1,14 @@
-import {
-  Attendees,
-  LocalVideo,
-  RemoteVideo,
-  useAttendeeStatus,
-  useRemoteVideoTileState,
-} from "amazon-chime-sdk-component-library-react";
-import axios from "axios";
-import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
+// aws-sdk
+import { LocalVideo, RemoteVideo } from "amazon-chime-sdk-component-library-react";
+// axios
+import axios from "axios";
+// cookie
+import Cookies from "js-cookie";
+// env
 const { NEXT_PUBLIC_BE_URL } = process.env;
 
-const RemoteVid = ({
-  chimeAttendeeID,
-  currentId,
-  localAttendeeId,
-  localUserId,
-  userObj,
-}: // currentUserInfo,
-{
-  chimeAttendeeID: any;
-  currentId: any;
-  localAttendeeId: any;
-  localUserId?: any;
-  userObj?: any;
-
-  // currentUserInfo: any;
-}) => {
-  // const [firstName, setFirstName] = useState<string>('Loading');
+const RemoteVid = ({ currentId, tileState }: { currentId: any; tileState?: any }) => {
   const [user, setUser] = useState({ first_name: "Loading", photo: null });
 
   useEffect(() => {
@@ -44,7 +26,6 @@ const RemoteVid = ({
         })
         .then((response) => {
           setUser(response.data);
-          // response.data
         })
         .catch((error) => {
           console.log(error);
@@ -55,22 +36,19 @@ const RemoteVid = ({
     if (currentId) fetchData();
   }, [currentId]);
 
-  const { videoEnabled } = useAttendeeStatus(chimeAttendeeID);
-  const { attendeeIdToTileId } = useRemoteVideoTileState();
-
   return (
     <div className="tw-relative tw-bg-[#1b1c20] tw-h-full tw-w-full tw-flex tw-justify-center tw-items-center tw-rounded-3xl tw-overflow-hidden tw-cursor-pointer">
-      {videoEnabled ? (
+      {tileState && tileState?.boundVideoStream?.active ? (
         <>
-          {chimeAttendeeID == localAttendeeId ? (
+          {tileState?.localTile ? (
             <LocalVideo className="tw-relative" />
           ) : (
-            <RemoteVideo tileId={attendeeIdToTileId[chimeAttendeeID]} className="tw-relative" />
+            <RemoteVideo tileId={tileState.tileId} className="tw-relative" />
           )}
         </>
       ) : (
         <div className="tw-flex tw-justify-center tw-items-center tw-w-[10rem] tw-h-[10rem] tw-bg-gray-600 tw-rounded-full tw-text-5xl tw-text-white tw-font-semibold tw-relative tw-overflow-hidden">
-          {user?.photo ? (
+          {user.photo ? (
             <img
               src={user.photo}
               className="tw-relative tw-block tw-ml-auto tw-mr-auto tw-w-[100%] tw-h-[100%] tw-object-cover"
