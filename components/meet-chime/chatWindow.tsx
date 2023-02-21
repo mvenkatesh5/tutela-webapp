@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Arrow, ChatBubble } from "amazon-chime-sdk-component-library-react";
 import { v4 as uuidV4 } from "uuid";
 
@@ -10,27 +10,36 @@ interface ChatWindowProps {
 }
 
 const ChatWindow: React.FC<ChatWindowProps> = ({ sendMessage, messageList, user }) => {
+  const messageRef = useRef<HTMLDivElement>(null);
   const [chatMessage, setChatMessage] = useState<string>("");
+
+  useEffect(() => {
+    messageRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messageList]);
 
   return (
     <div className="md:tw-w-96 tw-h-fit tw-relative ">
       <div className="tw-flex tw-flex-col tw-w-full tw-h-56 tw-relative tw-overflow-y-auto tw-mb-[0.7em] tw-p-[0.7em]">
         {messageList?.map((message: any) => (
           <div
-            className="tw-px-7 tw-py-2"
+            className="tw-px-2 tw-py-2"
             key={uuidV4()}
+            ref={messageRef}
             style={{
               width: "fit-content",
               marginBottom: "0.5em",
               boxSizing: "border-box",
               boxShadow: "1px 1px 5px #333",
               borderRadius: "10px",
-              backgroundColor: message?.user != user.userName ? "#0352fc" : "inherit",
-              color: message?.user != user.userName ? "#fff" : "inherit",
+              backgroundColor: message?.user != user.firstName ? "inherit" : "#0352fc",
+              color: message?.user != user.firstName ? "inherit" : "#fff",
+              marginLeft: message?.user != user.firstName ? "0" : "13em",
             }}
           >
-            <h3 className="tw-font-bold tw-text-md">{message.user}</h3>
-            <span>{message?.message}</span>
+            <p className="tw-font-bold tw-text-lg tw-m-0 tw-px-2">
+              {message.user?.charAt(0)?.toUpperCase() + message.user?.slice(1)}
+            </p>
+            <span className="tw-pl-4">{message?.message}</span>
           </div>
         ))}
       </div>

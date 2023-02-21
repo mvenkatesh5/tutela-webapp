@@ -21,6 +21,10 @@ import {
   Sound,
   VideoInputControl,
   Attendees,
+  Hamburger,
+  PopOver,
+  PopOverItem,
+  PrimaryButton,
 } from "amazon-chime-sdk-component-library-react";
 import { Offcanvas } from "react-bootstrap";
 import { useRouter } from "next/router";
@@ -78,9 +82,11 @@ const Controls: React.FC<ControlProps> = ({
     console.error("Chat socket closed unexpectedly");
   };
 
+  const meeting_id = meet_id.replaceAll("-", "_").trim();
+
   useEffect(() => {
     if (hasConnection == false) {
-      const chatWS = new WebSocket(`${host}/api/ws/chat/${meet_id}/`);
+      const chatWS = new WebSocket(`${host}/api/ws/chat/${meeting_id}/`);
       chatWS.onmessage = onMessage;
       chatWS.onclose = onClose;
       setChatSocket(chatWS);
@@ -97,7 +103,7 @@ const Controls: React.FC<ControlProps> = ({
       chatSocket.send(
         JSON.stringify({
           message: e.target.value,
-          user: user.userName,
+          user: user.firstName,
         })
       );
       setChatMessage("");
@@ -134,7 +140,7 @@ const Controls: React.FC<ControlProps> = ({
     icon: <Phone />,
     onClick: async () => {
       router.replace("/calendar");
-      leaveMeeting(internalMeetId, attendee)
+      leaveMeeting(internalMeetId, attendee);
       await meetingManager.leave();
     },
 
@@ -146,7 +152,7 @@ const Controls: React.FC<ControlProps> = ({
             pathname: "/calendar",
             query: { id: internalMeetId },
           });
-          deleteMeeting(internalMeetId, attendee)
+          deleteMeeting(internalMeetId, attendee);
           await meetingManager.leave();
         },
         children: <span> End Meeting for All</span>,
@@ -158,10 +164,9 @@ const Controls: React.FC<ControlProps> = ({
     icon: <Phone />,
     onClick: async () => {
       router.replace("/calendar");
-      leaveMeeting(internalMeetId, attendee)
-      await meetingManager.leave();      
+      leaveMeeting(internalMeetId, attendee);
+      await meetingManager.leave();
     },
-
     label: "Leave Meeting",
   };
 
@@ -199,8 +204,21 @@ const Controls: React.FC<ControlProps> = ({
         <div className="">
           <ControlBarButton {...soundButtonProps} />
         </div>
-        <div className="">
+        <div className="xs:tw-hidden md:tw-flex">
           <ControlBarButton {...participantsButtonProps} />
+        </div>
+        <div className="xs:tw-flex md:tw-hidden">
+          <PopOver
+            a11yLabel="More Option"
+            renderButton={(isOpen) => <IconButton label="Open PopOver" icon={<Hamburger />} />}
+          >
+            <PopOverItem as="button" onClick={() => setOpen(true)} children={<span>Chat</span>} />
+            <PopOverItem
+              as="button"
+              onClick={() => setShowParticipants(true)}
+              children={<span>Participants</span>}
+            />
+          </PopOver>
         </div>
         <div className="">
           {"0" + user.userId.toString() === hostId?.toString() ? (
@@ -210,13 +228,9 @@ const Controls: React.FC<ControlProps> = ({
           )}
         </div>
 
-        {/* <div className="sm:tw-flex tw-absolute tw-right-10 xs:tw-hidden ">
+        <div className="xs:tw-hidden md:tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle tw-absolute tw-right-10">
           <ControlBarButton {...chatButtonProps} />
-          <ControlBarButton {...participantsButtonProps} />
-        </div> */}
-        {/* <div className='tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle tw-absolute tw-right-10'>
-          <ControlBarButton {...chatButtonProps} />
-        </div> */}
+        </div>
       </div>
 
       {showParticipants && (
