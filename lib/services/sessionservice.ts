@@ -44,6 +44,15 @@ export const SessionUpdate = async (data: any) => {
   }
 };
 
+export const SessionGet = async (data: any) => {
+  try {
+    const response = await axios.get(SESSION_WITH_ID_ENDPOINT(data.id));
+    return response.data;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
 export const SessionWithoutIdUpdate = async (data: any) => {
   try {
     const response = await axios.post(SESSION_UPDATE_ENDPOINT, data);
