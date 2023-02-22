@@ -212,12 +212,12 @@ const Controls: React.FC<ControlProps> = ({
             a11yLabel="More Option"
             renderButton={(isOpen) => <IconButton label="Open PopOver" icon={<Hamburger />} />}
           >
-            <PopOverItem as="button" onClick={() => setOpen(true)} children={<span>Chat</span>} />
-            <PopOverItem
-              as="button"
-              onClick={() => setShowParticipants(true)}
-              children={<span>Participants</span>}
-            />
+            <PopOverItem as="button" onClick={() => setOpen(true)}>
+              <span>Chat</span>
+            </PopOverItem>
+            <PopOverItem as="button" onClick={() => setShowParticipants(true)}>
+              <span>Participants</span>
+            </PopOverItem>
           </PopOver>
         </div>
         <div className="">
