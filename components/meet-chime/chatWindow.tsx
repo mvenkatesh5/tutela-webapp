@@ -23,10 +23,10 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ sendMessage, messageList, user 
         {messageList?.map((message: any) => (
           <div
             className={`tw-flex tw-justify-${message?.user != user.firstName ? "start" : "end"}`}
+            key={uuidV4()}
           >
             <div
               className="tw-px-5 tw-py-2"
-              key={uuidV4()}
               ref={messageRef}
               style={{
                 width: "fit-content",
