@@ -53,7 +53,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ sendMessage, messageList, user 
             setChatMessage(e.target.value);
           }}
           value={chatMessage}
-          placeholder="input your message"
+          placeholder="Enter your message"
           type="text"
           className="tw-px-4 tw-py-2 tw-rounded-lg tw-w-full  tw-relative"
           onKeyDown={(e: any) => {
@@ -65,10 +65,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ sendMessage, messageList, user 
         />
         <button
           className="tw-bg-[#075FFF] tw-rounded-full tw-text-white p-1"
-          onClick={async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-            // console.log('do nothing');
-            setChatMessage("");
-            sendMessage(e);
+          onClick={() => {
+            if (chatMessage.trim() !== "") sendMessage(chatMessage);
           }}
         >
           <Arrow width="2rem" height="2rem" direction="right" />
