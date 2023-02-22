@@ -19,27 +19,30 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ sendMessage, messageList, user 
 
   return (
     <div className="md:tw-w-96 tw-h-fit tw-relative ">
-      <div className="tw-flex tw-flex-col tw-w-full tw-h-56 tw-relative tw-overflow-y-auto tw-mb-[0.7em] tw-p-[0.7em]">
+      <div className="tw-w-full tw-h-64 tw-relative tw-overflow-y-auto tw-overflow-x-hidden tw-mb-[0.7em] tw-p-[0.7em] tw-rounded-lg  ">
         {messageList?.map((message: any) => (
           <div
-            className="tw-px-2 tw-py-2"
-            key={uuidV4()}
-            ref={messageRef}
-            style={{
-              width: "fit-content",
-              marginBottom: "0.5em",
-              boxSizing: "border-box",
-              boxShadow: "1px 1px 5px #333",
-              borderRadius: "10px",
-              backgroundColor: message?.user != user.firstName ? "inherit" : "#0352fc",
-              color: message?.user != user.firstName ? "inherit" : "#fff",
-              marginLeft: message?.user != user.firstName ? "0" : "13em",
-            }}
+            className={`tw-flex tw-justify-${message?.user != user.firstName ? "start" : "end"}`}
           >
-            <p className="tw-font-bold tw-text-lg tw-m-0 tw-px-2">
-              {message.user?.charAt(0)?.toUpperCase() + message.user?.slice(1)}
-            </p>
-            <span className="tw-pl-4">{message?.message}</span>
+            <div
+              className="tw-px-5 tw-py-2"
+              key={uuidV4()}
+              ref={messageRef}
+              style={{
+                width: "fit-content",
+                marginBottom: "0.5em",
+                boxSizing: "border-box",
+                boxShadow: "1px 1px 5px #333",
+                borderRadius: "10px",
+                backgroundColor: message?.user != user.firstName ? "inherit" : "#0352fc",
+                color: message?.user != user.firstName ? "inherit" : "#fff",
+              }}
+            >
+              <p className="tw-font-bold tw-text-lg tw-m-0">
+                {message.user?.charAt(0)?.toUpperCase() + message.user?.slice(1)}
+              </p>
+              <span>{message?.message}</span>
+            </div>
           </div>
         ))}
       </div>
@@ -52,7 +55,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ sendMessage, messageList, user 
           value={chatMessage}
           placeholder="input your message"
           type="text"
-          className="tw-px-4 tw-py-2 tw-rounded-lg tw-w-full tw-border tw-border-b-black-10 tw-relative"
+          className="tw-px-4 tw-py-2 tw-rounded-lg tw-w-full  tw-relative"
           onKeyDown={(e: any) => {
             if (e.key === "Enter") {
               setChatMessage("");
