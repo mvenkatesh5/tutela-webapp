@@ -276,14 +276,16 @@ const Controls: React.FC<ControlProps> = ({
           }}
         >
           <Dialog.Panel>
-            <Dialog.Title className="tw-font-bold tw-text-lg tw-flex tw-justify-between">
+            <Dialog.Title className="tw-font-bold tw-text-lg tw-flex tw-justify-between tw-items-center">
               Chat{" "}
               <IconButton
                 label="Clear"
                 icon={<Clear />}
                 iconSize="md"
                 onClick={() => setOpen(false)}
+                className="tw-absolute tw-flex tw-items-center tw-justify-center  "
               />
+
             </Dialog.Title>
 
             <ChatWindow
