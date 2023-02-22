@@ -47,7 +47,7 @@ const RemoteVid = ({ currentId, tileState }: { currentId: any; tileState?: any }
           )}
         </>
       ) : (
-        <div className="tw-flex tw-justify-center tw-items-center tw-w-[10rem] tw-h-[10rem] tw-bg-gray-600 tw-rounded-full tw-text-5xl tw-text-white tw-font-semibold tw-relative tw-overflow-hidden">
+        <div className="tw-flex tw-justify-center tw-items-center tw-w-[4em] tw-h-[4em] tw-bg-gray-600 tw-rounded-full tw-text-5xl tw-text-white tw-font-semibold tw-relative tw-overflow-hidden">
           {user.photo ? (
             <img
               src={user.photo}
