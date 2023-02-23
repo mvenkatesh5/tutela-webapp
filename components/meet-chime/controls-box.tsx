@@ -102,7 +102,7 @@ const Controls: React.FC<ControlProps> = ({
     if (hasConnection && chatSocket) {
       chatSocket.send(
         JSON.stringify({
-          message: e.target.value,
+          message: e?.target?.value ? e?.target?.value : e,
           user: user.firstName,
         })
       );
@@ -285,7 +285,6 @@ const Controls: React.FC<ControlProps> = ({
                 onClick={() => setOpen(false)}
                 className="tw-absolute tw-flex tw-items-center tw-justify-center  "
               />
-
             </Dialog.Title>
 
             <ChatWindow
