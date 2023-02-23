@@ -67,6 +67,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ sendMessage, messageList, user 
           className="tw-bg-[#075FFF] tw-rounded-full tw-text-white p-1"
           onClick={() => {
             if (chatMessage.trim() !== "") sendMessage(chatMessage);
+            setChatMessage("");
           }}
         >
           <Arrow width="2rem" height="2rem" direction="right" />
