@@ -3,18 +3,20 @@ import { Arrow, ChatBubble } from "amazon-chime-sdk-component-library-react";
 import { v4 as uuidV4 } from "uuid";
 
 interface ChatWindowProps {
+  ref: any;
   meet_id: string;
   sendMessage: Function;
   messageList: string[];
   user: any;
 }
 
-const ChatWindow: React.FC<ChatWindowProps> = ({ sendMessage, messageList, user }) => {
+const ChatWindow: React.FC<ChatWindowProps> = ({ sendMessage, messageList, user, ref }) => {
   const messageRef = useRef<HTMLDivElement>(null);
   const [chatMessage, setChatMessage] = useState<string>("");
 
   useEffect(() => {
     messageRef.current?.scrollIntoView({ behavior: "smooth" });
+    ref?.current?.focus();
   }, [messageList]);
 
   return (
@@ -26,15 +28,13 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ sendMessage, messageList, user 
             key={uuidV4()}
           >
             <div
-              className="tw-px-5 tw-py-2"
+              className="tw-px-5 tw-py-2 tw-rounded-md"
               ref={messageRef}
               style={{
                 width: "fit-content",
                 marginBottom: "0.5em",
-                boxSizing: "border-box",
-                boxShadow: "1px 1px 5px #333",
-                borderRadius: "10px",
-                backgroundColor: message?.user != user.firstName ? "inherit" : "#0352fc",
+
+                backgroundColor: message?.user != user.firstName ? "#d3d3d3" : "#0352fc",
                 color: message?.user != user.firstName ? "inherit" : "#fff",
               }}
             >
@@ -48,6 +48,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ sendMessage, messageList, user 
       </div>
       <div className="tw-flex tw-justify-between tw-items-center tw-px-2 tw-gap-3 tw-relative tw-bottom-1 tw-h-fit">
         <input
+          tabIndex={1}
+          autoFocus
           onChange={(e) => {
             e.preventDefault();
             setChatMessage(e.target.value);
@@ -55,16 +57,17 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ sendMessage, messageList, user 
           value={chatMessage}
           placeholder="Enter your message"
           type="text"
-          className="tw-px-4 tw-py-2 tw-rounded-lg tw-w-full  tw-relative"
+          className="tw-px-4 tw-py-2 tw-rounded-lg tw-w-full  tw-relative focus:tw-outline-none"
           onKeyDown={(e: any) => {
             if (e.key === "Enter") {
               setChatMessage("");
               if (e.target.value.trim() !== "") sendMessage(e);
             }
           }}
+          style={{ border: "1px solid #d3d3d3" }}
         />
         <button
-          className="tw-bg-[#075FFF] tw-rounded-full tw-text-white p-1"
+          className="tw-bg-[#075FFF] tw-rounded-full tw-text-white p-1 tw-border-none tw-outline-none"
           onClick={() => {
             if (chatMessage.trim() !== "") sendMessage(chatMessage);
             setChatMessage("");

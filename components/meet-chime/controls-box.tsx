@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   ControlBar,
   ControlBarButton,
@@ -69,6 +69,7 @@ const Controls: React.FC<ControlProps> = ({
   const [chatSocket, setChatSocket] = useState<any>(undefined);
   const [messages, setMessages] = useState();
   const [chatMessage, setChatMessage] = useState<string>("");
+  const inputRef = useRef(null);
 
   const host = NEXT_PUBLIC_WS_URL || "ws://127.0.0.1:8000";
 
@@ -212,7 +213,12 @@ const Controls: React.FC<ControlProps> = ({
             a11yLabel="More Option"
             renderButton={(isOpen) => <IconButton label="Open PopOver" icon={<Hamburger />} />}
           >
-            <PopOverItem as="button" onClick={() => setOpen(true)}>
+            <PopOverItem
+              as="button"
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
               <span>Chat</span>
             </PopOverItem>
             <PopOverItem as="button" onClick={() => setShowParticipants(true)}>
@@ -270,7 +276,7 @@ const Controls: React.FC<ControlProps> = ({
             background: "white",
             padding: "1em",
             borderRadius: "10px",
-            border: "2px solid black",
+
             boxSizing: "border-box",
             boxShadow: "2px 3px 15px black",
           }}
@@ -283,11 +289,12 @@ const Controls: React.FC<ControlProps> = ({
                 icon={<Clear />}
                 iconSize="md"
                 onClick={() => setOpen(false)}
-                className="tw-absolute tw-flex tw-items-center tw-justify-center  "
+                className="tw-absolute tw-flex tw-items-center tw-justify-center tw-border-none tw-outline-none "
               />
             </Dialog.Title>
 
             <ChatWindow
+              ref={inputRef}
               meet_id={meet_id}
               messageList={messageList}
               sendMessage={(e: any) => sendMessage(e)}
