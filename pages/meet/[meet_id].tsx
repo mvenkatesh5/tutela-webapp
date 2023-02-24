@@ -134,7 +134,7 @@ const MeetingRoomPage: NextPage<userSchema | any> = ({ userInfo }) => {
   };
 
   return (
-    <div className="tw-relative tw-h-screen tw-w-screen ">
+    <div className="tw-relative tw-h-[100vh] tw-w-screen tw-border-4 tw-border-red-500 ">
       {openJoin ? (
         <div className="tw-relative tw-h-screen tw-w-screen tw-bg-white tw-flex tw-justify-center tw-items-center tw-p-5 ">
           <div className="tw-h-[15em] tw-w-[25em] tw-bg-white tw-rounded-xl tw-p-8 tw-text-center tw-flex tw-items-center tw-justify-center tw-shadow-black tw-shadow-2xl  tw-border-4 ">
