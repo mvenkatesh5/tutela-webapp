@@ -190,7 +190,7 @@ const Controls: React.FC<ControlProps> = ({
 
   return (
     <>
-      <div className="tw-flex tw-justify-center tw-items-center tw-w-full tw-bg-gray-200 tw-h-[10%] tw-px-3 tw-relative ">
+      <div className="tw-flex tw-justify-center tw-items-center tw-w-full tw-bg-gray-200 tw-px-3 tw-relative tw-h-[10%]">
         <div className="">
           <ControlBarButton {...muteButtonProps} />
         </div>

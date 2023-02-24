@@ -86,7 +86,7 @@ const VideoTiles: React.FC<VideoTilesProps> = ({
   return (
     <>
       <div
-        className="tw-w-full tw-p-2 tw-rounded tw-relative xs:tw-h-[100%] md:tw-h-screen"
+        className="tw-w-full tw-p-2 tw-rounded tw-relative xs:tw-h-[100%] md:tw-h-[90%]"
         style={{
           display: sharingAttendeeId != null ? "none" : "inherit",
         }}
