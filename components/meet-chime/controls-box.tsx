@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   ControlBar,
   ControlBarButton,
@@ -21,6 +21,10 @@ import {
   Sound,
   VideoInputControl,
   Attendees,
+  Hamburger,
+  PopOver,
+  PopOverItem,
+  PrimaryButton,
 } from "amazon-chime-sdk-component-library-react";
 import { Offcanvas } from "react-bootstrap";
 import { useRouter } from "next/router";
@@ -65,6 +69,7 @@ const Controls: React.FC<ControlProps> = ({
   const [chatSocket, setChatSocket] = useState<any>(undefined);
   const [messages, setMessages] = useState();
   const [chatMessage, setChatMessage] = useState<string>("");
+  const inputRef = useRef(null);
 
   const host = NEXT_PUBLIC_WS_URL || "ws://127.0.0.1:8000";
 
@@ -78,9 +83,11 @@ const Controls: React.FC<ControlProps> = ({
     console.error("Chat socket closed unexpectedly");
   };
 
+  const meeting_id = meet_id.replaceAll("-", "_").trim();
+
   useEffect(() => {
     if (hasConnection == false) {
-      const chatWS = new WebSocket(`${host}/api/ws/chat/${meet_id}/`);
+      const chatWS = new WebSocket(`${host}/api/ws/chat/${meeting_id}/`);
       chatWS.onmessage = onMessage;
       chatWS.onclose = onClose;
       setChatSocket(chatWS);
@@ -96,8 +103,8 @@ const Controls: React.FC<ControlProps> = ({
     if (hasConnection && chatSocket) {
       chatSocket.send(
         JSON.stringify({
-          message: e.target.value,
-          user: user.userName,
+          message: e?.target?.value ? e?.target?.value : e,
+          user: user.firstName,
         })
       );
       setChatMessage("");
@@ -134,7 +141,7 @@ const Controls: React.FC<ControlProps> = ({
     icon: <Phone />,
     onClick: async () => {
       router.replace("/calendar");
-      leaveMeeting(internalMeetId, attendee)
+      leaveMeeting(internalMeetId, attendee);
       await meetingManager.leave();
     },
 
@@ -146,7 +153,7 @@ const Controls: React.FC<ControlProps> = ({
             pathname: "/calendar",
             query: { id: internalMeetId },
           });
-          deleteMeeting(internalMeetId, attendee)
+          deleteMeeting(internalMeetId, attendee);
           await meetingManager.leave();
         },
         children: <span> End Meeting for All</span>,
@@ -158,10 +165,9 @@ const Controls: React.FC<ControlProps> = ({
     icon: <Phone />,
     onClick: async () => {
       router.replace("/calendar");
-      leaveMeeting(internalMeetId, attendee)
-      await meetingManager.leave();      
+      leaveMeeting(internalMeetId, attendee);
+      await meetingManager.leave();
     },
-
     label: "Leave Meeting",
   };
 
@@ -184,7 +190,7 @@ const Controls: React.FC<ControlProps> = ({
 
   return (
     <>
-      <div className="tw-flex tw-justify-center tw-items-center tw-w-full tw-bg-gray-200 tw-h-[10%] tw-px-3 tw-relative ">
+      <div className="tw-flex tw-justify-center tw-items-center tw-w-full tw-bg-gray-200 tw-px-3 tw-relative tw-h-[10%]">
         <div className="">
           <ControlBarButton {...muteButtonProps} />
         </div>
@@ -199,8 +205,26 @@ const Controls: React.FC<ControlProps> = ({
         <div className="">
           <ControlBarButton {...soundButtonProps} />
         </div>
-        <div className="">
+        <div className="xs:tw-hidden md:tw-flex">
           <ControlBarButton {...participantsButtonProps} />
+        </div>
+        <div className="xs:tw-flex md:tw-hidden">
+          <PopOver
+            a11yLabel="More Option"
+            renderButton={(isOpen) => <IconButton label="Open PopOver" icon={<Hamburger />} />}
+          >
+            <PopOverItem
+              as="button"
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
+              <span>Chat</span>
+            </PopOverItem>
+            <PopOverItem as="button" onClick={() => setShowParticipants(true)}>
+              <span>Participants</span>
+            </PopOverItem>
+          </PopOver>
         </div>
         <div className="">
           {"0" + user.userId.toString() === hostId?.toString() ? (
@@ -210,13 +234,9 @@ const Controls: React.FC<ControlProps> = ({
           )}
         </div>
 
-        {/* <div className="sm:tw-flex tw-absolute tw-right-10 xs:tw-hidden ">
+        <div className="xs:tw-hidden md:tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle tw-absolute tw-right-10">
           <ControlBarButton {...chatButtonProps} />
-          <ControlBarButton {...participantsButtonProps} />
-        </div> */}
-        {/* <div className='tw-flex tw-justify-center tw-items-center tw-p-1 tw-align-middle tw-absolute tw-right-10'>
-          <ControlBarButton {...chatButtonProps} />
-        </div> */}
+        </div>
       </div>
 
       {showParticipants && (
@@ -256,23 +276,25 @@ const Controls: React.FC<ControlProps> = ({
             background: "white",
             padding: "1em",
             borderRadius: "10px",
-            border: "2px solid black",
+
             boxSizing: "border-box",
             boxShadow: "2px 3px 15px black",
           }}
         >
           <Dialog.Panel>
-            <Dialog.Title className="tw-font-bold tw-text-lg tw-flex tw-justify-between">
+            <Dialog.Title className="tw-font-bold tw-text-lg tw-flex tw-justify-between tw-items-center">
               Chat{" "}
               <IconButton
                 label="Clear"
                 icon={<Clear />}
                 iconSize="md"
                 onClick={() => setOpen(false)}
+                className="tw-absolute tw-flex tw-items-center tw-justify-center tw-border-none tw-outline-none "
               />
             </Dialog.Title>
 
             <ChatWindow
+              ref={inputRef}
               meet_id={meet_id}
               messageList={messageList}
               sendMessage={(e: any) => sendMessage(e)}
