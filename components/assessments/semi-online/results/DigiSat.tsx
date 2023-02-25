@@ -76,6 +76,9 @@ export default function DigitalSAT({ resourceDetail, selectedUser, user }: IResu
       });
   };
 
+  console.log("logging issues assessmentResponse", assessmentResponse);
+  console.log("logging issues assessmentDetailPreview", assessmentDetailPreview);
+
   return (
     <>
       {assessmentResponse && assessmentResponse?.length > 0 ? (
