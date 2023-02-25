@@ -202,25 +202,25 @@ export const assessmentResultRenderGenerator = (assessment: any = null) => {
               [currentSectionKey]: {
                 ...assessmentPayload.sectional_score[currentSectionKey],
                 total_questions:
-                  assessmentPayload.sectional_score[currentSectionKey].total_questions +
+                  assessmentPayload.sectional_score[currentSectionKey]?.total_questions +
                   currentSectionScoreDetails?.no_of_questions,
                 total_answered:
-                  assessmentPayload.sectional_score[currentSectionKey].total_answered +
+                  assessmentPayload.sectional_score[currentSectionKey]?.total_answered +
                   currentSectionScoreDetails?.no_of_questions_answered,
                 total_unanswered:
-                  assessmentPayload.sectional_score[currentSectionKey].total_unanswered +
+                  assessmentPayload.sectional_score[currentSectionKey]?.total_unanswered +
                   currentSectionScoreDetails?.no_of_questions_unanswered,
                 total_correct:
-                  assessmentPayload.sectional_score[currentSectionKey].total_correct +
+                  assessmentPayload.sectional_score[currentSectionKey]?.total_correct +
                   currentSectionScoreDetails?.no_of_questions_correct,
                 total_incorrect:
-                  assessmentPayload.sectional_score[currentSectionKey].total_incorrect +
+                  assessmentPayload.sectional_score[currentSectionKey]?.total_incorrect +
                   currentSectionScoreDetails?.no_of_questions_incorrect,
                 total_score:
-                  assessmentPayload.sectional_score[currentSectionKey].total_score +
+                  assessmentPayload.sectional_score[currentSectionKey]?.total_score +
                   currentSectionScoreDetails?.no_of_questions_correct,
                 total_scaled_score:
-                  assessmentPayload.sectional_score[currentSectionKey].total_scaled_score +
+                  assessmentPayload.sectional_score[currentSectionKey]?.total_scaled_score +
                   scaledScore
                     ? scaledScore[`${currentSectionScoreDetails?.no_of_questions_correct}`]
                     : 0,
