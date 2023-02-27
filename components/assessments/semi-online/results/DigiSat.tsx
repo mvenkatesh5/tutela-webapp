@@ -53,6 +53,7 @@ export default function DigitalSAT({ resourceDetail, selectedUser, user }: IResu
         .then((response) => {
           setLoader(false);
           if (response && response?.assessment_sessions) {
+            console.log("response from the EdisonAssessmentResult", response);
             setAssessmentResponse(assessmentResultRenderGenerator(response));
           }
         })
