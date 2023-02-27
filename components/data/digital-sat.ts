@@ -182,8 +182,11 @@ export const assessmentResultRenderGenerator = (assessment: any = null) => {
                   currentSectionName &&
                   (currentSectionName.includes("reading") || currentSectionName == "reading")
                 ) {
-                  if (_sectionIndex == 0) currentSectionKey = "reading";
-                  if (_sectionIndex == 1) currentSectionKey = "writing";
+                  let currentIndex = _assessment?.section_info_data?.info?.findIndex(
+                    (x: any) => x.section == _sectionId
+                  );
+                  if (currentIndex == 0) currentSectionKey = "reading";
+                  if (currentIndex == 1) currentSectionKey = "writing";
                 }
 
                 if (

@@ -53,7 +53,7 @@ export default function DigitalSAT({ resourceDetail, selectedUser, user }: IResu
         .then((response) => {
           setLoader(false);
           if (response && response?.assessment_sessions) {
-            console.log("response from the EdisonAssessmentResult", response);
+            console.log("EdisonAssessmentResult response", response);
             setAssessmentResponse(assessmentResultRenderGenerator(response));
           }
         })
@@ -76,9 +76,6 @@ export default function DigitalSAT({ resourceDetail, selectedUser, user }: IResu
         console.log(error);
       });
   };
-
-  console.log("logging issues assessmentResponse", assessmentResponse);
-  console.log("logging issues assessmentDetailPreview", assessmentDetailPreview);
 
   return (
     <>
