@@ -36,7 +36,8 @@ export const NEWS_WITH_ID_ENDPOINT = (news_id: Number) => `/api/news/${news_id}`
 // announcements
 export const ANNOUNCEMENT_ENDPOINT = `/api/announcements/`;
 export const ANNOUNCEMENT_USER_ENDPOINT = `/api/announcement/`;
-export const ANNOUNCEMENT_WITH_ID_ENDPOINT = (news_id: Number) => `/api/announcements/${news_id}`;
+export const ANNOUNCEMENT_WITH_ID_ENDPOINT = (announcement_id: Number) =>
+  `/api/announcements/${announcement_id}`;
 
 // adverts
 export const ADVERTS_ENDPOINT = `/api/adverts/`;
