@@ -21,6 +21,7 @@ import PreFetchLink from "@components/PreFetchLink";
 import useSWR from "swr";
 // api services
 import { APIFetcher } from "@lib/services";
+import { SignOut } from "@lib/services/authenticationservice";
 // api routes
 import { USER_ENDPOINT } from "@constants/routes";
 
@@ -37,6 +38,13 @@ function DashboardNav() {
   }, []);
 
   const signOut = () => {
+    SignOut()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     logout();
   };
 

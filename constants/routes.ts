@@ -14,6 +14,7 @@ export const USER_REPORT_UUID_VERIFICATION = (uuid: any) => `/api/users/protecte
 // authentication
 export const AUTH_LOGIN = `/login/`;
 export const AUTH_SIGNUP = `/signup/`;
+export const AUTH_SIGNOUT = `/signout/`;
 export const FORGOT_PASSWORD = `/forgot-password/`;
 export const RESET_PASSWORD = `/reset-password/`;
 

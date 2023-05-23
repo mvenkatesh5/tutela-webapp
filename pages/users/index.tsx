@@ -265,11 +265,12 @@ const UserDetails = () => {
                                     <td className="heading">{users.username}</td>
                                     <td className="description">{users.email}</td>
                                     <td className="description text-center">
-                                      {console.log("users", users)}
                                       {users.date_joined ? dateTimeFormat(users.date_joined) : "-"}
                                     </td>
                                     <td className="description text-center">
-                                      {users?.last_login ? dateTimeFormat(users?.last_login) : "-"}
+                                      {users?.last_active
+                                        ? dateTimeFormat(users?.last_active)
+                                        : "-"}
                                     </td>
                                     <td className="description text-center">
                                       {users?.last_logout

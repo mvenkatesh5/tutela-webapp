@@ -1,6 +1,12 @@
 import axios from "axios";
 // api routes
-import { AUTH_LOGIN, AUTH_SIGNUP, FORGOT_PASSWORD, RESET_PASSWORD } from "@constants/routes";
+import {
+  AUTH_LOGIN,
+  AUTH_SIGNUP,
+  AUTH_SIGNOUT,
+  FORGOT_PASSWORD,
+  RESET_PASSWORD,
+} from "@constants/routes";
 
 export const LogIn = async (data: any) => {
   try {
@@ -14,6 +20,15 @@ export const LogIn = async (data: any) => {
 export const SignUp = async (data: any) => {
   try {
     const response = await axios.post(AUTH_SIGNUP, data);
+    return response.data;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
+export const SignOut = async () => {
+  try {
+    const response = await axios.post(AUTH_SIGNOUT);
     return response.data;
   } catch (error: any) {
     throw error.response.data;
