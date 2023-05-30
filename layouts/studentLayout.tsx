@@ -56,9 +56,9 @@ const StudentLayout = (props: any) => {
   return (
     <>
       <div className="t-default-layout">
-        <div className="top-bar">
+        {/* <div className="top-bar ">
           <DashboardNav />
-        </div>
+        </div> */}
         <div className="bottom-bar">
           <div className={`t-side-bar ${globalState.sidebarToggle && "active"}`}>
             <UserSidebar />
@@ -66,7 +66,7 @@ const StudentLayout = (props: any) => {
           {props.assessmentSidebar === true ? (
             <>{props.children}</>
           ) : (
-            <div className="t-right-bar border">{props.children}</div>
+            <div className="t-right-bar border tw-bg-[#E7D3B5] tw-bg-opacity-30">{props.children}</div>
           )}
         </div>
       </div>
