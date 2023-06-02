@@ -57,43 +57,58 @@ const Resources = () => {
         </Head>
         <StudentLayout>
           <Container className="pt-3 pb-3">
-            <h3 className="mb-4">Resources</h3>
-            {!resources && !resourcesError ? (
-              <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
-            ) : (
-              <div>
-                {resources && resources.length === 0 ? (
-                  <div className="text-secondary mt-5 mb-5 text-center">
-                    No resources are available.
-                  </div>
+            <div className="tw-bg-[#f8f8f8] p-4 tw-rounded-lg">
+              <div className="tw-bg-white p-4">
+                <h3 className="mb-4">Resources</h3>
+                {!resources && !resourcesError ? (
+                  <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
                 ) : (
-                  <Row>
-                    {resources.map((resource: any, resourceIndex: number) => (
-                      <Col md={3} key={`resource-title-${resourceIndex}`} className="mb-2 h-100">
-                        <div className="resource-home-card-book-view">
-                          <Link href={`/user-resources/${resource.id}`} passHref>
-                            <div className="book-root-container">
-                              <BookCard data={resource.resource_node} />
-                            </div>
-                          </Link>
-                          <div className="book-content-container">
-                            <div className="flex">
-                              <div className="flex-item title">
-                                <div className="resource-title">
-                                  <Link href={`/user-resources/${resource.id}`}>
-                                    <a>{resource.resource_node.title}</a>
-                                  </Link>
+                  <div>
+                    {resources && resources.length === 0 ? (
+                      <div className="text-secondary mt-5 mb-5 text-center">
+                        No resources are available.
+                      </div>
+                    ) : (
+                      <Row>
+                        {resources.map((resource: any, resourceIndex: number) => (
+                          <Col
+                            sm={12}
+                            md={4}
+                            lg={3}
+                            key={`resource-title-${resourceIndex}`}
+                            className="mb-2 h-100"
+                          >
+                            <div className="resource-home-card-book-view">
+                              <Link href={`/user-resources/${resource.id}`} passHref>
+                                <div className="book-root-container tw-max-w-[160px] mx-auto">
+                                  <BookCard data={resource.resource_node} />
+                                </div>
+                              </Link>
+                              <div className="book-content-container">
+                                <div className="flex">
+                                  <div className="flex-item title">
+                                    <div className="resource-title">
+                                      <Link href={`/user-resources/${resource.id}`}>
+                                        <a
+                                          title={resource.resource_node.title}
+                                          className="tw-text-black tw-font-medium tw-truncate"
+                                        >
+                                          {resource.resource_node.title}
+                                        </a>
+                                      </Link>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
-                      </Col>
-                    ))}
-                  </Row>
+                          </Col>
+                        ))}
+                      </Row>
+                    )}
+                  </div>
                 )}
               </div>
-            )}
+            </div>
           </Container>
         </StudentLayout>
       </div>
