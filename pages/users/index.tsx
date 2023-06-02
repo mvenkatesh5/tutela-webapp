@@ -54,10 +54,10 @@ const UserDetails = () => {
             const currentElements = { ...elements };
             if (currentElements.results && currentElements.results.length > 0) {
               let index = currentElements.results.findIndex(
-                (mutateData: any) => mutateData.id === userId
+                (mutateData: any) => mutateData.id === payload?.id
               );
               currentElements.results = currentElements.results.map((oldElement: any, i: Number) =>
-                i === index ? response : oldElement
+                i === index ? res : oldElement
               );
               return currentElements;
             }
