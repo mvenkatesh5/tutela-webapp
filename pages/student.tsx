@@ -110,7 +110,7 @@ const StudentDetail = () => {
   const { data: advertsList, error: advertsListError } = useSWR(ADVERTS_ENDPOINT, APIFetcher);
   const { data: sessionList, error: sessionListError } = useSWR(
     currentDateQuery ? currentDateQuery : null,
-    (url) => APIFetcher(url),
+    (url: any) => APIFetcher(url),
     { refreshInterval: 5000 }
   );
 

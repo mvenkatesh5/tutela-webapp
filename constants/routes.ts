@@ -189,3 +189,14 @@ export const V2_DOUBTS_PERSONAL_ENDPOINT = `/api/doubts/errorlog/`;
 export const V2_DOUBTS_PUBLIC_ENDPOINT = `/api/doubts/asklog/`;
 export const V2_COMMENTS_WITH_DOUBT_ID_ENDPOINT = (doubt_id: string | number) =>
   `/api/doubts/${doubt_id}/replies/`;
+
+// teacher resource allocation
+export const TEACHER_NODE_ENDPOINT = (resource_node_id: any) =>
+  `/api/nodes/${resource_node_id}/teachers/`;
+export const NODE_WITH_NODE_ID_AND_TEACHER_WITH_TEACHER_ID_ENDPOINT = (
+  node_id: any,
+  teacher_id: any
+) => `/api/nodes/${node_id}/teachers/${teacher_id}`;
+export const NODES_TEACHERS_ENDPOINT = `nodes/teachers/`;
+export const NODES_WITH_TEACHER_ID_ENDPOINT = (teacher_id: any) =>
+  `/api/nodes/teachers/${teacher_id}/`;

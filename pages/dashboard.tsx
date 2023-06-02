@@ -36,16 +36,16 @@ const DashboardDetail = (props: any) => {
   const [userRole, setUserRole] = React.useState<any>();
   const [tokenDetails, setTokenDetails] = React.useState<any>();
 
-   const settingsSlider = {
-     dots: true,
-     infinite: true,
-     slidesToShow: 1,
-     slidesToScroll: 1,
-     autoplay: true,
-     autoplaySpeed: 2500,
-     // nextArrow: <SampleNextArrow />,
-     // prevArrow: <SamplePrevArrow />,
-   };
+  const settingsSlider = {
+    dots: true,
+    infinite: true,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2500,
+    // nextArrow: <SampleNextArrow />,
+    // prevArrow: <SamplePrevArrow />,
+  };
 
   React.useEffect(() => {
     if (getAuthenticationToken()) {
@@ -78,7 +78,7 @@ const DashboardDetail = (props: any) => {
 
   const { data: sessionList, error: sessionListError } = useSWR(
     currentDateQuery ? currentDateQuery : null,
-    (url) => APIFetcher(url),
+    (url: any) => APIFetcher(url),
     { refreshInterval: 5000 }
   );
   const { data: advertsList, error: advertsListError } = useSWR(ADVERTS_ENDPOINT, APIFetcher);
@@ -94,7 +94,7 @@ const DashboardDetail = (props: any) => {
           <Row>
             <div className="px-2 mb-3">
               <div className="p-2 px-3 rounded alert-container">
-                <Image alt="" src="/announcement.svg" className="icon"/>
+                <Image alt="" src="/announcement.svg" className="icon" />
                 <div className="alert">
                   Welcome to <strong>Tutela</strong> Have a great Day ahead!
                 </div>
