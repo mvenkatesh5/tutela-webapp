@@ -140,24 +140,8 @@ const StudentDetail = () => {
   return (
     <Page meta={meta}>
       <StudentLayout>
-        <div className="mt-4 d-flex tw-w-full px-2">
-          <div className="tw-ml-auto d-flex tw-gap-2 tw-items-center">
-            <div className="tw-w-10 tw-h-10 tw-rounded-full ">
-              <Image
-                src={userDetailList?.photo ? userDetailList?.photo : "/user.png"}
-                alt=""
-                className="tw-w-10 tw-h-10 tw-rounded-full"
-              />
-            </div>
-
-            <div>
-              <strong className="tw-font-base">Welcome back {userDetailList?.username}</strong>
-              <div className="tw-font-light tw-text-sm tw-text-right">Have a great learning!</div>
-            </div>
-          </div>
-        </div>
         <Container className="mt-3 container-lg p-2">
-          <div className="tw-bg-[#bbbbbb] tw-bg-opacity-40 p-4 pt-2 tw-rounded-lg">
+          <div className="tw-bg-[#f8f8f8] p-4 pt-2 tw-rounded-lg">
             <div className="mb-3">
               {userDetailList &&
                 userDetailList.profile_data &&

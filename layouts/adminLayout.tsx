@@ -22,19 +22,24 @@ const AdminLayout = (props: any) => {
     }
   }, []);
 
+  // console.log("details", tokenDetails.user.role);
+
   return (
     <div>
       <div className="admin-wrapper">
-        <div className="top-layout">
-          <DashboardNav />
-        </div>
+        {tokenDetails?.user?.role !== 0 && (
+          <div className="top-layout">
+            <DashboardNav />
+          </div>
+        )}
+
         <div className="bottom-layout">
           {tokenDetails && tokenDetails.info && tokenDetails.info.role === 2 ? (
             <div className={`left-layout ${globalState.sidebarToggle && "active"}`}>
               <SidebarView />
             </div>
           ) : (
-            <div className="left-layout">
+            <div className="left-layout -tw-mt-4">
               <UserSidebarView />
             </div>
           )}

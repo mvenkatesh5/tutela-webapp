@@ -7,7 +7,7 @@ import { OverlayTrigger, Tooltip, Image } from "react-bootstrap";
 // material icons
 import { Dashboard } from "@styled-icons/boxicons-solid/Dashboard";
 import { ClipboardNotes } from "@styled-icons/foundation/ClipboardNotes";
-import { Calendar, User } from "@styled-icons/boxicons-regular/";
+import { User } from "@styled-icons/boxicons-regular/";
 import { ArchiveOut } from "@styled-icons/boxicons-regular/ArchiveOut";
 import { Folder } from "@styled-icons/boxicons-regular/Folder";
 import { MeetingRoom } from "@styled-icons/material/MeetingRoom";
@@ -19,6 +19,12 @@ import { DocumentReport } from "@styled-icons/heroicons-outline/DocumentReport";
 import { CollapseLeft } from "@styled-icons/open-iconic/CollapseLeft";
 import { ExpandRight } from "@styled-icons/open-iconic/ExpandRight";
 import { DocumentBulletList } from "@styled-icons/fluentui-system-filled/DocumentBulletList";
+import { UserPin } from "@styled-icons/boxicons-regular/UserPin";
+import { CommentDiscussion } from "@styled-icons/octicons/CommentDiscussion";
+import { Books } from "@styled-icons/icomoon/Books";
+import { SpeakerNotes } from "@styled-icons/material-twotone/SpeakerNotes";
+import { Calendar } from "@styled-icons/boxicons-regular/Calendar";
+import { ChatBubblesQuestion } from "@styled-icons/fluentui-system-regular/ChatBubblesQuestion";
 // cookie
 import { getAuthenticationToken } from "@lib/cookie";
 // global context provider
@@ -52,7 +58,7 @@ const UserSidebar = () => {
       {tokenDetails && tokenDetails.user && tokenDetails.user.role === 0 && (
         <>
           {!globalState.sidebarToggle ? (
-            <div className="navbar-brand- tw-bg-[#11293a] p-4 px-2 d-flex tw-justify-center">
+            <div className="tw-bg-[#11293a] p-4 px-2 d-flex tw-justify-center">
               <Image src="/logo.svg" alt="" className="tw-w-[100px]" />
             </div>
           ) : (
@@ -106,7 +112,7 @@ const UserSidebar = () => {
                 }
               >
                 <div className="sidebar-icon">
-                  <User />
+                  <UserPin />
                 </div>
                 <div className="sidebar-label">My Profile</div>
               </div>
@@ -131,7 +137,7 @@ const UserSidebar = () => {
                 }
               >
                 <div className="sidebar-icon">
-                  <ArchiveOut />
+                  <CommentDiscussion />
                 </div>
                 <div className="sidebar-label">Request Session</div>
               </div>
@@ -156,7 +162,7 @@ const UserSidebar = () => {
                 }
               >
                 <div className="sidebar-icon">
-                  <Folder />
+                  <Books />
                 </div>
                 <div className="sidebar-label">My Resources</div>
               </div>
@@ -181,7 +187,7 @@ const UserSidebar = () => {
                 }
               >
                 <div className="sidebar-icon">
-                  <ClipboardNotes />
+                  <SpeakerNotes />
                 </div>
                 <div className="sidebar-label">My Notes</div>
               </div>
@@ -507,7 +513,7 @@ const UserSidebar = () => {
                 }
               >
                 <div className="sidebar-icon">
-                  <DocumentBulletList />
+                  <ChatBubblesQuestion />
                 </div>
                 <div className="sidebar-label">Doubts</div>
               </div>
