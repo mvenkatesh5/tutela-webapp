@@ -1,6 +1,6 @@
 import React from "react";
 // react bootstrap
-import { Row, Col, Card, Image ,Button } from "react-bootstrap";
+import { Row, Col, Card, Image, Button } from "react-bootstrap";
 // swr
 import useSWR from "swr";
 // layouts
@@ -71,9 +71,7 @@ const NewsView = () => {
                         <p>{data.description}</p>
                       </div>
                       <div className="d-flex gap-2">
-                        <div>
-                          <NewsEditView data={data} />
-                        </div>
+                        <NewsEditView data={data} />
                         <NewsDeleteView data={data} />
                         {/* <Button variant="danger" className="btn btn-sm" onClick={() => newsDelete(data.id)}>
                           Delete

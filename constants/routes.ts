@@ -14,6 +14,7 @@ export const USER_REPORT_UUID_VERIFICATION = (uuid: any) => `/api/users/protecte
 // authentication
 export const AUTH_LOGIN = `/login/`;
 export const AUTH_SIGNUP = `/signup/`;
+export const AUTH_SIGNOUT = `/signout/`;
 export const FORGOT_PASSWORD = `/forgot-password/`;
 export const RESET_PASSWORD = `/reset-password/`;
 
@@ -36,7 +37,8 @@ export const NEWS_WITH_ID_ENDPOINT = (news_id: Number) => `/api/news/${news_id}`
 // announcements
 export const ANNOUNCEMENT_ENDPOINT = `/api/announcements/`;
 export const ANNOUNCEMENT_USER_ENDPOINT = `/api/announcement/`;
-export const ANNOUNCEMENT_WITH_ID_ENDPOINT = (news_id: Number) => `/api/announcements/${news_id}`;
+export const ANNOUNCEMENT_WITH_ID_ENDPOINT = (announcement_id: Number) =>
+  `/api/announcements/${announcement_id}`;
 
 // adverts
 export const ADVERTS_ENDPOINT = `/api/adverts/`;
@@ -179,3 +181,22 @@ export const CONTACT_WITH_ID_ENDPOINT = (contact_id: any) => `/api/contacts/${co
 //Edison assessment
 export const EDISON_ASSESSMENT_ENDPOINT = `/api/receive-assessment-results/`;
 export const AUTHENTICATE_EDISON_USER_ENDPOINT = `/api/authenticate-edison-user/`;
+
+// doubts v2
+export const V2_DOUBTS_ENDPOINT = `/api/doubts/`;
+export const V2_DOUBT_WITH_ID_ENDPOINT = (doubt_id: string | number) => `/api/doubts/${doubt_id}/`;
+export const V2_DOUBTS_PERSONAL_ENDPOINT = `/api/doubts/errorlog/`;
+export const V2_DOUBTS_PUBLIC_ENDPOINT = `/api/doubts/asklog/`;
+export const V2_COMMENTS_WITH_DOUBT_ID_ENDPOINT = (doubt_id: string | number) =>
+  `/api/doubts/${doubt_id}/replies/`;
+
+// teacher resource allocation
+export const TEACHER_NODE_ENDPOINT = (resource_node_id: any) =>
+  `/api/nodes/${resource_node_id}/teachers/`;
+export const NODE_WITH_NODE_ID_AND_TEACHER_WITH_TEACHER_ID_ENDPOINT = (
+  node_id: any,
+  teacher_id: any
+) => `/api/nodes/${node_id}/teachers/${teacher_id}`;
+export const NODES_TEACHERS_ENDPOINT = `nodes/teachers/`;
+export const NODES_WITH_TEACHER_ID_ENDPOINT = (teacher_id: any) =>
+  `/api/nodes/teachers/${teacher_id}/`;

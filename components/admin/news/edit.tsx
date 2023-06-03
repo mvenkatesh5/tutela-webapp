@@ -54,15 +54,15 @@ const NewsEditView = (props: any) => {
 
       <Modal show={modal} onHide={closeModal} centered backdrop={"static"}>
         <Modal.Body>
-          <Form onSubmit={newsUpdate}>
+          <div>
             {newsData && (
               <div>
                 <NewsForm data={newsData} handleData={handleNewsData} />
                 <Button
                   variant="outline-primary"
                   className="btn-sm"
-                  type="submit"
                   style={{ marginRight: "10px" }}
+                  onClick={newsUpdate}
                 >
                   Update News
                 </Button>
@@ -71,7 +71,7 @@ const NewsEditView = (props: any) => {
                 </Button>
               </div>
             )}
-          </Form>
+          </div>
         </Modal.Body>
       </Modal>
       <Form></Form>

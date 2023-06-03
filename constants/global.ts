@@ -46,6 +46,11 @@ export const returnSingleMonth = (currentDate: any) => {
   let month = newDate.getMonth();
   return `${calendarMonths[month].key}`;
 };
+export const returnSingleYear = (currentDate: any) => {
+  let newDate = new Date(currentDate);
+  let year = newDate.getFullYear();
+  return `${year}`;
+};
 
 export const datePreview = (currentDate: any) => {
   let newDate = new Date(currentDate);

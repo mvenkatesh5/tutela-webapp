@@ -52,7 +52,7 @@ const CalendarMonthView = (props: any) => {
     setCurrentMonth(todayDateValue.getMonth());
     setCurrentYear(todayDateValue.getFullYear());
     setRenderDateTitle(
-      `${calendarMonths[todayDateValue.getMonth()].fullName} ${todayDateValue.getFullYear()}`
+      `${calendarMonths[todayDateValue.getMonth()]?.fullName} ${todayDateValue.getFullYear()}`
     );
   };
 

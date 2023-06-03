@@ -4,7 +4,7 @@ import Link from "next/link";
 // constants
 import { META_DESCRIPTION } from "@constants/page";
 // react-bootstrap
-import { Container, Row, Col, Image, Card } from "react-bootstrap";
+import { Container, Row, Col, Image, Card, Button } from "react-bootstrap";
 // components
 import Page from "@components/page";
 import DashboardNav from "@components/dashboardnav";
@@ -38,7 +38,7 @@ import withStudentAuth from "@lib/hoc/withStudentAuth";
 // react slick
 import Slider from "react-slick";
 // constants
-import { returnSingleDate, returnSingleMonth } from "@constants/global";
+import { returnSingleDate, returnSingleMonth, returnSingleYear } from "@constants/global";
 
 // function SampleNextArrow(props: any) {
 //   const { className, style, onClick } = props;
@@ -110,7 +110,7 @@ const StudentDetail = () => {
   const { data: advertsList, error: advertsListError } = useSWR(ADVERTS_ENDPOINT, APIFetcher);
   const { data: sessionList, error: sessionListError } = useSWR(
     currentDateQuery ? currentDateQuery : null,
-    (url) => APIFetcher(url),
+    (url: any) => APIFetcher(url),
     { refreshInterval: 5000 }
   );
 
@@ -136,24 +136,24 @@ const StudentDetail = () => {
       refreshInterval: 0,
     }
   );
-
+  console.log("userDetailList", userDetailList);
   return (
     <Page meta={meta}>
       <StudentLayout>
-        <Container className="mt-3 container-lg">
-          <div className="mb-3">
-            {userDetailList &&
-              userDetailList.profile_data &&
-              Object.keys(userDetailList.profile_data).length <= 0 && (
-                <WarningPopup href={`/profile`}>
-                  Hello <strong>{userDetailList.username}</strong>, Click here to complete your
-                  profile.
-                </WarningPopup>
-              )}
-          </div>
-
-          <Row>
-            {announcement && (
+        <Container className="mt-3 container-lg p-2">
+          <div className="tw-bg-[#f8f8f8] p-4 pt-2 tw-rounded-lg">
+            <div className="mb-3">
+              {userDetailList &&
+                userDetailList.profile_data &&
+                Object.keys(userDetailList.profile_data).length <= 0 && (
+                  <WarningPopup href={`/profile`}>
+                    Hello <strong>{userDetailList.username}</strong>, Click here to complete your
+                    profile.
+                  </WarningPopup>
+                )}
+            </div>
+            <Row>
+              {/* {announcement && (
               <>
                 <div className="px-2 mb-3">
                   <div className="p-2 px-3 rounded alert-container">
@@ -184,121 +184,143 @@ const StudentDetail = () => {
                   </div>
                 </div>
               </>
-            )}
-            <h4 className="fw-bold text-dark mb-3">Upcoming Sessions</h4>
-            <Col lg="8">
-              {sessionList && sessionList.length > 0 ? (
-                <div>
-                  {sessionList.map((data: any, index: Number) => (
-                    <div key={data.id} className="mb-2">
-                      <SessionCard data={data} role="student" />
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center mt-4 mb-4">No sessions for Today.</div>
-              )}
-
-              <h4 className="fw-bold text-dark mt-5 mb-3">Resources</h4>
-              {/* <ResourceTable /> */}
-
-              <h4 className="fw-bold text-dark mt-5 mb-3">News and Updates</h4>
-              <Row>
-                {newsList &&
-                  newsList.length > 0 &&
-                  newsList.map((data: any, index: Number) => (
-                    <Col lg={6} key={data.id} style={{ marginBottom: "10px" }}>
-                      <NewsCard data={data} />
-                    </Col>
-                  ))}
-              </Row>
-
-              <h4 className="fw-bold text-dark mt-5 mb-3">Doubts</h4>
-              <Doubts />
-            </Col>
-
-            <Col lg="4">
-              {/* <TestScroreCard /> */}
-              {/* <UpcomingTestsCard /> */}
-              <Card className="pt-3 pb-3 px-3 border-0 shadow mb-3">
-                <h5>Coins Earned</h5>
-                {!coins ? (
-                  <div className="text-center mt-3">
-                    <small>Loading...</small>
+            )} */}
+              <h4 className="fw-bold text-dark mb-3">Dashboard</h4>
+              <h5 className="fw-bold text-dark mb-3">Upcoming Sessions</h5>
+              <Col lg="8">
+                {sessionList && sessionList.length > 0 ? (
+                  <div>
+                    {sessionList.map((data: any, index: Number) => (
+                      <div key={data.id} className="mb-2">
+                        <SessionCard data={data} role="student" />
+                      </div>
+                    ))}
                   </div>
                 ) : (
-                  <div
-                    className="mt-1"
-                    style={{ display: "flex", alignItems: "center", gap: "10px" }}
-                  >
-                    <div style={{ width: "40px", height: "40px", flexShrink: 0 }}>
-                      <Image
-                        src={"/tutela-coin.png"}
-                        alt=""
-                        style={{ width: "100%", height: "100%", objectFit: "contain" }}
-                      />
-                    </div>
-                    <div style={{ fontSize: "20px", fontWeight: 500 }}>{coins.total_coins}</div>
-                  </div>
+                  <div className="text-center mt-4 mb-4">No sessions for Today.</div>
                 )}
-              </Card>
 
-              {advertsList && advertsList.length > 0 && (
-                <Card className="pt-3 pb-5 px-3 border-0 shadow">
-                  <Slider {...settingsSlider}>
-                    {advertsList.map((item: any, index: any) => {
-                      return (
-                        <div key={`link-${index}`}>
-                          <a href={item.link} target="_blank" rel="noreferrer">
-                            <Image
-                              alt=""
-                              className="img-fluid mx-auto d-block"
-                              src={item.image}
-                              width="300"
-                            />
-                          </a>
-                        </div>
-                      );
-                    })}
-                  </Slider>
-                </Card>
-              )}
+                {/* <h5 className="fw-bold text-dark mt-5 mb-3">Resources</h5> */}
+                {/* <ResourceTable /> */}
 
-              {!tests ? (
-                <div className="text-center mt-5 mb-5">Loading.....</div>
-              ) : (
-                <Card className="pt-3 pb-4 px-3 mt-3 border-0 shadow">
-                  <h6 className="mb-3">All Tests</h6>
-                  {tests && tests.length > 0 ? (
-                    <div className="student-test-container">
-                      {tests.map((data: any, index: Number) => (
-                        <div
-                          key={`students-tests-${index}`}
-                          className="d-flex align-items-center student-test-item"
-                        >
-                          <div className="student-icon">
-                            <div>{returnSingleDate(data.datetime)}</div>
-                            <div>{returnSingleMonth(data.datetime)}</div>
-                          </div>
-                          {data.link ? (
-                            <div className="student-content">
-                              <Link href={data.href}>
-                                <a>{data.name}</a>
-                              </Link>
+                <h5 className="fw-bold text-dark mt-5 mb-3">News and Updates</h5>
+                <Row>
+                  {newsList &&
+                    newsList.length > 0 &&
+                    newsList.map((data: any, index: Number) => (
+                      <Col lg={12} key={data.id} style={{ marginBottom: "10px" }}>
+                        <NewsCard data={data} />
+                      </Col>
+                    ))}
+                </Row>
+
+                {/* <h5 className="fw-bold text-dark mt-5 mb-3">Doubts</h5>
+                <Doubts /> */}
+              </Col>
+
+              <Col lg="4">
+                {!tests ? (
+                  <div className="text-center mt-5 mb-5">Loading.....</div>
+                ) : (
+                  <Card className="pt-3 pb-4 px-3 border-0 shadow">
+                    <h6 className="mb-3">All Tests</h6>
+                    {tests && tests.length > 0 ? (
+                      <div className="student-test-container">
+                        {tests.map((data: any, index: Number) => (
+                          <div
+                            key={`students-tests-${index}`}
+                            className="d-flex align-items-center student-test-item"
+                          >
+                            <div className="tw-text-[10px] tw-text-center tw-border tw-border-solid tw-border-[#C9A060] tw-leading-[11px] px-1 tw-pt-[1px] rounded">
+                              <div>{returnSingleDate(data.datetime)}</div>
+                              <div>{returnSingleMonth(data.datetime)}</div>
+                              <div>{returnSingleYear(data.datetime)}</div>
                             </div>
-                          ) : (
-                            <div className="student-content">{data.name}</div>
-                          )}
-                        </div>
-                      ))}
+                            {data.link ? (
+                              <div className="student-content">
+                                <Link href={data.href}>
+                                  <a>{data.name}</a>
+                                </Link>
+                              </div>
+                            ) : (
+                              <div className="student-content">{data.name}</div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center mt-5 mb-5">No Tests are available</div>
+                    )}
+                  </Card>
+                )}
+                <h5 className="fw-bold text-dark mt-3">Have a doubt?</h5>
+                <Card className="pt-3 pb-3 px-3 border-0 shadow mb-3">
+                  <div className="tw-text-xs tw-text-center tw-max-w-[250px] mx-auto">
+                    Get your doubts cleared either from our <strong>Expert Mentors</strong> or{" "}
+                    <strong>AI</strong>
+                  </div>
+                  <div className="d-flex tw-justify-around tw-gap-4 mt-3">
+                    <Link href="/doubts/ask">
+                      <a className="tw-w-full">
+                        <button className="tw-bg-[#C9A060] tw-rounded-lg tw-text-white tw-font-semibold tw-w-full tw-whitespace-nowrap py-1">
+                          Ask Human
+                        </button>
+                      </a>
+                    </Link>{" "}
+                    <button className="tw-bg-black tw-rounded-lg tw-text-white tw-font-semibold tw-w-full tw-whitespace-nowrap py-1">
+                      Ask AI
+                    </button>
+                  </div>
+                </Card>
+
+                {/* <TestScroreCard /> */}
+                {/* <UpcomingTestsCard /> */}
+                <Card className="pt-3 pb-3 px-3 mt-3 border-0 shadow mb-3">
+                  <h5>Coins Earned</h5>
+                  {!coins ? (
+                    <div className="text-center mt-3">
+                      <small>Loading...</small>
                     </div>
                   ) : (
-                    <div className="text-center mt-5 mb-5">No Tests are available</div>
+                    <div
+                      className="mt-1"
+                      style={{ display: "flex", alignItems: "center", gap: "10px" }}
+                    >
+                      <div style={{ width: "40px", height: "40px", flexShrink: 0 }}>
+                        <Image
+                          src={"/tutela-coin.png"}
+                          alt=""
+                          style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                        />
+                      </div>
+                      <div style={{ fontSize: "20px", fontWeight: 500 }}>{coins.total_coins}</div>
+                    </div>
                   )}
                 </Card>
-              )}
-            </Col>
-          </Row>
+
+                {advertsList && advertsList.length > 0 && (
+                  <Card className="pt-3 pb-5 px-3 border-0 shadow">
+                    <Slider {...settingsSlider}>
+                      {advertsList.map((item: any, index: any) => {
+                        return (
+                          <div key={`link-${index}`}>
+                            <a href={item.link} target="_blank" rel="noreferrer">
+                              <Image
+                                alt=""
+                                className="img-fluid mx-auto d-block"
+                                src={item.image}
+                                width="300"
+                              />
+                            </a>
+                          </div>
+                        );
+                      })}
+                    </Slider>
+                  </Card>
+                )}
+              </Col>
+            </Row>
+          </div>
         </Container>
       </StudentLayout>
     </Page>

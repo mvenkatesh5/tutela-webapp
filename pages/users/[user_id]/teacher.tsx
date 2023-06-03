@@ -8,6 +8,7 @@ import useSWR from "swr";
 // components
 import FromBuilder from "@components/forms";
 import UserResourceView from "@components/resources/userResources/view";
+import TeacherResourceAllocation from "@components/admin/teacher-resource-allocation";
 // layouts
 import AdminLayout from "@layouts/adminLayout";
 // global imports
@@ -45,15 +46,15 @@ const UserDetailView = () => {
     { refreshInterval: 0 }
   );
 
-  const { data: userResourceList, error: userResourceListError } = useSWR(
-    user_id ? USER_RESOURCE_VIEW_ENDPOINT(user_id) : null,
-    (url) => APIFetcher(url),
-    { refreshInterval: 0 }
-  );
+  // const { data: userResourceList, error: userResourceListError } = useSWR(
+  //   user_id ? USER_RESOURCE_VIEW_ENDPOINT(user_id) : null,
+  //   (url) => APIFetcher(url),
+  //   { refreshInterval: 0 }
+  // );
 
-  const { data: resources, error: resourcesError } = useSWR(RESOURCE_ENDPOINT, APIFetcher, {
-    refreshInterval: 0,
-  });
+  // const { data: resources, error: resourcesError } = useSWR(RESOURCE_ENDPOINT, APIFetcher, {
+  //   refreshInterval: 0,
+  // });
 
   React.useEffect(() => {
     if (userDetailList && userDetailList.profile_data) {
@@ -106,14 +107,14 @@ const UserDetailView = () => {
                         </div>
                       </div>
                       {/* resource binding */}
-                      <UserResourceView
+                      {/* <UserResourceView
                         userResourceList={userResourceList}
                         resources={resources}
                         userId={user_id}
-                      />
+                      /> */}
                     </div>
-                    <div className="right-wrapper" style={{ overflowY: "auto" }}>
-                      <Container className="m-0 p-0">
+                    <div className="right-wrapper" style={{ overflowY: "hidden" }}>
+                      <Container className="m-0 p-0 tw-w-full tw-h-full tw-overflow-hidden">
                         <Tab.Container defaultActiveKey={teacherSchema[0].tab_key}>
                           <Nav
                             className="custom-nav-tabs-links profile-account-nav"
@@ -129,11 +130,21 @@ const UserDetailView = () => {
                                 </Nav.Link>
                               </Nav.Item>
                             ))}
+                            <Nav.Item
+                              key={`nav-link-resource-allocation`}
+                              className="profile-account-nav-item"
+                            >
+                              <Nav.Link eventKey={`teacher-resource`}>Resource Allocation</Nav.Link>
+                            </Nav.Item>
                           </Nav>
 
-                          <Tab.Content className="mt-3 ms-2 me-2">
+                          <Tab.Content className="tw-w-full tw-h-[calc(100%-48px)] tw-overflow-hidden">
                             {teacherSchema.map((item: any, index: any) => (
-                              <Tab.Pane key={`tab-pane-${item.tab_key}`} eventKey={item.tab_key}>
+                              <Tab.Pane
+                                className="tw-p-2 tw-h-full tw-overflow-hidden tw-overflow-y-auto"
+                                key={`tab-pane-${item.tab_key}`}
+                                eventKey={item.tab_key}
+                              >
                                 {item.tab_data &&
                                   item.tab_data.length > 0 &&
                                   item.tab_data.map((tab_data: any, tab_index: any) => (
@@ -167,6 +178,12 @@ const UserDetailView = () => {
                                   ))}
                               </Tab.Pane>
                             ))}
+                            <Tab.Pane
+                              eventKey={`teacher-resource`}
+                              className="tw-w-full tw-h-full tw-overflow-hidden"
+                            >
+                              <TeacherResourceAllocation />
+                            </Tab.Pane>
                           </Tab.Content>
                         </Tab.Container>
                       </Container>

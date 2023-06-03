@@ -1,6 +1,8 @@
 import React from "react";
 // swr
 import useSWR from "swr";
+// react-bootstrap
+import { Image } from "react-bootstrap";
 // components
 import DashboardNav from "@components/dashboardnav";
 import UserSidebar from "@components/UserSidebar";
@@ -53,12 +55,23 @@ const StudentLayout = (props: any) => {
     initialUnratedSessions();
   }, []);
 
+  const [tokenDetails, setTokenDetails] = React.useState<any>();
+  React.useEffect(() => {
+    if (getAuthenticationToken()) {
+      let details: any = getAuthenticationToken();
+      details = details ? JSON.parse(details) : null;
+      if (details && details.info) {
+        setTokenDetails(details);
+      }
+    }
+  }, []);
+
   return (
     <>
       <div className="t-default-layout">
-        <div className="top-bar">
+        {/* <div className="top-bar ">
           <DashboardNav />
-        </div>
+        </div> */}
         <div className="bottom-bar">
           <div className={`t-side-bar ${globalState.sidebarToggle && "active"}`}>
             <UserSidebar />
@@ -66,7 +79,31 @@ const StudentLayout = (props: any) => {
           {props.assessmentSidebar === true ? (
             <>{props.children}</>
           ) : (
-            <div className="t-right-bar border">{props.children}</div>
+            <div className="t-right-bar border tw-bg-[#E7D3B5] tw-bg-opacity-30">
+              <>
+                <div className="mt-4 d-flex tw-w-full px-2">
+                  <div className="tw-ml-auto d-flex tw-gap-2 tw-items-center">
+                    <div className="tw-w-10 tw-h-10 tw-rounded-full ">
+                      <Image
+                        src={tokenDetails?.user?.photo ? tokenDetails?.user?.photo : "/user.png"}
+                        alt=""
+                        className="tw-w-10 tw-h-10 tw-rounded-full"
+                      />
+                    </div>
+
+                    <div>
+                      <strong className="tw-font-base">
+                        Welcome back {tokenDetails?.user?.username}
+                      </strong>
+                      <div className="tw-font-light tw-text-sm tw-text-right">
+                        Have a great learning!
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {props.children}
+              </>
+            </div>
           )}
         </div>
       </div>

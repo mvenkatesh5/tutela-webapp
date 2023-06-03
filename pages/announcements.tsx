@@ -8,6 +8,7 @@ import AdminLayout from "@layouts/adminLayout";
 // components
 import AnnouncementCreateView from "@components/admin/announcements/create";
 import AnnouncementEditView from "@components/admin/announcements/edit";
+import AnnouncementDeleteView from "@components/admin/announcements/delete";
 import Page from "@components/page";
 // api routes
 import { ANNOUNCEMENT_ENDPOINT } from "@constants/routes";
@@ -63,7 +64,10 @@ const AnnouncementView = () => {
                                 {data.url}
                               </a>
                             </p>
-                            <AnnouncementEditView data={data} />
+                            <div className="d-flex gap-2">
+                              <AnnouncementEditView data={data} />
+                              <AnnouncementDeleteView data={data} />
+                            </div>
                           </Card.Body>
                         </Card>
                       </Col>

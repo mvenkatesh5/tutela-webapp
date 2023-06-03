@@ -12,7 +12,7 @@ import { TimezonePicker } from "@blueprintjs/timezone";
 import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 // global constants
-import { dateTimeFormat } from "@constants/global";
+import { dateTimeFormat, datePreview } from "@constants/global";
 // layouts
 import AdminLayout from "@layouts/adminLayout";
 // components
@@ -46,10 +46,21 @@ const UserDetails = () => {
     APIUpdater(USER_WITH_ID_ENDPOINT(payload.id), payload)
       .then((res: any) => {
         mutate(
-          USER_ENDPOINT,
+          [
+            `${USER_PAGINATION_ENDPOINT}?per_page=${perPageCount}&cursor=${cursor}`,
+            `user-${cursor}`,
+          ],
           async (elements: any) => {
-            let index = elements.findIndex((mutateData: any) => mutateData.id === payload.id);
-            return elements.map((oldElement: any, i: any) => (i === index ? res : oldElement));
+            const currentElements = { ...elements };
+            if (currentElements.results && currentElements.results.length > 0) {
+              let index = currentElements.results.findIndex(
+                (mutateData: any) => mutateData.id === payload?.id
+              );
+              currentElements.results = currentElements.results.map((oldElement: any, i: Number) =>
+                i === index ? res : oldElement
+              );
+              return currentElements;
+            }
           },
           false
         );
@@ -76,20 +87,32 @@ const UserDetails = () => {
     description: META_DESCRIPTION,
   };
 
-  const updateUserActiveStatus = (userId: any, status: any) => {
-    const payload = {
+  const updateUserStatus = (userId: any, key: any, status: any) => {
+    let payload: any = {
       id: userId,
-      is_active: status,
     };
+
+    if (key === "is_active") payload = { ...payload, is_active: status };
+    if (key === "is_course_completed") payload = { ...payload, is_course_completed: status };
+
     UserUpdate(payload)
       .then((response: any) => {
         mutate(
-          USER_ENDPOINT,
+          [
+            `${USER_PAGINATION_ENDPOINT}?per_page=${perPageCount}&cursor=${cursor}`,
+            `user-${cursor}`,
+          ],
           async (elements: any) => {
-            let index = elements.findIndex((mutateData: any) => mutateData.id === response.id);
-            return elements.map((oldElement: any, i: Number) =>
-              i === index ? response : oldElement
-            );
+            const currentElements = { ...elements };
+            if (currentElements.results && currentElements.results.length > 0) {
+              let index = currentElements.results.findIndex(
+                (mutateData: any) => mutateData.id === userId
+              );
+              currentElements.results = currentElements.results.map((oldElement: any, i: Number) =>
+                i === index ? response : oldElement
+              );
+              return currentElements;
+            }
           },
           false
         );
@@ -242,6 +265,7 @@ const UserDetails = () => {
                               <th>Last Login</th>
                               <th>Last Logout</th>
                               <th>Status</th>
+                              <th>Course Status</th>
                               <th>Role</th>
                               <th>TimeZone</th>
                             </tr>
@@ -251,8 +275,8 @@ const UserDetails = () => {
                               if (validateIsTeacherRouter(users)) {
                                 return (
                                   <tr key={i}>
-                                    {!is_teacher && <td className="text-center">{i + 1}</td>}
-                                    <td className="heading">
+                                    {!is_teacher && <td className="text-center p-2">{i + 1}</td>}
+                                    <td className="heading p-2">
                                       <Link
                                         href={`/users/${
                                           users.role === 1 ? `${users.id}/teacher` : users.id
@@ -261,32 +285,49 @@ const UserDetails = () => {
                                         <a target="_blank">{users.first_name}</a>
                                       </Link>
                                     </td>
-                                    <td className="heading">{users.last_name}</td>
-                                    <td className="heading">{users.username}</td>
-                                    <td className="description">{users.email}</td>
-                                    <td className="description text-center">
-                                      {users.date_joined ? dateTimeFormat(users.date_joined) : "-"}
+                                    <td className="heading p-2">{users.last_name}</td>
+                                    <td className="heading p-2">{users.username}</td>
+                                    <td className="description p-2">{users.email}</td>
+                                    <td className="description p-2 text-center">
+                                      {users.date_joined ? datePreview(users.date_joined) : "-"}
                                     </td>
-                                    <td className="description text-center">
-                                      {users.last_login ? dateTimeFormat(users.last_login) : "-"}
+                                    <td className="description p-2 text-center">
+                                      {users?.last_active ? datePreview(users?.last_active) : "-"}
                                     </td>
-                                    <td className="description text-center">
-                                      {users.last_login ? dateTimeFormat(users.last_login) : "-"}
+                                    <td className="description p-2 text-center">
+                                      {users?.last_logout ? datePreview(users?.last_logout) : "-"}
                                     </td>
-                                    <td className="description text-center">
+                                    <td className="description p-2 text-center">
                                       <button
                                         type="button"
                                         className={`btn ${
                                           users.is_active ? "btn-danger" : "btn-success"
                                         } btn-sm w-100`}
                                         onClick={() =>
-                                          updateUserActiveStatus(users.id, !users.is_active)
+                                          updateUserStatus(users.id, "is_active", !users.is_active)
                                         }
                                       >
                                         {users.is_active ? "Deactivate" : "Activate"}
                                       </button>
                                     </td>
-                                    <td>
+                                    <td className="description p-2 text-center">
+                                      <button
+                                        type="button"
+                                        className={`btn ${
+                                          !users.is_course_completed ? "btn-danger" : "btn-success"
+                                        } btn-sm w-100`}
+                                        onClick={() =>
+                                          updateUserStatus(
+                                            users.id,
+                                            "is_course_completed",
+                                            !users.is_course_completed
+                                          )
+                                        }
+                                      >
+                                        {users.is_course_completed ? "Completed" : "Complete"}
+                                      </button>
+                                    </td>
+                                    <td className="description p-2">
                                       <Form.Group
                                         controlId="exampleForm.ControlSelect1"
                                         style={{ minWidth: "200px" }}
@@ -303,7 +344,7 @@ const UserDetails = () => {
                                         </Form.Control>
                                       </Form.Group>
                                     </td>
-                                    <td className="description">
+                                    <td className="description p-2">
                                       <TimezonePicker
                                         className="timezone-root"
                                         valueDisplayFormat="composite"

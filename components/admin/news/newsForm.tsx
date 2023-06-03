@@ -82,17 +82,19 @@ const NewsFormView = (props: any) => {
             </div>
           </>
         ) : (
-          <Button className="btn-sm" onClick={handleClick} disabled={uploadTimerToggle}>
-            {uploadTimerToggle ? `Uploading File ${uploadTimer}%` : "Upload Image"}
-          </Button>
+          <>
+            <Button className="btn-sm" onClick={handleClick} disabled={uploadTimerToggle}>
+              {uploadTimerToggle ? `Uploading File ${uploadTimer}%` : "Upload Image"}
+            </Button>
+            <Form.Control
+              ref={hiddenFileInput}
+              type="file"
+              onChange={readFile}
+              required={true}
+              style={{ display: "none" }}
+            />
+          </>
         )}
-        <Form.Control
-          ref={hiddenFileInput}
-          type="file"
-          onChange={readFile}
-          required={true}
-          style={{ display: "none" }}
-        />
       </Form.Group>
 
       <Form.Group className="mb-2">

@@ -11,6 +11,8 @@ import {
 } from "@styled-icons/material-rounded/";
 import { CircleFill } from "@styled-icons/bootstrap";
 import { HelpWithCircle } from "@styled-icons/entypo/HelpWithCircle";
+// api services
+import { SignOut } from "@lib/services/authenticationservice";
 // cookie
 import { logout, getAuthenticationToken } from "@lib/cookie";
 import PreFetchLink from "@components/PreFetchLink";
@@ -28,6 +30,13 @@ function DashboardNav() {
   }, []);
 
   const signOut = () => {
+    SignOut()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     logout();
   };
 

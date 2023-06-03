@@ -60,38 +60,42 @@ const NotesView = () => {
         </Head>
         <StudentLayout>
           <Container className="pt-3 pb-3">
-            <h3 className="mb-4">Notes</h3>
-            {!notes && !notesError ? (
-              <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
-            ) : (
-              <div>
-                {notes && notes.length === 0 ? (
-                  <div className="text-secondary mt-5 mb-5 text-center">
-                    No notes are available.
-                  </div>
+            <div className="tw-bg-[#f8f8f8] p-4 tw-rounded-lg ">
+              <h3 className="mb-4">Notes</h3>
+              <div className="tw-bg-white p-4 tw-rounded-lg">
+                {!notes && !notesError ? (
+                  <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
                 ) : (
-                  <Row>
-                    {notes.map((note: any, notesIndex: number) => (
-                      <Col md={3} key={`note-title-${notesIndex}`} className="mb-3">
-                        <div className="card">
-                          <div className="card-body">
-                            <p>{note.text}</p>
-                            <div className="d-flex mt-2">
-                              <div>
-                                <NotesEdit data={note} user={currentUser} />
-                              </div>
-                              <div className="ms-2">
-                                <NotesDelete data={note} user={currentUser} />
+                  <div>
+                    {notes && notes.length === 0 ? (
+                      <div className="text-secondary mt-5 mb-5 text-center">
+                        No notes are available.
+                      </div>
+                    ) : (
+                      <Row>
+                        {notes.map((note: any, notesIndex: number) => (
+                          <Col md={3} key={`note-title-${notesIndex}`} className="mb-3">
+                            <div className="card">
+                              <div className="card-body">
+                                <p>{note.text}</p>
+                                <div className="d-flex mt-2">
+                                  <div>
+                                    <NotesEdit data={note} user={currentUser} />
+                                  </div>
+                                  <div className="ms-2">
+                                    <NotesDelete data={note} user={currentUser} />
+                                  </div>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
-                      </Col>
-                    ))}
-                  </Row>
+                          </Col>
+                        ))}
+                      </Row>
+                    )}
+                  </div>
                 )}
               </div>
-            )}
+            </div>
           </Container>
         </StudentLayout>
       </div>

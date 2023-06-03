@@ -3,11 +3,11 @@ import React from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 // react bootstrap
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { OverlayTrigger, Tooltip, Image } from "react-bootstrap";
 // material icons
 import { Dashboard } from "@styled-icons/boxicons-solid/Dashboard";
 import { ClipboardNotes } from "@styled-icons/foundation/ClipboardNotes";
-import { Calendar, User } from "@styled-icons/boxicons-regular/";
+import { User } from "@styled-icons/boxicons-regular/";
 import { ArchiveOut } from "@styled-icons/boxicons-regular/ArchiveOut";
 import { Folder } from "@styled-icons/boxicons-regular/Folder";
 import { MeetingRoom } from "@styled-icons/material/MeetingRoom";
@@ -19,6 +19,12 @@ import { DocumentReport } from "@styled-icons/heroicons-outline/DocumentReport";
 import { CollapseLeft } from "@styled-icons/open-iconic/CollapseLeft";
 import { ExpandRight } from "@styled-icons/open-iconic/ExpandRight";
 import { DocumentBulletList } from "@styled-icons/fluentui-system-filled/DocumentBulletList";
+import { UserPin } from "@styled-icons/boxicons-regular/UserPin";
+import { CommentDiscussion } from "@styled-icons/octicons/CommentDiscussion";
+import { Books } from "@styled-icons/icomoon/Books";
+import { SpeakerNotes } from "@styled-icons/material-twotone/SpeakerNotes";
+import { Calendar } from "@styled-icons/boxicons-regular/Calendar";
+import { ChatBubblesQuestion } from "@styled-icons/fluentui-system-regular/ChatBubblesQuestion";
 // cookie
 import { getAuthenticationToken } from "@lib/cookie";
 // global context provider
@@ -50,6 +56,20 @@ const UserSidebar = () => {
   return (
     <>
       {tokenDetails && tokenDetails.user && tokenDetails.user.role === 0 && (
+        <>
+          {!globalState.sidebarToggle ? (
+            <div className="tw-bg-[#11293a] p-4 px-2 d-flex tw-justify-center">
+              <Image src="/logo.svg" alt="" className="tw-w-[100px]" />
+            </div>
+          ) : (
+            <div className="navbar-brand- tw-bg-[#11293a] p-4 px-2 d-flex tw-justify-center">
+              <Image src="/logo-small.svg" alt="" className="tw-w-[40px]" />
+            </div>
+          )}
+        </>
+      )}
+
+      {tokenDetails && tokenDetails.user && tokenDetails.user.role === 0 && (
         <Link href="/student">
           <a>
             <OverlayTrigger
@@ -59,7 +79,10 @@ const UserSidebar = () => {
             >
               <div
                 className={
-                  "sidebar-item-container " + (router.pathname.includes("/student") ? "active" : "")
+                  "sidebar-item-container tw-mt-2 " +
+                  (router.pathname.includes("/student")
+                    ? "tw-bg-[#C9A060] tw-rounded-r-lg tw-mr-2"
+                    : "tw-rounded-r-lg tw-mr-2")
                 }
               >
                 <div className="sidebar-icon">
@@ -82,11 +105,14 @@ const UserSidebar = () => {
             >
               <div
                 className={
-                  "sidebar-item-container " + (router.pathname.includes("/profile") ? "active" : "")
+                  "sidebar-item-container " +
+                  (router.pathname.includes("/profile")
+                    ? "tw-bg-[#C9A060] tw-rounded-r-lg tw-mr-2"
+                    : "tw-rounded-r-lg tw-mr-2")
                 }
               >
                 <div className="sidebar-icon">
-                  <User />
+                  <UserPin />
                 </div>
                 <div className="sidebar-label">My Profile</div>
               </div>
@@ -105,11 +131,13 @@ const UserSidebar = () => {
               <div
                 className={
                   "sidebar-item-container " +
-                  (router.pathname.includes("/request-session") ? "active" : "")
+                  (router.pathname.includes("/request-session")
+                    ? "tw-bg-[#C9A060] tw-rounded-r-lg tw-mr-2"
+                    : "tw-rounded-r-lg tw-mr-2")
                 }
               >
                 <div className="sidebar-icon">
-                  <ArchiveOut />
+                  <CommentDiscussion />
                 </div>
                 <div className="sidebar-label">Request Session</div>
               </div>
@@ -128,11 +156,13 @@ const UserSidebar = () => {
               <div
                 className={
                   "sidebar-item-container " +
-                  (router.pathname.includes("/user-resources") ? "active" : "")
+                  (router.pathname.includes("/user-resources")
+                    ? "tw-bg-[#C9A060] tw-rounded-r-lg tw-mr-2"
+                    : "tw-rounded-r-lg tw-mr-2")
                 }
               >
                 <div className="sidebar-icon">
-                  <Folder />
+                  <Books />
                 </div>
                 <div className="sidebar-label">My Resources</div>
               </div>
@@ -150,11 +180,14 @@ const UserSidebar = () => {
             >
               <div
                 className={
-                  "sidebar-item-container " + (router.pathname.includes("/notes") ? "active" : "")
+                  "sidebar-item-container " +
+                  (router.pathname.includes("/notes")
+                    ? "tw-bg-[#C9A060] tw-rounded-r-lg tw-mr-2"
+                    : "tw-rounded-r-lg tw-mr-2")
                 }
               >
                 <div className="sidebar-icon">
-                  <ClipboardNotes />
+                  <SpeakerNotes />
                 </div>
                 <div className="sidebar-label">My Notes</div>
               </div>
@@ -172,7 +205,7 @@ const UserSidebar = () => {
             >
               <div
                 className={
-                  "sidebar-item-container " + (router.pathname.includes("/videos") ? "active" : "")
+                  "sidebar-item-container " + (router.pathname.includes("/videos") ? "tw-bg-[#C9A060] tw-rounded-r-lg tw-mr-2" : "tw-rounded-r-lg tw-mr-2")
                 }
               >
                 <div className="sidebar-icon">
@@ -197,7 +230,9 @@ const UserSidebar = () => {
               <div
                 className={
                   "sidebar-item-container " +
-                  (router.pathname.includes("/dashboard") ? "active" : "")
+                  (router.pathname.includes("/dashboard")
+                    ? "tw-bg-[#C9A060] tw-rounded-r-lg tw-mr-2"
+                    : "tw-rounded-r-lg tw-mr-2")
                 }
               >
                 <div className="sidebar-icon">
@@ -220,7 +255,9 @@ const UserSidebar = () => {
               <div
                 className={
                   "sidebar-item-container " +
-                  (router.pathname.includes("/calendar") ? "active" : "")
+                  (router.pathname.includes("/calendar")
+                    ? "tw-bg-[#C9A060] tw-rounded-r-lg tw-mr-2"
+                    : "tw-rounded-r-lg tw-mr-2")
                 }
               >
                 <div className="sidebar-icon">
@@ -244,7 +281,9 @@ const UserSidebar = () => {
               <div
                 className={
                   "sidebar-item-container " +
-                  (router.pathname.includes("/teacher-profile") ? "active" : "")
+                  (router.pathname.includes("/teacher-profile")
+                    ? "tw-bg-[#C9A060] tw-rounded-r-lg tw-mr-2"
+                    : "tw-rounded-r-lg tw-mr-2")
                 }
               >
                 <div className="sidebar-icon">
@@ -268,7 +307,10 @@ const UserSidebar = () => {
             >
               <div
                 className={
-                  "sidebar-item-container " + (router.pathname.includes("/reports") ? "active" : "")
+                  "sidebar-item-container " +
+                  (router.pathname.includes("/reports")
+                    ? "tw-bg-[#C9A060] tw-rounded-r-lg tw-mr-2"
+                    : "tw-rounded-r-lg tw-mr-2")
                 }
               >
                 <div className="sidebar-icon">
@@ -290,7 +332,7 @@ const UserSidebar = () => {
             >
               <div
                 className={
-                  "sidebar-item-container " + (router.pathname.includes("/adverts") ? "active" : "")
+                  "sidebar-item-container " + (router.pathname.includes("/adverts") ? "tw-bg-[#C9A060] tw-rounded-r-lg tw-mr-2" : "")
                 }
               >
                 <div className="sidebar-icon">
@@ -313,7 +355,9 @@ const UserSidebar = () => {
               <div
                 className={
                   "sidebar-item-container " +
-                  (router.pathname.includes("/users?t=1") ? "active" : "")
+                  (router.pathname.includes("/users?t=1")
+                    ? "tw-bg-[#C9A060] tw-rounded-r-lg tw-mr-2"
+                    : "tw-rounded-r-lg tw-mr-2")
                 }
               >
                 <div className="sidebar-icon">
@@ -336,7 +380,9 @@ const UserSidebar = () => {
               <div
                 className={
                   "sidebar-item-container " +
-                  (router.pathname.includes("/quick-meetings") ? "active" : "")
+                  (router.pathname.includes("/quick-meetings")
+                    ? "tw-bg-[#C9A060] tw-rounded-r-lg tw-mr-2"
+                    : "tw-rounded-r-lg tw-mr-2")
                 }
               >
                 <div className="sidebar-icon">
@@ -359,7 +405,9 @@ const UserSidebar = () => {
               <div
                 className={
                   "sidebar-item-container " +
-                  (router.pathname.includes("/admin/messages") ? "active" : "")
+                  (router.pathname.includes("/admin/messages")
+                    ? "tw-bg-[#C9A060] tw-rounded-r-lg tw-mr-2"
+                    : "tw-rounded-r-lg tw-mr-2")
                 }
               >
                 <div className="sidebar-icon">
@@ -382,7 +430,9 @@ const UserSidebar = () => {
               <div
                 className={
                   "sidebar-item-container " +
-                  (router.pathname.includes("/resources") ? "active" : "")
+                  (router.pathname.includes("/resources")
+                    ? "tw-bg-[#C9A060] tw-rounded-r-lg tw-mr-2"
+                    : "tw-rounded-r-lg tw-mr-2")
                 }
               >
                 <div className="sidebar-icon">
@@ -405,7 +455,9 @@ const UserSidebar = () => {
               <div
                 className={
                   "sidebar-item-container " +
-                  (router.pathname.includes("/resources") ? "active" : "")
+                  (router.pathname.includes("/resources")
+                    ? "tw-bg-[#C9A060] tw-rounded-r-lg tw-mr-2"
+                    : "tw-rounded-r-lg tw-mr-2")
                 }
               >
                 <div className="sidebar-icon">
@@ -430,7 +482,9 @@ const UserSidebar = () => {
               <div
                 className={
                   "sidebar-item-container " +
-                  (router.pathname.includes("/parent/dashboard") ? "active" : "")
+                  (router.pathname.includes("/parent/dashboard")
+                    ? "tw-bg-[#C9A060] tw-rounded-r-lg tw-mr-2"
+                    : "tw-rounded-r-lg tw-mr-2")
                 }
               >
                 <div className="sidebar-icon">
@@ -452,11 +506,14 @@ const UserSidebar = () => {
             >
               <div
                 className={
-                  "sidebar-item-container " + (router.pathname.includes("/doubts") ? "active" : "")
+                  "sidebar-item-container " +
+                  (router.pathname.includes("/doubts")
+                    ? "tw-bg-[#C9A060] tw-rounded-r-lg tw-mr-2"
+                    : "tw-rounded-r-lg tw-mr-2")
                 }
               >
                 <div className="sidebar-icon">
-                  <DocumentBulletList />
+                  <ChatBubblesQuestion />
                 </div>
                 <div className="sidebar-label">Doubts</div>
               </div>
