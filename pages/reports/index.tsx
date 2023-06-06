@@ -59,11 +59,13 @@ const TeacherReport = () => {
     tabKey && currentUser && currentUser.user && currentUser.user.id
       ? [MENTOR_REPORT_ENDPOINT, tabKey]
       : null,
-    (url) =>
-      APIPusherWithData(url, {
-        mentor_id: currentUser.user.id,
-        publish: tabKey === "published" ? true : false,
-      }),
+    tabKey && currentUser && currentUser.user && currentUser.user.id
+      ? (url) =>
+          APIPusherWithData(url[0], {
+            mentor_id: currentUser.user.id,
+            publish: tabKey === "published" ? true : false,
+          })
+      : null,
     { refreshInterval: 0 }
   );
 
