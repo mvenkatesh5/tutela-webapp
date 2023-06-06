@@ -18,8 +18,6 @@ import CalenderDayView from "@components/admin/calenderviews/dayview";
 import CalenderWeekView from "@components/admin/calenderviews/weekview";
 import CalenderMonthView from "@components/admin/calenderviews/monthview";
 import UserSelectCalendarView from "@components/UserSelectDropdown";
-import { ChevronLeft, ChevronRight } from "@styled-icons/boxicons-regular/";
-
 // global imports
 import {
   calendarMonths,
@@ -66,7 +64,7 @@ const CalendarView = () => {
     }
   }, []);
 
-  const renderViews = ["month", "week", "day"];
+  const renderViews = ["day", "week", "month"];
   const [currentRenderView, setCurrentRenderView] = React.useState("month");
   const handleCurrentRenderView = (value: any) => {
     setCurrentRenderView(value);
@@ -176,30 +174,27 @@ const CalendarView = () => {
         <AdminLayout>
           <div className="right-layout-calender">
             <div className="calender-root-wrapper">
-              {currentRenderView !== "month" && (
-                <>
-                  <div className="left-wrapper">
-                    {userRole && (
-                      <CalenderView
-                        renderView={currentRenderView}
-                        currentDate={currentDate}
-                        handleData={handleCurrentDate}
-                        role={userRole}
+              {currentRenderView != "month" && (
+                <div className="left-wrapper">
+                  {userRole && (
+                    <CalenderView
+                      renderView={currentRenderView}
+                      currentDate={currentDate}
+                      handleData={handleCurrentDate}
+                      role={userRole}
+                    />
+                  )}
+                  <div>
+                    {userList && userList.length > 0 && userRole === "admin" && (
+                      <UserSelectCalendarView
+                        data={currentSelectUser}
+                        users={userList}
+                        handleData={handleCurrentSelectUser}
                       />
                     )}
-                    <div>
-                      {userList && userList.length > 0 && userRole === "admin" && (
-                        <UserSelectCalendarView
-                          data={currentSelectUser}
-                          users={userList}
-                          handleData={handleCurrentSelectUser}
-                        />
-                      )}
-                    </div>
                   </div>
-                </>
+                </div>
               )}
-
               <div className="right-wrapper">
                 <div className="border-bottom pb-2 calender-right-header">
                   <div className="user-view-calender dropdown-wrapper p-0 calendar">
@@ -224,14 +219,6 @@ const CalendarView = () => {
                   <div style={{ marginRight: "auto" }} className="today-date">
                     {currentDate && <div className="description">{renderDay()}</div>}
                     {currentDate && <div className="giant-heading">{renderDate()}</div>}
-                  </div>
-                  <div className="tw-flex tw-gap-4">
-                    <button onClick={() => {}} className="tw-border-none tw-py-0.5">
-                      <ChevronLeft width={25} />
-                    </button>
-                    <button onClick={() => {}} className="tw-border-none tw-py-0.5">
-                      <ChevronRight width={25} />
-                    </button>
                   </div>
                   <div className="calendar-type">
                     <div className="d-flex flex-row align-items-center calender-render-view">

@@ -12,7 +12,7 @@ import { META_DESCRIPTION } from "@constants/page";
 // layout
 import AdminLayout from "@layouts/adminLayout";
 // components
-import { DoubtsCard, DoubtConversationView } from "@components/doubts-v2";
+import { DoubtsCard, DoubtConversationView, AskDoubtModal } from "@components/doubts-v2";
 // services
 import { DoubtsV2Service, DoubtsRepliesV2Service } from "@lib/services/doubts_v2.service";
 // cookie
@@ -54,7 +54,7 @@ const DoubtsV2Render = () => {
   );
 
   const { data: doubtsConversation, error: doubtsConversationError } = useSWR(
-    doubt_id ? `DOUBTS_V2_CONVERSATION` : null,
+    doubt_id ? `DOUBTS_V2_CONVERSATION_${doubt_id}` : null,
     doubt_id ? () => DoubtsRepliesV2Service.getReplies(doubt_id) : null
   );
 
@@ -66,9 +66,11 @@ const DoubtsV2Render = () => {
             <div className="tw-border-0 tw-border-b tw-border-gray-300 tw-border-solid tw-flex-shrink-0 tw-w-full tw-flex tw-justify-between tw-items-center tw-p-2 tw-px-3">
               <div className="tw-font-medium tw-text-xl">Doubts</div>
               <div>
-                <Button size="sm" variant="outline-primary">
-                  Ask Doubt
-                </Button>
+                <AskDoubtModal>
+                  <Button size="sm" variant="outline-primary">
+                    Ask Doubt
+                  </Button>
+                </AskDoubtModal>
               </div>
             </div>
             <div className="tw-relative tw-w-full tw-h-full tw-flex tw-overflow-hidden">

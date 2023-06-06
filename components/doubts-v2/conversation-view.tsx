@@ -1,40 +1,49 @@
 import React from "react";
 // react bootstrap
 import { Image } from "react-bootstrap";
+// components
+import { ImagePreview } from "@components/image-preview";
+import { DoubtConversationEditor } from "./conversation-editor";
 
 export const DoubtConversationView: React.FC<any> = ({ conversation }) => {
-  console.log("conversation", conversation);
+  const [previewImages, setPreviewImages] = React.useState<string[] | null>(null);
+  const handlePreviewImages = (data: string[] | null) => {
+    setPreviewImages(() => data);
+  };
+
   return (
-    <div className="tw-w-full tw-h-full tw-relative tw-flex tw-flex-col tw-overflow-hidden">
-      <div className="tw-flex-shrink-0 tw-w-full tw-p-2">
-        <div className="tw-font-medium">{conversation?.text}</div>
-        <div className="tw-flex tw-gap-2 tw-pt-1">
-          {conversation?.attachments &&
-            conversation?.attachments.length > 0 &&
-            conversation?.attachments.map((attachment: string) => (
-              <div
-                key={attachment}
-                className="tw-w-[80px] tw-h-[80px] tw-rounded-sm tw-overflow-hidden tw-bg-gray-100 tw-cursor-pointer"
-              >
-                <Image
-                  src={attachment}
-                  alt={attachment}
-                  className="tw-object-center tw-object-contain tw-w-full tw-h-full"
-                />
-              </div>
-            ))}
+    <>
+      <div className="tw-w-full tw-h-full tw-relative tw-flex tw-flex-col tw-overflow-hidden">
+        <div className="tw-flex-shrink-0 tw-w-full tw-p-2">
+          <div className="tw-font-medium">{conversation?.text}</div>
+          {conversation?.attachments && conversation?.attachments.length > 0 && (
+            <div className="tw-flex tw-gap-2 tw-pt-1">
+              {conversation?.attachments.map((attachment: string) => (
+                <div
+                  key={attachment}
+                  className="tw-w-[80px] tw-h-[80px] tw-rounded-sm tw-overflow-hidden tw-bg-gray-100 tw-cursor-pointer"
+                  onClick={() => handlePreviewImages(conversation?.attachments)}
+                >
+                  <Image
+                    src={attachment}
+                    alt={attachment}
+                    className="tw-object-center tw-object-contain tw-w-full tw-h-full"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-        <div className="tw-text-sm tw-pt-2 tw-space-y-1">
-          <div className="tw-text-gray-600">
-            by:{" "}
-            <span className="tw-font-medium tw-text-black">
-              {conversation?.user?.first_name} {conversation?.user?.last_name}
-            </span>
-          </div>
-        </div>
+
+        {/* rendering previous messages */}
+        <div className="tw-w-full tw-h-full tw-border-0 tw-border-t tw-border-b tw-border-solid tw-border-gray-300 tw-p-2"></div>
+
+        {/* editor */}
+        <DoubtConversationEditor />
       </div>
-      <div className="tw-w-full tw-h-full"></div>
-      <div className="tw-flex-shrink-0 tw-w-full"></div>
-    </div>
+      {previewImages && previewImages.length > 0 && (
+        <ImagePreview images={previewImages} handleImages={handlePreviewImages} />
+      )}
+    </>
   );
 };
