@@ -34,7 +34,8 @@ const UserRequestSession = () => {
 
   const { data: requestSessions, error: requestSessionsError } = useSWR(
     currentState ? [REQUEST_SESSION_WITH_STATE_ENDPOINT(currentState), currentState] : null,
-    (url) => APIFetcher(url)
+    currentState ? (url) => APIFetcher(url[0]) : null,
+    { refreshInterval: 0 }
   );
 
   const { data: userList, error: userListError } = useSWR(USER_ENDPOINT, APIFetcher);

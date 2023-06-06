@@ -156,7 +156,7 @@ const SessionDetailView = () => {
 
   const { data: sessionDetail, error: sessionDetailError } = useSWR(
     session_id ? [SESSION_ASSET_WITH_SESSION_ID_ENDPOINT(session_id), session_id] : null,
-    (url) => APIFetcher(url),
+    session_id ? (url) => APIFetcher(url[0]) : null,
     { refreshInterval: 0 }
   );
 
