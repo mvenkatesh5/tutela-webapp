@@ -32,24 +32,21 @@ export const DoubtConversationEditor: React.FC<any> = () => {
 
   const createConversation = () => {
     const payload = {
-      product: formData.product,
       text: formData.text,
       attachments: formData.attachments,
-      kind: formData.kind,
     };
 
-    DoubtsV2Service.create(payload)
-      .then((response) => {
-        console.log("response", response);
-        setButtonLoader(false);
-        if (payload.kind === "log") mutate("DOUBTS_V2_PERSONAL", false);
-        else mutate("DOUBTS_V2_PUBLIC", false);
-        handleClose();
-      })
-      .catch((error) => {
-        console.log(error);
-        setButtonLoader(false);
-      });
+    // DoubtsV2Service.create(payload)
+    //   .then((response) => {
+    //     console.log("response", response);
+    //     setButtonLoader(false);
+    //     if (payload.kind === "log") mutate("DOUBTS_V2_PERSONAL", false);
+    //     else mutate("DOUBTS_V2_PUBLIC", false);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     setButtonLoader(false);
+    //   });
   };
 
   return (
