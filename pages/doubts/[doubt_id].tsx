@@ -63,7 +63,8 @@ const DoubtsPageDetail = () => {
 
   const { data: doubtWithReplies, error: doubtWithRepliesError } = useSWR(
     doubt_id ? [DOUBTS_WITH_REPLIES_ENDPOINT(doubt_id), doubt_id] : null,
-    APIFetcher
+    doubt_id ? (url) => APIFetcher(url[0]) : null,
+    { refreshInterval: 0 }
   );
 
   const { data: users, error: usersError } = useSWR(USER_ENDPOINT, APIFetcher);
