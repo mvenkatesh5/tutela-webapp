@@ -5,11 +5,18 @@ import { Image } from "react-bootstrap";
 import { ImagePreview } from "@components/image-preview";
 import { DoubtConversationEditor } from "./conversation-editor";
 
-export const DoubtConversationView: React.FC<any> = ({ conversation }) => {
+export const DoubtConversationView: React.FC<any> = ({ conversation, doubt_id, user }) => {
   const [previewImages, setPreviewImages] = React.useState<string[] | null>(null);
   const handlePreviewImages = (data: string[] | null) => {
     setPreviewImages(() => data);
   };
+
+  React.useEffect(() => {
+    let scrollView = document.getElementById("doubt-conversation-scroll-into-view");
+    if (scrollView) {
+      scrollView.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+  }, [conversation]);
 
   return (
     <>
@@ -36,10 +43,36 @@ export const DoubtConversationView: React.FC<any> = ({ conversation }) => {
         </div>
 
         {/* rendering previous messages */}
-        <div className="tw-w-full tw-h-full tw-border-0 tw-border-t tw-border-b tw-border-solid tw-border-gray-300 tw-p-2"></div>
+        <div className="tw-w-full tw-h-full tw-border-0 tw-border-t tw-border-b tw-border-solid tw-border-gray-300 tw-p-2 tw-overflow-hidden tw-overflow-y-auto">
+          {conversation?.responses && conversation?.responses.length > 0 ? (
+            <div className="tw-space-y-3" id="doubt-conversation-scroll-into-view">
+              {conversation?.responses.map((_response: any) => (
+                <div key={_response?.id} className="tw-flex">
+                  <div
+                    className={`tw-px-3 tw-py-1 tw-rounded tw-bg-gray-100 tw-bg-opacity-60 ${
+                      _response?.user?.id === user?.id ? `tw-ml-auto` : ``
+                    }`}
+                  >
+                    <div>{_response?.text}</div>
+                    <div></div>
+                    <div className="tw-text-gray-600 tw-text-sm tw-pt-1">
+                      by:{" "}
+                      <span className="tw-font-medium tw-text-black">
+                        {_response?.user?.first_name} {_response?.user?.last_name}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="tw-text-center tw-py-10 tw-text-sm">No Comments available.</div>
+          )}
+          <div></div>
+        </div>
 
         {/* editor */}
-        <DoubtConversationEditor />
+        <DoubtConversationEditor doubt_id={doubt_id} />
       </div>
       {previewImages && previewImages.length > 0 && (
         <ImagePreview images={previewImages} handleImages={handlePreviewImages} />

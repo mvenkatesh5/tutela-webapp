@@ -54,14 +54,12 @@ export const AskDoubtModal = (props: any) => {
 
     DoubtsV2Service.create(payload)
       .then((response) => {
-        console.log("response", response);
         setButtonLoader(false);
         if (payload.kind === "log") mutate("DOUBTS_V2_PERSONAL", false);
         else mutate("DOUBTS_V2_PUBLIC", false);
         handleClose();
       })
       .catch((error) => {
-        console.log(error);
         setButtonLoader(false);
       });
   };

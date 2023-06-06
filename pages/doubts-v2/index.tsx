@@ -141,7 +141,11 @@ const DoubtsV2Render = () => {
                 <div className="tw-border-0 tw-border-solid tw-border-red-500 tw-w-full tw-h-full">
                   {doubtsConversation && !doubtsConversationError ? (
                     <>
-                      <DoubtConversationView conversation={doubtsConversation} />
+                      <DoubtConversationView
+                        conversation={doubtsConversation}
+                        doubt_id={doubt_id}
+                        user={currentUser}
+                      />
                     </>
                   ) : (
                     <div className="tw-text-sm tw-text-center tw-py-6 tw-text-gray-500">
