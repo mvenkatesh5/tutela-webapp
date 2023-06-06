@@ -197,7 +197,8 @@ const DoubtsPage = () => {
     currentRenderQuery
       ? [DOUBTS_WITH_QUERY_ENDPOINT(currentRenderQuery), currentRenderQuery]
       : null,
-    APIFetcher
+    currentRenderQuery ? (url) => APIFetcher(url[0]) : null,
+    { refreshInterval: 0 }
   );
 
   const { data: users, error: usersError } = useSWR(USER_ENDPOINT, APIFetcher);

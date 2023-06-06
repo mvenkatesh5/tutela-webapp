@@ -168,7 +168,7 @@ const UserDetailView = () => {
 
   const { data: userDetailList, error: userDetailListError } = useSWR(
     user_id ? [USER_WITH_ID_ENDPOINT(user_id), user_id] : null,
-    (url) => APIFetcher(url),
+    user_id ? (url) => APIFetcher(url[0]) : null,
     { refreshInterval: 0 }
   );
 

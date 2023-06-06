@@ -6,9 +6,9 @@ import { S3_ENDPOINT } from "@constants/routes";
 export const APIFetcher = async (url: any) => {
   try {
     const response = await axios.get(url);
+
     return response.data;
   } catch (error: any) {
-    console.log(error);
     throw error.response?.data;
   }
 };

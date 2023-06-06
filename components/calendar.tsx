@@ -152,7 +152,7 @@ const Calendar = (props: any) => {
             <ChevronLeft />
           </div>
           <div className="middle text-center" onClick={() => updateTodayDate(new Date())}>
-            {renderDateTitle && renderDateTitle} 
+            {renderDateTitle && renderDateTitle}
           </div>
           <div className="right" onClick={updateNextDate}>
             <ChevronRight />

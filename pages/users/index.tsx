@@ -162,7 +162,8 @@ const UserDetails = () => {
     cursor
       ? [`${USER_PAGINATION_ENDPOINT}?per_page=${perPageCount}&cursor=${cursor}`, `user-${cursor}`]
       : null,
-    APIFetcher
+    cursor ? (url) => APIFetcher(url[0]) : null,
+    { refreshInterval: 0 }
   );
   React.useEffect(() => {
     if (userPaginationList) {

@@ -62,7 +62,10 @@ export const DoubtsRepliesV2Service = {
   },
   create: async (data: any) => {
     try {
-      const response = await axios.post(V2_COMMENTS_WITH_DOUBT_ID_ENDPOINT(data?.doubt), data);
+      const response = await axios.post(
+        V2_COMMENTS_WITH_DOUBT_ID_ENDPOINT(data?.doubt),
+        data?.data
+      );
       return response.data;
     } catch (error: any) {
       throw error.response.data;

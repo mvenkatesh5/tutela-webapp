@@ -1,7 +1,7 @@
 // Base URLS
 export const BASE_PROD = "https://tutelaotlp.herokuapp.com/";
 export const BASE_STAGING = "https://tutelaotlp-staging.herokuapp.com/";
-export const BASE_LOCAL = "https://tutelaotlp-staging.herokuapp.com/";
+export const BASE_LOCAL = "http://localhost:8000/";
 export const EDISON_ASSESSMENT_BASE_URL = `https://api.edison.cx/`;
 
 // default urls

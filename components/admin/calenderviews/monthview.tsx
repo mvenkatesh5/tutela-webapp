@@ -173,19 +173,18 @@ const CalendarMonthView = (props: any) => {
   return (
     <div>
       <div className="calendar-root shadow">
-        {props.bulkPreview && (
-          <div className="calendar-navigation">
-            <div className="left" onClick={updatePreviousDate}>
-              <ChevronLeft />
-            </div>
-            <div className="middle text-center" onClick={() => updateTodayDate(new Date())}>
-              {renderDateTitle && renderDateTitle}
-            </div>
-            <div className="right" onClick={updateNextDate}>
-              <ChevronRight />
-            </div>
+        {/* {props.bulkPreview && <></>} */}
+        <div className="calendar-navigation">
+          <div className="left" onClick={updatePreviousDate}>
+            <ChevronLeft />
           </div>
-        )}
+          <div className="middle text-center" onClick={() => updateTodayDate(new Date())}>
+            {renderDateTitle && renderDateTitle}
+          </div>
+          <div className="right" onClick={updateNextDate}>
+            <ChevronRight />
+          </div>
+        </div>
         {/* days */}
         <div className="calendar-header">
           {calendarDays &&
