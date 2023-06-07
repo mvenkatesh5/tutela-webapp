@@ -49,12 +49,12 @@ const ResourceSubmissions: NextPage = () => {
     resource_node_id && users
       ? [RESOURCE_ASSESSMENT_USER_ALLOCATION(resource_node_id), resource_node_id]
       : null,
-    (url) => APIFetcher(url),
+    resource_node_id && users ? (url) => APIFetcher(url[0]) : null,
     { refreshInterval: 0 }
   );
   const { data: resourceDetail, error: resourceDetailError } = useSWR(
     resource_node_id ? [RESOURCE_NODE_ENDPOINT(resource_node_id), resource_node_id] : null,
-    (url) => APIFetcher(url),
+    resource_node_id ? (url) => APIFetcher(url[0]) : null,
     { refreshInterval: 0, revalidateOnFocus: false }
   );
 

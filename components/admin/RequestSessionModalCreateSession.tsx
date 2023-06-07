@@ -150,7 +150,7 @@ const SessionCreateView = (props: any) => {
     sessionData && sessionData.product_selected
       ? [PRODUCT_USER_ENDPOINT(sessionData.product_selected), sessionData.product_selected]
       : null,
-    APIFetcher,
+    sessionData && sessionData.product_selected ? (url) => APIFetcher(url[0]) : null,
     { refreshInterval: 0 }
   );
 

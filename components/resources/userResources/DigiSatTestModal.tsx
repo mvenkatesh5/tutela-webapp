@@ -27,7 +27,7 @@ const DigiSatTestModal: React.FC<IAssessmentReview> = ({ treeId, modal, setModal
 
   const { data: resourceUserAssessment, error: resourceUserAssessmentError } = useSWR(
     treeId ? [RESOURCE_ASSESSMENT_USER_DETAILS(treeId), treeId] : null,
-    (url) => APIFetcher(url),
+    treeId ? (url) => APIFetcher(url[0]) : null,
     { refreshInterval: 0, revalidateOnFocus: false }
   );
 

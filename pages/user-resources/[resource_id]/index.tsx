@@ -79,7 +79,9 @@ const ResourceTreeView = () => {
     notesToggle && notesToggle.id && resourceNode && resourceNode.id
       ? [USER_NOTES_ENDPOINT(resourceNode.id, notesToggle.id), resourceNode.id, notesToggle.id]
       : null,
-    (url) => APIFetcher(url),
+    notesToggle && notesToggle.id && resourceNode && resourceNode.id
+      ? (url) => APIFetcher(url[0])
+      : null,
     { refreshInterval: 0 }
   );
 

@@ -17,7 +17,7 @@ const ResourceCard = ({ data }: any) => {
   // render
   const { data: productCategory, error: productCategoryError } = useSWR(
     data ? [RESOURCE_WITH_NODE_ENDPOINT(data), data] : null,
-    (url) => APIFetcher(url),
+    data ? (url) => APIFetcher(url[0]) : null,
     { refreshInterval: 0 }
   );
 

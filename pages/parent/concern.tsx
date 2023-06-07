@@ -54,7 +54,7 @@ const ConcernPage = () => {
 
   const { data: concernComments, error: concernCommentsError } = useSWR(
     concern_id ? [COMMENT_WITH_CONCERN_ID_ENDPOINT(concern_id), concern_id] : null,
-    APIFetcher,
+    concern_id ? (url) => APIFetcher(url[0]) : null,
     {
       refreshInterval: 0,
     }

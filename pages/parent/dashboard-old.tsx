@@ -118,13 +118,12 @@ function ParentDashboard() {
     currentSelectedUser && currentSelectedUser
       ? [USER_PRODUCT_RESOURCE_VIEW_ENDPOINT(currentSelectedUser), currentSelectedUser]
       : null,
-    (url) => APIFetcher(url)
+    currentSelectedUser && currentSelectedUser ? (url) => APIFetcher(url[0]) : null
   );
 
   const { data: tests, error: testsError } = useSWR(TESTS_ENDPOINT, APIFetcher, {
     refreshInterval: 0,
   });
-
 
   return (
     <Page meta={meta}>

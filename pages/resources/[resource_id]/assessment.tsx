@@ -40,7 +40,7 @@ const ResourceAssessments: NextPage = () => {
 
   const { data: resourceDetail, error: resourceDetailError } = useSWR(
     resource_node_id ? [RESOURCE_NODE_ENDPOINT(resource_node_id), resource_node_id] : null,
-    (url) => APIFetcher(url),
+    resource_node_id ? (url) => APIFetcher(url[0]) : null,
     { refreshInterval: 0 }
   );
 

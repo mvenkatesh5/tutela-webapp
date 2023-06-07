@@ -189,7 +189,7 @@ const SessionDoubts = () => {
     currentRenderQuery
       ? [DOUBTS_WITH_QUERY_ENDPOINT(currentRenderQuery), currentRenderQuery]
       : null,
-    APIFetcher
+    currentRenderQuery ? (url) => APIFetcher(url[0]) : null
   );
 
   const { data: users, error: usersError } = useSWR(USER_ENDPOINT, APIFetcher);

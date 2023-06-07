@@ -93,7 +93,7 @@ const VideoView = () => {
           currentDateQuery && currentDateQuery,
         ]
       : null,
-    (url) => APIFetcher(url),
+    currentDateQuery && currentDateQuery ? (url) => APIFetcher(url[0]) : null,
     { refreshInterval: 5000 }
   );
 

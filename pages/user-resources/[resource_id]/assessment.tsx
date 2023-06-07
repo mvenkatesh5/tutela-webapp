@@ -40,7 +40,7 @@ const ResourceTreeView = () => {
     resource_node_id
       ? [RESOURCE_ASSESSMENT_USER_DETAILS(resource_node_id), resource_node_id]
       : null,
-    (url) => APIFetcher(url),
+    resource_node_id ? (url) => APIFetcher(url[0]) : null,
     { refreshInterval: 0, revalidateOnFocus: false }
   );
 
@@ -48,7 +48,9 @@ const ResourceTreeView = () => {
     resourceUserAssessment && resourceUserAssessment?.resource_node && resource_node_id
       ? [RESOURCE_NODE_ENDPOINT(resource_node_id), resource_node_id]
       : null,
-    (url) => APIFetcher(url),
+    resourceUserAssessment && resourceUserAssessment?.resource_node && resource_node_id
+      ? (url) => APIFetcher(url[0])
+      : null,
     { refreshInterval: 0, revalidateOnFocus: false }
   );
 

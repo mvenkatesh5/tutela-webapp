@@ -156,7 +156,7 @@ const CalendarView = () => {
 
   const { data: sessionList, error: sessionListError } = useSWR(
     currentDateQuery ? [USER_CALENDAR_SESSION_ENDPOINT(currentDateQuery), currentDateQuery] : null,
-    (url) => APIFetcher(url),
+    currentDateQuery ? (url) => APIFetcher(url[0]) : null,
     { refreshInterval: 5000 }
   );
 
@@ -178,7 +178,6 @@ const CalendarView = () => {
   const [currentUser, setCurrentUser] = React.useState<any>();
   const [parentUsers, setParentUsers] = React.useState<any>();
   const [currentSelectedUser, setCurrentSelectedUser] = React.useState<any>();
-
 
   React.useEffect(() => {
     if (userList && userList.length > 0) {
