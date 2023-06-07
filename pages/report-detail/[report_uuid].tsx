@@ -27,7 +27,7 @@ const ReportDetail = () => {
 
   const { data: reportConfirmation, error: reportConfirmationError } = useSWR(
     report_uuid ? [USER_REPORT_UUID_VERIFICATION(report_uuid), report_uuid] : null,
-    (url) => APIPublicFetcher(url),
+    report_uuid ? (url) => APIPublicFetcher(url[0]) : null,
     { refreshInterval: 0 }
   );
 
