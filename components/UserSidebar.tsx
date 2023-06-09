@@ -455,7 +455,7 @@ const UserSidebar = () => {
               <div
                 className={
                   "sidebar-item-container " +
-                  (router.pathname.includes("/resources")
+                  (router.pathname.includes("/session-feedback")
                     ? "tw-bg-[#C9A060] tw-rounded-r-lg tw-mr-2"
                     : "tw-rounded-r-lg tw-mr-2")
                 }

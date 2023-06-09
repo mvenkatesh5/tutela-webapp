@@ -18,7 +18,7 @@ import BookCard from "@components/BookCard";
 // layouts
 import AdminLayout from "@layouts/adminLayout";
 // api routes
-import { RESOURCE_ENDPOINT } from "@constants/routes";
+import { RESOURCE_ENDPOINT, NODES_WITH_TEACHER_ID_ENDPOINT } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
 // hoc
@@ -27,12 +27,37 @@ import withAdminTeacherAuth from "@lib/hoc/withAdminTeacherAuth";
 import Page from "@components/page";
 // constants
 import { META_DESCRIPTION } from "@constants/page";
+// cookie
+import { getAuthenticationToken } from "@lib/cookie";
 
 const Resources = () => {
+  const [userDetails, setUserDetails] = React.useState<any>();
+  React.useEffect(() => {
+    if (getAuthenticationToken()) {
+      let details: any = getAuthenticationToken();
+      details = details ? JSON.parse(details) : null;
+      if (details && details.info) {
+        setUserDetails(details);
+      }
+    }
+  }, []);
+
   const router = useRouter();
-  const { data: resources, error: resourcesError } = useSWR(RESOURCE_ENDPOINT, APIFetcher, {
-    refreshInterval: 0,
-  });
+  const { data: resources, error: resourcesError } = useSWR(
+    userDetails && userDetails?.user && userDetails?.user?.id
+      ? userDetails?.user?.role === 1
+        ? NODES_WITH_TEACHER_ID_ENDPOINT(userDetails?.user?.id)
+        : RESOURCE_ENDPOINT
+      : null,
+    APIFetcher,
+    { refreshInterval: 0 }
+  );
+
+  const handleResourcesRender = (_resources: any) => {
+    if (userDetails && userDetails?.user && userDetails?.user?.role === 1)
+      return _resources?.teacher_nodes || [];
+    return _resources || [];
+  };
 
   const meta = {
     title: "Resources",
@@ -68,47 +93,53 @@ const Resources = () => {
                 <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
               ) : (
                 <div>
-                  {resources && resources.length === 0 ? (
+                  {resources && handleResourcesRender(resources).length === 0 ? (
                     <div className="text-secondary mt-5 mb-5 text-center">
                       No resources are available.
                     </div>
                   ) : (
                     <Row>
-                      {resources.map((resource: any, resourceIndex: number) => (
-                        <Col md={3} key={`resource-title-${resourceIndex}`} className="mb-2 h-100">
-                          <div className="resource-home-card-book-view">
-                            <Link href={`/resources/${resource.id}`} passHref>
-                              <div className="book-root-container">
-                                <BookCard data={resource} />
-                              </div>
-                            </Link>
-                            <div className="book-content-container">
-                              <div className="flex">
-                                <div className="flex-item title">
-                                  <div className="resource-title">
-                                    <Link href={`/resources/${resource.id}`}>
-                                      <a>{resource.title}</a>
-                                    </Link>
+                      {handleResourcesRender(resources).map(
+                        (resource: any, resourceIndex: number) => (
+                          <Col
+                            md={3}
+                            key={`resource-title-${resourceIndex}`}
+                            className="mb-2 h-100"
+                          >
+                            <div className="resource-home-card-book-view">
+                              <Link href={`/resources/${resource.id}`} passHref>
+                                <div className="book-root-container">
+                                  <BookCard data={resource} />
+                                </div>
+                              </Link>
+                              <div className="book-content-container">
+                                <div className="flex">
+                                  <div className="flex-item title">
+                                    <div className="resource-title">
+                                      <Link href={`/resources/${resource.id}`}>
+                                        <a>{resource.title}</a>
+                                      </Link>
+                                    </div>
                                   </div>
-                                </div>
-                                <div className="flex-item delete">
-                                  <RenderEditView
-                                    data={{ id: resource.id, data: resource }}
-                                    root_node_id={null}
-                                  >
-                                    <Edit />
-                                  </RenderEditView>
-                                </div>
-                                <div className="flex-item delete">
-                                  <ResourceDeleteView data={resource} root_node_id={null}>
-                                    <Delete />
-                                  </ResourceDeleteView>
+                                  <div className="flex-item delete">
+                                    <RenderEditView
+                                      data={{ id: resource.id, data: resource }}
+                                      root_node_id={null}
+                                    >
+                                      <Edit />
+                                    </RenderEditView>
+                                  </div>
+                                  <div className="flex-item delete">
+                                    <ResourceDeleteView data={resource} root_node_id={null}>
+                                      <Delete />
+                                    </ResourceDeleteView>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </Col>
-                      ))}
+                          </Col>
+                        )
+                      )}
                     </Row>
                   )}
                 </div>
