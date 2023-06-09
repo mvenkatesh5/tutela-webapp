@@ -1,4 +1,6 @@
 import React from "react";
+// next imports
+import { useRouter } from "next/router";
 // swr
 import useSWR from "swr";
 // icons
@@ -12,6 +14,9 @@ import { TeacherResourceService } from "@lib/services/teacher-resource.service";
 import { getAuthenticationToken } from "@lib/cookie";
 
 const TeacherResourceAllocation = () => {
+  const router = useRouter();
+  const user_id: any = router.query.user_id;
+
   const [tokenDetails, setTokenDetails] = React.useState<any>();
 
   React.useEffect(() => {
@@ -29,8 +34,8 @@ const TeacherResourceAllocation = () => {
     isLoading: resourcesLoading,
     error: resourcesError,
   } = useSWR(
-    tokenDetails && tokenDetails?.id ? "RESOURCES" : null,
-    tokenDetails && tokenDetails?.id ? () => TeacherResourceService.getAllResources() : null,
+    user_id ? "RESOURCES" : null,
+    user_id ? () => TeacherResourceService.getAllResources() : null,
     {
       refreshInterval: 0,
     }
@@ -41,10 +46,8 @@ const TeacherResourceAllocation = () => {
     isLoading: teacherResourceLoading,
     error: teacherResourcesError,
   } = useSWR(
-    tokenDetails && tokenDetails?.id ? "TEACHER_RESOURCES" : null,
-    tokenDetails && tokenDetails?.id
-      ? () => TeacherResourceService.getAllTeacherResourcesByTeacherId(tokenDetails?.id)
-      : null,
+    user_id ? "TEACHER_RESOURCES" : null,
+    user_id ? () => TeacherResourceService.getAllTeacherResourcesByTeacherId(user_id) : null,
     {
       refreshInterval: 0,
     }
