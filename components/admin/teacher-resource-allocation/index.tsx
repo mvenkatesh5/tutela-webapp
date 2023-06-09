@@ -122,7 +122,7 @@ const TeacherResourceAllocation = () => {
 
       {currentTeacherResource && currentTeacherResource?.type === "create" && (
         <TeacherResourceCreate
-          currentTeacher={tokenDetails}
+          user_id={user_id}
           resources={resources}
           teacherResources={teacherResources}
           currentTeacherResource={currentTeacherResource}
@@ -132,7 +132,7 @@ const TeacherResourceAllocation = () => {
 
       {currentTeacherResource && currentTeacherResource?.type === "delete" && (
         <TeacherResourceDelete
-          currentTeacher={tokenDetails}
+          user_id={user_id}
           currentTeacherResource={currentTeacherResource}
           handleCurrentTeacherResource={setCurrentTeacherResource}
         />

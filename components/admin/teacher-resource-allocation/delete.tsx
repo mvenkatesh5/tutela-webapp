@@ -7,13 +7,11 @@ import { mutate } from "swr";
 import { TeacherResourceService } from "@lib/services/teacher-resource.service";
 
 const TeacherResourceDelete: React.FC<any> = ({
-  currentTeacher,
+  user_id,
   currentTeacherResource,
   handleCurrentTeacherResource,
 }) => {
   const [buttonLoader, setButtonLoader] = React.useState<boolean>(false);
-
-  console.log("currentTeacherResource", currentTeacherResource);
 
   const [modal, setModal] = React.useState(false);
   const closeModal = () => {
@@ -30,7 +28,7 @@ const TeacherResourceDelete: React.FC<any> = ({
   const onSubmit = () => {
     setButtonLoader(true);
     const payload = {
-      teacher: currentTeacher?.id,
+      teacher: user_id,
       node: currentTeacherResource?.data?.id,
     };
     TeacherResourceService.delete(payload)

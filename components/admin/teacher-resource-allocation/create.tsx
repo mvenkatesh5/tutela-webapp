@@ -11,7 +11,7 @@ import ResourceSearchCheckboxView from "./resource-checkbox";
 import { TeacherResourceService } from "@lib/services/teacher-resource.service";
 
 const TeacherResourceCreate: React.FC<any> = ({
-  currentTeacher,
+  user_id,
   resources,
   teacherResources,
   currentTeacherResource,
@@ -41,7 +41,7 @@ const TeacherResourceCreate: React.FC<any> = ({
     if (productResources && productResources.length > 0) {
       setButtonLoader(true);
       const payload = {
-        teacher: currentTeacher?.id,
+        teacher: user_id,
         node: productResources[0],
       };
       TeacherResourceService.create(payload)
@@ -61,7 +61,6 @@ const TeacherResourceCreate: React.FC<any> = ({
     if (teacherResources.teacher_nodes && teacherResources.teacher_nodes.length > 0) {
       return _resources.filter((_item: any) => !teacherResources.teacher_nodes.includes(_item?.id));
     } else return _resources;
-    console.log("teacher_nodes", teacherResources.teacher_nodes);
   };
 
   return (
