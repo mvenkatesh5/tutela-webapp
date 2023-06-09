@@ -53,9 +53,13 @@ const Resources = () => {
     { refreshInterval: 0 }
   );
 
+  const { data: allResources, error: allResourcesError } = useSWR(RESOURCE_ENDPOINT, APIFetcher, {
+    refreshInterval: 0,
+  });
+
   const handleResourcesRender = (_resources: any) => {
     if (userDetails && userDetails?.user && userDetails?.user?.role === 1)
-      return _resources?.teacher_nodes || [];
+      return allResources.filter((_r: any) => _resources?.teacher_nodes.includes(_r?.id)) || [];
     return _resources || [];
   };
 
@@ -89,7 +93,7 @@ const Resources = () => {
                 </ResourceCreateView>
               </div>
 
-              {!resources && !resourcesError ? (
+              {!resources && !resourcesError && !allResources && !allResourcesError ? (
                 <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
               ) : (
                 <div>
