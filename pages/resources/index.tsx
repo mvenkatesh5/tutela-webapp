@@ -58,9 +58,15 @@ const Resources = () => {
   });
 
   const handleResourcesRender = (_resources: any) => {
-    if (userDetails && userDetails?.user && userDetails?.user?.role === 1)
+    if (
+      userDetails &&
+      userDetails?.user &&
+      userDetails?.user?.role === 1 &&
+      allResources &&
+      allResources.length > 0
+    )
       return allResources.filter((_r: any) => _resources?.teacher_nodes.includes(_r?.id)) || [];
-    return _resources || [];
+    return [];
   };
 
   const meta = {
@@ -97,7 +103,7 @@ const Resources = () => {
                 <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
               ) : (
                 <div>
-                  {resources && handleResourcesRender(resources).length === 0 ? (
+                  {resources && allResources && handleResourcesRender(resources).length === 0 ? (
                     <div className="text-secondary mt-5 mb-5 text-center">
                       No resources are available.
                     </div>
