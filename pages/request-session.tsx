@@ -15,7 +15,7 @@ import "react-datepicker/dist/react-datepicker.css";
 // components
 import Page from "@components/page";
 // layouts
-import StudentLayout from "layouts/studentLayout";
+import StudentV2Layout from "@layouts/v2/student/layout";
 // api services
 import { RequestSessionCreate } from "@lib/services/userSessionService";
 // cookie
@@ -108,135 +108,142 @@ const RequestSession = () => {
 
   return (
     <Page meta={meta}>
-      <StudentLayout>
-        <Container>
-          <div className="tw-bg-[#f8f8f8] p-4 pt-2 tw-rounded-lg my-3">
-            <Row className="w-100 mt-4">
-              <Col>
-                <h4 className="fw-bolder mb-4">Request a Session</h4>
-                <Form onSubmit={sessionSubmit}>
-                  <div className="tw-bg-white w-full p-4 tw-rounded-lg">
-                    <Form.Group controlId="session_data.email" className="mb-2">
-                      <Form.Label className="text-secondary">
-                        <small>Topic</small>
-                      </Form.Label>
-                      <Form.Control
-                        as="textarea"
-                        rows={3}
-                        placeholder="Enter topic"
-                        value={sessionData.topic}
-                        onChange={(e) => handleSessionData("topic", e.target.value)}
-                      />
-                    </Form.Group>
+      <StudentV2Layout page="request-session">
+        <div className="tw-w-full tw-h-full tw-overflow-y-auto">
+          <Container>
+            <div className="tw-bg-[#f8f8f8] p-4 pt-2 tw-rounded-lg my-3">
+              <Row className="w-100 mt-4">
+                <Col>
+                  <h4 className="fw-bolder mb-4">Request a Session</h4>
+                  <Form onSubmit={sessionSubmit}>
+                    <div className="tw-bg-white w-full p-4 tw-rounded-lg">
+                      <Form.Group controlId="session_data.email" className="mb-2">
+                        <Form.Label className="text-secondary">
+                          <small>Topic</small>
+                        </Form.Label>
+                        <Form.Control
+                          as="textarea"
+                          rows={3}
+                          placeholder="Enter topic"
+                          value={sessionData.topic}
+                          onChange={(e) => handleSessionData("topic", e.target.value)}
+                        />
+                      </Form.Group>
 
-                    <Row className="mt-3 mb-2">
-                      <Col>
-                        <small className="text-secondary">Start date</small>
-                      </Col>
-                      <Col>
-                        <small className="text-secondary">Start time</small>
-                      </Col>
-                      {sessionData.data.length != 1 && <Col xs={1} sm={1} md={1}></Col>}
-                    </Row>
-                    {sessionData &&
-                      sessionData.data &&
-                      sessionData.data.map((data: any, index: any) => (
-                        <Row
-                          className="mb-2 align-items-center"
-                          key={`rquestiod-sessions-${index}`}
-                        >
-                          <Col>
-                            <div className="d-flex align-items-center custom-date-picker">
-                              <div className="me-3 w-100">
-                                <DatePicker
-                                  className="w-100 form-control custom-date-picker"
-                                  selected={data.date ? new Date(data.date) : new Date()}
-                                  onChange={(date: any) =>
-                                    handleSessionDataDate(index, "date", date)
-                                  }
-                                />
-                              </div>
-                              <div>
-                                <Calendar width="18" />
-                              </div>
-                            </div>
-                          </Col>
-                          <Col>
-                            <div className="d-flex align-items-center custom-date-picker">
-                              <div className="me-3 w-100">
-                                <DatePicker
-                                  className="form-control w-100"
-                                  selected={data.time ? new Date(data.time) : new Date()}
-                                  onChange={(date: any) =>
-                                    handleSessionDataDate(index, "time", date)
-                                  }
-                                  showTimeSelect
-                                  showTimeSelectOnly
-                                  timeIntervals={15}
-                                  timeCaption="Time"
-                                  dateFormat="h:mm aa"
-                                />
-                              </div>
-                              <div>
-                                <Time width="18" />
-                              </div>
-                            </div>
-                          </Col>
-                          {sessionData.data.length != 1 && (
-                            <Col xs={1} sm={1} md={1} onClick={() => removeSessionDataDate(index)}>
-                              <div className="d-flex">
-                                <div className="ms-auto" style={{ cursor: "pointer" }}>
-                                  <Times width="10" />
+                      <Row className="mt-3 mb-2">
+                        <Col>
+                          <small className="text-secondary">Start date</small>
+                        </Col>
+                        <Col>
+                          <small className="text-secondary">Start time</small>
+                        </Col>
+                        {sessionData.data.length != 1 && <Col xs={1} sm={1} md={1}></Col>}
+                      </Row>
+                      {sessionData &&
+                        sessionData.data &&
+                        sessionData.data.map((data: any, index: any) => (
+                          <Row
+                            className="mb-2 align-items-center"
+                            key={`rquestiod-sessions-${index}`}
+                          >
+                            <Col>
+                              <div className="d-flex align-items-center custom-date-picker">
+                                <div className="me-3 w-100">
+                                  <DatePicker
+                                    className="w-100 form-control custom-date-picker"
+                                    selected={data.date ? new Date(data.date) : new Date()}
+                                    onChange={(date: any) =>
+                                      handleSessionDataDate(index, "date", date)
+                                    }
+                                  />
+                                </div>
+                                <div>
+                                  <Calendar width="18" />
                                 </div>
                               </div>
                             </Col>
-                          )}
-                        </Row>
-                      ))}
+                            <Col>
+                              <div className="d-flex align-items-center custom-date-picker">
+                                <div className="me-3 w-100">
+                                  <DatePicker
+                                    className="form-control w-100"
+                                    selected={data.time ? new Date(data.time) : new Date()}
+                                    onChange={(date: any) =>
+                                      handleSessionDataDate(index, "time", date)
+                                    }
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={15}
+                                    timeCaption="Time"
+                                    dateFormat="h:mm aa"
+                                  />
+                                </div>
+                                <div>
+                                  <Time width="18" />
+                                </div>
+                              </div>
+                            </Col>
+                            {sessionData.data.length != 1 && (
+                              <Col
+                                xs={1}
+                                sm={1}
+                                md={1}
+                                onClick={() => removeSessionDataDate(index)}
+                              >
+                                <div className="d-flex">
+                                  <div className="ms-auto" style={{ cursor: "pointer" }}>
+                                    <Times width="10" />
+                                  </div>
+                                </div>
+                              </Col>
+                            )}
+                          </Row>
+                        ))}
 
-                    <div>
-                      <small className="text-secondary">{sessionData.data.length} / 5</small>
+                      <div>
+                        <small className="text-secondary">{sessionData.data.length} / 5</small>
+                      </div>
+
+                      {sessionData.data.length != 5 && (
+                        <Button
+                          variant="outline-primary"
+                          className="mt-2 btn-sm"
+                          onClick={addSessionDataDate}
+                        >
+                          <div className="d-flex align-items-center">
+                            <div className="me-1">
+                              <CalendarPlus width="18" />
+                            </div>
+                            <div>
+                              <small>Add another date</small>
+                            </div>
+                          </div>
+                        </Button>
+                      )}
                     </div>
 
-                    {sessionData.data.length != 5 && (
-                      <Button
-                        variant="outline-primary"
-                        className="mt-2 btn-sm"
-                        onClick={addSessionDataDate}
-                      >
-                        <div className="d-flex align-items-center">
-                          <div className="me-1">
-                            <CalendarPlus width="18" />
-                          </div>
-                          <div>
-                            <small>Add another date</small>
-                          </div>
-                        </div>
-                      </Button>
-                    )}
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="d-block mb-3 mt-4 tw-bg-[#C9A060] tw-rounded tw-border-none tw-px-3 tw-py-1 tw-text-lg tw-font-medium"
-                    disabled={buttonLoader}
-                  >
-                    {buttonLoader ? "Requesting session..." : "Request Session"}
-                  </button>
-                  <div className="d-flex">
-                    <Image
-                      src="/request-session.png"
-                      alt="request"
-                      height="240"
-                      className=" ms-auto"
-                    />
-                  </div>
-                </Form>
-              </Col>
-            </Row>
-          </div>
-        </Container>
-      </StudentLayout>
+                    <button
+                      type="submit"
+                      className="d-block mb-3 mt-4 tw-bg-[#C9A060] tw-rounded tw-border-none tw-px-3 tw-py-1 tw-text-lg tw-font-medium"
+                      disabled={buttonLoader}
+                    >
+                      {buttonLoader ? "Requesting session..." : "Request Session"}
+                    </button>
+                    <div className="d-flex">
+                      <Image
+                        src="/request-session.png"
+                        alt="request"
+                        height="240"
+                        className=" ms-auto"
+                      />
+                    </div>
+                  </Form>
+                </Col>
+              </Row>
+            </div>
+          </Container>
+        </div>
+      </StudentV2Layout>
     </Page>
   );
 };
