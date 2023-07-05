@@ -11,15 +11,14 @@ function NewsCard(props: any) {
           <Card className="shadow-sm border-0">
             <Card.Body className="p-3">
               <Row>
-                <Col md="8">
+                <Col md="9">
                   <p className="fw-bold text-dark mb-2">{props.data.title}</p>
                   <p className="fw-light text-secondary mb-0">{props.data.description}</p>
                 </Col>
-                <Col md="4" className="text-end">
+                <Col md="3" className="text-end">
                   <Image
-                    className="img-fluid"
+                    className="tw-w-full tw-h-full tw-object-contain tw-object-center"
                     src={props.data.image_url ? props.data.image_url : `/news.svg`}
-                    width="90"
                     alt=""
                   />
                 </Col>

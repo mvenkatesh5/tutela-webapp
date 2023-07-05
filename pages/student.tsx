@@ -30,6 +30,8 @@ import {
   USER_COINS_ENDPOINT,
   TESTS_ENDPOINT,
   ANNOUNCEMENT_USER_ENDPOINT,
+  NOTES_WITH_USER_ID_ENDPOINT,
+  USER_RESOURCE_VIEW_ENDPOINT,
 } from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
@@ -39,28 +41,6 @@ import withStudentAuth from "@lib/hoc/withStudentAuth";
 import Slider from "react-slick";
 // constants
 import { returnSingleDate, returnSingleMonth, returnSingleYear } from "@constants/global";
-
-// function SampleNextArrow(props: any) {
-//   const { className, style, onClick } = props;
-//   return (
-//     <div
-//       className={className}
-//       style={{ ...style, display: "block", background: "gray" }}
-//       onClick={onClick}
-//     />
-//   );
-// }
-
-// function SamplePrevArrow(props: any) {
-//   const { className, style, onClick } = props;
-//   return (
-//     <div
-//       className={className}
-//       style={{ ...style, display: "block", background: "gray" }}
-//       onClick={onClick}
-//     />
-//   );
-// }
 
 const StudentDetail = () => {
   const meta = {
@@ -129,14 +109,55 @@ const StudentDetail = () => {
     refreshInterval: 0,
   });
 
-  const { data: announcement, error: announcementError } = useSWR(
-    ANNOUNCEMENT_USER_ENDPOINT,
-    APIFetcher,
-    {
-      refreshInterval: 0,
-    }
+  const { data: notes, error: notesError } = useSWR(
+    tokenDetails && tokenDetails?.user ? NOTES_WITH_USER_ID_ENDPOINT(tokenDetails?.user?.id) : null,
+    (url) => APIFetcher(url),
+    { refreshInterval: 0 }
   );
-  console.log("userDetailList", userDetailList);
+
+  const { data: resources, error: resourcesError } = useSWR(
+    tokenDetails && tokenDetails.user ? USER_RESOURCE_VIEW_ENDPOINT(tokenDetails.user.id) : null,
+    (url) => APIFetcher(url),
+    { refreshInterval: 0 }
+  );
+
+  console.log("notes", notes);
+  console.log("resources", resources);
+
+  // const { data: announcement, error: announcementError } = useSWR(
+  //   ANNOUNCEMENT_USER_ENDPOINT,
+  //   APIFetcher,
+  //   {
+  //     refreshInterval: 0,
+  //   }
+  // );
+
+  const isToday = (date: any) => {
+    const today = new Date();
+    return (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    );
+  };
+
+  const renderSessionsForTodayAndUpcoming = (
+    sessions: any,
+    day: "up-coming" | "today" = "up-coming"
+  ) => {
+    let filteredSessions = [];
+
+    filteredSessions = sessions.filter((session: any) =>
+      day === "today" && isToday(new Date(session?.start_datetime))
+        ? true
+        : day === "up-coming" && !isToday(new Date(session?.start_datetime))
+        ? true
+        : false
+    );
+
+    return filteredSessions;
+  };
+
   return (
     <Page meta={meta}>
       <StudentV2Layout page="dashboard">
@@ -154,77 +175,95 @@ const StudentDetail = () => {
                   )}
               </div>
               <Row>
-                {/* {announcement && (
-              <>
-                <div className="px-2 mb-3">
-                  <div className="p-2 px-3 rounded alert-container">
-                    <Image alt="" src="/announcement.svg" className="icon" />
-                    {announcement?.url ? (
-                      <a href={announcement?.url} rel="noreferrer" target="_blank">
-                        <div className="alert">
-                          {announcement?.message ? (
-                            announcement?.message
-                          ) : (
-                            <>
-                              Welcome to <strong>Tutela</strong> Have a great Day ahead!
-                            </>
-                          )}
-                        </div>
-                      </a>
-                    ) : (
-                      <div className="alert">
-                        {announcement?.message ? (
-                          announcement?.message
-                        ) : (
-                          <>
-                            Welcome to <strong>Tutela</strong> Have a great Day ahead!
-                          </>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </>
-            )} */}
                 <h4 className="fw-bold text-dark mb-3">Dashboard</h4>
-                <h5 className="fw-bold text-dark mb-3">Upcoming Sessions</h5>
                 <Col lg="8">
-                  {sessionList && sessionList.length > 0 ? (
+                  <h5 className="fw-bold text-dark mt-3 mb-3">Today Classes:</h5>
+                  {sessionList &&
+                  sessionList.length > 0 &&
+                  renderSessionsForTodayAndUpcoming(sessionList, "today").length > 0 ? (
                     <div>
-                      {sessionList.map((data: any, index: Number) => (
-                        <div key={data.id} className="mb-2">
-                          <SessionCard data={data} role="student" />
-                        </div>
-                      ))}
+                      {renderSessionsForTodayAndUpcoming(sessionList, "today").map(
+                        (data: any, index: Number) => (
+                          <div key={data.id} className="mb-2">
+                            <SessionCard data={data} role="student" />
+                          </div>
+                        )
+                      )}
                     </div>
                   ) : (
                     <div className="text-center mt-4 mb-4">No sessions for Today.</div>
                   )}
 
-                  {/* <h5 className="fw-bold text-dark mt-5 mb-3">Resources</h5> */}
-                  {/* <ResourceTable /> */}
+                  <h5 className="fw-bold text-dark mt-5 mb-3">Upcoming Classes:</h5>
+                  {sessionList &&
+                  sessionList.length > 0 &&
+                  renderSessionsForTodayAndUpcoming(sessionList).length > 0 ? (
+                    <div>
+                      {renderSessionsForTodayAndUpcoming(sessionList).map(
+                        (data: any, index: Number) => (
+                          <div key={data.id} className="mb-2">
+                            <SessionCard data={data} role="student" />
+                          </div>
+                        )
+                      )}
+                    </div>
+                  ) : (
+                    <div className="text-center mt-4 mb-4">No Upcoming sessions are available.</div>
+                  )}
 
-                  <h5 className="fw-bold text-dark mt-5 mb-3">News and Updates</h5>
-                  <Row>
-                    {newsList &&
-                      newsList.length > 0 &&
-                      newsList.map((data: any, index: Number) => (
+                  <h5 className="fw-bold text-dark mt-5 mb-3">Resources:</h5>
+                  {resources && resources.length > 0 ? (
+                    <div>
+                      <table>
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="text-center mt-4 mb-4">No Resources are available.</div>
+                  )}
+
+                  <h5 className="fw-bold text-dark mt-5 mb-3">Notes:</h5>
+                  {notes && notes.length > 0 ? (
+                    <div></div>
+                  ) : (
+                    <div className="text-center mt-4 mb-4">No Notes are available.</div>
+                  )}
+
+                  <h5 className="fw-bold text-dark mt-5 mb-3">latest Updates:</h5>
+                  {newsList && newsList.length > 0 ? (
+                    <Row>
+                      {newsList.map((data: any, index: Number) => (
                         <Col lg={12} key={data.id} style={{ marginBottom: "10px" }}>
                           <NewsCard data={data} />
                         </Col>
                       ))}
-                  </Row>
-
-                  {/* <h5 className="fw-bold text-dark mt-5 mb-3">Doubts</h5>
-                <Doubts /> */}
+                    </Row>
+                  ) : (
+                    <div className="text-center mt-4 mb-4">No Latest News are available.</div>
+                  )}
                 </Col>
 
                 <Col lg="4">
+                  <h5 className="fw-bold text-dark mt-3 mb-3">Upcoming Test Dates:</h5>
                   {!tests ? (
                     <div className="text-center mt-5 mb-5">Loading.....</div>
                   ) : (
-                    <Card className="pt-3 pb-4 px-3 border-0 shadow">
-                      <h6 className="mb-3">All Tests</h6>
+                    <Card className="pt-3 pb-4 px-3 border-0 shadow mb-2">
                       {tests && tests.length > 0 ? (
                         <div className="student-test-container">
                           {tests.map((data: any, index: Number) => (
@@ -232,13 +271,17 @@ const StudentDetail = () => {
                               key={`students-tests-${index}`}
                               className="d-flex align-items-center student-test-item"
                             >
-                              <div className="tw-text-[10px] tw-text-center tw-border tw-border-solid tw-border-[#C9A060] tw-leading-[11px] px-1 tw-pt-[1px] rounded">
-                                <div>{returnSingleDate(data.datetime)}</div>
-                                <div>{returnSingleMonth(data.datetime)}</div>
-                                <div>{returnSingleYear(data.datetime)}</div>
+                              <div className="tw-text-center tw-border tw-border-solid tw-border-[#C9A060] tw-rounded tw-flex-shrink-0 tw-w-[50px]">
+                                <div className="tw-font-bold tw-leading-[28px]">
+                                  {returnSingleDate(data.datetime)}
+                                </div>
+                                <div className="tw-text-xs tw-leading-[8px]">
+                                  {returnSingleMonth(data.datetime)}
+                                </div>
+                                <div className="tw-text-xs">{returnSingleYear(data.datetime)}</div>
                               </div>
                               {data.link ? (
-                                <div className="student-content">
+                                <div className="student-content tw-font-bold">
                                   <Link href={data.href}>
                                     <a>{data.name}</a>
                                   </Link>
@@ -254,7 +297,8 @@ const StudentDetail = () => {
                       )}
                     </Card>
                   )}
-                  <h5 className="fw-bold text-dark mt-3">Have a doubt?</h5>
+
+                  <h5 className="fw-bold text-dark mt-5 mb-3">Have a doubt?</h5>
                   <Card className="pt-3 pb-3 px-3 border-0 shadow mb-3">
                     <div className="tw-text-xs tw-text-center tw-max-w-[250px] mx-auto">
                       Get your doubts cleared either from our <strong>Expert Mentors</strong> or{" "}
@@ -274,43 +318,41 @@ const StudentDetail = () => {
                     </div>
                   </Card>
 
-                  {/* <TestScroreCard /> */}
-                  {/* <UpcomingTestsCard /> */}
-                  {/* <Card className="pt-3 pb-3 px-3 mt-3 border-0 shadow mb-3">
-                  <h5>Coins Earned</h5>
-                  {!coins ? (
-                    <div className="text-center mt-3">
-                      <small>Loading...</small>
-                    </div>
-                  ) : (
-                    <div
-                      className="mt-1"
-                      style={{ display: "flex", alignItems: "center", gap: "10px" }}
-                    >
-                      <div style={{ width: "40px", height: "40px", flexShrink: 0 }}>
-                        <Image
-                          src={"/tutela-coin.png"}
-                          alt=""
-                          style={{ width: "100%", height: "100%", objectFit: "contain" }}
-                        />
+                  <h5 className="fw-bold text-dark mt-5 mb-3">College Kit:</h5>
+                  <Card className="pt-3 pb-3 px-3 border-0 shadow mb-3">
+                    <div className="tw-space-y-3">
+                      <h5>Start your College Research now!</h5>
+                      <ul className="tw-grid tw-grid-cols-2 tw-gap-2 tw-list-disc">
+                        <li className="tw-ml-[-18px]">College Navigator</li>
+                        <li className="tw-ml-[-18px]">Alumni Network</li>
+                        <li className="tw-ml-[-18px]">Quizzes</li>
+                        <li className="tw-ml-[-18px]">Scholarship Calculator </li>
+                        <li className="tw-ml-[-18px]">GPA Calculator</li>
+                      </ul>
+                      <div className="tw-flex tw-justify-end">
+                        <Link href="https://www.tutelaprep.com/college-kit">
+                          <a target="_blank">
+                            <button className="tw-bg-[#C9A060] tw-rounded-lg tw-text-white tw-font-semibold tw-w-full tw-whitespace-nowrap py-1">
+                              Get Access
+                            </button>
+                          </a>
+                        </Link>
                       </div>
-                      <div style={{ fontSize: "20px", fontWeight: 500 }}>{coins.total_coins}</div>
                     </div>
-                  )}
-                </Card> */}
+                  </Card>
 
+                  <h5 className="fw-bold text-dark mt-5 mb-3"></h5>
                   {advertsList && advertsList.length > 0 && (
-                    <Card className="tw-border tw-border-solid border-red-500">
+                    <Card className="tw-border tw-border-solid border-red-500 shadow border-0 mb-2">
                       <Slider {...settingsSlider}>
                         {advertsList.map((item: any, index: any) => {
                           return (
-                            <div key={`link-${index}`}>
+                            <div key={`link-${index}`} className="tw-h-[400px] tw-p-5">
                               <a href={item.link} target="_blank" rel="noreferrer">
                                 <Image
                                   alt=""
-                                  className="img-fluid mx-auto d-block"
+                                  className="tw-w-full tw-h-full tw-object-contain"
                                   src={item.image}
-                                  width="300"
                                 />
                               </a>
                             </div>
