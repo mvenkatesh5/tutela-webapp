@@ -43,6 +43,8 @@ import Slider from "react-slick";
 import { returnSingleDate, returnSingleMonth, returnSingleYear } from "@constants/global";
 
 const StudentDetail = () => {
+  const defaultImageUrl = `/bird.svg`;
+
   const meta = {
     title: "Student",
     description: META_DESCRIPTION,
@@ -213,25 +215,39 @@ const StudentDetail = () => {
 
                   <h5 className="fw-bold text-dark mt-5 mb-3">Resources:</h5>
                   {resources && resources.length > 0 ? (
-                    <div>
-                      <table>
-                        <thead>
-                          <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                          </tr>
-                        </tbody>
-                      </table>
+                    <div className="tw-border tw-border-solid tw-border-gray-200 tw-rounded-sm tw-overflow-hidden">
+                      <div className="tw-flex tw-items-center tw-font-semibold">
+                        <div className="tw-w-full tw-p-3">File name</div>
+                        <div className="tw-w-full tw-p-3 tw-text-center tw-max-w-[140px]">
+                          Subject
+                        </div>
+                        <div className="tw-w-full tw-p-3 tw-text-center tw-max-w-[140px]">
+                          Course
+                        </div>
+                      </div>
+                      {resources.map((_resource: any) => (
+                        <div
+                          key={_resource?.id}
+                          className="tw-bg-white tw-flex tw-items-center tw-text-sm"
+                        >
+                          <div className="tw-w-full tw-p-3 tw-flex tw-items-center tw-gap-2">
+                            <div className="tw-w-[22px] tw-h-[22px] tw-rounded-sm tw-flex tw-justify-center tw-items-center tw-overflow-hidden">
+                              <Image
+                                src={defaultImageUrl}
+                                alt=""
+                                className="tw-w-full tw-h-full tw-object-contain"
+                              />
+                            </div>
+                            <div>{_resource?.resource_node?.title || "-"}</div>
+                          </div>
+                          <div className="tw-w-full tw-p-3 tw-text-center tw-max-w-[140px]">
+                            {_resource?.resource_node?.source?.title || "-"}
+                          </div>
+                          <div className="tw-w-full tw-p-3 tw-text-center tw-max-w-[140px]">
+                            {_resource?.resource_node?.course?.title || "-"}
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   ) : (
                     <div className="text-center mt-4 mb-4">No Resources are available.</div>
@@ -239,7 +255,29 @@ const StudentDetail = () => {
 
                   <h5 className="fw-bold text-dark mt-5 mb-3">Notes:</h5>
                   {notes && notes.length > 0 ? (
-                    <div></div>
+                    <div className="tw-border tw-border-solid tw-border-gray-200 tw-rounded-sm tw-overflow-hidden">
+                      <div className="tw-flex tw-items-center tw-font-semibold">
+                        <div className="tw-w-full tw-p-3">Notes</div>
+                        <div className="tw-w-full tw-p-3 tw-text-center tw-max-w-[140px]">
+                          Resource
+                        </div>
+                      </div>
+                      {notes.map((_notes: any) => (
+                        <div
+                          key={_notes?.id}
+                          className="tw-bg-white tw-flex tw-items-center tw-text-sm"
+                        >
+                          <div className="tw-w-full tw-p-3 tw-flex tw-items-center tw-gap-2">
+                            <div>{_notes?.text || "-"}</div>
+                          </div>
+                          <div className="tw-w-full tw-p-3 tw-text-center tw-max-w-[140px] hover:tw-text-blue-500 tw-cursor-pointer">
+                            <Link href={`/user-resources/${_notes?.resource_connection}`}>
+                              <a>View Detail</a>
+                            </Link>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   ) : (
                     <div className="text-center mt-4 mb-4">No Notes are available.</div>
                   )}
