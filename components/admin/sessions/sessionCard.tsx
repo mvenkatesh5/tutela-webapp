@@ -93,7 +93,11 @@ const AdminSessionCard = (props: any) => {
               <>
                 <div className="d-flex flex-wrap align-items-center">
                   <div className="icon">
-                    <Image className="img-fluid rounded me-3" src="/bird.svg" alt="" />
+                    <Image
+                      className="img-fluid rounded me-3"
+                      src="/classes-not-active.svg"
+                      alt=""
+                    />
                   </div>
                   <div>
                     <div className="heading">{props.data.title}</div>
@@ -136,7 +140,11 @@ const AdminSessionCard = (props: any) => {
               <>
                 <div className="d-flex flex-wrap align-items-center">
                   <div className="icon">
-                    <Image className="img-fluid rounded me-3" src="/bird.svg" alt="" />
+                    <Image
+                      className="img-fluid rounded me-3"
+                      src="/classes-not-active.svg"
+                      alt=""
+                    />
                   </div>
                   <div>
                     <div className="heading">{props.data.title}</div>
@@ -230,7 +238,7 @@ const AdminSessionCard = (props: any) => {
           <div className="session-card-root-container">
             <div className="d-flex flex-wrap mb-3">
               <div className="icon">
-                <Image className="img-fluid rounded me-3" src="/bird.svg" alt="" />
+                <Image className="img-fluid rounded me-3" src="/classes-not-active.svg" alt="" />
               </div>
               <div>
                 <div
