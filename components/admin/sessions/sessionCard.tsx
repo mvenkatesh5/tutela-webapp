@@ -93,11 +93,15 @@ const AdminSessionCard = (props: any) => {
               <>
                 <div className="d-flex flex-wrap align-items-center">
                   <div className="icon">
-                    <Image
-                      className="img-fluid rounded me-3"
-                      src="/classes-not-active.svg"
-                      alt=""
-                    />
+                    {props?.data?.data?.zoom || props?.data?.data?.chime ? (
+                      <Image className="img-fluid rounded me-3" src="/classes-active.svg" alt="" />
+                    ) : (
+                      <Image
+                        className="img-fluid rounded me-3"
+                        src="/classes-not-active.svg"
+                        alt=""
+                      />
+                    )}
                   </div>
                   <div>
                     <div className="heading">{props.data.title}</div>

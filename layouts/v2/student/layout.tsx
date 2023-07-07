@@ -59,7 +59,7 @@ const StudentLayout = ({ children, page = "dashboard" }: any) => {
       >
         <Sidebar page={page} />
       </div>
-      <div className="tw-w-full tw-h-full tw-overflow-hidden tw-relative tw-flex tw-flex-col tw-bg-[#E7D3B5] tw-bg-opacity-30">
+      <div className="tw-w-full tw-h-full tw-overflow-hidden tw-relative tw-flex tw-flex-col tw-bg-[#E7D3B5] tw-bg-opacity-10">
         <div className="tw-h-[70px] tw-w-full tw-flex-shrink-0">
           <Header />
         </div>

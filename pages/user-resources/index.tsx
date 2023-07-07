@@ -82,7 +82,9 @@ const Resources = () => {
                               <div className="resource-home-card-book-view">
                                 <Link href={`/user-resources/${resource.id}`} passHref>
                                   <div className="book-root-container tw-max-w-[160px] mx-auto">
-                                    <BookCard data={resource.resource_node} />
+                                    <BookCard
+                                      color={resource.resource_node?.data?.color || "#000000"}
+                                    />
                                   </div>
                                 </Link>
                                 <div className="book-content-container">

@@ -123,7 +123,7 @@ const Resources = () => {
                               <div className="resource-home-card-book-view">
                                 <Link href={`/resources/${resource.id}`} passHref>
                                   <div className="book-root-container">
-                                    <BookCard data={resource} />
+                                    <BookCard color={resource?.data?.color || "#000000"} />
                                   </div>
                                 </Link>
                                 <div className="book-content-container">

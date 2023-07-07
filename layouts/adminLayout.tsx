@@ -2,7 +2,7 @@ import React from "react";
 // components
 import DashboardNav from "@components/dashboardnav";
 import SidebarView from "@components/sidebar";
-import UserSidebarView from "@components/UserSidebar";
+import UserSidebarView from "@layouts/v2/student/sidebar";
 // cookie
 import { getAuthenticationToken } from "@lib/cookie";
 // global context provider
@@ -39,8 +39,12 @@ const AdminLayout = (props: any) => {
               <SidebarView />
             </div>
           ) : (
-            <div className="left-layout -tw-mt-4">
-              <UserSidebarView />
+            <div
+              className={`left-layout student-side tw-transition-all tw-flex-shrink-0 tw-h-full tw-overflow-hidden ${
+                globalState.sidebarToggle ? `!tw-w-[70px]` : `tw-w-[280px]`
+              }`}
+            >
+              <UserSidebarView page={"my-calendar"} />
             </div>
           )}
           {props.children}
