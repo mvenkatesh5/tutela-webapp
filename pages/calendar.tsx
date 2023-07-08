@@ -154,6 +154,8 @@ const CalendarView = () => {
     return `${calendarDays[date.getDay()].fullName}`;
   };
 
+  console.log("currentDateQuery", currentDateQuery);
+
   const { data: sessionList, error: sessionListError } = useSWR(
     currentDateQuery ? [USER_CALENDAR_SESSION_ENDPOINT(currentDateQuery), currentDateQuery] : null,
     currentDateQuery ? (url) => APIFetcher(url[0]) : null,
@@ -289,6 +291,7 @@ const CalendarView = () => {
                       role={userRole}
                       currentDateQuery={currentDateQuery}
                       sessionListError={sessionListError}
+                      handleData={handleCurrentDate}
                     />
                   )}
                 </div>

@@ -44,7 +44,7 @@ const DigiSatTestModal: React.FC<IAssessmentReview> = ({ treeId, modal, setModal
           <h5 className="m-0 p-0 mb-3">Digital SAT</h5>
           <>
             {resourceUserAssessment &&
-            resourceUserAssessment.message === "User can access this node" ? (
+            resourceUserAssessment.message !== "User can access this node" ? (
               <h6 style={{ whiteSpace: "nowrap" }}>
                 Click <strong>Continue</strong> to start the test
               </h6>
@@ -54,7 +54,7 @@ const DigiSatTestModal: React.FC<IAssessmentReview> = ({ treeId, modal, setModal
           </>
           <div className="d-flex justify-content-end gap-2">
             {resourceUserAssessment &&
-              resourceUserAssessment.message === "User can access this node" && (
+              resourceUserAssessment.message !== "User can access this node" && (
                 <Link href={href}>
                   <a target="_blank">
                     <Button onClick={closeModal} variant="outline-primary" size="sm">
