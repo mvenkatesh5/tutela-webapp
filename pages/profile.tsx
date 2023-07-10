@@ -15,7 +15,7 @@ import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 import FromBuilder from "@components/forms";
 import Page from "@components/page";
 // layouts
-import StudentLayout from "@layouts/studentLayout";
+import StudentV2Layout from "@layouts/v2/student/layout";
 // global imports
 import { profileSchemaData } from "@constants/profileSchema";
 // api routes
@@ -153,8 +153,8 @@ const Profile = () => {
 
   return (
     <Page meta={meta}>
-      <div>
-        <StudentLayout>
+      <StudentV2Layout page="my-profile">
+        <div className="tw-w-full tw-h-full tw-overflow-y-auto">
           {!userDetailList ? (
             <div className="text-center my-5">Loading.....</div>
           ) : (
@@ -259,8 +259,8 @@ const Profile = () => {
               </div>
             </Container>
           )}
-        </StudentLayout>
-      </div>
+        </div>
+      </StudentV2Layout>
     </Page>
   );
 };

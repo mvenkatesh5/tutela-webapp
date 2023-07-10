@@ -90,7 +90,7 @@ const ResourceSubmissions: NextPage = () => {
   const dateFormat = (date: any) => {
     const d = new Date(date);
     let year = d.getFullYear();
-    let month = d.getMonth();
+    let month = d.getMonth() + 1;
     let day = d.getDate();
     let hour = d.getHours();
     let minutes = d.getMinutes();

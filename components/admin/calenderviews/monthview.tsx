@@ -36,6 +36,10 @@ const CalendarMonthView = (props: any) => {
     setCurrentMonth(month);
     setCurrentYear(year);
     setRenderDateTitle(calendarMonths[month].fullName + " " + year);
+
+    const newDate = new Date(year, month, 1);
+    setCurrentSelectDate(newDate);
+    if (props.handleData) props.handleData(newDate);
   };
 
   const updatePreviousDate = () => {
@@ -44,6 +48,10 @@ const CalendarMonthView = (props: any) => {
     setCurrentMonth(month);
     setCurrentYear(year);
     setRenderDateTitle(calendarMonths[month].fullName + " " + year);
+
+    const newDate = new Date(year, month, 1);
+    setCurrentSelectDate(newDate);
+    if (props.handleData) props.handleData(newDate);
   };
 
   const updateTodayDate = (todayDateValue: any) => {

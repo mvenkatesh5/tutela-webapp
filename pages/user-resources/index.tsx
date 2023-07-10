@@ -10,7 +10,7 @@ import useSWR from "swr";
 // cookie
 import { getAuthenticationToken } from "@lib/cookie";
 // layouts
-import StudentLayout from "@layouts/studentLayout";
+import StudentV2Layout from "@layouts/v2/student/layout";
 // api routes
 import { USER_RESOURCE_VIEW_ENDPOINT } from "@constants/routes";
 // api services
@@ -55,62 +55,66 @@ const Resources = () => {
           <title>Resources</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <StudentLayout>
-          <Container className="pt-3 pb-3">
-            <div className="tw-bg-[#f8f8f8] p-4 tw-rounded-lg">
-              <div className="tw-bg-white p-4">
-                <h3 className="mb-4">Resources</h3>
-                {!resources && !resourcesError ? (
-                  <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
-                ) : (
-                  <div>
-                    {resources && resources.length === 0 ? (
-                      <div className="text-secondary mt-5 mb-5 text-center">
-                        No resources are available.
-                      </div>
-                    ) : (
-                      <Row>
-                        {resources.map((resource: any, resourceIndex: number) => (
-                          <Col
-                            sm={12}
-                            md={4}
-                            lg={3}
-                            key={`resource-title-${resourceIndex}`}
-                            className="mb-2 h-100"
-                          >
-                            <div className="resource-home-card-book-view">
-                              <Link href={`/user-resources/${resource.id}`} passHref>
-                                <div className="book-root-container tw-max-w-[160px] mx-auto">
-                                  <BookCard data={resource.resource_node} />
-                                </div>
-                              </Link>
-                              <div className="book-content-container">
-                                <div className="flex">
-                                  <div className="flex-item title">
-                                    <div className="resource-title">
-                                      <Link href={`/user-resources/${resource.id}`}>
-                                        <a
-                                          title={resource.resource_node.title}
-                                          className="tw-text-black tw-font-medium tw-truncate"
-                                        >
-                                          {resource.resource_node.title}
-                                        </a>
-                                      </Link>
+        <StudentV2Layout page="my-resources">
+          <div className="tw-w-full tw-h-full tw-overflow-y-auto">
+            <Container className="pt-3 pb-3">
+              <div className="tw-bg-[#f8f8f8] p-4 tw-rounded-lg">
+                <div className="tw-bg-white p-4">
+                  <h3 className="mb-4">Resources</h3>
+                  {!resources && !resourcesError ? (
+                    <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
+                  ) : (
+                    <div>
+                      {resources && resources.length === 0 ? (
+                        <div className="text-secondary mt-5 mb-5 text-center">
+                          No resources are available.
+                        </div>
+                      ) : (
+                        <Row>
+                          {resources.map((resource: any, resourceIndex: number) => (
+                            <Col
+                              sm={12}
+                              md={4}
+                              lg={3}
+                              key={`resource-title-${resourceIndex}`}
+                              className="mb-2 h-100"
+                            >
+                              <div className="resource-home-card-book-view">
+                                <Link href={`/user-resources/${resource.id}`} passHref>
+                                  <div className="book-root-container tw-max-w-[160px] mx-auto">
+                                    <BookCard
+                                      color={resource.resource_node?.data?.color || "#000000"}
+                                    />
+                                  </div>
+                                </Link>
+                                <div className="book-content-container">
+                                  <div className="flex">
+                                    <div className="flex-item title">
+                                      <div className="resource-title">
+                                        <Link href={`/user-resources/${resource.id}`}>
+                                          <a
+                                            title={resource.resource_node.title}
+                                            className="tw-text-black tw-font-medium tw-truncate"
+                                          >
+                                            {resource.resource_node.title}
+                                          </a>
+                                        </Link>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          </Col>
-                        ))}
-                      </Row>
-                    )}
-                  </div>
-                )}
+                            </Col>
+                          ))}
+                        </Row>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          </Container>
-        </StudentLayout>
+            </Container>
+          </div>
+        </StudentV2Layout>
       </div>
     </Page>
   );

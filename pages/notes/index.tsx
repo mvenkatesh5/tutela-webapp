@@ -13,7 +13,7 @@ import NotesDelete from "@components/notes/delete";
 // cookie
 import { getCurrentUser } from "@constants/global";
 // layouts
-import StudentLayout from "@layouts/studentLayout";
+import StudentV2Layout from "@layouts/v2/student/layout";
 // api routes
 import { NOTES_WITH_USER_ID_ENDPOINT } from "@constants/routes";
 // api services
@@ -58,46 +58,48 @@ const NotesView = () => {
           <title>notes</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <StudentLayout>
-          <Container className="pt-3 pb-3">
-            <div className="tw-bg-[#f8f8f8] p-4 tw-rounded-lg ">
-              <h3 className="mb-4">Notes</h3>
-              <div className="tw-bg-white p-4 tw-rounded-lg">
-                {!notes && !notesError ? (
-                  <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
-                ) : (
-                  <div>
-                    {notes && notes.length === 0 ? (
-                      <div className="text-secondary mt-5 mb-5 text-center">
-                        No notes are available.
-                      </div>
-                    ) : (
-                      <Row>
-                        {notes.map((note: any, notesIndex: number) => (
-                          <Col md={3} key={`note-title-${notesIndex}`} className="mb-3">
-                            <div className="card">
-                              <div className="card-body">
-                                <p>{note.text}</p>
-                                <div className="d-flex mt-2">
-                                  <div>
-                                    <NotesEdit data={note} user={currentUser} />
-                                  </div>
-                                  <div className="ms-2">
-                                    <NotesDelete data={note} user={currentUser} />
+        <StudentV2Layout page="notes">
+          <div className="tw-w-full tw-h-full tw-overflow-y-auto">
+            <Container className="pt-3 pb-3">
+              <div className="tw-bg-[#f8f8f8] p-4 tw-rounded-lg ">
+                <h3 className="mb-4">Notes</h3>
+                <div className="tw-bg-white p-4 tw-rounded-lg">
+                  {!notes && !notesError ? (
+                    <div className="text-secondary mt-5 mb-5 text-center">Loading...</div>
+                  ) : (
+                    <div>
+                      {notes && notes.length === 0 ? (
+                        <div className="text-secondary mt-5 mb-5 text-center">
+                          No notes are available.
+                        </div>
+                      ) : (
+                        <Row>
+                          {notes.map((note: any, notesIndex: number) => (
+                            <Col md={3} key={`note-title-${notesIndex}`} className="mb-3">
+                              <div className="card">
+                                <div className="card-body">
+                                  <p>{note.text}</p>
+                                  <div className="d-flex mt-2">
+                                    <div>
+                                      <NotesEdit data={note} user={currentUser} />
+                                    </div>
+                                    <div className="ms-2">
+                                      <NotesDelete data={note} user={currentUser} />
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          </Col>
-                        ))}
-                      </Row>
-                    )}
-                  </div>
-                )}
+                            </Col>
+                          ))}
+                        </Row>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          </Container>
-        </StudentLayout>
+            </Container>
+          </div>
+        </StudentV2Layout>
       </div>
     </Page>
   );

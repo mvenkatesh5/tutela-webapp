@@ -17,6 +17,7 @@ import ResourceNotesView from "@components/notes/view";
 const PDFRenderView = dynamic(import("@components/pdfRender"), { ssr: false });
 // layouts
 import StudentNotesLayout from "@layouts/studentNotesLayout";
+import StudentV2Layout from "@layouts/v2/student/layout";
 // cookie
 import { getAuthenticationToken } from "@lib/cookie";
 // api routes
@@ -89,6 +90,12 @@ const ResourceTreeView = () => {
     title: "User Resource Details",
     description: META_DESCRIPTION,
   };
+
+  // const LayoutFilter = ({ children }: any) => {
+  //   if (userRole === "student")
+  //     return <StudentV2Layout page="calendar">{children}</StudentV2Layout>;
+  //   else return <AdminLayout>{children}</AdminLayout>;
+  // };
 
   return (
     <Page meta={meta}>

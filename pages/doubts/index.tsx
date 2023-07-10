@@ -15,6 +15,7 @@ import Page from "@components/page";
 import { META_DESCRIPTION } from "@constants/page";
 // layout
 import AdminLayout from "@layouts/adminLayout";
+import StudentV2Layout from "@layouts/v2/student/layout";
 // components
 import DoubtsStatus from "@components/doubts/DoubtsStatus";
 import DoubtsEdit from "@components/doubts/DoubtsEdit";
@@ -203,13 +204,19 @@ const DoubtsPage = () => {
 
   const { data: users, error: usersError } = useSWR(USER_ENDPOINT, APIFetcher);
 
+  const LayoutFilter = ({ children }: any) => {
+    if (currentUserRole && currentUserRole === "student")
+      return <StudentV2Layout page="doubts">{children}</StudentV2Layout>;
+    else return <AdminLayout>{children}</AdminLayout>;
+  };
+
   return (
     <Page meta={meta}>
       <Head>
         <title>Doubts</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <AdminLayout>
+      <LayoutFilter>
         <div className="right-layout">
           <div className="container">
             <div className="d-flex items-center mt-2 mb-2 gap-2">
@@ -327,7 +334,7 @@ const DoubtsPage = () => {
             </>
           </div>
         </div>
-      </AdminLayout>
+      </LayoutFilter>
     </Page>
   );
 };
