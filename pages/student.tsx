@@ -167,17 +167,18 @@ const StudentDetail = () => {
       <StudentV2Layout page="dashboard">
         <div className="tw-w-full tw-h-full tw-overflow-y-auto">
           <Container className="mt-3 mb-3 container-lg p-2">
-            <div className="tw-bg-[#f8f8f8] p-4 pt-2 tw-rounded-lg">
-              <div className="mb-3">
-                {userDetailList &&
-                  userDetailList.profile_data &&
-                  Object.keys(userDetailList.profile_data).length <= 0 && (
+            <div className="tw-bg-[#f8f8f8] p-4 pt-2 tw-rounded-lg mb-4">
+              {userDetailList &&
+                userDetailList.profile_data &&
+                Object.keys(userDetailList.profile_data).length <= 0 && (
+                  <div className="tw-my-3 tw-mb-5">
                     <WarningPopup href={`/profile`}>
-                      Hello <strong>{userDetailList.username}</strong>, Click here to complete your
+                      Hello <strong>{userDetailList?.username}</strong>, Click here to complete your
                       profile.
                     </WarningPopup>
-                  )}
-              </div>
+                  </div>
+                )}
+
               <Row>
                 <h4 className="fw-bold text-dark mb-3">Dashboard</h4>
                 <Col lg="8">
@@ -189,7 +190,7 @@ const StudentDetail = () => {
                       {renderSessionsForTodayAndUpcoming(sessionList, "today").map(
                         (data: any, index: Number) => (
                           <div key={data.id} className="mb-2">
-                            <SessionCard data={data} role="student" iconColor="coloured" />
+                            <SessionCard data={data} role="student" />
                           </div>
                         )
                       )}

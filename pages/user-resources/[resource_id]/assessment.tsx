@@ -122,8 +122,6 @@ const ResourceTreeView = () => {
     handleAssessmentComplete();
   };
 
-  console.log("formData", formData);
-
   return (
     <Page meta={meta}>
       <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">

@@ -84,7 +84,19 @@ const AdminSessionCard = (props: any) => {
     }
   };
 
-  console.log("props?.data", props);
+  const validateTodayDate = (date: any) => {
+    var currentDate = new Date();
+    var endDate = new Date(date);
+    if (
+      endDate.getFullYear() === endDate.getFullYear() &&
+      endDate.getMonth() === currentDate.getMonth() &&
+      endDate.getDate() === currentDate.getDate()
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   return (
     <div>
@@ -95,23 +107,20 @@ const AdminSessionCard = (props: any) => {
               <>
                 <div className="d-flex flex-wrap align-items-center">
                   <div className="icon">
-                    {props?.data?.data?.zoom || props?.data?.data?.chime ? (
-                      <Image
-                        className="img-fluid rounded me-3"
-                        src={
-                          props?.iconColor === "coloured"
+                    <Image
+                      className="img-fluid rounded me-3"
+                      src={
+                        validateTodayDate(props.data.start_datetime)
+                          ? disablePreviousDate(props.data.end_datetime)
+                            ? `/classes-active.svg`
+                            : (props?.data?.data?.zoom && props?.data?.data?.zoom.host_id) ||
+                              (props?.data?.data?.chime && props?.data?.data?.chime.MeetingId)
                             ? `/classes-active.svg`
                             : `/classes-not-active.svg`
-                        }
-                        alt=""
-                      />
-                    ) : (
-                      <Image
-                        className="img-fluid rounded me-3"
-                        src={`/classes-not-active.svg`}
-                        alt=""
-                      />
-                    )}
+                          : `/classes-not-active.svg`
+                      }
+                      alt=""
+                    />
                   </div>
                   <div>
                     <div className="heading">{props.data.title}</div>
@@ -154,23 +163,21 @@ const AdminSessionCard = (props: any) => {
               <>
                 <div className="d-flex flex-wrap align-items-center">
                   <div className="icon">
-                    {props?.data?.data?.zoom || props?.data?.data?.chime ? (
-                      <Image
-                        className="img-fluid rounded me-3"
-                        src={
-                          props?.iconColor === "coloured"
+                    {console.log("props.data.end_datetime", props.data.end_datetime)}
+                    <Image
+                      className="img-fluid rounded me-3"
+                      src={
+                        validateTodayDate(props.data.start_datetime)
+                          ? disablePreviousDate(props.data.end_datetime)
+                            ? `/classes-active.svg`
+                            : (props?.data?.data?.zoom && props?.data?.data?.zoom.host_id) ||
+                              (props?.data?.data?.chime && props?.data?.data?.chime.MeetingId)
                             ? `/classes-active.svg`
                             : `/classes-not-active.svg`
-                        }
-                        alt=""
-                      />
-                    ) : (
-                      <Image
-                        className="img-fluid rounded me-3"
-                        src={`/classes-not-active.svg`}
-                        alt=""
-                      />
-                    )}
+                          : `/classes-not-active.svg`
+                      }
+                      alt=""
+                    />
                   </div>
                   <div>
                     <div className="heading">{props.data.title}</div>

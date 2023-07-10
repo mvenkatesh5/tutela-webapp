@@ -21,6 +21,8 @@ import Page from "@components/page";
 const PDFRenderView = dynamic(import("@components/pdfRender"), { ssr: false });
 import RenderOmr from "@components/assessments/semi-online/OmrRender";
 import AssessmentResultModalPreview from "@components/assessments/semi-online/results";
+import AssessmentResetModal from "@components/assessments/semi-online/reset-user-allocation";
+import AssessmentEditModal from "@components/assessments/semi-online/edit-user-allocation";
 // global imports
 import { datePreview } from "@constants/global";
 // api routes
@@ -112,6 +114,20 @@ const ResourceSubmissions: NextPage = () => {
 
   const [selectedUser, setSelectedUser] = React.useState<any>(null);
 
+  const [editAllocationData, setEditAllocationData] = React.useState<any>(null);
+  const [resetAllocationData, setResetAllocationData] = React.useState<any>(null);
+  const handleMutation = () => {
+    mutate([RESOURCE_ASSESSMENT_USER_ALLOCATION(resource_node_id), resource_node_id], false);
+    setFormData({
+      time: 0,
+      questions: 0,
+      options: 0,
+      points_per_question: 0,
+      omr_data: null,
+      answer_data: null,
+    });
+  };
+
   return (
     <Page meta={meta}>
       <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
@@ -150,7 +166,8 @@ const ResourceSubmissions: NextPage = () => {
                         <th>
                           {resourceDetail?.data?.kind === "digital_sat" ? "Submissions" : "Results"}
                         </th>
-                        {/* <th>Reset</th> */}
+                        {resourceDetail?.data?.kind !== "digital_sat" && <th>Edit</th>}
+                        {resourceDetail?.data?.kind !== "digital_sat" && <th>Reset</th>}
                       </tr>
                     </thead>
                     <tbody>
@@ -161,15 +178,7 @@ const ResourceSubmissions: NextPage = () => {
                               <th>{index + 1}</th>
                               <td>{getCurrentUserName(user?.teacher)}</td>
                               <td>{getCurrentUserName(user?.student)}</td>
-                              <td>
-                                <Form.Control
-                                  type="datetime-local"
-                                  value={dateFormat(user?.scheduled_at)}
-                                  onChange={(e) => console.log("time", e.target.value)}
-                                  required
-                                  placeholder="time"
-                                />
-                              </td>
+                              <td>{datePreview(user?.scheduled_at)}</td>
 
                               {resourceDetail?.data?.kind !== "digital_sat" && (
                                 <>
@@ -218,9 +227,38 @@ const ResourceSubmissions: NextPage = () => {
                                   "-"
                                 )}
                               </td>
-                              {/* <td>
-                              <Button size="sm">Reset</Button>
-                            </td> */}
+                              <td>
+                                {resourceDetail?.data?.kind !== "digital_sat" &&
+                                user?.completed_at === null ? (
+                                  <Button
+                                    variant={"outline-secondary"}
+                                    size="sm"
+                                    onClick={() => {
+                                      setEditAllocationData(user);
+                                    }}
+                                  >
+                                    Reschedule
+                                  </Button>
+                                ) : (
+                                  "-"
+                                )}
+                              </td>
+                              <td>
+                                {resourceDetail?.data?.kind !== "digital_sat" &&
+                                user?.completed_at != null ? (
+                                  <Button
+                                    variant={"outline-danger"}
+                                    size="sm"
+                                    onClick={() => {
+                                      setResetAllocationData(user);
+                                    }}
+                                  >
+                                    Reset
+                                  </Button>
+                                ) : (
+                                  "-"
+                                )}
+                              </td>
                             </tr>
                           ))}
                         </>
@@ -245,6 +283,21 @@ const ResourceSubmissions: NextPage = () => {
             type="admin"
             selectedUser={selectedUser}
           />
+
+          {editAllocationData && editAllocationData?.id && (
+            <AssessmentEditModal
+              result={editAllocationData}
+              setResult={setEditAllocationData}
+              mutate={handleMutation}
+            />
+          )}
+          {resetAllocationData && resetAllocationData?.id && (
+            <AssessmentResetModal
+              result={resetAllocationData}
+              setResult={setResetAllocationData}
+              mutate={handleMutation}
+            />
+          )}
         </AdminLayout>
       </Worker>
     </Page>
