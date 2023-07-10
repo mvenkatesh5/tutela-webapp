@@ -5,6 +5,8 @@ import Link from "next/link";
 import { META_DESCRIPTION } from "@constants/page";
 // react-bootstrap
 import { Container, Row, Col, Image, Card, Button } from "react-bootstrap";
+// icons
+import BookCard from "@components/BookCard";
 // components
 import Page from "@components/page";
 import DashboardNav from "@components/dashboardnav";
@@ -232,10 +234,8 @@ const StudentDetail = () => {
                         >
                           <div className="tw-w-full tw-p-3 tw-flex tw-items-center tw-gap-2">
                             <div className="tw-w-[22px] tw-h-[22px] tw-rounded-sm tw-flex tw-justify-center tw-items-center tw-overflow-hidden">
-                              <Image
-                                src={defaultImageUrl}
-                                alt=""
-                                className="tw-w-full tw-h-full tw-object-contain"
+                              <BookCard
+                                color={_resource?.resource_node?.data?.color || "#000000"}
                               />
                             </div>
                             <div>{_resource?.resource_node?.title || "-"}</div>
