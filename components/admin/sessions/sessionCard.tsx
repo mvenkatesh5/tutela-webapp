@@ -96,11 +96,25 @@ const AdminSessionCard = (props: any) => {
                     {props?.data?.data?.zoom || props?.data?.data?.chime ? (
                       <Image className="img-fluid rounded me-3" src="/classes-active.svg" alt="" />
                     ) : (
-                      <Image
-                        className="img-fluid rounded me-3"
-                        src="/classes-not-active.svg"
-                        alt=""
-                      />
+                      <>
+                        {props?.data?.iconColor ? (
+                          <Image
+                            className="img-fluid rounded me-3"
+                            src={
+                              props?.data?.iconColor === "coloured"
+                                ? `/classes-active.svg`
+                                : `/classes-not-active.svg`
+                            }
+                            alt=""
+                          />
+                        ) : (
+                          <Image
+                            className="img-fluid rounded me-3"
+                            src="/classes-not-active.svg"
+                            alt=""
+                          />
+                        )}
+                      </>
                     )}
                   </div>
                   <div>

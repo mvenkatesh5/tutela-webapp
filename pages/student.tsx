@@ -179,7 +179,7 @@ const StudentDetail = () => {
               <Row>
                 <h4 className="fw-bold text-dark mb-3">Dashboard</h4>
                 <Col lg="8">
-                  <h5 className="fw-bold text-dark mt-3 mb-3">Today Classes:</h5>
+                  <h5 className="fw-bold text-dark mt-3 mb-3">Today{"'"}s Classes:</h5>
                   {sessionList &&
                   sessionList.length > 0 &&
                   renderSessionsForTodayAndUpcoming(sessionList, "today").length > 0 ? (
@@ -187,7 +187,7 @@ const StudentDetail = () => {
                       {renderSessionsForTodayAndUpcoming(sessionList, "today").map(
                         (data: any, index: Number) => (
                           <div key={data.id} className="mb-2">
-                            <SessionCard data={data} role="student" />
+                            <SessionCard data={data} role="student" iconColor="coloured" />
                           </div>
                         )
                       )}

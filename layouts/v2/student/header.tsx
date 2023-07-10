@@ -18,8 +18,6 @@ const StudentHeader = () => {
     }
   }, []);
 
-  console.log("tokenDetails", tokenDetails);
-
   return (
     <div className="tw-relative tw-overflow-hidden tw-w-full tw-h-full tw-py-1 tw-flex tw-items-center">
       <div className="tw-container tw-mx-auto tw-px-5">
@@ -33,8 +31,10 @@ const StudentHeader = () => {
               />
             </div>
             <div>
-              <strong className="tw-font-base">Welcome back, {tokenDetails?.user?.username}</strong>
-              <div className="tw-text-sm tw-font-medium">Have a great learning!</div>
+              <div className="!tw-font-base !tw-text-[16px] !tw-font-semibold">
+                Welcome back, {tokenDetails?.user?.username}
+              </div>
+              <div className="!tw-text-sm !tw-font-medium">Have a great learning!</div>
             </div>
           </div>
         </div>

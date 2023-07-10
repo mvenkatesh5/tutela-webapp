@@ -200,6 +200,7 @@ const CalendarWeekMonthCardDetailView = (props: any) => {
                 {/* <div className=" mt-2 ms-2">Hello</div> */}
               </div>
             )}
+            {console.log("props.data -> recording link ->", props.data)}
 
             <div className="d-flex w-100 mb-2 align-items-center">
               <div className="small-icon">
