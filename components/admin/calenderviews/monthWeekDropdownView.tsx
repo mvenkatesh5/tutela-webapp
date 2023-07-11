@@ -206,17 +206,22 @@ const CalendarWeekMonthCardDetailView = (props: any) => {
                 <Video width={20} className="text-muted" />
               </div>
               <div className="ms-2">
-                {props.data.recording_link ? (
-                  <a
-                    href={props.data.recording_link}
-                    target="_blank"
-                    className="description"
-                    rel="noreferrer"
-                  >
-                    {props.data.recording_link}
-                  </a>
+                {props.data?.recording_files &&
+                props.data?.recording_files?.data &&
+                props.data?.recording_files?.data.length > 0 ? (
+                  <Link href={`/session-detail/${props.data?.id}`}>
+                    <a>
+                      <small>
+                        <Badge className="bg-primary">
+                          {props.data?.recording_files?.data.length} Recordings available
+                        </Badge>
+                      </small>
+                    </a>
+                  </Link>
                 ) : (
-                  <div className="description">No recording is available.</div>
+                  <small>
+                    <Badge className="bg-danger">Recordings not available</Badge>
+                  </small>
                 )}
               </div>
             </div>

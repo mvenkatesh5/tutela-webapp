@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 // react bootstrap
-import { Image, Button, Modal, Form, Tab, Nav } from "react-bootstrap";
+import { Image, Button, Modal, Form, Tab, Nav, Badge } from "react-bootstrap";
 // material icons
 import { LinkAlt } from "@styled-icons/boxicons-regular";
 import { Users } from "@styled-icons/fa-solid";
@@ -276,8 +276,6 @@ const SessionDetailView = () => {
   ];
   const [currentTab, setCurrentTab] = React.useState("videos");
 
-  console.log("sessionDetail", sessionDetail);
-
   const { data: product, error: productError } = useSWR(
     sessionDetail && sessionDetail?.product_id
       ? PRODUCTS_WITH_ID_ENDPOINT(sessionDetail?.product_id)
@@ -358,30 +356,29 @@ const SessionDetailView = () => {
                     </div>
                   </div>
 
-                  {sessionDetail.recording_link && (
-                    <div className="video-section-detail">
-                      <div className="heading">
-                        <div className="icon">
-                          <LinkAlt className="text-muted" />
-                        </div>
-                        <div className="content">Zoom Recording</div>
+                  <div className="video-section-detail">
+                    <div className="heading">
+                      <div className="icon">
+                        <LinkAlt className="text-muted" />
                       </div>
-                      <div className="description">
-                        {sessionDetail.recording_link ? (
-                          <a
-                            href={sessionDetail.recording_link}
-                            target="_blank"
-                            className="description"
-                            rel="noreferrer"
-                          >
-                            {sessionDetail.recording_link}
-                          </a>
-                        ) : (
-                          <div className="description">No recording is available.</div>
-                        )}
-                      </div>
+                      <div className="content">Zoom Recording</div>
                     </div>
-                  )}
+                    <div className="description">
+                      {sessionDetail?.recording_files &&
+                      sessionDetail?.recording_files?.data &&
+                      sessionDetail?.recording_files?.data.length > 0 ? (
+                        <small>
+                          <Badge className="bg-primary">
+                            {sessionDetail?.recording_files?.data.length} Recordings available
+                          </Badge>
+                        </small>
+                      ) : (
+                        <small>
+                          <Badge className="bg-danger">Recordings not available</Badge>
+                        </small>
+                      )}
+                    </div>
+                  </div>
 
                   <div className="video-section-detail">
                     <div className="heading">
