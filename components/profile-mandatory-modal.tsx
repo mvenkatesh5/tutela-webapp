@@ -37,7 +37,7 @@ const ProfileMandatoryModal = () => {
             <div className="tw-flex tw-flex-col tw-justify-center tw-items-center tw-gap-5">
               <UserCheck className="tw-w-[120px] tw-h-[120px] tw-text-[#1f475f]" />
               <div className="tw-text-xl tw-font-medium tw-text-transparent tw-bg-clip-text tw-bg-gradient-to-r tw-from-[#11293a] tw-to-[#1f475f]">
-                Complete your profile to continue accessing the tutelaprep
+                Complete your profile to continue accessing the TutelaPrep platform.
               </div>
               <div className="tw-mb-5">
                 <Button onClick={redirect}>Complete your profile</Button>
