@@ -10,6 +10,7 @@ const initialState = {
   unratedSessionStatus: false,
   unratedSessions: [],
   sidebarToggle: false,
+  profileMandatoryToggle: false,
 };
 
 const reducer = (state: any, action: any) => {
@@ -39,6 +40,11 @@ const reducer = (state: any, action: any) => {
       return {
         ...state,
         sidebarToggle: action.payload,
+      };
+    case "PROFILE_MANDATORY_TOGGLE":
+      return {
+        ...state,
+        profileMandatoryToggle: action.payload,
       };
     default:
       return state;

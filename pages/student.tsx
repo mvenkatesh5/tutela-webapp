@@ -125,9 +125,6 @@ const StudentDetail = () => {
     { refreshInterval: 0 }
   );
 
-  console.log("notes", notes);
-  console.log("resources", resources);
-
   // const { data: announcement, error: announcementError } = useSWR(
   //   ANNOUNCEMENT_USER_ENDPOINT,
   //   APIFetcher,
@@ -228,27 +225,31 @@ const StudentDetail = () => {
                           Course
                         </div>
                       </div>
-                      {resources.map((_resource: any) => (
-                        <div
-                          key={_resource?.id}
-                          className="tw-bg-white tw-flex tw-items-center tw-text-sm"
-                        >
-                          <div className="tw-w-full tw-p-3 tw-flex tw-items-center tw-gap-2">
-                            <div className="tw-w-[22px] tw-h-[22px] tw-rounded-sm tw-flex tw-justify-center tw-items-center tw-overflow-hidden">
-                              <BookCard
-                                color={_resource?.resource_node?.data?.color || "#000000"}
-                              />
-                            </div>
-                            <div>{_resource?.resource_node?.title || "-"}</div>
-                          </div>
-                          <div className="tw-w-full tw-p-3 tw-text-center tw-max-w-[140px]">
-                            {_resource?.resource_node?.source?.title || "-"}
-                          </div>
-                          <div className="tw-w-full tw-p-3 tw-text-center tw-max-w-[140px]">
-                            {_resource?.resource_node?.course?.title || "-"}
-                          </div>
-                        </div>
-                      ))}
+                      {resources.reverse().map(
+                        (_resource: any, index: any) =>
+                          index < 3 && (
+                            <Link key={_resource?.id} href={`/user-resources/${_resource?.id}`}>
+                              <a>
+                                <div className="tw-bg-white tw-flex tw-items-center tw-text-sm">
+                                  <div className="tw-w-full tw-p-3 tw-flex tw-items-center tw-gap-2">
+                                    <div className="tw-w-[22px] tw-h-[22px] tw-rounded-sm tw-flex tw-justify-center tw-items-center tw-overflow-hidden">
+                                      <BookCard
+                                        color={_resource?.resource_node?.data?.color || "#000000"}
+                                      />
+                                    </div>
+                                    <div>{_resource?.resource_node?.title || "-"}</div>
+                                  </div>
+                                  <div className="tw-w-full tw-p-3 tw-text-center tw-max-w-[140px]">
+                                    {_resource?.resource_node?.source?.title || "-"}
+                                  </div>
+                                  <div className="tw-w-full tw-p-3 tw-text-center tw-max-w-[140px]">
+                                    {_resource?.resource_node?.course?.title || "-"}
+                                  </div>
+                                </div>
+                              </a>
+                            </Link>
+                          )
+                      )}
                     </div>
                   ) : (
                     <div className="text-center mt-4 mb-4">No Resources are available.</div>
@@ -263,21 +264,24 @@ const StudentDetail = () => {
                           Resource
                         </div>
                       </div>
-                      {notes.map((_notes: any) => (
-                        <div
-                          key={_notes?.id}
-                          className="tw-bg-white tw-flex tw-items-center tw-text-sm"
-                        >
-                          <div className="tw-w-full tw-p-3 tw-flex tw-items-center tw-gap-2">
-                            <div>{_notes?.text || "-"}</div>
-                          </div>
-                          <div className="tw-w-full tw-p-3 tw-text-center tw-max-w-[140px] hover:tw-text-blue-500 tw-cursor-pointer">
-                            <Link href={`/user-resources/${_notes?.resource_connection}`}>
-                              <a>View Detail</a>
-                            </Link>
-                          </div>
-                        </div>
-                      ))}
+                      {notes.reverse().map(
+                        (_notes: any, index: any) =>
+                          index < 5 && (
+                            <div
+                              key={_notes?.id}
+                              className="tw-bg-white tw-flex tw-items-center tw-text-sm"
+                            >
+                              <div className="tw-w-full tw-p-3 tw-flex tw-items-center tw-gap-2">
+                                <div>{_notes?.text || "-"}</div>
+                              </div>
+                              <div className="tw-w-full tw-p-3 tw-text-center tw-max-w-[140px] hover:tw-text-blue-500 tw-cursor-pointer">
+                                <Link href={`/user-resources/${_notes?.resource_connection}`}>
+                                  <a>View Detail</a>
+                                </Link>
+                              </div>
+                            </div>
+                          )
+                      )}
                     </div>
                   ) : (
                     <div className="text-center mt-4 mb-4">No Notes are available.</div>
