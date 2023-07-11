@@ -56,7 +56,6 @@ const StudentLayout = ({ children, page = "dashboard" }: any) => {
       let currentUser = getRole(null);
       if (currentUser?.id) {
         const response = await APIFetcher(USER_WITH_ID_ENDPOINT(currentUser?.id));
-        console.log("response", response);
         const validateRequiredFields = [
           "dob",
           "name",

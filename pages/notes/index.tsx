@@ -58,7 +58,7 @@ const NotesView = () => {
           <title>notes</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <StudentV2Layout page="notes">
+        <StudentV2Layout page="my-notes">
           <div className="tw-w-full tw-h-full tw-overflow-y-auto">
             <Container className="pt-3 pb-3">
               <div className="tw-bg-[#f8f8f8] p-4 tw-rounded-lg ">

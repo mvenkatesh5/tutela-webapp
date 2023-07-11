@@ -2,6 +2,7 @@ import React from "react";
 // components
 import DashboardNav from "@components/dashboardnav";
 import SidebarView from "@components/sidebar";
+import TeacherSidebarView from "@components/UserSidebar";
 import UserSidebarView from "@layouts/v2/student/sidebar";
 // cookie
 import { getAuthenticationToken } from "@lib/cookie";
@@ -37,6 +38,10 @@ const AdminLayout = (props: any) => {
           {tokenDetails && tokenDetails.info && tokenDetails.info.role === 2 ? (
             <div className={`left-layout ${globalState.sidebarToggle && "active"}`}>
               <SidebarView />
+            </div>
+          ) : tokenDetails && tokenDetails.info && tokenDetails.info.role === 1 ? (
+            <div className={`left-layout ${globalState.sidebarToggle && "active"}`}>
+              <TeacherSidebarView />
             </div>
           ) : (
             <div

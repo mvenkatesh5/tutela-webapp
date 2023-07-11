@@ -84,7 +84,7 @@ const TeacherProfile = () => {
 
   return (
     <Page meta={meta}>
-      <div>
+      <>
         <StudentLayout>
           {!userDetailList ? (
             <div className="text-center my-5">Loading.....</div>
@@ -157,7 +157,7 @@ const TeacherProfile = () => {
             </Container>
           )}
         </StudentLayout>
-      </div>
+      </>
     </Page>
   );
 };

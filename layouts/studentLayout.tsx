@@ -23,16 +23,16 @@ import { logout } from "@lib/cookie";
 import { SignOut } from "@lib/services/authenticationservice";
 
 const StudentLayout = (props: any) => {
-  const signOut = () => {
-    SignOut()
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    logout();
-  };
+  // const signOut = () => {
+  //   SignOut()
+  //     .then((response) => {
+  //       console.log(response);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  //   logout();
+  // };
 
   const [globalState, globalDispatch] = React.useContext(globalContext);
 
@@ -86,9 +86,9 @@ const StudentLayout = (props: any) => {
   return (
     <>
       <div className="t-default-layout">
-        {/* <div className="top-bar ">
+        <div className="top-bar ">
           <DashboardNav />
-        </div> */}
+        </div>
         <div className="bottom-bar">
           <div className={`t-side-bar ${globalState.sidebarToggle && "active"}`}>
             <UserSidebar />
@@ -98,7 +98,7 @@ const StudentLayout = (props: any) => {
           ) : (
             <div className="t-right-bar border tw-bg-[#E7D3B5] tw-bg-opacity-30">
               <>
-                <div className="mt-4 d-flex tw-w-full px-2">
+                {/* <div className="mt-4 d-flex tw-w-full px-2">
                   <div className="tw-ml-auto d-flex tw-gap-3 tw-items-center">
                     <div className="tw-w-10 tw-h-10 tw-rounded-full tw-flex-shrink-0">
                       <Image
@@ -123,16 +123,16 @@ const StudentLayout = (props: any) => {
                       <div className="tw-pt-[2px]">Logout</div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {props.children}
               </>
             </div>
           )}
         </div>
       </div>
-      {globalState.unratedSessions && globalState.unratedSessions.length > 0 && (
+      {/* {globalState.unratedSessions && globalState.unratedSessions.length > 0 && (
         <UnratedSessions data={globalState.unratedSessions} user={getRole("user")} />
-      )}
+      )} */}
     </>
   );
 };
