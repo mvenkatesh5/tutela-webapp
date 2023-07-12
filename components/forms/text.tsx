@@ -5,7 +5,10 @@ const FormText = (props: any) => {
   return (
     <div>
       <Form.Group className="mb-3" controlId={`element-text-${props.data.key}`}>
-        <Form.Label className="mb-1 text-muted">{props.data.label}</Form.Label>
+        <Form.Label className="mb-1 text-muted">
+          {props.data.label}
+          {props?.data?.required && <span className="tw-text-red-500"> *</span>}
+        </Form.Label>
         <Form.Control
           type={props.data.kind}
           value={

@@ -18,7 +18,10 @@ const FormRadioCheckbox = (props: any) => {
   return (
     <div>
       <Form.Group controlId={`element-mcq-${props.data.key}`} className="mb-3">
-        <Form.Label>{props.data.label}</Form.Label>
+        <Form.Label>
+          {props.data.label}
+          {props?.data?.required && <span className="tw-text-red-500"> *</span>}
+        </Form.Label>
         {props.data &&
           props.data.data &&
           props.data.data.length > 0 &&

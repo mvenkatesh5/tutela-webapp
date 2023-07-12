@@ -57,37 +57,34 @@ const StudentLayout = ({ children, page = "dashboard" }: any) => {
       if (currentUser?.id) {
         const response = await APIFetcher(USER_WITH_ID_ENDPOINT(currentUser?.id));
         const validateRequiredFields = [
-          "dob",
           "name",
-          "class",
           "email",
           "phone",
-          "state",
-          "school",
-          "address",
+          "dob",
+
           "country",
-          "curriculum",
+          "state",
+          "address",
+
           "avid_reader",
-          "father_name",
+          "smart_deductions",
+          "read_between_lines",
+          "confortable_charts_diagram",
+          "numbers_or_text",
+
           "mother_name",
-          "dream_course",
-          "father_email",
-          "father_phone",
           "mother_email",
           "mother_phone",
-          "dream_college",
-          "numbers_or_text",
-          "smart_deductions",
-          "father_profession",
-          "mother_profession",
-          "father_designation",
-          "mother_designation",
-          "read_between_lines",
-          "father_organisation",
-          "mother_organisation",
-          "father_mode_of_contact",
           "mother_mode_of_contact",
-          "confortable_charts_diagram",
+
+          "father_name",
+          "father_email",
+          "father_phone",
+          "father_mode_of_contact",
+
+          "school",
+          "curriculum",
+          "class",
         ];
         let profileMandatoryCompleted = true;
         validateRequiredFields.map((item: string) => {

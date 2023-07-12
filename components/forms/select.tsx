@@ -5,7 +5,10 @@ const FormSelect = (props: any) => {
   return (
     <div>
       <Form.Group className="mb-3" controlId={`element-select-${props.data.key}`}>
-        <Form.Label>{props.data.label}</Form.Label>
+        <Form.Label>
+          {props.data.label}
+          {props?.data?.required && <span className="tw-text-red-500"> *</span>}
+        </Form.Label>
         <Form.Control
           as="select"
           value={props.profile && props.profile[props.data.key] && props.profile[props.data.key]}

@@ -211,7 +211,7 @@ export const profileSchemaData = [
           {
             key: "mother_profession",
             label: "Profession",
-            required: true,
+            required: false,
             data: [],
             kind: "text",
             md: 6,
@@ -219,7 +219,7 @@ export const profileSchemaData = [
           {
             key: "mother_organisation",
             label: "Organisation",
-            required: true,
+            required: false,
             data: [],
             kind: "text",
             md: 6,
@@ -227,7 +227,7 @@ export const profileSchemaData = [
           {
             key: "mother_designation",
             label: "Designation",
-            required: true,
+            required: false,
             data: [],
             kind: "text",
             md: 6,
@@ -287,7 +287,7 @@ export const profileSchemaData = [
           {
             key: "father_profession",
             label: "Profession",
-            required: true,
+            required: false,
             data: [],
             kind: "text",
             md: 6,
@@ -295,7 +295,7 @@ export const profileSchemaData = [
           {
             key: "father_organisation",
             label: "Organisation",
-            required: true,
+            required: false,
             data: [],
             kind: "text",
             md: 6,
@@ -303,7 +303,7 @@ export const profileSchemaData = [
           {
             key: "father_designation",
             label: "Designation",
-            required: true,
+            required: false,
             data: [],
             kind: "text",
             md: 6,
@@ -375,7 +375,7 @@ export const profileSchemaData = [
           {
             key: "dream_college",
             label: "Dream College",
-            required: true,
+            required: false,
             data: [],
             kind: "text",
             md: 12,
@@ -383,7 +383,7 @@ export const profileSchemaData = [
           {
             key: "dream_course",
             label: "Dream Course",
-            required: true,
+            required: false,
             data: [],
             kind: "text",
             md: 12,
@@ -398,7 +398,7 @@ export const profileSchemaData = [
           {
             key: "projects",
             label: "Projects (Academic and/or Non-Academic)",
-            required: true,
+            required: false,
             data: [],
             kind: "textarea",
             md: 12,
@@ -406,7 +406,7 @@ export const profileSchemaData = [
           {
             key: "sports",
             label: "Achievements (awards or noteworthy recognitions in any field)",
-            required: true,
+            required: false,
             data: [],
             kind: "textarea",
             md: 6,
@@ -414,7 +414,7 @@ export const profileSchemaData = [
           {
             key: "others",
             label: "Anything else you might want to tell us...",
-            required: true,
+            required: false,
             data: [],
             kind: "textarea",
             md: 6,
