@@ -1,28 +1,22 @@
 import React from "react";
 // react bootstrap
-import { OverlayTrigger, Tooltip, Button, Form, Modal } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 // swr
 import useSWR, { mutate } from "swr";
-// icons
-import { Books } from "@styled-icons/icomoon/Books";
-import { ChevronDown } from "@styled-icons/boxicons-regular/ChevronDown";
-import { ChevronRight } from "@styled-icons/boxicons-regular/ChevronRight";
-// api routes
-import {
-  RESOURCE_WITH_NODE_ENDPOINT,
-  PRODUCTS_WITH_ID_ENDPOINT,
-  TAGS_ENDPOINT,
-} from "@constants/routes";
+
 // api services
-import { APIFetcher } from "@lib/services";
 import { SessionReport } from "@lib/services/session-report.service";
 
 const AttachResourceReportSessionUser = ({ session }: any) => {
   const [selectedUser, setSelectedUser] = React.useState<any>(null);
 
   const { data: userResourcesAttached, error: userResourcesAttachedError } = useSWR(
-    selectedUser ? `session-attach-resource-render-${selectedUser}` : null,
-    selectedUser ? () => SessionReport.getBySessionUserId(selectedUser) : null,
+    session && session?.id && selectedUser
+      ? `session-attach-resource-render-${selectedUser}`
+      : null,
+    session && session?.id && selectedUser
+      ? () => SessionReport.getBySessionUserId(selectedUser, { session_id: session?.id })
+      : null,
     { refreshInterval: 0 }
   );
 

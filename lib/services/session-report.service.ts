@@ -24,10 +24,11 @@ export const SessionReport = {
       throw error.response.data;
     }
   },
-  getBySessionUserId: async (session_user_id: string | number) => {
+  getBySessionUserId: async (session_user_id: string | number, data: any = {}) => {
     try {
       const response = await axios.get(
-        SESSION_USER_REPORT_BY_SESSION_USER_ID_ENDPOINT(session_user_id)
+        SESSION_USER_REPORT_BY_SESSION_USER_ID_ENDPOINT(session_user_id),
+        data
       );
       return response.data;
     } catch (error: any) {
