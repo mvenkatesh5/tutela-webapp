@@ -55,7 +55,6 @@ const ZoomSession = (props: any) => {
   }, []);
 
   React.useEffect(() => {
-    console.log(props);
     if (props.data && props.data.data && props.data.data.zoom) {
       setZoomData(props.data.data.zoom);
     }
@@ -248,7 +247,6 @@ const ZoomSession = (props: any) => {
         };
         SessionUserUpdate(payload)
           .then((response) => {
-            console.log(response);
             if (url) window.open(url, "_blank");
             setLoader(false);
           })

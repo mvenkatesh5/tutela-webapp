@@ -19,6 +19,7 @@ import SessionEdit from "@components/admin/sessions/edit";
 import SessionDelete from "@components/admin/sessions/delete";
 import SessionSuspend from "@components/admin/sessions/SessionSuspend";
 import SessionReschedule from "@components/admin/sessions/SessionReschedule";
+import AttachResourceReportSessionUser from "@components/session-feedback/attach-resources/create";
 // global imports
 import { datePreview } from "@constants/global";
 
@@ -239,6 +240,14 @@ const AdminSessionCard = (props: any) => {
                       <SessionDelete data={props.data} currentDateQuery={props.currentDateQuery} />
                     </div>
                   )}
+
+                  {(props.role === "admin" || props.role === "teacher") &&
+                    disablePreviousDate(props.data.start_datetime) && (
+                      <div className="ms-2">
+                        <AttachResourceReportSessionUser session={props.data} />
+                      </div>
+                    )}
+
                   {(props.role === "admin" || props.role === "teacher") &&
                     disablePreviousDate(props.data.start_datetime) && (
                       <div className="ms-2">
@@ -248,6 +257,7 @@ const AdminSessionCard = (props: any) => {
                         />
                       </div>
                     )}
+
                   {(props.role === "admin" || props.role === "teacher") &&
                     disablePreviousDate(props.data.start_datetime) && (
                       <div className="ms-2">
@@ -257,6 +267,7 @@ const AdminSessionCard = (props: any) => {
                         />
                       </div>
                     )}
+
                   <div className="text-end ms-2" onClick={handleSessionDetailView}>
                     <CheveronDown className="text-muted" width={20} />
                   </div>

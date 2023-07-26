@@ -200,3 +200,11 @@ export const NODE_WITH_NODE_ID_AND_TEACHER_WITH_TEACHER_ID_ENDPOINT = (
 export const NODES_TEACHERS_ENDPOINT = `nodes/teachers/`;
 export const NODES_WITH_TEACHER_ID_ENDPOINT = (teacher_id: any) =>
   `/api/nodes/teachers/${teacher_id}/`;
+
+// session user report
+export const SESSION_USER_REPORT_ENDPOINT = `/api/tutela-session-user-report/`;
+export const SESSION_USER_REPORT_WITH_ID_ENDPOINT = (report_id: any) =>
+  `/api/tutela-session-user-report/${report_id}/`;
+export const SESSION_USER_REPORT_BULK_CREATE_ENDPOINT = `/api/tutela-session-user-report-bulk/`;
+export const SESSION_USER_REPORT_BY_SESSION_USER_ID_ENDPOINT = (session_user_id: any) =>
+  `/api/tutela-session/${session_user_id}/user-report/`;

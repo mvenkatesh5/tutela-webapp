@@ -19,6 +19,7 @@ import SessionEdit from "@components/admin/sessions/edit";
 import SessionDelete from "@components/admin/sessions/delete";
 import SessionSuspend from "@components/admin/sessions/SessionSuspend";
 import SessionReschedule from "@components/admin/sessions/SessionReschedule";
+import AttachResourceReportSessionUser from "@components/session-feedback/attach-resources/create";
 // global imports
 import { datePreview } from "@constants/global";
 
@@ -269,12 +270,21 @@ const CalendarWeekMonthCardDetailView = (props: any) => {
                   <SessionDelete data={props.data} currentDateQuery={props.currentDateQuery} />
                 </div>
               )}
+
+              {(props.role === "admin" || props.role === "teacher") &&
+                disablePreviousDate(props.data.start_datetime) && (
+                  <div className="ms-2">
+                    <AttachResourceReportSessionUser session={props.data} />
+                  </div>
+                )}
+
               {(props.role === "admin" || props.role === "teacher") &&
                 disablePreviousDate(props.data.start_datetime) && (
                   <div className="ms-2">
                     <SessionSuspend data={props.data} currentDateQuery={props.currentDateQuery} />
                   </div>
                 )}
+
               {(props.role === "admin" || props.role === "teacher") &&
                 disablePreviousDate(props.data.start_datetime) && (
                   <div className="ms-2">
