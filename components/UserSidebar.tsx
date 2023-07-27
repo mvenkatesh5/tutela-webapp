@@ -450,7 +450,7 @@ const UserSidebar = () => {
             <OverlayTrigger
               key={`right`}
               placement={`right`}
-              overlay={<Tooltip id={`tooltip-right`}>Resources</Tooltip>}
+              overlay={<Tooltip id={`tooltip-right`}>Un-reviewed Sessions</Tooltip>}
             >
               <div
                 className={

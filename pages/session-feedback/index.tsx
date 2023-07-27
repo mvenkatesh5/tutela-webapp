@@ -110,6 +110,10 @@ const SessionFeedback = () => {
   ];
   const [activeTab, setActiveTab] = React.useState("unfinished");
 
+  const percentage = (partialValue: any, totalValue: any) => {
+    return (100 * partialValue) / totalValue;
+  };
+
   return (
     <Page meta={meta}>
       <StudentLayout assessmentSidebar={true}>
@@ -202,18 +206,26 @@ const SessionFeedback = () => {
                           </div>
                         </div>
 
-                        <div className="tw-w-[150px] tw-h-[20px] tw-ml-auto">
-                          <div className="tw-text-xs tw-font-medium tw-mb-1">
-                            {" "}
-                            Reports : 0/{userReports?.reports.length || 0}{" "}
+                        {userReports && userReports?.reports && (
+                          <div className="tw-w-[150px] tw-h-[20px] tw-ml-auto">
+                            <div className="tw-text-xs tw-font-medium tw-mb-1">
+                              Reports :{" "}
+                              {`${
+                                userReports?.reports.filter((_i: any) => _i?.is_submitted).length ||
+                                0
+                              }/${userReports?.reports.length || 0}`}
+                            </div>
+                            <ProgressBar
+                              style={{ height: " 6px" }}
+                              variant="success"
+                              className="rounded-pill"
+                              now={percentage(
+                                userReports?.reports.filter((_i: any) => _i?.is_submitted).length,
+                                userReports?.reports.length
+                              )}
+                            />
                           </div>
-                          <ProgressBar
-                            style={{ height: " 6px" }}
-                            variant="success"
-                            className="rounded-pill"
-                            now={0}
-                          />
-                        </div>
+                        )}
                       </div>
 
                       <div className="tw-relative tw-w-full tw-h-full tw-p-2 tw-px-3 tw-overflow-y-auto">

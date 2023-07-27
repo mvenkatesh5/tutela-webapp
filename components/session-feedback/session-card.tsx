@@ -45,9 +45,9 @@ const SessionCard = ({ data, currentSession, currentUser, currentProduct }: any)
         <div className="tw-space-y-1">
           <div className="tw-font-medium tw-text-sm">{data.title}</div>
           <div className="tw-flex tw-items-center tw-gap-2">
-            <div className="tw-inline-flex tw-bg-gray-300 tw-rounded-sm tw-text-xs tw-font-medium tw-p-1 tw-py-0.5">
+            {/* <div className="tw-inline-flex tw-bg-gray-300 tw-rounded-sm tw-text-xs tw-font-medium tw-p-1 tw-py-0.5">
               8/10
-            </div>
+            </div> */}
             <div className="tw-inline-flex tw-bg-gray-300 tw-text-xs tw-font-medium tw-rounded-sm tw-p-1 tw-py-0.5">
               {datePreview(data.start_datetime)}
             </div>
