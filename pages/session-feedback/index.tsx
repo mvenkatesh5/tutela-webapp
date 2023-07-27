@@ -2,24 +2,27 @@ import React from "react";
 // next imports
 import { useRouter } from "next/router";
 // react-bootstrap
-import { Container, Row, Col, Image, Card, Form, Dropdown, ProgressBar } from "react-bootstrap";
+import { Image, ProgressBar } from "react-bootstrap";
+// swr
+import useSWR from "swr";
 // constants
 import { META_DESCRIPTION } from "@constants/page";
 // seo
 import Page from "@components/page";
-// icons
-import { CheveronDown } from "@styled-icons/zondicons/CheveronDown";
 // layout
 import StudentLayout from "@layouts/studentLayout";
 // components
-import SessionCard from "@components/session-feedback/SessionCard";
-import ReportCard from "@components/session-feedback/ReportCard";
-// swr
-import useSWR from "swr";
+import SessionCard from "@components/session-feedback/session-card";
+import UserCard from "@components/session-feedback/user-card";
+import ReportCard from "@components/session-feedback/report-card";
 // api routes
-import { TEACHER_SESSION_FEEDBACK_UN_REVIEWED_ENDPOINT } from "@constants/routes";
+import {
+  TEACHER_SESSION_FEEDBACK_UN_REVIEWED_ENDPOINT,
+  PRODUCTS_WITH_ID_ENDPOINT,
+} from "@constants/routes";
 // api services
 import { APIFetcher } from "@lib/services";
+import { SessionReport } from "@lib/services/session-report.service";
 // hoc
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 // global context provider
@@ -27,7 +30,7 @@ import { globalContext } from "@contexts/global";
 
 const SessionFeedback = () => {
   const router = useRouter();
-  const { session, user } = router.query;
+  const { session, user, product: product_id } = router.query as any;
 
   const meta = {
     title: "Teacher Feedback",
@@ -35,7 +38,6 @@ const SessionFeedback = () => {
   };
 
   const [globalState, globalDispatch] = React.useContext(globalContext);
-
   React.useEffect(() => {
     globalDispatch({
       type: "SIDEBAR_TOGGLE",
@@ -43,33 +45,48 @@ const SessionFeedback = () => {
     });
   }, [globalDispatch]);
 
-  const { data: unReviewedSessions, error: unReviewedSessionsError } = useSWR(
+  const { data: teacherSessions, error: teacherSessionsError } = useSWR(
     TEACHER_SESSION_FEEDBACK_UN_REVIEWED_ENDPOINT,
     APIFetcher,
     { refreshInterval: 0 }
   );
-
   React.useEffect(() => {
     if (
-      unReviewedSessions &&
-      unReviewedSessions?.data &&
-      unReviewedSessions?.data.length > 0 &&
+      teacherSessions &&
+      teacherSessions?.data &&
+      teacherSessions?.data.length > 0 &&
       !session &&
       !user
     ) {
       router.replace(
-        `/session-feedback?session=${unReviewedSessions.data[0].id}${
-          unReviewedSessions.data[0]?.session_users.length > 0 &&
-          `&user=${unReviewedSessions.data[0].session_users[0].user.id}`
-        }`,
+        `/session-feedback?session=${teacherSessions.data[0].id}${
+          teacherSessions.data[0]?.session_users.length > 0 &&
+          `&user=${teacherSessions.data[0].session_users[0].id}`
+        }${teacherSessions.data[0]?.product && `&product=${teacherSessions.data[0]?.product}`}`,
         undefined,
         { shallow: true }
       );
     }
-  }, [unReviewedSessions, router, session, user]);
+  }, [teacherSessions, router, session, user]);
+
+  // fetch product details
+  const { data: product, error: productError } = useSWR(
+    product_id ? `session_product_teacher-${product_id}` : null,
+    product_id ? () => APIFetcher(PRODUCTS_WITH_ID_ENDPOINT(product_id)) : null,
+    { refreshInterval: 0 }
+  );
+
+  // fetch session user report details
+  const { data: userReports, error: userReportsError } = useSWR(
+    session && user ? `session_user_report_teacher-${session}-${user}` : null,
+    session && user ? () => SessionReport.getBySessionUserId(user, { session_id: session }) : null,
+    { refreshInterval: 0 }
+  );
+
+  console.log("userReports", userReports);
 
   const currentSessionUsers = () => {
-    let sessionUsers = unReviewedSessions?.data?.filter((item: any) => item.id == session);
+    let sessionUsers = teacherSessions?.data?.filter((item: any) => item.id == session);
     if (sessionUsers && sessionUsers.length > 0) {
       sessionUsers = sessionUsers[0]?.session_users;
       return sessionUsers;
@@ -78,33 +95,14 @@ const SessionFeedback = () => {
   };
 
   const currentUser = () => {
-    let sessionUsers = unReviewedSessions?.data?.filter((item: any) => item.id == session);
+    let sessionUsers = teacherSessions?.data?.filter((item: any) => item.id == session);
     if (sessionUsers && sessionUsers.length > 0) {
       sessionUsers = sessionUsers[0]?.session_users;
-      sessionUsers = sessionUsers?.filter((_user: any) => _user?.user?.id == user);
+      sessionUsers = sessionUsers?.filter((_user: any) => _user?.id == user);
       if (sessionUsers && sessionUsers.length > 0) return sessionUsers[0];
     }
     return [];
   };
-
-  const [productDetails, setProductDetails] = React.useState<any>(null);
-  React.useEffect(() => {
-    setProductDetails(null);
-  }, [session]);
-  React.useEffect(() => {
-    if (
-      productDetails === null &&
-      unReviewedSessions &&
-      unReviewedSessions?.data &&
-      unReviewedSessions?.data.length > 0 &&
-      session
-    ) {
-      let currentUnReviewedSessions = unReviewedSessions.data.find(
-        (unReviewedSession: any) => unReviewedSession.id == session
-      );
-      if (currentUnReviewedSessions) setProductDetails(() => currentUnReviewedSessions?.product);
-    }
-  }, [productDetails, session, unReviewedSessions]);
 
   const tabs = [
     { name: "Unfinished ", key: "unfinished" },
@@ -114,212 +112,151 @@ const SessionFeedback = () => {
 
   return (
     <Page meta={meta}>
-      <StudentLayout>
-        <div style={{ position: "relative", width: "100%", height: "100%" }}>
-          {unReviewedSessions && unReviewedSessions ? (
+      <StudentLayout assessmentSidebar={true}>
+        <div className="tw-relative tw-w-full tw-h-full">
+          {teacherSessions && !teacherSessionsError ? (
             <>
-              {unReviewedSessions?.data && unReviewedSessions?.data.length > 0 ? (
-                <div
-                  style={{ margin: "0px" }}
-                  className="h-100 w-100 overflow-hidden d-flex flex-column"
-                >
-                  <div
-                    style={{ background: " #0052CC", height: "80px" }}
-                    className="flex-shrink-0 border w-100 d-flex align-items-center justify-content-between text-white ps-3 pe-3"
-                  >
-                    <h4 className="my-3">Session Feedback</h4>
+              {teacherSessions?.data && teacherSessions?.data.length > 0 ? (
+                <div className="tw-w-full tw-h-full tw-flex tw-flex-col">
+                  <div className="tw-flex-shrink-0 tw-h-[60px] tw-bg-blue-600 tw-text-white tw-flex tw-justify-between tw-items-center tw-p-3">
+                    <h5 className="tw-m-0 tw-p-0">Session Feedback</h5>
                     <div>Skip for now</div>
                   </div>
 
-                  <div
-                    style={{
-                      position: "relative",
-                      width: "100%",
-                      height: "100%",
-                      display: "flex",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <div
-                      style={{
-                        flexShrink: 0,
-                        width: "280px",
-                        height: "100%",
-                        borderRight: "1px solid #eee",
-                      }}
-                      className="d-flex flex-column"
-                    >
-                      <div
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                        }}
-                        className="d-flex flex-column"
-                      >
-                        <div
-                          className="flex-shrink-0 align-items-center d-flex gap-3 border-bottom px-3"
-                          style={{ height: "0px" }}
-                        >
-                          {/* {tabs &&
+                  <div className="tw-relative tw-w-full tw-h-full tw-overflow-hidden tw-flex">
+                    <div className="tw-flex-shrink-0 tw-relative tw-flex tw-flex-col !tw-w-[280px] tw-h-full tw-border-0 tw-border-r tw-border-solid tw-border-gray-300 tw-overflow-hidden">
+                      <div className="tw-flex-shrink-0 tw-flex tw-border-0 tw-border-b tw-border-solid tw-border-gray-300 tw-p-3 tw-font-medium">
+                        All Sessions
+                      </div>
+                      {/* <div className="tw-flex-shrink-0 tw-flex tw-border-0 tw-border-b tw-border-solid tw-border-gray-300">
+                        {tabs &&
                           tabs.map((tab: any, index: number) => (
                             <div
                               key={`index-tabs-${index}`}
                               onClick={() => setActiveTab(tab.key)}
-                              className={`p-2 cursor-pointer ${
+                              className={`tw-w-full tw-border-0 tw-border-b-2 tw-border-solid tw-text-center tw-p-2 tw-text-sm tw-cursor-pointer tw-font-medium 
+                              ${
                                 activeTab == tab.key
-                                  ? "border-bottom text-primary border-primary border-2 fw-bold"
-                                  : "text-muted fw-bold"
-                              } `}
+                                  ? `tw-border-blue-500 tw-text-blue-500`
+                                  : `tw-border-transparent`
+                              }`}
                             >
                               {tab.name}
                             </div>
-                          ))} */}
-                        </div>
-                        <div
-                          style={{ width: "100%", height: "100%", overflowY: "auto" }}
-                          className="px-3"
-                        >
-                          {unReviewedSessions?.data &&
-                            unReviewedSessions?.data.map((data: any, index: any) => (
-                              <div key={`meetings-${index}-index-data`}>
-                                <SessionCard data={data} currentSession={session} />
-                              </div>
-                            ))}
-                        </div>
+                          ))}
+                      </div> */}
+
+                      <div className="tw-p-2 tw-w-full tw-h-full tw-space-y-2 tw-overflow-y-auto">
+                        {teacherSessions?.data &&
+                          teacherSessions?.data.map((data: any, index: any) => (
+                            <div key={`session-${index}-index-data`}>
+                              <SessionCard
+                                data={data}
+                                currentSession={session}
+                                currentUser={user}
+                                currentProduct={product_id}
+                              />
+                            </div>
+                          ))}
                       </div>
                     </div>
 
-                    <div
-                      style={{
-                        flexShrink: 0,
-                        width: "280px",
-                        height: "100%",
-                        borderRight: "1px solid #eee",
-                      }}
-                      className="d-flex flex-column"
-                    >
-                      <div
-                        className="flex-shrink-0 align-items-center d-flex gap-3 border-bottom px-3"
-                        style={{ height: "50px" }}
-                      >
-                        Students
+                    <div className="tw-flex-shrink-0 tw-relative tw-flex tw-flex-col !tw-w-[280px] tw-h-full tw-border-0 tw-border-r tw-border-solid tw-border-gray-300 tw-overflow-hidden">
+                      <div className="tw-flex-shrink-0 tw-flex tw-border-0 tw-border-b tw-border-solid tw-border-gray-300 tw-p-3 tw-font-medium">
+                        Users
                       </div>
-                      <div
-                        style={{ width: "100%", height: "100%", overflowY: "auto" }}
-                        className="px-3"
-                      >
+                      <div className="tw-p-2 tw-w-full tw-h-full tw-space-y-2 tw-overflow-y-auto">
                         {currentSessionUsers() && currentSessionUsers()?.length > 0 && (
                           <>
-                            {currentSessionUsers().map((_user: any, _idx: any) => (
-                              <div key={_idx}>
-                                {_user?.user.role === 0 && (
-                                  <div
-                                    className={`cursor-pointer my-2 border rounded p-2 d-flex align-items-center gap-2 ${
-                                      _user.user.id == user
-                                        ? "border-primary alert alert-primary text-black"
-                                        : "bg-light"
-                                    }`}
-                                    onClick={() => {
-                                      router.replace(
-                                        `/session-feedback?session=${session}&user=${_user.user.id}`,
-                                        undefined,
-                                        { shallow: true }
-                                      );
-                                    }}
-                                  >
-                                    <Image
-                                      className="img-fluid rounded-circle mt-1"
-                                      src={"/bird.svg"}
-                                      width="30"
-                                      alt=""
+                            {currentSessionUsers().map(
+                              (_user: any, _idx: any) =>
+                                _user?.as_role === 0 && (
+                                  <div key={`user-${_idx}-index-data`}>
+                                    <UserCard
+                                      data={_user}
+                                      currentSession={session}
+                                      currentUser={user}
+                                      currentProduct={product_id}
                                     />
-                                    <div className="fw-medium">
-                                      {_user?.user.first_name} {_user?.user.last_name}
-                                    </div>
                                   </div>
-                                )}
-                              </div>
-                            ))}
+                                )
+                            )}
                           </>
                         )}
                       </div>
                     </div>
 
-                    <div
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        overflow: "hidden",
-                      }}
-                    >
-                      <div
-                        className="flex-shrink-0 align-items-center d-flex gap-3 border-bottom px-3"
-                        style={{ height: "50px" }}
-                      >
-                        <Image
-                          className="img-fluid rounded-circle"
-                          src={"/bird.svg"}
-                          width="30"
-                          alt=""
-                        />
-                        <div className="text-lg fw-medium flex-shrink-0 justify-content-end">
-                          {currentUser()?.user?.first_name} {currentUser()?.user?.last_name}
-                        </div>
-                        <div className="ms-auto d-flex align-items-center gap-4">
-                          <div style={{ width: "150px" }}>
-                            <div className="text-xs fw-medium mb-1"> Reports : 0/6 </div>
-                            <ProgressBar
-                              style={{ height: " 6px" }}
-                              variant="success"
-                              className="rounded-pill"
-                              now={0}
+                    <div className="tw-relatives tw-w-full tw-h-full tw-overflow-hidden tw-flex tw-flex-col">
+                      <div className="tw-flex-shrink-0 tw-flex tw-border-0 tw-border-b tw-border-solid tw-border-gray-300 tw-p-3 tw-font-medium">
+                        <div className="tw-flex tw-items-center tw-gap-2">
+                          <div className="tw-flex-shrink-0 tw-w-[24px] tw-h-[24px] tw-rounded-full tw-overflow-hidden tw-flex tw-justify-center tw-items-center">
+                            <Image
+                              className="tw-object-contain tw-object-center tw-w-full tw-h-full"
+                              src={"/bird.svg"}
+                              alt=""
                             />
                           </div>
-                          {/* <div className="plain-dropdown">
-                          <Dropdown>
-                            <Dropdown.Toggle
-                              as="div"
-                              className="icon d-flex gap-2  plain-dropdown text-primary border-2 border-bottom border-primary text-sm"
-                            >
-                              <div>Conducted Topics</div>
-                              <CheveronDown width="14px" />
-                            </Dropdown.Toggle>
+                          <div className="tw-font-medium tw-text-sm tw-capitalize">
+                            {user && currentUser()?.user?.first_name}{" "}
+                            {user && currentUser()?.user?.last_name}
+                          </div>
+                        </div>
 
-                            <Dropdown.Menu className="content-wrapper p-0">
-                              <div className="p-2">dropdown</div>
-                            </Dropdown.Menu>
-                          </Dropdown>
-                        </div> */}
+                        <div className="tw-w-[150px] tw-h-[20px] tw-ml-auto">
+                          <div className="tw-text-xs tw-font-medium tw-mb-1">
+                            {" "}
+                            Reports : 0/{userReports?.reports.length || 0}{" "}
+                          </div>
+                          <ProgressBar
+                            style={{ height: " 6px" }}
+                            variant="success"
+                            className="rounded-pill"
+                            now={0}
+                          />
                         </div>
                       </div>
 
-                      <div
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          overflowY: "auto",
-                        }}
-                        className="px-3 py-3"
-                      >
-                        {productDetails ? (
+                      <div className="tw-relative tw-w-full tw-h-full tw-p-2 tw-px-3 tw-overflow-y-auto">
+                        {product_id ? (
                           <>
-                            {productDetails?.report_schema &&
-                            productDetails?.report_schema?.data &&
-                            productDetails?.report_schema?.data.length > 0 ? (
-                              <ReportCard
-                                session={session}
-                                user={currentUser()}
-                                data={productDetails}
-                              />
+                            {product && !productError ? (
+                              <>
+                                {userReports && !userReportsError ? (
+                                  <>
+                                    {userReports &&
+                                    userReports?.reports &&
+                                    userReports?.reports.length > 0 ? (
+                                      <div className="tw-space-y-3">
+                                        {userReports?.reports.map((_report: any) => (
+                                          <div
+                                            key={_report?.id}
+                                            className="tw-border tw-border-solid tw-border-gray-300 tw-rounded-sm tw-overflow-hidden tw-bg-gray-100 tw-bg-opacity-50"
+                                          >
+                                            <ReportCard
+                                              product={product}
+                                              report={_report}
+                                              mutate_url={`session_user_report_teacher-${session}-${user}`}
+                                            />
+                                          </div>
+                                        ))}
+                                      </div>
+                                    ) : (
+                                      <div className="text-center pt-5 pb-5 w-100">
+                                        No resources are attached to the user
+                                      </div>
+                                    )}
+                                  </>
+                                ) : (
+                                  <div className="text-center pt-5 pb-5 w-100">Loading...</div>
+                                )}
+                              </>
                             ) : (
-                              <div className="text-center pt-5 pb-5 w-100">
-                                No Report Schema available.
-                              </div>
+                              <div className="text-center pt-5 pb-5 w-100">Loading...</div>
                             )}
                           </>
                         ) : (
-                          <div className="text-center pt-5 pb-5 w-100">
-                            No Product is available.
+                          <div className="tw-text-center tw-text-sm tw-font-medium tw-text-gray-500 tw-py-6">
+                            No product is assigned under the session.
                           </div>
                         )}
                       </div>

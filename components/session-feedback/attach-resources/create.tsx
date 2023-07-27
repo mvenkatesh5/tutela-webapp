@@ -70,7 +70,7 @@ const RenderResource = ({
               </div>
               {renderTag(_childNode?.data?.tag) ? (
                 <div
-                  className="tw-flex-shrink-0 text-sm tw-ml-auto tw-overflow-hidden tw-flex tw-justify-center tw-items-center tw-border tw-border-solid tw-border-gray-100 tw-bg-gray-100 tw-uppercase tw-p-1 tw-py-0.5 tw-rounded tw-font-bold tw-text-white"
+                  className="tw-flex-shrink-0 tw-text-xs tw-ml-auto tw-overflow-hidden tw-flex tw-justify-center tw-items-center tw-border tw-border-solid tw-border-gray-100 tw-bg-gray-100 tw-uppercase tw-p-1 tw-py-0.5 tw-rounded tw-font-bold tw-text-white"
                   style={{ backgroundColor: renderTag(_childNode?.data?.tag)?.color }}
                 >
                   {renderTag(_childNode?.data?.tag)?.name}

@@ -337,16 +337,29 @@ const AdminSessionCard = (props: any) => {
                   <SessionDelete data={props.data} currentDateQuery={props.currentDateQuery} />
                 </div>
               )}
-              {(props.role === "admin" || props.role === "teacher") && (
-                <div className="ms-2">
-                  <SessionSuspend data={props.data} currentDateQuery={props.currentDateQuery} />
-                </div>
-              )}
-              {(props.role === "admin" || props.role === "teacher") && (
-                <div className="ms-2">
-                  <SessionReschedule data={props.data} currentDateQuery={props.currentDateQuery} />
-                </div>
-              )}
+
+              {(props.role === "admin" || props.role === "teacher") &&
+                disablePreviousDate(props.data.start_datetime) && (
+                  <div className="ms-2">
+                    <AttachResourceReportSessionUser session={props.data} />
+                  </div>
+                )}
+
+              {(props.role === "admin" || props.role === "teacher") &&
+                disablePreviousDate(props.data.start_datetime) && (
+                  <div className="ms-2">
+                    <SessionSuspend data={props.data} currentDateQuery={props.currentDateQuery} />
+                  </div>
+                )}
+              {(props.role === "admin" || props.role === "teacher") &&
+                disablePreviousDate(props.data.start_datetime) && (
+                  <div className="ms-2">
+                    <SessionReschedule
+                      data={props.data}
+                      currentDateQuery={props.currentDateQuery}
+                    />
+                  </div>
+                )}
               <div className="text-end ms-2" onClick={handleSessionDetailView}>
                 <CheveronDown className="text-muted" width={20} />
               </div>
