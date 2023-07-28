@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 // react-bootstrap
 import { Image, ProgressBar } from "react-bootstrap";
 // swr
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 // constants
 import { META_DESCRIPTION } from "@constants/page";
 // seo
@@ -23,6 +23,7 @@ import {
 // api services
 import { APIFetcher } from "@lib/services";
 import { SessionReport } from "@lib/services/session-report.service";
+import { SessionUserUpdate } from "@lib/services/sessionservice";
 // hoc
 import withGlobalAuth from "@lib/hoc/withGlobalAuth";
 // global context provider
@@ -83,8 +84,6 @@ const SessionFeedback = () => {
     { refreshInterval: 0 }
   );
 
-  console.log("userReports", userReports);
-
   const currentSessionUsers = () => {
     let sessionUsers = teacherSessions?.data?.filter((item: any) => item.id == session);
     if (sessionUsers && sessionUsers.length > 0) {
@@ -112,6 +111,42 @@ const SessionFeedback = () => {
 
   const percentage = (partialValue: any, totalValue: any) => {
     return (100 * partialValue) / totalValue;
+  };
+
+  console.log("teacherSessions", teacherSessions);
+  console.log("userReports", userReports);
+
+  const [attendanceLoader, setAttendanceLoader] = React.useState(false);
+  const updateUserAttendance = (sessionUser: any, _going: any) => {
+    const payload = { id: sessionUser, going: _going };
+    console.log("payload", payload);
+    setAttendanceLoader(true);
+    SessionUserUpdate(payload)
+      .then((response) => {
+        mutate(
+          TEACHER_SESSION_FEEDBACK_UN_REVIEWED_ENDPOINT,
+          async (elements: any) => {
+            elements && elements.data.length > 0
+              ? elements.data.map((oldElement: any, i: any) => {
+                  if (oldElement.id == session) {
+                    oldElement.session_users.map((_user: any) => {
+                      if (_user.id == sessionUser) {
+                        _user.is_going = _going;
+                      }
+                    });
+                  }
+                })
+              : elements.data;
+            return { data: elements.data };
+          },
+          false
+        );
+        setAttendanceLoader(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setAttendanceLoader(false);
+      });
   };
 
   return (
@@ -191,7 +226,7 @@ const SessionFeedback = () => {
                     </div>
 
                     <div className="tw-relatives tw-w-full tw-h-full tw-overflow-hidden tw-flex tw-flex-col">
-                      <div className="tw-flex-shrink-0 tw-flex tw-border-0 tw-border-b tw-border-solid tw-border-gray-300 tw-p-3 tw-font-medium">
+                      <div className="tw-flex-shrink-0 tw-flex tw-items-center tw-gap-2 tw-border-0 tw-border-b tw-border-solid tw-border-gray-300 tw-p-3 tw-font-medium">
                         <div className="tw-flex tw-items-center tw-gap-2">
                           <div className="tw-flex-shrink-0 tw-w-[24px] tw-h-[24px] tw-rounded-full tw-overflow-hidden tw-flex tw-justify-center tw-items-center">
                             <Image
@@ -206,8 +241,31 @@ const SessionFeedback = () => {
                           </div>
                         </div>
 
-                        {userReports && userReports?.reports && (
-                          <div className="tw-w-[150px] tw-h-[20px] tw-ml-auto">
+                        <div>
+                          {user && currentUser() && (
+                            <div
+                              className={`tw-text-xs tw-uppercase tw-p-1 tw-py-0.5 tw-rounded-sm tw-font-medium tw-cursor-pointer tw-bg-opacity-50 hover:tw-bg-opacity-100  
+                              ${
+                                currentUser()?.is_going
+                                  ? `tw-text-green-500 tw-bg-green-200`
+                                  : `tw-text-red-500 tw-bg-red-200`
+                              }
+                              `}
+                              onClick={() =>
+                                updateUserAttendance(currentUser()?.id, !currentUser()?.is_going)
+                              }
+                            >
+                              {attendanceLoader
+                                ? "Updating..."
+                                : currentUser()?.is_going
+                                ? "Present"
+                                : "Absent"}
+                            </div>
+                          )}
+                        </div>
+
+                        {userReports && userReports?.reports && user && currentUser()?.is_going && (
+                          <div className="tw-w-[150px] tw-h-[24px] tw-ml-auto">
                             <div className="tw-text-xs tw-font-medium tw-mb-1">
                               Reports :{" "}
                               {`${
@@ -216,7 +274,7 @@ const SessionFeedback = () => {
                               }/${userReports?.reports.length || 0}`}
                             </div>
                             <ProgressBar
-                              style={{ height: " 6px" }}
+                              style={{ height: "6px" }}
                               variant="success"
                               className="rounded-pill"
                               now={percentage(
@@ -229,33 +287,39 @@ const SessionFeedback = () => {
                       </div>
 
                       <div className="tw-relative tw-w-full tw-h-full tw-p-2 tw-px-3 tw-overflow-y-auto">
-                        {product_id ? (
+                        {user && currentUser()?.is_going ? (
                           <>
-                            {product && !productError ? (
+                            {product_id ? (
                               <>
-                                {userReports && !userReportsError ? (
+                                {product && !productError ? (
                                   <>
-                                    {userReports &&
-                                    userReports?.reports &&
-                                    userReports?.reports.length > 0 ? (
-                                      <div className="tw-space-y-3">
-                                        {userReports?.reports.map((_report: any) => (
-                                          <div
-                                            key={_report?.id}
-                                            className="tw-border tw-border-solid tw-border-gray-300 tw-rounded-sm tw-overflow-hidden tw-bg-gray-100 tw-bg-opacity-50"
-                                          >
-                                            <ReportCard
-                                              product={product}
-                                              report={_report}
-                                              mutate_url={`session_user_report_teacher-${session}-${user}`}
-                                            />
+                                    {userReports && !userReportsError ? (
+                                      <>
+                                        {userReports &&
+                                        userReports?.reports &&
+                                        userReports?.reports.length > 0 ? (
+                                          <div className="tw-space-y-3">
+                                            {userReports?.reports.map((_report: any) => (
+                                              <div
+                                                key={_report?.id}
+                                                className="tw-border tw-border-solid tw-border-gray-300 tw-rounded-sm tw-overflow-hidden tw-bg-gray-100 tw-bg-opacity-50"
+                                              >
+                                                <ReportCard
+                                                  product={product}
+                                                  report={_report}
+                                                  mutate_url={`session_user_report_teacher-${session}-${user}`}
+                                                />
+                                              </div>
+                                            ))}
                                           </div>
-                                        ))}
-                                      </div>
+                                        ) : (
+                                          <div className="text-center pt-5 pb-5 w-100">
+                                            No resources are attached to the user
+                                          </div>
+                                        )}
+                                      </>
                                     ) : (
-                                      <div className="text-center pt-5 pb-5 w-100">
-                                        No resources are attached to the user
-                                      </div>
+                                      <div className="text-center pt-5 pb-5 w-100">Loading...</div>
                                     )}
                                   </>
                                 ) : (
@@ -263,12 +327,14 @@ const SessionFeedback = () => {
                                 )}
                               </>
                             ) : (
-                              <div className="text-center pt-5 pb-5 w-100">Loading...</div>
+                              <div className="tw-text-center tw-text-sm tw-font-medium tw-text-gray-500 tw-py-6">
+                                No product is assigned under the session.
+                              </div>
                             )}
                           </>
                         ) : (
-                          <div className="tw-text-center tw-text-sm tw-font-medium tw-text-gray-500 tw-py-6">
-                            No product is assigned under the session.
+                          <div className="tw-text-center tw-text-sm tw-font-medium tw-text-gray-500 tw-py-10">
+                            Student did not joined the session
                           </div>
                         )}
                       </div>
