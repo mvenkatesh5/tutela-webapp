@@ -33,6 +33,20 @@ export const APIPusherWithData = async (url: any, data: any) => {
   }
 };
 
+export const AsyncAPIPusherWithData = async (url: any, data: any) => {
+  const promiseData = [];
+  for (let i = 0; i < data.length; i++) {
+    promiseData.push(axios.post(url, data[i]));
+  }
+  return await Promise.all(promiseData)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      throw error.response.data;
+    });
+};
+
 export const APIUpdater = async (url: any, data: any) => {
   try {
     const response = await axios.put(url, data);

@@ -14,9 +14,10 @@ import {
   RESOURCE_WITH_NODE_ENDPOINT,
   PRODUCTS_WITH_ID_ENDPOINT,
   TAGS_ENDPOINT,
+  USER_RESOURCE_ENDPOINT,
 } from "@constants/routes";
 // api services
-import { APIFetcher } from "@lib/services";
+import { APIFetcher, AsyncAPIPusherWithData } from "@lib/services";
 import { SessionReport } from "@lib/services/session-report.service";
 
 const RenderResource = ({
@@ -201,6 +202,7 @@ const AttachResourceReportSessionUser = ({ session }: any) => {
             console.log("response", response);
             setButtonLoader(false);
             attachModalClose();
+            attachResourceToUser();
           })
           .catch((error) => {
             console.log("error", error);
@@ -208,6 +210,35 @@ const AttachResourceReportSessionUser = ({ session }: any) => {
       }
     } else {
       alert("Please select at least one user and resource");
+    }
+  };
+
+  const attachResourceToUser = async () => {
+    if (
+      session?.session_users &&
+      session?.session_users.length > 0 &&
+      selectedUsers &&
+      selectedUsers.length > 0
+    ) {
+      let users = session?.session_users.map((_user: any) =>
+        selectedUsers.includes(_user?.id) ? _user?.user?.id : null
+      );
+      users = users.filter((_user: any) => _user != null);
+      let payload: any[] = [];
+      users.map((_user_id: any) => {
+        payload.push({
+          resource_node: currentResourceId,
+          user: _user_id,
+        });
+      });
+      if (payload && payload.length > 0)
+        AsyncAPIPusherWithData(USER_RESOURCE_ENDPOINT, payload)
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
     }
   };
 
