@@ -63,25 +63,44 @@ const Profile = () => {
       photo: photo,
     };
 
-    UserUpdate(payload)
-      .then((response) => {
-        setButtonLoader(false);
-        globalDispatch({
-          type: "ADD_TOAST_ALERT",
-          payload: { kind: "success", description: "Profile updated successfully." },
+    let validationToggle = true;
+    // email
+    if (profile?.email)
+      if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(profile?.email))
+        validationToggle = true;
+      else {
+        validationToggle = false;
+        alert("You have entered an invalid email address!");
+      }
+
+    // mobile
+    if (profile?.phone)
+      if (profile?.phone.value.match(/^\d{10}$/)) validationToggle = true;
+      else {
+        validationToggle = false;
+        alert("You have entered an invalid Mobile Number!");
+      }
+
+    if (validationToggle)
+      UserUpdate(payload)
+        .then((response) => {
+          setButtonLoader(false);
+          globalDispatch({
+            type: "ADD_TOAST_ALERT",
+            payload: { kind: "success", description: "Profile updated successfully." },
+          });
+        })
+        .catch((error) => {
+          globalDispatch({
+            type: "ADD_TOAST_ALERT",
+            payload: {
+              kind: "warning",
+              description: "Please check your internet connection and retry again.",
+            },
+          });
+          console.log(error);
+          setButtonLoader(false);
         });
-      })
-      .catch((error) => {
-        globalDispatch({
-          type: "ADD_TOAST_ALERT",
-          payload: {
-            kind: "warning",
-            description: "Please check your internet connection and retry again.",
-          },
-        });
-        console.log(error);
-        setButtonLoader(false);
-      });
   };
 
   const { data: userDetailList, error: userDetailListError } = useSWR(
@@ -102,8 +121,6 @@ const Profile = () => {
     description: META_DESCRIPTION,
   };
   const [photo, setPhoto] = React.useState<any>(userDetailList?.photo);
-
-  console.log("userDetailList", userDetailList);
 
   // data
   const hiddenFileInput: any = React.useRef(null);
