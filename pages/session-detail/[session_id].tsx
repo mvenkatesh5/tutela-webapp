@@ -18,6 +18,8 @@ import ZoomSessions from "@components/zoomsessions";
 import IconRow from "@components/iconRow";
 import SessionProductResourceView from "@components/admin/sessions/SessionProductResources";
 import SessionDoubts from "@components/admin/sessions/SessionDoubts";
+import { UserResources } from "components/user-session-detail/resources";
+
 const ShakaPlayer = dynamic(() => import("@components/ShakaPlayer"), {
   ssr: false,
 });
@@ -277,8 +279,8 @@ const SessionDetailView = () => {
   const [currentTab, setCurrentTab] = React.useState("videos");
 
   const { data: product, error: productError } = useSWR(
-    sessionDetail && sessionDetail?.product_id
-      ? PRODUCTS_WITH_ID_ENDPOINT(sessionDetail?.product_id)
+    sessionDetail && sessionDetail?.product && sessionDetail?.product?.id
+      ? PRODUCTS_WITH_ID_ENDPOINT(sessionDetail?.product?.id)
       : null,
     (url) => APIFetcher(url),
     { refreshInterval: 0 }
@@ -544,7 +546,11 @@ const SessionDetailView = () => {
                         </>
                       </Tab.Pane>
                       <Tab.Pane key={`resources`} eventKey={`resources`}>
-                        <SessionProductResourceView product={product} />
+                        {tokenDetails && userRole == "student" ? (
+                          <UserResources user={tokenDetails} session={sessionDetail} />
+                        ) : (
+                          <SessionProductResourceView product={product} />
+                        )}
                       </Tab.Pane>
                       <Tab.Pane key={`doubts`} eventKey={`doubts`}>
                         <SessionDoubts />
