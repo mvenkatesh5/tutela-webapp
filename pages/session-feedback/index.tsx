@@ -113,9 +113,6 @@ const SessionFeedback = () => {
     return (100 * partialValue) / totalValue;
   };
 
-  console.log("teacherSessions", teacherSessions);
-  console.log("userReports", userReports);
-
   const [attendanceLoader, setAttendanceLoader] = React.useState(false);
   const updateUserAttendance = (sessionUser: any, _going: any) => {
     const payload = { id: sessionUser, going: _going };
@@ -131,7 +128,7 @@ const SessionFeedback = () => {
                   if (oldElement.id == session) {
                     oldElement.session_users.map((_user: any) => {
                       if (_user.id == sessionUser) {
-                        _user.is_going = _going;
+                        _user.going = _going;
                       }
                     });
                   }
@@ -148,6 +145,14 @@ const SessionFeedback = () => {
         setAttendanceLoader(false);
       });
   };
+
+  console.log("---");
+  console.log("teacherSessions", teacherSessions);
+  console.log("product", product);
+  console.log("userReports", userReports);
+  console.log("user", user);
+  console.log("currentUser()", currentUser());
+  console.log("---");
 
   return (
     <Page meta={meta}>
@@ -246,25 +251,25 @@ const SessionFeedback = () => {
                             <div
                               className={`tw-text-xs tw-uppercase tw-p-1 tw-py-0.5 tw-rounded-sm tw-font-medium tw-cursor-pointer tw-bg-opacity-50 hover:tw-bg-opacity-100  
                               ${
-                                currentUser()?.is_going
+                                currentUser()?.going
                                   ? `tw-text-green-500 tw-bg-green-200`
                                   : `tw-text-red-500 tw-bg-red-200`
                               }
                               `}
                               onClick={() =>
-                                updateUserAttendance(currentUser()?.id, !currentUser()?.is_going)
+                                updateUserAttendance(currentUser()?.id, !currentUser()?.going)
                               }
                             >
                               {attendanceLoader
                                 ? "Updating..."
-                                : currentUser()?.is_going
+                                : currentUser()?.going
                                 ? "Present"
                                 : "Absent"}
                             </div>
                           )}
                         </div>
 
-                        {userReports && userReports?.reports && user && currentUser()?.is_going && (
+                        {userReports && userReports?.reports && user && currentUser()?.going && (
                           <div className="tw-w-[150px] tw-h-[24px] tw-ml-auto">
                             <div className="tw-text-xs tw-font-medium tw-mb-1">
                               Reports :{" "}
@@ -287,7 +292,7 @@ const SessionFeedback = () => {
                       </div>
 
                       <div className="tw-relative tw-w-full tw-h-full tw-p-2 tw-px-3 tw-overflow-y-auto">
-                        {user && currentUser()?.is_going ? (
+                        {user && currentUser()?.going ? (
                           <>
                             {product_id ? (
                               <>

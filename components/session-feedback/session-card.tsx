@@ -16,12 +16,14 @@ const SessionCard = ({ data, currentSession, currentUser, currentProduct }: any)
     }
   }, [currentSession]);
 
+  const sessionStudents = data.session_users.filter((_user: any) => _user.as_role === 0);
+
   return (
     <div
       onClick={() => {
         router.replace(
           `/session-feedback?session=${data?.id}${
-            data?.session_users.length > 0 && `&user=${data.session_users[0].id}`
+            data?.session_users.length > 0 && `&user=${sessionStudents[0].id}`
           }${data?.product && `&product=${data?.product}`}`,
           undefined,
           { shallow: true }
