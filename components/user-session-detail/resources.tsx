@@ -121,7 +121,7 @@ export const UserResources: FC<IUserResources> = (props) => {
                       _report?.resource_detail.data.kind === "document_subjective_answers") && (
                       <div className="text-sm" style={{ whiteSpace: "nowrap" }}>
                         <Link
-                          href={`/user-resources/${product_resource_id}/assessment?resource_node_id=${_report?.resource_detail?.id}`}
+                          href={`/user-resources/${product_resource_id}/assessment?resource_node_id=${_report?.resource_detail?.id}&session_id=${_report?.session}&session_user=${_report?.session_user}`}
                         >
                           <a target="_blank" rel="noreferrer">
                             Take test

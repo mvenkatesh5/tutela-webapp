@@ -40,12 +40,16 @@ import withParentAuth from "@lib/hoc/withParentAuth";
 import Slider from "react-slick";
 // constants
 import { returnSingleDate, returnSingleMonth } from "@constants/global";
+import TestScroreCard from "@components/testscorecard";
 
 const StudentDetail = () => {
   const meta = {
     title: "New Dashboard",
     description: META_DESCRIPTION,
   };
+
+  const currentDate = new Date();
+  const currentTime = currentDate.getHours();
 
   const [currentDateQuery, setCurrentDateQuery] = React.useState<any>();
   const [userRole, setUserRole] = React.useState<any>();
@@ -191,7 +195,7 @@ const StudentDetail = () => {
     <Page meta={meta}>
       <NewLayout>
         {/* <ProfileMandatoryModal/> */}
-        <Container className="mt-3 container-lg">
+        <div className="mt-3 md:tw-px-[4em] lg:tw-px-[10em]  " style={{ color: "#313131" }}>
           <div className="mb-3">
             {userDetailList &&
               userDetailList.profile_data &&
@@ -205,30 +209,40 @@ const StudentDetail = () => {
 
           <Row>
             <div className="px-2 mb-3">
-              <h4 className="">Hello There!</h4>
+              <h4 className="">
+                Good{" "}
+                {(currentTime < 12 && "Morning") ||
+                  (currentTime >= 12 && currentTime <= 17 && "Afternoon") ||
+                  (currentTime >= 17 && currentTime <= 24 && "Evening")}
+                , {currentUser?.user?.first_name + " " + currentUser?.user?.last_name}
+              </h4>
               <p className="text-muted">
                 Here is the list of things which will make you familiar with Tutela platform.
               </p>
             </div>
-
-            <Col lg="8" className="pe-4 mb-4">
-              {parentUsers && parentUsers.length > 0 ? (
-                <>
-                  {parentUsers &&
-                    parentUsers.length > 0 &&
-                    parentUsers.map((user: any, index: any) => (
-                      <div key={`index-profile-key-${index}`}>
-                        <ProfileCard data={user} />
-                      </div>
-                    ))}
-                </>
-              ) : (
-                <div className=" text-center">Loading...</div>
-              )}
-
+            <Col lg="8" className="mb-4 ">
+              <Row className="position-relative md:tw-pr-3 ">
+                {parentUsers && parentUsers.length > 0 ? (
+                  <div className="tw-space-y-4 m-0 p-0">
+                    {parentUsers &&
+                      parentUsers.length > 0 &&
+                      parentUsers.map((user: any, index: any) => (
+                        <>
+                          {/* {index <= 1 && ( */}
+                          <div key={`index-profile-key-${index}`}>
+                            <ProfileCard data={user} />
+                          </div>
+                          {/* )} */}
+                        </>
+                      ))}
+                  </div>
+                ) : (
+                  <div className=" text-center">Loading...</div>
+                )}
+              </Row>
               {/* <h5 className="fw-bold text-dark mt-5 mb-3">News and Updates</h5> */}
-              <div className="d-flex mt-5 mb-0 justify-content-between">
-                <h5 className="fw-bold text-dark ">News and Updates</h5>
+              <div className="d-flex mt-5 justify-content-between">
+                <h5 className="fw-bold tw-text-[#313131] ">News and Updates</h5>
                 <Link href="/parent/news">
                   <a>
                     <div className="d-flex gap-2 text-primary align-items-center">
@@ -238,13 +252,13 @@ const StudentDetail = () => {
                   </a>
                 </Link>
               </div>
-              <Row className="pe-3">
+              <Row className="position-relative ">
                 {newsList &&
                   newsList.length > 0 &&
-                  newsList.map((data: any, index: Number) => (
+                  newsList.map((data: any, index: number) => (
                     <>
                       {index <= 1 && (
-                        <Col md={6} className="d-flex my-3" key={data.id}>
+                        <Col md={6} className="d-flex mt-0" key={data.id}>
                           <NewsCard data={data} />
                         </Col>
                       )}
@@ -252,7 +266,7 @@ const StudentDetail = () => {
                   ))}
               </Row>
               <div className="d-flex mt-5 mb-3 justify-content-between">
-                <h5 className="fw-bold text-dark ">Concerns</h5>
+                <h5 className="fw-bold tw-text-[#313131] ">Concerns</h5>
                 <Link href="/parent/concern">
                   <a>
                     <div className="d-flex gap-2 text-primary align-items-center">
@@ -262,13 +276,13 @@ const StudentDetail = () => {
                   </a>
                 </Link>
               </div>
-              <Row className="pe-3">
+              <Row className="px-2">
                 <div className="border rounded p-0">
                   {concerns &&
                     concerns.length > 0 &&
-                    concerns.map((data: any, index: Number) => (
+                    concerns.map((data: any, index: number) => (
                       <>
-                        {index <= 2 && (
+                        {index <= 3 && (
                           <div key={`concerns-${index}`}>
                             <ConcernCard users={users} data={data} />
                           </div>
@@ -279,26 +293,25 @@ const StudentDetail = () => {
               </Row>
             </Col>
 
-            <Col lg="4" className="pe-4">
-              {/* <TestScroreCard /> */}
+            <Col lg="4" className="tw-space-y-10">
               {/* <UpcomingTestsCard /> */}
 
               {advertsList && advertsList.length > 0 && (
-                <Card className="pt-4 pb-5 px-3 border-0 shadow">
+                <Card className="position-relative tw-p-[2em]  rounded-2  tw-transition-all tw-duration-200 tw-ease-in-out">
                   <Slider {...settingsSlider}>
                     {advertsList.map((item: any, index: any) => {
                       return (
-                        <div key={`link-${index}`}>
+                        <div key={`link-${index}`} className="tw-rounded-xl tw-overflow-hidden">
                           <a href={item.link} target="_blank" rel="noreferrer">
                             <Image
                               alt=""
-                              className="img-fluid mx-auto d-block"
+                              className="img-fluid mx-auto d-block tw-rounded-xl"
                               src={item.image}
-                              width="300"
-                              height="300px"
+                              width={1000}
+                              height={1000}
                               style={{
-                                height: "350px",
-                                width: "350px",
+                                height: "100%",
+                                width: "100%",
                                 overflow: "hidden",
                               }}
                             />
@@ -309,76 +322,49 @@ const StudentDetail = () => {
                   </Slider>
                 </Card>
               )}
-              {/* <Card className="pt-3 pb-4 px-3 mt-3 border-0 shadow">
-                <div className="d-flex justify-content-between mb-2">
-                  <h6 className="">Last tests score</h6>
-                  <div className="d-flex gap-2 text-primary align-items-center">
-                    <small className="text-nowrap">View all</small>
-                    <RightArrowAlt width="16px" />
-                  </div>
-                </div>
-                <table>
-                  <tr className="text-muted">
-                    <th>
-                      <small className="fw-normal">TEST NAME</small>
-                    </th>
-                    <th>
-                      <small className="fw-normal"> DATE</small>
-                    </th>
-                    <th>
-                      <small className="fw-normal">SCORE</small>
-                    </th>
-                  </tr>
-                  <div className="mb-2"></div>
-                  {testScore &&
-                    testScore.map((data: any, index: any) => (
-                      <tr key={`test-score-${index}`}>
-                        <td>
-                          {index + 1}. {data.title}
-                        </td>
-                        <td>{data.date}</td>
-                        <td>{data.score}</td>
-                      </tr>
-                    ))}
-                </table>
-              </Card> */}
+
+              <TestScroreCard />
 
               {!tests || testsError ? (
                 <div className="text-center mt-5 mb-5">Loading.....</div>
               ) : (
-                <Card className="pt-3 pb-4 px-3 mt-3 border-0 shadow">
-                  <h6 className="mb-3">Upcoming Tests</h6>
-                  {tests && tests.length > 0 ? (
-                    <div className="student-test-container">
-                      {tests.map((data: any, index: Number) => (
-                        <div
-                          key={`students-tests-${index}`}
-                          className="d-flex align-items-center student-test-item"
-                        >
-                          <div className="student-icon">
-                            <div>{returnSingleDate(data.datetime)}</div>
-                            <div>{returnSingleMonth(data.datetime)}</div>
-                          </div>
-                          {data.link ? (
-                            <div className="student-content">
-                              <Link href={data.href}>
-                                <a>{data.name}</a>
-                              </Link>
-                            </div>
-                          ) : (
-                            <div className="student-content">{data.name}</div>
-                          )}
-                        </div>
-                      ))}
+                <Card className="position-relative mb-4 ">
+                  <Card.Body className="position-relative p-4">
+                    <div className="d-flex mb-1 justify-content-between mb-3">
+                      <h5 className="fw-bold tw-text-[#313131] ">Upcoming Tests</h5>
                     </div>
-                  ) : (
-                    <div className="text-center mt-5 mb-5">No Tests are available</div>
-                  )}
+                    {tests && tests.length > 0 ? (
+                      <div className="student-test-container tw-space-y-3">
+                        {tests.map((data: any, index: Number) => (
+                          <div
+                            key={`students-tests-${index}`}
+                            className="d-flex align-items-center student-test-item hover:tw-bg-gray-100 tw-transition-all tw-duration-100 tw-ease-in-out"
+                          >
+                            <div className="student-icon">
+                              <div>{returnSingleDate(data.datetime)}</div>
+                              <div>{returnSingleMonth(data.datetime)}</div>
+                            </div>
+                            {data.link ? (
+                              <div className="student-content">
+                                <Link href={data.href}>
+                                  <a>{data.name}</a>
+                                </Link>
+                              </div>
+                            ) : (
+                              <div className="student-content">{data.name}</div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center mt-5 mb-5">No Tests are available</div>
+                    )}
+                  </Card.Body>
                 </Card>
               )}
             </Col>
           </Row>
-        </Container>
+        </div>
       </NewLayout>
     </Page>
   );

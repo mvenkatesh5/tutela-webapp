@@ -38,20 +38,20 @@ export const options = {
   },
 };
 
-const labels = ["1", "2", "3", "4", "5", "6", "7"];
+const labels = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
 
 export const data = {
   labels,
   datasets: [
     {
       label: "Dataset 1",
-      data: [0, 3, 4, 5, 6, 8, 10],
+      data: [0, 3, 4, 5, 6, 8, 10, 2,5, 7],
       borderColor: "rgba(13, 110, 253,1)",
       backgroundColor: "rgba(13, 110, 253,1)",
     },
     {
       label: "Dataset 2",
-      data: [0, 2, 3, 4, 5, 6, 8],
+      data: [0, 2, 3, 4, 5, 6, 8,9,6,5],
       borderColor: "rgba(25, 135, 84)",
       backgroundColor: "rgba(25, 135, 84, 1)",
     },

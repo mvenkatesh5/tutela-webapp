@@ -64,6 +64,9 @@ const ReportCard = ({ product, report, mutate_url }: any) => {
       });
   };
 
+  console.log("this is product", product);
+  console.log("this is report", report);
+
   return (
     <>
       {/* header */}
@@ -88,6 +91,21 @@ const ReportCard = ({ product, report, mutate_url }: any) => {
           {report?.resource_detail?.tag_details?.name}
         </div>
       </div>
+
+      {report?.assessment_score_detail && (
+        <div className="d-flex tw-border-gray-800 border-bottom ">
+          <div className="position-relative px-2 py-1 w-fit">
+            <span className="tw-font-semibold">Score : </span>
+            {report?.assessment_score_detail?.user_score} / {report?.assessment_score_detail?.max_score}
+          </div>
+
+          <div className="mx-auto" />
+          <div className="position-relative px-2 py-1 w-fit">
+            <span className="tw-font-semibold">Percentage : </span>{" "}
+            {report?.assessment_score_detail?.percentage.toFixed(2)} %
+          </div>
+        </div>
+      )}
 
       {/* content */}
       {product && product.resource_nodes && product.resource_nodes.length > 0 ? (

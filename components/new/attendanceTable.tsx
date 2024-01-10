@@ -8,10 +8,10 @@ import { CheckCircle } from "@styled-icons/fa-solid/CheckCircle";
 
 const AttendanceTable = ({ attendanceData }: any) => {
   return (
-    <div className="border overflow-auto rounded custom-table">
-      <table className="mb-0">
+    <div className="border overflow-auto rounded custom-table ">
+      <table className="mb-0 responsive" >
         <thead className="bg-light">
-          <tr className="my-3">
+          <tr className="my-3 tw-text-lg">
             <th className="text-center">#</th>
             <th>Topic</th>
             <th>Date of Completion</th>
@@ -30,13 +30,13 @@ const AttendanceTable = ({ attendanceData }: any) => {
             attendanceData.map((data: any, index: any) => (
               <tr key={`attendanceData-key-${index}`}>
                 <td className="text-center">{index + 1}</td>
-                <td>{data.topic}</td>
+                <td className="fw-bold">{data.topic}</td>
                 <td>
                   <div className="d-flex align-items-center gap-2">
-                    <small className="bg-light p-1 d-flex flex-column align-items-center rounded">
-                      <div>1</div>
-                      <div className="text-xs">Monday</div>
-                    </small>
+                    <div className="p-auto pt-1 rounded-1 tw-bg-gray-300 tw-leading-3 tw-text-center tw-h-10 tw-w-10">
+                      <h6 className="m-0 p-0 fw-bold">1</h6>
+                      <small className="tw-text-xs">Mon</small>
+                    </div>
                     {data.date_of_completion}
                   </div>
                 </td>

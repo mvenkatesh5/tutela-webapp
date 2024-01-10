@@ -13,6 +13,7 @@ import {
 } from "@styled-icons/material-rounded/";
 import { HelpWithCircle } from "@styled-icons/entypo/HelpWithCircle";
 import { Bell } from "@styled-icons/entypo/Bell";
+import { Search } from "@styled-icons/bootstrap/Search";
 // import { Settings } from "@styled-icons/fluentui-system-filled/Settings";
 // component
 import ConcernModal from "@components/new/ConcernModal";
@@ -27,7 +28,7 @@ import { SignOut } from "@lib/services/authenticationservice";
 // api routes
 import { USER_ENDPOINT } from "@constants/routes";
 
-function DashboardNav() {
+function ReportNavbar() {
   const [tokenDetails, setTokenDetails] = React.useState<any>();
   React.useEffect(() => {
     if (getAuthenticationToken()) {
@@ -120,12 +121,12 @@ function DashboardNav() {
 
   return (
     <>
-      <Navbar className="shadow-sm n-navbar-root h-100 px-2" collapseOnSelect expand="xl">
+      <Navbar className="shadow-sm n-navbar-root tw-h-fit px-2" collapseOnSelect expand="xl">
         <Container fluid>
           <Navbar.Brand className="navbar-brand-image ">
             <Link href="/parent/dashboard">
               <a>
-                <Image src="/logo.svg" alt="" className="tw-h-6" />
+                <Image src="/logo.svg" alt="" className="tw-h-5" />
               </a>
             </Link>
           </Navbar.Brand>
@@ -134,12 +135,14 @@ function DashboardNav() {
             <div className="navbar-right">
               <Navbar.Collapse className="justify-content-end">
                 <Nav className="tw-justify-center tw-items-center">
-                  {parentUsers && parentUsers.length > 0 && (
-                    <ConcernModal parentUsers={parentUsers} />
-                  )}
-                  {/* <Nav.Link className="fw-bold mt-1 nav-icons">
-                    <Notifications />
-                  </Nav.Link> */}
+                  <div className="position-relative me-2 ">
+                    <Search className="tw-w-4 tw-z-10 tw-absolute tw-top-1.5 tw-left-2 text-muted " />
+                    <input
+                      type="text"
+                      className="tw-pl-8 tw-rounded-md tw-w-full text-muted  tw-relative focus:tw-outline-none tw-border-[1px]"
+                      placeholder="Search..."
+                    />
+                  </div>
                   <Nav.Link className="nav-icons">
                     <Bell />
                   </Nav.Link>
@@ -157,9 +160,9 @@ function DashboardNav() {
                   <Nav.Link className="rounded-circle nav-icons me-2">
                     <Image className="rounded-circle" src="/bird.svg" alt="" />{" "}
                   </Nav.Link>
-                  <Nav.Link className="nav-icons" onClick={signOut}>
+                  {/* <Nav.Link className="nav-icons" onClick={signOut}>
                     <Login />
-                  </Nav.Link>
+                  </Nav.Link> */}
                 </Nav>
               </Navbar.Collapse>
             </div>
@@ -170,4 +173,4 @@ function DashboardNav() {
   );
 }
 
-export default DashboardNav;
+export default ReportNavbar;

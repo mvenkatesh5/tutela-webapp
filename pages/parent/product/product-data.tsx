@@ -48,9 +48,7 @@ function ParentDetailReport() {
   return (
     <Page meta={meta}>
       <ParentLayout>
-        {!productDetailError && !productDetail ? (
-          <div className="text-center text-muted mt-5 mb-5">Loading...</div>
-        ) : (
+       
           <div>
             <div className="parent-detail-wrapper py-4">
               <div className="container h-100">
@@ -133,7 +131,6 @@ function ParentDetailReport() {
               <CustomNavTabs data={navTabsData} />
             </div>
           </div>
-        )}
       </ParentLayout>
     </Page>
   );
