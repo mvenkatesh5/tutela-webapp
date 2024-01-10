@@ -162,10 +162,10 @@ const SessionFeedback = () => {
             <>
               {teacherSessions?.data && teacherSessions?.data.length > 0 ? (
                 <div className="tw-w-full tw-h-full tw-flex tw-flex-col">
-                  <div className="tw-flex-shrink-0 tw-h-[60px] tw-bg-blue-600 tw-text-white tw-flex tw-justify-between tw-items-center tw-p-3">
+                  {/* <div className="tw-flex-shrink-0 tw-h-[60px] tw-bg-blue-600 tw-text-white tw-flex tw-justify-between tw-items-center tw-p-3">
                     <h5 className="tw-m-0 tw-p-0">Session Feedback</h5>
                     <div>Skip for now</div>
-                  </div>
+                  </div> */}
 
                   <div className="tw-relative tw-w-full tw-h-full tw-overflow-hidden tw-flex">
                     <div className="tw-flex-shrink-0 tw-relative tw-flex tw-flex-col !tw-w-[280px] tw-h-full tw-border-0 tw-border-r tw-border-solid tw-border-gray-300 tw-overflow-hidden">

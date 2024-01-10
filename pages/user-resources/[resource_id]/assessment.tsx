@@ -34,7 +34,7 @@ import { META_DESCRIPTION } from "@constants/page";
 
 const ResourceTreeView = () => {
   const router = useRouter();
-  const { resource_id, resource_node_id } = router.query;
+  const { resource_id, resource_node_id, session_id = "", session_user = "" } = router.query;
 
   const { data: resourceUserAssessment, error: resourceUserAssessmentError } = useSWR(
     resource_node_id
@@ -100,6 +100,9 @@ const ResourceTreeView = () => {
     let payload = {
       node_id: resourceUserAssessment?.id,
       data: {
+        resource : resource_node_id,
+        session: session_id,
+        session_user: session_user,
         completed_at: new Date(),
         score: assessmentResults?.user_score,
         work_submission_data: assessmentResults,

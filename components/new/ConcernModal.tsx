@@ -57,16 +57,11 @@ const ConcernModal = (props: any) => {
 
   return (
     <>
-      <Button
-        variant="primary"
-        className="btn-sm my-auto px-4 me-2"
-        style={{ height: "30px" }}
-        onClick={openModal}
-      >
+      <Button variant="primary" className="btn-sm mx-2 px-4 rounded-3" onClick={openModal}>
         <div>Raise a concern</div>
       </Button>
 
-      <Modal show={modal} onHide={closeModal} closeButton centered backdrop={"static"}>
+      <Modal show={modal} onHide={closeModal} closeButton centered backdrop={"static"} contentClassName="p-2">
         <Modal.Body>
           <div className="d-flex justify-content-between">
             <h5 className="mb-3">Raise a concern</h5>
@@ -116,7 +111,7 @@ const ConcernModal = (props: any) => {
             <div className="d-flex justify-content-end">
               <Button
                 variant="primary"
-                className="btn-sm"
+                className=" mt-2"
                 onClick={raiseConcern}
                 disabled={buttonLoader}
               >

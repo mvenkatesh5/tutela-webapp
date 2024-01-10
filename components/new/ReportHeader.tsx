@@ -13,7 +13,7 @@ const ReportHeader = ({ userDetailList, productDetail, mentor, user_id }: any) =
         <>
           <div className="container mx-auto d-flex justify-content-between align-items-center">
             <div>
-              <Link href={`/parent/${user_id}`}>
+              <Link href={`/children/${user_id}`}>
                 <a>
                   <LeftArrowAlt className="text-white" width="32px" />
                 </a>

@@ -11,6 +11,7 @@ import CompletedGrade from "@components/new/CompleteGraph";
 import ProgressBarElement from "@components/new/ProgressBar";
 // layout
 import NewLayout from "@layouts/newLayout";
+import ReportLayout from "@layouts/ReportLayout";
 
 const ProductCompleted = () => {
   const meta = {
@@ -19,36 +20,37 @@ const ProductCompleted = () => {
   };
   return (
     <Page meta={meta}>
-      <NewLayout sidebar={false}>
-        <ReportHeader />
-        <div className="container mx-auto mt-5">
-          <Card className="shadow border-0 p-4 my-4 mb-5 relative overflow-hidden">
+      <ReportLayout>
+        <div className="position-relative tw-space-y-10 ">
+          <Card className="shadow border-0 p-5 my-4 mb-5 relative overflow-hidden">
             <div className="icon-complete-circle"></div>
-            <h3 className="">Congratulations!! You completed the program.</h3>
-            <div className="text-muted">
+            <h2 className="">Congratulations!! You completed the program.</h2>
+            <div className="text-dark tw-text-lg">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
               incididunt ut labore et dolore magna aliqua.
             </div>
             <div className="d-flex gap-4 mt-5">
-              <small className="">
-                <span className="text-muted">Join date:</span> Jan 2, 2022
-              </small>
-              <small>
+              <div className="tw-text-lg">
+                <span className="text-muted">Join date: </span> Jan 2, 2022
+              </div>
+              <div className="tw-text-lg">
                 <span className="text-muted">Completion date: </span> Apr 25, 2022
-              </small>
+              </div>
             </div>
           </Card>
-          <h5 className="fw-bold">Syllabus completion </h5>
-          <ProgressBarElement percent={100} />
+          <div className="position-relative">
+            <h2 className="tw-text-black">Syllabus completion</h2>
+            <ProgressBarElement percent={100} />
+          </div>
 
           <div className="d-flex justify-content-between align-items-center mt-2">
             <small className="text-muted">23 Jan 2022</small>
-            <small className="text-muted">23 May 2022</small>
+            <small className="text-muted">23 May 2024</small>
           </div>
 
           <Row className="mt-5">
-            <Col xs={12} md={9}>
-              <div style={{ width: "200px" }}>
+            <Col xs={12} md={9} className="p-3">
+              <div className="d-flex justify-content-start gap-4">
                 <Form.Group className="mb-3">
                   <Form.Control type="date" required />
                 </Form.Group>
@@ -56,67 +58,76 @@ const ProductCompleted = () => {
               <CompletedGrade />
             </Col>
             <Col xs={12} md={3}>
-              <div>
-                <h4>10</h4>
+              <div className="position-relative mb-4">
+                <h3 className="mb-0">10</h3>
                 <div className="mb-3 text-muted">Avg. classes needed/week</div>
                 <div className="d-flex gap-2 mb-4">
-                  <div className="px-4  bg-primary"> </div>
+                  <div className="px-3  bg-primary" />
                   <small className="">Planned Progress</small>
                 </div>
                 <hr />
               </div>
-              <div>
-                <h4>7</h4>
+              <div className="position-relative mb-4">
+                <h3 className="mb-0">7</h3>
                 <div className="mb-3 text-muted">Classes happening/week</div>
                 <div className="d-flex gap-2 mb-4">
-                  <div className="px-4  bg-success"> </div>
+                  <div className="px-3  bg-success" />
                   <small className="">Planned Progress</small>
                 </div>
                 <hr />
               </div>
+
               <div>
                 <h4>18/180</h4>
                 <div className="mb-3 text-muted">Course days left</div>
-                <hr />
               </div>
             </Col>
           </Row>
 
-          <div className="d-flex gap-3 my-5 mb-3">
-            <div>
-              <Form.Group className="mb-3">
-                <Form.Control type="date" required />
-              </Form.Group>
-            </div>
-            <Dropdown name="overview">
-              <div className="bg-light px-2 py-1 w-100">Overview</div>
-            </Dropdown>
+          <div className="d-flex justify-content-start gap-4">
+            <Form.Group className="rounded-3">
+              <Form.Control type="date" required />
+            </Form.Group>
+            <Form.Select
+              className="tw-w-fit"
+              style={{
+                width: "10em",
+              }}
+            >
+              <option>Overview</option>
+              <option>Overview</option>
+              <option>Overview</option>
+            </Form.Select>
           </div>
 
-          <h5 className="mt-4 fw-bold">Mathematics</h5>
-          <div className="text-muted">
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-            dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum. Ut enim ad minim veniam, quis
-            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-            deserunt mollit anim id est laborum.
+          <div className="position-relative">
+            <h2 className="tw-text-black">Mathematics</h2>
+            <p className="mt-3 tw-text-lg tw-text-justify tw-text-gray-500">
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+              ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+              proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Ut enim ad
+              minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+              consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+              dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+              in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
           </div>
-          <h5 className="mt-5 fw-bold">Physics</h5>
-          <div className="text-muted">
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-            dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum. Ut enim ad minim veniam, quis
-            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-            deserunt mollit anim id est laborum.
+          <div className="position-relative">
+            <h2 className="tw-text-black">Physics</h2>
+            <p className="mt-3 tw-text-lg tw-text-justify tw-text-gray-500">
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+              ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+              proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Ut enim ad
+              minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+              consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+              dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+              in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
           </div>
         </div>
-      </NewLayout>
+      </ReportLayout>
     </Page>
   );
 };

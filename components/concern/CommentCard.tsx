@@ -33,18 +33,18 @@ const CommentCard = ({ data, deleteComment, currentUser }: any) => {
 
   return (
     <div className="d-flex gap-3 mb-3">
-      <div className="flex-shrink-0 mt-1">
+      <div className="flex-shrink-0 mx-2 mt-1">
         <Image alt="" className="img-fluid mx-auto d-block " src="/bird.svg" width="35" />
       </div>
 
       <div>
-        <div className="fw-bold">
+        <div className="fw-bold mb-2">
           {data?.user_detail?.first_name} {data?.user_detail?.last_name}
         </div>
-        <small className="text-muted">{data.text}</small>
+        <small className=" ">{data.text}</small>
       </div>
 
-      <div className="items-center space-x-1 cursor-pointer ms-auto my-auto">
+      {/* <div className="items-center space-x-1 cursor-pointer ms-auto my-auto">
         <Dropdown>
           <Dropdown.Toggle className="text-button text-black plain-dropdown">
             <ThreeDotsVertical width="16px" height="16px" />
@@ -87,7 +87,7 @@ const CommentCard = ({ data, deleteComment, currentUser }: any) => {
             </div>
           </Dropdown.Menu>
         </Dropdown>
-      </div>
+      </div> */}
     </div>
   );
 };

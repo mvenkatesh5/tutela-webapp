@@ -6,6 +6,7 @@ import { Container, Row, Col, Image, Card, Form, Dropdown } from "react-bootstra
 // icons
 import { TextAlignCenter } from "@styled-icons/fluentui-system-filled/TextAlignCenter";
 import { ChevronDown } from "@styled-icons/boxicons-solid/ChevronDown";
+import { Filter } from "@styled-icons/bootstrap/Filter";
 // constants
 import { META_DESCRIPTION } from "@constants/page";
 // components
@@ -89,20 +90,22 @@ const ConcernPage = () => {
     }
   }, [concern_id]);
 
+  console.log("this is filtered concerns", filteredConcerns);
+
   return (
     <Page meta={meta}>
       <NewLayout>
         {!concerns && !concernsError && !userDetails ? (
           <div className="text-center py-5">Loading...</div>
         ) : (
-          <div className="message-layout p-4 w-100 h-100 border">
-            <Row className="w-100 h-100 overflow-hidden">
-              <Col md={4} className="h-100 overflow-auto">
-                <div className="d-flex justify-content-between align-items-center pb-1">
-                  <h5>Concerns</h5>
+          <div className="message-layout px-5 py-4 w-100 h-100 position-relative tw-overflow-hidden ">
+            <Row className="w-100 tw-h-fit position-relative">
+              <Col md={4}>
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <h3>Concerns</h3>
                   <Dropdown>
                     <Dropdown.Toggle className="text-button text-black d-flex align-items-center gap-2">
-                      <TextAlignCenter width="14px" />
+                      <Filter className="tw-w-5" />
                       <div className="text-capitalize">{filtered}</div>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
@@ -118,7 +121,11 @@ const ConcernPage = () => {
                     </Dropdown.Menu>
                   </Dropdown>
                 </div>
-
+              </Col>
+              {/* <Col md={8}></Col> */}
+            </Row>
+            <Row className="tw-h-[95%] position-relative w-100 tw-overflow-hidden">
+              <Col md={4} className="tw-h-[95%] overflow-auto">
                 <div className="border rounded overflow-auto">
                   {filteredConcerns && filteredConcerns.length > 0 ? (
                     <>
@@ -126,7 +133,7 @@ const ConcernPage = () => {
                         <div
                           onClick={() => handleCurrentConcern(data.id)}
                           key={`index-concern-i-${index}`}
-                          className={`p-3 cursor-pointer overflow-auto ${
+                          className={`px-4 py-4 cursor-pointer overflow-auto ${
                             filteredConcerns.length - 1 != index && "border-bottom"
                           } ${data.id == concern_id ? "concern-scroll-into-view" : ""}`}
                           style={
@@ -138,7 +145,7 @@ const ConcernPage = () => {
                           }
                         >
                           <div className="d-flex flex-wrap align-items-center justify-content-between gap-2">
-                            <div>
+                            {/* <div>
                               {data.student_detail && (
                                 <div
                                   className="flex-shrink-0 text-sm bg-primary text-white rounded"
@@ -149,13 +156,12 @@ const ConcernPage = () => {
                                     `(${data?.student_detail.first_name} ${data?.student_detail.last_name})`}
                                 </div>
                               )}
-                            </div>
+                            </div> */}
                             <div>
                               <div
                                 className={`flex-shrink-0 text-sm ${
-                                  data.status === "resolved" ? `bg-success` : `bg-danger`
-                                } bg-success text-white rounded`}
-                                style={{ padding: "2px 6px" }}
+                                  data.status === "resolved" ? `bg-success` : `tw-bg-red-500`
+                                } text-white rounded tw-px-2 tw-py-1  `}
                               >
                                 {data.status}
                               </div>
@@ -163,10 +169,14 @@ const ConcernPage = () => {
                           </div>
 
                           {data.title && (
-                            <div className="mt-2 fw-bold cursor-pointer">{data.title}</div>
+                            <div className="mt-2 tw-font-semibold cursor-pointer tw-text-lg">{data.title}</div>
                           )}
-                          {data.description && <div className="mt-2 mb-2">{data.description}</div>}
-                          <div>
+                          <small className=" text-secondary mb-0">
+                            {data?.concern_comments.length}{" "}
+                            {data.concern_comments.length <= 1 ? "reply" : "replies"}
+                          </small>
+                          {/* {data.description && <div className="mt-2 mb-2">{data.description}</div>} */}
+                          {/* <div>
                             {data?.user_detail?.email && (
                               <div className="mt-2 text-sm" style={{ whiteSpace: "nowrap" }}>
                                 by{" "}
@@ -184,7 +194,7 @@ const ConcernPage = () => {
                                 {datePreview(data.created)}
                               </div>
                             )}
-                          </div>
+                          </div> */}
                         </div>
                       ))}
                     </>
@@ -194,7 +204,7 @@ const ConcernPage = () => {
                 </div>
               </Col>
 
-              <Col md={8} className="overflow-hidden">
+              <Col md={8} className="tw-h-[95%] position-relative d-block">
                 {filteredConcerns && filteredConcerns.length > 0 && (
                   <>
                     {!concernComments && !concernCommentsError ? (

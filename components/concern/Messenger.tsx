@@ -71,8 +71,9 @@ const Messenger = ({ concern_id, concernComments, currentUser }: any) => {
   };
 
   return (
-    <div className="border rounded d-flex flex-column p-3 pb-0 h-100">
-      <div>
+    <div className="position-relative border border-2 h-100 w-100 rounded-2">
+      {/* comment section */}
+      <div className="position-relative tw-h-5/6 tw-w-full tw-space-y-8 px-4 mt-4 tw-overflow-auto">
         {concernComments && concernComments.length > 0 ? (
           <>
             {concernComments &&
@@ -91,19 +92,21 @@ const Messenger = ({ concern_id, concernComments, currentUser }: any) => {
           <div className="text-center py-5">No comments are available.</div>
         )}
       </div>
-
-      <div className="mt-auto comment-input-wrapper d-flex align-items-center bg-light">
-        <textarea
-          rows={3}
-          value={comment}
-          onChange={(e: any) => setComment(e.target.value)}
-          placeholder="Write something..."
-          className="w-100 input bg-light"
-          disabled={buttonLoader}
-        />
-        <button onClick={createComment} disabled={buttonLoader} className="text-button">
-          <Send className="flex-shrink-0" width="20px" />
-        </button>
+      {/* write section */}
+      <div className="position-relative tw-h-1/6 tw-bottom-0 d-flex justify-content-center align-items-center">
+        <div className="comment-input-wrapper d-flex align-items-center bg-light mx-3 ">
+          <textarea
+            rows={1}
+            value={comment}
+            onChange={(e: any) => setComment(e.target.value)}
+            placeholder="Write something..."
+            className="w-100 input bg-light"
+            disabled={buttonLoader}
+          />
+          <button onClick={createComment} disabled={buttonLoader} className="text-button">
+            <Send className="flex-shrink-0" width="20px" />
+          </button>
+        </div>
       </div>
     </div>
   );

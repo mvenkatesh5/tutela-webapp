@@ -20,6 +20,8 @@ import { CollapseLeft } from "@styled-icons/open-iconic/CollapseLeft";
 import { ExpandRight } from "@styled-icons/open-iconic/ExpandRight";
 import { Forum } from "@styled-icons/material/Forum";
 import { Announcement as AnnouncementIcon } from "@styled-icons/material-rounded/Announcement";
+import { MegaphoneLoud } from "@styled-icons/fluentui-system-filled/MegaphoneLoud";
+import { Stack } from "@styled-icons/fluentui-system-regular/Stack";
 import { Dashboard } from "@styled-icons/boxicons-solid/Dashboard";
 // global context provider
 import { globalContext } from "@contexts/global";
@@ -44,19 +46,19 @@ const Sidebar = () => {
 
   const sidebarOptions = [
     {
+      label: "Calendar",
+      icon: <Calendar />,
+      href: "/parent/calendar",
+    },
+    {
       label: "Dashboard",
-      icon: <Dashboard />,
+      icon: <Stack />,
       href: "/parent/dashboard",
     },
     {
       label: "Concerns",
-      icon: <DynamicFeed />,
+      icon: <MegaphoneLoud />,
       href: "/parent/concern",
-    },
-    {
-      label: "Calendar",
-      icon: <Calendar />,
-      href: "/parent/calendar",
     },
   ];
 
@@ -72,7 +74,8 @@ const Sidebar = () => {
                 placement={`right`}
                 overlay={<Tooltip id={`tooltip-right`}>{menuItems.label}</Tooltip>}
               >
-                <div className={"item " + (router.pathname === menuItems.href ? "active" : "")}>
+                {/* <div className={"item " + (router.pathname === menuItems.href ? "active" : "")}> */}
+                <div className={"item "}>
                   <div className="icon">{menuItems.icon}</div>
                   <div className="label">{menuItems.label}</div>
                 </div>

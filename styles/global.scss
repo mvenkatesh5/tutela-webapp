@@ -845,6 +845,16 @@ a {
       font-weight: 500;
     }
   }
+  
+}
+
+.student-test-container::-webkit-scrollbar  {
+  width:5px;
+  background-color: #dcdcdc;
+  border-radius: 10%;
+}
+.student-test-container::-webkit-scrollbar-thumb {
+  background : #666
 }
 
 .alert-container {

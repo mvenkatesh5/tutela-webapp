@@ -10,6 +10,7 @@ import Dropdown from "@components/new/Dropdown";
 import AttendanceTable from "@components/new/attendanceTable";
 // layout
 import NewLayout from "@layouts/newLayout";
+import ReportLayout from "@layouts/ReportLayout";
 
 const SyllabusPage = () => {
   const meta = {
@@ -62,9 +63,8 @@ const SyllabusPage = () => {
 
   return (
     <Page meta={meta}>
-      <NewLayout sidebar={false}>
-        <ReportHeader />
-        <div className="container mx-auto mt-5">
+      <ReportLayout>
+        <div className="position-relative tw-space-y-10 ">
           <div className="d-flex flex-wrap gap-3 pt-3 mb-4">
             <div>
               <Form.Group className="mb-3">
@@ -85,7 +85,7 @@ const SyllabusPage = () => {
           {/* content  */}
           <AttendanceTable attendanceData={attendanceData} />
         </div>
-      </NewLayout>
+      </ReportLayout>
     </Page>
   );
 };
