@@ -48,16 +48,16 @@ const Resources = ({ resources }: any) => {
               </div> */}
               <div className="tw-font-semibold">{resource?.title}</div>
               <div className="mx-auto" />
-              <div className="cursor-pointer">
+              {/* <div className="cursor-pointer">
                 <DotsHorizontalRounded className="tw-w-4 text-muted" />
-              </div>
-              <div className="cursor-pointer" onClick={() => setOpen(!open)}>
+              </div> */}
+              {/* <div className="cursor-pointer" onClick={() => setOpen(!open)}>
                 {open ? (
                   <ChevronUp className="tw-w-4 text-muted" />
                 ) : (
                   <ChevronDown className="tw-w-4 text-muted" />
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
           {open && (
