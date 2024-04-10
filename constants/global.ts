@@ -129,3 +129,16 @@ export const secondsToHms = (d: any) => {
   var sDisplay = s >= 0 ? s + (s == 1 ? " sec" : " sec") : "";
   return hDisplay + mDisplay + sDisplay;
 };
+
+export const countSundaysInRange = (startDate: Date, endDate: Date) => {
+  let currentDate = new Date(startDate);
+  let sundays = [];
+  while (currentDate <= endDate) {
+    if (currentDate.getDay() == 0) {
+      sundays.push(new Date(currentDate));
+    }
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return sundays;
+};

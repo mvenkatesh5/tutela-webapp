@@ -20,7 +20,7 @@ const ProductCompleted = () => {
   };
   return (
     <Page meta={meta}>
-      <ReportLayout>
+      {/* <ReportLayout>
         <div className="position-relative tw-space-y-10 ">
           <Card className="shadow border-0 p-5 my-4 mb-5 relative overflow-hidden">
             <div className="icon-complete-circle"></div>
@@ -127,7 +127,8 @@ const ProductCompleted = () => {
             </p>
           </div>
         </div>
-      </ReportLayout>
+      </ReportLayout> */}
+      <></>
     </Page>
   );
 };
