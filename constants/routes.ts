@@ -138,6 +138,12 @@ export const USER_NOTES_ENDPOINT = (resource_id: any, node_id: any) =>
 // reports
 export const USER_REPORTS_WITH_USER_ID_ENDPOINT = (user_id: any) =>
   `/api/users/reports/?user=${user_id}`;
+export const USER_REPORT_WITH_PRODUCT_ID_ENDPOINT = (product_id: any) =>
+  `/api/users/reports/?product=${product_id}`;
+export const USER_PRODUCT_REPORTS = (user_id: any, product_id: any) =>
+  `/api/users/reports/?user=${user_id}&product=${product_id}`;
+export const USER_PRODUCT_ATTENDANCE = (product_id: any, user_id: any) =>
+  `/api/product-report/${product_id}/?user=${user_id}`;
 export const USER_REPORTS_ENDPOINT = `/api/users/reports/`;
 export const USER_REPORTS_WITH_ID_ENDPOINT = (report_id: any) => `/api/users/reports/${report_id}/`;
 export const MENTOR_REPORT_ENDPOINT = `/api/users/reports/mentors/`;

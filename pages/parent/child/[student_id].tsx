@@ -293,7 +293,7 @@ const ChildDetail = () => {
                         <div
                           className="position-relative tw-h-[10em] p-3 tw-cursor-pointer"
                           onClick={() => {
-                            router.push(`/parent/product/${student_id}/${prod.id}/reports`);
+                            router.push(`/parent/student/${student_id}/product/${prod.id}/reports`);
                           }}
                         >
                           <h4>{prod.name}</h4>
