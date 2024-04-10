@@ -114,8 +114,6 @@ const UserProductReportsView = () => {
           );
       });
 
-      console.log("this is cumulativeclassess", cumulativeClasses);
-
       setClassesPerWeek(cumulativeClasses.slice(0, cumulativeClasses.length - 1));
     }
   }, [userAttendanceData]);
